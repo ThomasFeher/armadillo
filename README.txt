@@ -329,15 +329,23 @@ You may need to make minor modifications to "include/armadillo_bits/config.hpp"
 in order to make sure Armadillo uses the same style of function names
 as used by MKL or ACML. For example, the function names might be in capitals.
 
-On Linux systems, ACML and MKL are typically installed in a
-non-standard location, which can cause problems during linking.
-Before installing Armadillo, the system should know where the ACML or MKL
-libraries are located (eg. "/opt/intel/mkl/10.2.2.025/lib/em64t/").
+On Linux systems, MKL and ACML are typically installed in a non-standard
+location, such as /opt, which can cause problems during linking.
+Before installing Armadillo, the system should know where the MKL or ACML
+libraries are located. For example, "/opt/intel/mkl/lib/intel64/".
 This can be achieved by setting the LD_LIBRARY_PATH environment variable,
-or for a more permanent solution, adding the location of the libraries
+or for a more permanent solution, adding the directory locations
 to "/etc/ld.so.conf". It may also be possible to store a text file 
-with the location in the "/etc/ld.so.conf.d" directory.
-In the latter two cases you will need to run "ldconfig" afterwards.
+with the locations in the "/etc/ld.so.conf.d" directory.
+For example, "/etc/ld.so.conf.d/mkl.conf".
+If you modify "/etc/ld.so.conf" or create "/etc/ld.so.conf.d/mkl.conf",
+you will need to run "/sbin/ldconfig" afterwards.
+
+Example of the contents of "/etc/ld.so.conf.d/mkl.conf" on a RHEL 6 system,
+where Intel MKL version 11.0.3 is installed in "/opt/intel":
+
+/opt/intel/lib/intel64
+/opt/intel/mkl/lib/intel64
 
 The default installations of ACML 4.4.0 and MKL 10.2.2.025 are known 
 to have issues with SELinux, which is turned on by default in Fedora
@@ -466,6 +474,7 @@ Contributors:
 - Petter Strandmark
 - Eric Jon Sundstrom
 - Paul Torfs
+- Martin Uhrin
 - Simon Urbanek
 - Arnold Wiliem
 - Yong Kang Wong
@@ -476,6 +485,10 @@ Contributors:
 
 === 9: License ===
 
+Unless specified otherwise, the Mozilla Public License v2.0 is used.
 See the "LICENSE.txt" file for license details.
 
+The file "include/armadillo_bits/fft_engine.hpp" is licensed under
+both the Mozilla Public License v2.0 and a 3-clause BSD license.
+See "include/armadillo_bits/fft_engine.hpp" for license details.
 

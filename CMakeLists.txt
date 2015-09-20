@@ -12,8 +12,8 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
 set(ARMA_MAJOR 3)
-set(ARMA_MINOR 800)
-set(ARMA_PATCH 3)
+set(ARMA_MINOR 810)
+set(ARMA_PATCH 0)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 
@@ -83,7 +83,7 @@ else()
     set(ARMA_USE_LAPACK true)
     
     message(STATUS "*** If the MKL or ACML libraries are installed in a non-standard location,")
-    message(STATUS "*** make sure the run-time linker can find them.")
+    message(STATUS "*** such as /opt, make sure the run-time linker can find them.")
     message(STATUS "*** On Linux systems this can be done by editing /etc/ld.so.conf")
     message(STATUS "*** or modifying the LD_LIBRARY_PATH environment variable.")
     message(STATUS "*** On systems with SELinux enabled (e.g. Fedora, RHEL),")

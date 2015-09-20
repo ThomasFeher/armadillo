@@ -8,6 +8,8 @@ SET(MKL_NAMES ${MKL_NAMES} mkl_intel_thread)
 SET(MKL_NAMES ${MKL_NAMES} mkl_core)
 SET(MKL_NAMES ${MKL_NAMES} guide)
 SET(MKL_NAMES ${MKL_NAMES} mkl)
+SET(MKL_NAMES ${MKL_NAMES} iomp5)
+#SET(MKL_NAMES ${MKL_NAMES} pthread)
 
 IF(CMAKE_SIZEOF_VOID_P EQUAL 8)
   SET(MKL_NAMES ${MKL_NAMES} mkl_intel_lp64)
@@ -18,7 +20,7 @@ ENDIF(CMAKE_SIZEOF_VOID_P EQUAL 8)
 FOREACH (MKL_NAME ${MKL_NAMES})
   FIND_LIBRARY(${MKL_NAME}_LIBRARY
     NAMES ${MKL_NAME}
-    PATHS /usr/lib64 /usr/lib /usr/local/lib64 /usr/local/lib /opt/intel/mkl/lib/lib64 /opt/intel/mkl/lib/intel64 /opt/intel/mkl/lib/ia32 /opt/intel/mkl/lib /opt/intel/*/mkl/lib/intel64 /opt/intel/*/mkl/lib/ia32/ /opt/mkl/*/lib/em64t /opt/mkl/*/lib/32 /opt/intel/mkl/*/lib/em64t /opt/intel/mkl/*/lib/32
+    PATHS /usr/lib64 /usr/lib /usr/local/lib64 /usr/local/lib /opt/intel/lib/intel64 /opt/intel/lib/ia32 /opt/intel/mkl/lib/lib64 /opt/intel/mkl/lib/intel64 /opt/intel/mkl/lib/ia32 /opt/intel/mkl/lib /opt/intel/*/mkl/lib/intel64 /opt/intel/*/mkl/lib/ia32/ /opt/mkl/*/lib/em64t /opt/mkl/*/lib/32 /opt/intel/mkl/*/lib/em64t /opt/intel/mkl/*/lib/32
     )
 
   SET(TMP_LIBRARY ${${MKL_NAME}_LIBRARY})

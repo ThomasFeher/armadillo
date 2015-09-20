@@ -110,9 +110,9 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 3.800</b></font>
+        <font size=+2><b>Reference for Armadillo 3.810</b></font>
         <br>
-        <b>(Miami Beach)</b>
+        <b>(Newell Highway)</b>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -338,6 +338,7 @@ Technical Report, NICTA, 2010.
 <a href="#chol">chol</a>&nbsp;&middot;
 <a href="#eig_sym">eig_sym</a>&nbsp;&middot;
 <a href="#eig_gen">eig_gen</a>&nbsp;&middot;
+<a href="#fft">fft/ifft</a>&nbsp;&middot;
 <a href="#inv">inv</a>&nbsp;&middot;
 <a href="#lu">lu</a>&nbsp;&middot;
 <a href="#pinv">pinv</a>&nbsp;&middot;
@@ -1497,7 +1498,14 @@ Constructors:
 <li>sp_mat(string)</li>
 <li>sp_cx_mat(sp_mat,sp_mat) &nbsp; (for constructing a complex matrix out of two real matrices)</li>
 </ul>
-</li>
+<br>
+<li>
+<a name="batch_constructors_sp_mat"></a>
+Batch insertion constructors:
+<ul>
+<li>sp_mat(locations, values, n_rows, n_cols, sort_locations = true)</li>
+<li>sp_mat(locations, values, sort_locations = true)</li>
+</ul>
 <br>
 <li>
 Elements are stored in the <i>compressed sparse column</i> (CSC) format
@@ -1513,6 +1521,36 @@ however, member functions which set all elements to non-zero values (and hence d
 examples of omitted functions: <a href="#fill">.fill()</a>, <a href="#ones_member">.ones()</a>, +=&nbsp;scalar, etc.
 </li>
 <br>
+
+<li>Batch insertion of values:
+<ul>
+<li>
+Using batch insertion constructors is generally much faster than consecutively inserting values using <a href="#element_access">element access operators</a>
+</li>
+<br>
+<li>
+<i>locations</i> is a dense matrix of type <i>umat</i>, with a size of <i>2</i>&nbsp;x&nbsp;<i>N</i>, where <i>N</i> is the number of values to be inserted.
+The row and column of the <i>i</i>-th element are specified as <i>locations(0,i)</i> and <i>locations(1,i)</i>, respectively.
+</li>
+<br>
+<li>
+<i>values</i> is a dense column vector containing the values to be inserted.
+It must have the same element type as the sparse matrix.
+The value in <i>values[i]</i> will be inserted at the location specified by the <i>i</i>-th column of the <i>locations</i> matrix.
+</li>
+<br>
+<li>
+The size of the constructed matrix is either manually specified via <i>n_rows</i> and <i>n_cols</i>,
+or automatically determined from the maximal locations in the <i>locations</i> matrix.
+</li>
+<br>
+<li>
+If <i>sort_locations</i> is set to <i>false</i>, the <i>locations</i> matrix is assumed to contain locations that are already sorted according to column-major ordering.
+</li>
+</ul>
+</li>
+<br>
+
 <li>
 <b>Caveat:</b>
 support for sparse matrices in this version is <b>preliminary</b>;
@@ -1545,6 +1583,7 @@ The following subset of operations currently works with sparse matrices:
 </ul>
 </li>
 <br>
+
 <li>
 Examples:
 <ul>
@@ -1561,6 +1600,17 @@ B(0,1) = 4;
 sp_mat C = 2*B;
 
 sp_mat D = A*C;
+
+
+// batch insertion of two values at (5, 6) and (9, 9)
+umat locations;
+locations &lt;&lt; 5 &lt;&lt; 9 &lt;&lt; endr
+          &lt;&lt; 6 &lt;&lt; 9 &lt;&lt; endr;
+
+vec values;
+values &lt;&lt; 1.5 &lt;&lt; 3.2 &lt;&lt; endr;
+
+sp_mat X(locations, values);
 </pre>
 </ul>
 </li>
@@ -2020,6 +2070,11 @@ can be disabled by defining <a href="#config_hpp_arma_no_debug"><i>ARMA_NO_DEBUG
 before including the <i>armadillo</i> header file (eg. <i>#define ARMA_NO_DEBUG</i>).
 Disabling the bounds checks is not recommended until your code has been thoroughly debugged
 -- it's better to write correct code first, and then maximise its speed.
+</li>
+<br>
+<li>
+<b>Note</b>: for <a href="#SpMat">sparse matrices</a>, using element access operators to insert values via loops can be inefficient;
+you may wish to use <a href="#batch_constructors_sp_mat">batch insertion constructors</a> instead
 </li>
 <br>
 <li>
@@ -4611,7 +4666,7 @@ X<b>(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> l
 X.<b>unsafe_col(&nbsp;</b>col_number<b>&nbsp;)</b><br>
 <br>
 V.<b>subvec(&nbsp;</b>first_index<b>,</b> last_index<b>&nbsp;)</b> &nbsp;&nbsp;&nbsp; <i>(for vectors only)</i><br>
-V<b>(&nbsp;span(</b>first_index<b>,</b> last_index<b>)&nbsp;)</b> &nbsp;&nbsp;&nbsp;&nbsp; <i>(for vectors only)</i><br>
+V<b>(&nbsp;span(</b>first_index<b>,</b> last_index<b>)&nbsp;)</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>(for vectors only)</i><br>
 </ul>
 </li>
 <br>
@@ -4619,6 +4674,7 @@ V<b>(&nbsp;span(</b>first_index<b>,</b> last_index<b>)&nbsp;)</b> &nbsp;&nbsp;&n
 <ul>
 <br>
 X.<b>elem(</b>&nbsp;vector_of_indices&nbsp;<b>)</b><br>
+X<b>(</b>&nbsp;vector_of_indices&nbsp;<b>)</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>(added in version 3.810)</i><br>
 <br>
 X.<b>cols(&nbsp;</b>vector_of_column_indices<b>&nbsp;)</b><br>
 X.<b>rows(&nbsp;</b>vector_of_row_indices<b>&nbsp;)</b><br>
@@ -5361,7 +5417,7 @@ cout &lt;&lt; more_stats.cov() &lt;&lt; endl;
 rowvec sd = more_stats.stddev();
 
 cout &lt;&lt; "correlations = " &lt;&lt; endl;
-cout &lt;&lt; more_stats.cov() / (trans(sd) * sd);
+cout &lt;&lt; more_stats.cov() / (sd.t() * sd);
 </pre>
 </ul>
 </li>
@@ -6856,11 +6912,11 @@ C = conv(A, B)
 </b>
 <ul>
 <li>
-Convolution of vectors A and B.
+Convolution of vectors <i>A</i> and <i>B</i>
 </li>
 <br>
 <li>
-If A and B are polynomial coefficient vectors, convolving them is equivalent to multiplying the two polynomials
+If <i>A</i> and <i>B</i> are polynomial coefficient vectors, convolving them is equivalent to multiplying the two polynomials
 </li>
 <br>
 <li>
@@ -6868,7 +6924,7 @@ The convolution operation is also equivalent to FIR filtering
 </li>
 <br>
 <li>
-The orientation of the result vector is the same as the orientation of A (ie. column or row vector)
+The orientation of the result vector is the same as the orientation of <i>A</i> (ie. column or row vector)
 </li>
 <br>
 <li>
@@ -6886,10 +6942,11 @@ vec C = conv(A,B);
 <li>
 See also:
 <ul>
+<li><a href="#fft">fft()</a></li>
+<li><a href="#cor">cor()</a></li>
 <li><a href="http://mathworld.wolfram.com/Convolution.html">Convolution in MathWorld</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Convolution">Convolution in Wikipedia</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Finite_impulse_response">FIR filter in Wikipedia</a></li>
-<li><a href="#cor">cor()</a></li>
 </ul>
 </li>
 </ul>
@@ -7939,7 +7996,7 @@ mat Y = unique(X);
 <br><b>chol(R, X)</b>
 <ul>
 <li>
-Cholesky decomposition of <i>X</i>, such that <i>trans(R)*R = X</i>
+Cholesky decomposition of <i>X</i>, such that <i>R.t()*R = X</i>
 </li>
 <br>
 <li>
@@ -7958,7 +8015,7 @@ Examples:
 <ul>
 <pre>
 mat X = randu&lt;mat&gt;(5,5);
-mat Y = trans(X)*X;
+mat Y = X.t()*X;
 
 mat R = chol(Y);
 </pre>
@@ -8019,7 +8076,7 @@ Examples:
 <ul>
 <pre>
 mat A = randu&lt;mat&gt;(50,50);
-mat B = trans(A)*A;  // generate a symmetric matrix
+mat B = A.t()*A;  // generate a symmetric matrix
 
 vec eigval;
 mat eigvec;
@@ -8104,6 +8161,60 @@ See also:
 <br>
 <hr class="greyline"><br>
 
+<a name="fft"></a>
+<b>cx_mat Y = &nbsp;fft(X)</b><br>
+<b>cx_mat Y = &nbsp;fft(X, n)</b><br>
+<br>
+<b>cx_mat Z = ifft(cx_mat Y)</b><br>
+<b>cx_mat Z = ifft(cx_mat Y, n)</b><br>
+<ul>
+<li>fft(): fast Fourier transform of a vector or matrix (real or complex)</li>
+<br>
+<li>ifft(): inverse fast Fourier transform of a vector or matrix (complex only)</li>
+<br>
+<li>If given a matrix, the transform is done on each column vector of the matrix</li>
+<br>
+<li>
+The optional <i>n</i> argument specifies the transform length:
+<ul>
+<li>if <i>n</i> is larger than the length of the input vector, a zero-padded version of the vector is used</li>
+<li>if <i>n</i> is smaller than the length of the input vector, only the first <i>n</i> elements of the vector are used</li>
+</ul>
+</li>
+<br>
+<li>
+If <i>n</i> is not specified, the transform length is the same as the length of the input vector
+</li>
+<br>
+<li><b>Caveat:</b> the transform is fastest when the transform length is a power of 2, eg. 64, 128, 256, 512, 1024, ...</li>
+<br>
+<li>The implementation of the transform in this version is preliminary; it is not yet fully optimised</li>
+<br>
+<li>This function was added in version 3.810</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+   vec X = randu&lt;vec&gt;(100);
+cx_vec Y = fft(X, 128);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#conv">conv()</a></li>
+<li><a href="#imag_real">real()</a></li>
+<li><a href="http://mathworld.wolfram.com/FastFourierTransform.html">fast Fourier transform in MathWorld</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Fast_Fourier_transform">fast Fourier transform in Wikipedia</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
 <a name="inv"></a>
 <b>B = inv(A, </b><i>slow=false</i><b>)</b>
 <br>
@@ -8168,7 +8279,7 @@ mat D = inv( trimatu(A) );
 
 
 // tell inv() that AA is a symmetric positive definite matrix
-mat AA = A*trans(A);
+mat AA = A*A.t();
 mat E  = inv( sympd(AA) );
 
 
@@ -8211,7 +8322,7 @@ The first form provides
 a lower-triangular matrix <i>L</i>,
 an upper-triangular matrix <i>U</i>,
 and a permutation matrix <i>P</i>,
-such that <i>trans(P)*L*U&nbsp;=&nbsp;X</i>
+such that <i>P.t()*L*U&nbsp;=&nbsp;X</i>
 </li>
 <br>
 <li>
@@ -8233,7 +8344,7 @@ mat L, U, P;
 
 lu(L, U, P, A);
 
-mat B = trans(P)*L*U;
+mat B = P.t()*L*U;
 </pre>
 </ul>
 </li>
@@ -8559,7 +8670,7 @@ a divide-and-conquer algorithm can be used instead by explicitly setting <i>meth
 The divide-and-conquer algorithm provides slightly different results, but is notably faster for large matrices
 </li>
 <br>
-<li>If <i>X</i> is square, it can be reconstructed using <i>X = U*diagmat(s)*trans(V)</i>
+<li>If <i>X</i> is square, it can be reconstructed using <i>X = U*diagmat(s)*V.t()</i>
 </li>
 <br>
 <li>
@@ -11049,10 +11160,19 @@ List of deprecated functionality; this functionality will be <b>removed</b> in v
 <br>
 <br>
 <li>
-List of additions and changes since prior versions of Armadillo:
+List of additions and changes for each version:
 <br>
 <br>
 <ul>
+<a name="added_in_3810"></a>
+<li>Added in 3.810:
+<ul>
+<li>fast Fourier transform: <a href="#fft">fft()</a></li>
+<li>handling of <a href="#imbue">.imbue()</a> and <a href="#transform">.transform()</a> by submatrices and subcubes</li>
+<li><a href="#batch_constructors_sp_mat">batch insertion constructors</a> for sparse matrices
+</ul>
+</li>
+<br>
 <a name="added_in_3800"></a>
 <li>Added in 3.800:
 <ul>
@@ -11067,6 +11187,7 @@ List of additions and changes since prior versions of Armadillo:
 <li>Changed in 3.800:
 <ul>
 <li>Armadillo is now licensed using the <a href="http://www.mozilla.org/MPL/2.0/">Mozilla Public License 2.0</a>;
+<br>
 see also the associated <a href="http://www.mozilla.org/MPL/2.0/FAQ.html">frequently asked questions</a> about the license</li>
 </ul>
 <br>
