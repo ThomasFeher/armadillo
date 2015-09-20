@@ -566,6 +566,7 @@ Constructors:
 <br><code>mat(n_rows, n_cols)</code>
 <br><code>mat(n_rows, n_cols, fill_type)</code>
 <br><code>mat(mat)</code>
+<br><code>mat(sp_mat)</code>
 <br><code>mat(vec)</code>
 <br><code>mat(rowvec)</code>
 <br><code>mat(string)</code>
@@ -1482,7 +1483,7 @@ each element can be a vector, or matrix, or cube
 </li>
 <br>
 <li>
-Each element can have an arbitrary size (eg. for a field matrices, each matrix can have a different size)
+Each element can have an arbitrary size (eg. in a field of matrices, each matrix can have a different size)
 </li>
 <br>
 <li>
@@ -1633,6 +1634,7 @@ Constructors:
 <code>sp_mat()</code>
 <br><code>sp_mat(<i>n_rows</i>, <i>n_cols</i>)</code>
 <br><code>sp_mat(sp_mat)</code>
+<br><code>sp_mat(mat)</code>
 <br><code>sp_mat(string)</code>
 <br><code>sp_cx_mat(sp_mat,sp_mat)</code> &nbsp; (for constructing a complex matrix out of two real matrices)
 </ul>
@@ -2045,6 +2047,8 @@ umat ZZ = (AA >= BB);
 <li>
 See also:
 <ul>
+<li><a href="#any">any()</a></li>
+<li><a href="#all">all()</a></li>
 <li><a href="#accu">accu()</a></li>
 <li><a href="#as_scalar">as_scalar()</a></li>
 <li><a href="#find">find()</a></li>
@@ -8695,7 +8699,7 @@ The argument <i>layout</i> is optional; <i>layout</i> is either "upper" or "lowe
 <li>If the decomposition fails:
 <ul>
 <li><i>R = chol(X)</i> resets <i>R</i> and throws a <i>std::runtime_error</i> exception</li>
-<li><i>chol(R,X)</i> resets <i>R</i> returns a bool set to <i>false</i> (exception is not thrown)</li>
+<li><i>chol(R,X)</i> resets <i>R</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
