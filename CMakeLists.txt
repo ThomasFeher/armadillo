@@ -14,7 +14,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(ARMA_MAJOR 4)
 set(ARMA_MINOR 300)
-set(ARMA_PATCH 5)
+set(ARMA_PATCH 6)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 

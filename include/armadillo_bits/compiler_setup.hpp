@@ -156,7 +156,8 @@
   
   #if defined(ARMA_USE_CXX11)
     #if (ARMA_GCC_VERSION < 40700) && !defined(__clang__)
-      #pragma message ("Your C++ compiler is in C++11 mode, but it has incomplete support for C++11 features")
+      #pragma message ("WARNING: your C++ compiler is in C++11 mode, but it has incomplete support for C++11 features; if something breaks, you get to keep all the pieces")
+      #define ARMA_DONT_USE_CXX11_CHRONO
     #endif
   #endif
   
