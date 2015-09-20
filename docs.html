@@ -127,7 +127,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 5.100</b></font>
+        <font size=+2><b>Reference for Armadillo 5.200</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -402,16 +402,17 @@ Technical Report, NICTA, 2010.
 <tr style="background-color: #F5F5F5;"><td><a href="#inv">inv</a></td><td>&nbsp;</td><td>inverse of general square matrix</td></tr>
 <tr><td><a href="#inv_sympd">inv_sympd</a></td><td>&nbsp;</td><td>inverse of symmetric positive definite matrix</td></tr>
 <tr><td><a href="#lu">lu&nbsp;&nbsp;</a></td><td>&nbsp;</td><td>lower-upper decomposition</td></tr>
-<tr><td><a href="#pinv">pinv</a></td><td>&nbsp;</td><td>pseudo-inverse</td></tr>
+<tr><td><a href="#orth">orth</a></td><td>&nbsp;</td><td>orthonormal basis of range space</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#pinv">pinv</a></td><td>&nbsp;</td><td>pseudo-inverse</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#princomp">princomp</a></td><td>&nbsp;</td><td>principal component analysis</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#qr">qr&nbsp;&nbsp;</a></td><td>&nbsp;</td><td>QR decomposition</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#qr_econ">qr_econ</a></td><td>&nbsp;</td><td>economical QR decomposition</td></tr>
+<tr><td><a href="#qr_econ">qr_econ</a></td><td>&nbsp;</td><td>economical QR decomposition</td></tr>
 <tr><td><a href="#solve">solve</a></td><td>&nbsp;</td><td>solve systems of linear equations</td></tr>
 <tr><td><a href="#spsolve">spsolve</a></td><td>&nbsp;</td><td>solve sparse systems of linear equations</td></tr>
-<tr><td><a href="#svd">svd</a></td><td>&nbsp;</td><td>singular value decomposition</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#svd">svd</a></td><td>&nbsp;</td><td>singular value decomposition</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#svd_econ">svd_econ</a></td><td>&nbsp;</td><td>economical singular value decomposition</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#svds">svds</a></td><td>&nbsp;</td><td>limited number of singular values &amp; singular vectors of sparse matrix</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#syl">syl</a></td><td>&nbsp;</td><td>Sylvester equation solver</td></tr>
+<tr><td><a href="#syl">syl</a></td><td>&nbsp;</td><td>Sylvester equation solver</td></tr>
 </tbody>
 </table>
 </ul>
@@ -2089,7 +2090,7 @@ Provide access to individual elements or objects stored in a container object
 For <i>vec</i> and <i>rowvec</i>, access the <i>n</i>-th element.
 For <i>mat</i>, <i>cube</i> and <i>field</i>, access the <i>n</i>-th element/object under the assumption of a flat layout,
 with column-major ordering of data (ie. column by column).
-A <i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
+A&nbsp;<i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
 The bounds check can be <a href="#element_access_bounds_check_note">optionally disabled</a> at compile-time to get more speed.
                           </td>
                         </tr>
@@ -2122,7 +2123,7 @@ Not recommended for use unless your code has been thoroughly debugged.
                           </td>
                           <td style="vertical-align: top;">
 For <i>mat</i> and <i>field</i> classes, access the element/object stored at the <i>i</i>-th row and <i>j</i>-th column.
-A <i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
+A&nbsp;<i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
 The bounds check can be <a href="#element_access_bounds_check_note">optionally disabled</a> at compile-time to get more speed.
                           </td>
                         </tr>
@@ -2157,7 +2158,7 @@ Not recommended for use unless your code has been thoroughly debugged.
                           </td>
                           <td style="vertical-align: top;">
 Cube only: access the element stored at the <i>i</i>-th row, <i>j</i>-th column and <i>k</i>-th slice.
-A <i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
+A&nbsp;<i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
 The bounds check can be <a href="#element_access_bounds_check_note">optionally disabled</a> at compile-time to get more speed.
                           </td>
                         </tr>
@@ -2261,8 +2262,10 @@ mat A;
 A &lt;&lt; 1 &lt;&lt; 3 &lt;&lt; 5 &lt;&lt; endr
   &lt;&lt; 2 &lt;&lt; 4 &lt;&lt; 6 &lt;&lt; endr;
 
-mat B = { 1, 2, 3, 4, 5, 6 };  // C++11 only
+mat B = { 1, 2, 3, 4, 5, 6 };      // C++11 only
 B.reshape(2,3);
+
+mat C = { {1, 3, 5}, {2, 4, 6} };  // C++11 only (version 5.200+)
 </pre>
 </ul>
 </li>
@@ -6484,6 +6487,10 @@ Large condition numbers suggest that matrix <i>A</i> is nearly singular
 </li>
 <br>
 <li>
+The computation is based on singular value decomposition; if the decomposition fails, a <i>std::runtime_error</i> exception is thrown
+</li>
+<br>
+<li>
 Examples:
 <ul>
 <pre>
@@ -7923,11 +7930,15 @@ See also:
 <ul>
 <li>Returns the rank of matrix <i>X</i></li>
 <br>
-<li>Any singular values less than default tolerance are treated as zero</li>
+<li>Any singular values less than <i>tolerance</i> are treated as zero</li>
 <br>
-<li>The <i>tolerance</i> argument is optional;
-by default the tolerance is <i>max(X.n_rows, X.n_cols)*eps(sigma)</i>,
-where <i>sigma</i> is the largest singular value of <i>X</i>
+<li>
+The <i>tolerance</i> argument is optional; by default <i>tolerance</i> is <i>max(m,n)*max_sv*datum::eps</i>, where:
+<ul>
+<li><i>m</i> = number of rows and <i>n</i> = number of columns in <i>X</i></li>
+<li><i>max_sv</i> = maximal singular value of <i>X</i></li>
+<li><i>datum::eps</i> = difference between 1 and the least value greater than 1 that is representable</li>
+</ul>
 </li>
 <br>
 <li>The computation is based on singular value decomposition;
@@ -7948,7 +7959,9 @@ uword r = rank(A);
 See also:
 <ul>
 <li><a href="#cond">cond()</a></li>
-<li><a href="#eps">eps()</a></li>
+<li><a href="#svd">svd()</a></li>
+<li><a href="#orth">orth()</a></li>
+<li><a href="#constants">datum::eps</a></li>
 <li><a href="http://mathworld.wolfram.com/MatrixRank.html">Rank in MathWorld</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Rank_(linear_algebra)">Rank in Wikipedia</a></li>
 </ul>
@@ -9031,6 +9044,8 @@ mat R2 = chol(Y, "lower");
 <li>
 See also:
 <ul>
+<li><a href="#lu">lu()</a></li>
+<li><a href="#qr">qr()</a></li>
 <li><a href="http://mathworld.wolfram.com/CholeskyDecomposition.html">Cholesky decomposition in MathWorld</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Cholesky_decomposition">Cholesky decomposition in Wikipedia</a></li>
 </ul>
@@ -9286,7 +9301,7 @@ Examples:
 <ul>
 <pre>
 // generate sparse matrix
-sp_mat A = sprandu&lt;mat&gt;(1000, 1000, 0.1);
+sp_mat A = sprandu&lt;sp_mat&gt;(1000, 1000, 0.1);
 sp_mat B = A.t()*A;
 
 vec eigval;
@@ -9675,8 +9690,67 @@ mat B = P.t()*L*U;
 <li>
 See also:
 <ul>
+<li><a href="#chol">chol()</a></li>
 <li><a href="http://en.wikipedia.org/wiki/LU_decomposition">LU decomposition in Wikipedia</a></li>
 <li><a href="http://mathworld.wolfram.com/LUDecomposition.html">LU decomposition in MathWorld</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="orth"></a>
+<b>B = orth( A )</b>
+<br><b>B = orth( A, tolerance )</b>
+<br>
+<br><b>orth( B, A )</b>
+<br><b>orth( B, A, tolerance )</b>
+<ul>
+<li>
+Find the orthonormal basis of the range space of matrix <i>A</i>,
+so that <i>B.t()*B&nbsp;&asymp;&nbsp;eye(r,r)</i>, where <i>r&nbsp;=&nbsp;rank(A)</i>
+</li>
+<br>
+<li>
+The dimension of the range space is the number of singular values of <i>A</i> greater than <i>tolerance</i>
+</li>
+<br>
+<li>
+The <i>tolerance</i> argument is optional; by default <i>tolerance</i> is <i>max(m,n)*max_sv*datum::eps</i>, where:
+<ul>
+<li><i>m</i> = number of rows and <i>n</i> = number of columns in <i>A</i></li>
+<li><i>max_sv</i> = maximal singular value of <i>A</i></li>
+<li><i>datum::eps</i> = difference between 1 and the least value greater than 1 that is representable</li>
+</ul>
+</li>
+<br>
+<li>
+The computation is based on singular value decomposition; if the decomposition fails:
+<ul>
+<li><i>B = orth(A)</i> resets <i>B</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>orth(B,A)</i> resets <i>B</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
+</ul>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(5,6);
+
+mat B = orth(A);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#qr">qr()</a></li>
+<li><a href="#svd">svd()</a></li>
+<li><a href="#rank">rank()</a></li>
+<li><a href="#constants">datum::eps</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Orthonormal_basis">Orthonormal basis in Wikipedia</a></li>
 </ul>
 </li>
 <br>
@@ -9856,10 +9930,11 @@ qr(Q,R,X);
 See also:
 <ul>
 <li><a href="#qr_econ">qr_econ()</a></li>
+<li><a href="#chol">chol()</a></li>
+<li><a href="#orth">orth()</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Orthogonal_matrix">orthogonal matrix in Wikipedia</a></li>
 <li><a href="http://en.wikipedia.org/wiki/QR_decomposition">QR decomposition in Wikipedia</a></li>
 <li><a href="http://mathworld.wolfram.com/QRDecomposition.html">QR decomposition in MathWorld</a></li>
-<li><a href="http://octave.sourceforge.net/octave/function/qr.html">QR decomposition in Octave</a></li>
 </ul>
 </li>
 <br>
@@ -13754,6 +13829,14 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="version_5200"></a>
+<li>Version 5.200:
+<ul>
+<li>added <a href="#orth">orth()</a> for finding the orthonormal basis of the range space of a matrix</li>
+<li>expanded <a href="#element_initialisation">element initialisation</a> to handle nested initialiser lists (C++11)</li>
+</ul>
+</li>
+<br>
 <a name="version_5100"></a>
 <li>Version 5.100:
 <ul>
