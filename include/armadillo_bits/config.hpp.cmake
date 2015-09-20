@@ -84,7 +84,7 @@
 #endif
 
 #if !defined(ARMA_USE_HDF5)
-#cmakedefine ARMA_USE_HDF5
+// #define ARMA_USE_HDF5
 //// Uncomment the above line to allow the ability to save and load matrices stored in HDF5 format;
 //// the hdf5.h header file must be available on your system,
 //// and you will need to link with the hdf5 library (eg. -lhdf5)
@@ -157,6 +157,7 @@
 
 #if defined(ARMA_DONT_USE_WRAPPER)
   #undef ARMA_USE_WRAPPER
+  #undef ARMA_USE_HDF5_ALT
 #endif
 
 #if defined(ARMA_DONT_USE_CXX11)

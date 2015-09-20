@@ -1,8 +1,8 @@
 
 # Copyright (C) 2008-2014 Conrad Sanderson
 # Copyright (C) 2008-2014 NICTA (www.nicta.com.au)
+# Copyright (C) 2013-2014 Ryan Curtin
 # Copyright (C) 2011 Clement Creusot
-# Copyright (C) 2013 Ryan Curtin
 # 
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,7 +14,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(ARMA_MAJOR 4)
 set(ARMA_MINOR 500)
-set(ARMA_PATCH 0)
+set(ARMA_PATCH 1)
 set(ARMADILLO_VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH})
 
 message(STATUS "Configuring Armadillo ${ARMADILLO_VERSION}")
@@ -233,14 +233,41 @@ endif()
 ## cmake -D DETECT_HDF5=true .
 
 if(DETECT_HDF5)
-  find_package(HDF5)
-  message(STATUS "HDF5_FOUND     = ${HDF5_FOUND}")
+  find_package(HDF5 QUIET)
+
+  if(NOT HDF5_FOUND)
+    # On Debian systems, the HDF5 package has been split into multiple packages
+    # so that it is co-installable.  But this may mean that the include files
+    # are hidden somewhere very odd that the FindHDF5.cmake script will not
+    # find.  Thus, we'll also quickly check pkgconfig to see if there is
+    # information on what to use there.
+    find_package(PkgConfig)
+    if (PKG_CONFIG_FOUND)
+      pkg_check_modules(HDF5 hdf5)
+      # But using pkgconfig is a little weird because HDF5_LIBRARIES won't be
+      # filled with exact library paths, like the other scripts.  So instead
+      # what we get is HDF5_LIBRARY_DIRS which is the equivalent of what we'd
+      # pass to -L.  So we have to add those...
+      if (HDF5_FOUND)
+        link_directories("${HDF5_LIBRARY_DIRS}")
+      endif()
+    endif()
+  endif()
  
+  message(STATUS "HDF5_FOUND     = ${HDF5_FOUND}")
   if(HDF5_FOUND)
     set(ARMA_USE_HDF5_ALT true)
     set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${HDF5_INCLUDE_DIRS})
     set(ARMA_LIBS ${ARMA_LIBS} ${HDF5_LIBRARIES})
-    set(ARMA_HDF5_INCLUDE_DIR ${HDF5_INCLUDE_DIRS})
+    # Since we called HDF5 with no arguments, the script will find only the C
+    # bindings.  So HDF5_INCLUDE_DIRS may now contain one or two elements; if it
+    # contains two, the first is what the user passed as HDF5_INCLUDE_DIR and we
+    # should use that as ARMA_HDF5_INCLUDE_DIR.  Otherwise, the one entry in
+    # HDF5_INCLUDE_DIRS is the correct include directory.  So, in either case we
+    # can use the first element in the list.  Issue a status message, too, just
+    # for good measure.
+    list(GET HDF5_INCLUDE_DIRS 0 ARMA_HDF5_INCLUDE_DIR)
+    message(STATUS "Set ARMA_HDF5_INCLUDE_DIR to ${ARMA_HDF5_INCLUDE_DIR}")
   endif()
 endif()
 
