@@ -187,7 +187,7 @@ In general, programs which use Armadillo are compiled along these lines:
 If you want to use Armadillo without installation,
 or you're getting linking errors, compile along these lines:
   
-  g++ example1.cpp -o example1 -O2 -I /home/blah/armadillo-4.550.1/include -DARMA_DONT_USE_WRAPPER -lblas -llapack 
+  g++ example1.cpp -o example1 -O2 -I /home/blah/armadillo-4.550.2/include -DARMA_DONT_USE_WRAPPER -lblas -llapack 
   
 The above command line assumes that you have unpacked the armadillo archive into /home/blah/
 You will need to adjust this for later versions of Armadillo,
@@ -453,6 +453,7 @@ Contributors:
 - Szabolcs Horvat
 - Friedrich Hust
 - Ping-Keng Jao
+- Jacques-Henri Jourdan
 - Yaron Keren
 - Kshitij Kulshreshtha
 - Oka Kurniawan
