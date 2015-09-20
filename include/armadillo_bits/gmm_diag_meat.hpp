@@ -285,10 +285,12 @@ gmm_diag<eT>::save(const std::string name) const
 template<typename eT>
 template<typename T1>
 inline
-typename enable_if2<resolves_to_colvector<T1>::value, eT>::result
-gmm_diag<eT>::log_p(const T1& expr) const
+eT
+gmm_diag<eT>::log_p(const T1& expr, const gmm_empty_arg& junk1, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == true))>::result* junk2) const
   {
   arma_extra_debug_sigprint();
+  arma_ignore(junk1);
+  arma_ignore(junk2);
   
   const quasi_unwrap<T1> tmp(expr);
   
@@ -302,10 +304,11 @@ gmm_diag<eT>::log_p(const T1& expr) const
 template<typename eT>
 template<typename T1>
 inline
-typename enable_if2<resolves_to_colvector<T1>::value, eT>::result
-gmm_diag<eT>::log_p(const T1& expr, const uword gaus_id) const
+eT
+gmm_diag<eT>::log_p(const T1& expr, const uword gaus_id, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == true))>::result* junk2) const
   {
   arma_extra_debug_sigprint();
+  arma_ignore(junk2);
   
   const quasi_unwrap<T1> tmp(expr);
   
@@ -321,10 +324,12 @@ gmm_diag<eT>::log_p(const T1& expr, const uword gaus_id) const
 template<typename eT>
 template<typename T1>
 inline
-typename enable_if2< is_arma_type<T1>::value && (resolves_to_colvector<T1>::value == false), Row<eT> >::result
-gmm_diag<eT>::log_p(const T1& expr) const
+Row<eT>
+gmm_diag<eT>::log_p(const T1& expr, const gmm_empty_arg& junk1, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == false))>::result* junk2) const
   {
   arma_extra_debug_sigprint();
+  arma_ignore(junk1);
+  arma_ignore(junk2);
   
   if(is_subview<T1>::value)
     {
@@ -346,10 +351,11 @@ gmm_diag<eT>::log_p(const T1& expr) const
 template<typename eT>
 template<typename T1>
 inline
-typename enable_if2< is_arma_type<T1>::value && (resolves_to_colvector<T1>::value == false), Row<eT> >::result
-gmm_diag<eT>::log_p(const T1& expr, const uword gaus_id) const
+Row<eT>
+gmm_diag<eT>::log_p(const T1& expr, const uword gaus_id, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == false))>::result* junk2) const
   {
   arma_extra_debug_sigprint();
+  arma_ignore(junk2);
   
   if(is_subview<T1>::value)
     {
@@ -421,10 +427,11 @@ gmm_diag<eT>::avg_log_p(const Base<eT,T1>& expr, const uword gaus_id) const
 template<typename eT>
 template<typename T1>
 inline
-typename enable_if2<resolves_to_colvector<T1>::value, uword>::result
-gmm_diag<eT>::assign(const T1& expr, const gmm_dist_mode& dist) const
+uword
+gmm_diag<eT>::assign(const T1& expr, const gmm_dist_mode& dist, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == true))>::result* junk) const
   {
   arma_extra_debug_sigprint();
+  arma_ignore(junk);
   
   if(is_subview_col<T1>::value)
     {
@@ -446,10 +453,11 @@ gmm_diag<eT>::assign(const T1& expr, const gmm_dist_mode& dist) const
 template<typename eT>
 template<typename T1>
 inline
-typename enable_if2<is_arma_type<T1>::value && (resolves_to_colvector<T1>::value == false), urowvec>::result
-gmm_diag<eT>::assign(const T1& expr, const gmm_dist_mode& dist) const
+urowvec
+gmm_diag<eT>::assign(const T1& expr, const gmm_dist_mode& dist, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == false))>::result* junk) const
   {
   arma_extra_debug_sigprint();
+  arma_ignore(junk);
   
   urowvec out;
   
@@ -535,11 +543,12 @@ gmm_diag<eT>::norm_hist(const Base<eT,T1>& expr, const gmm_dist_mode& dist_mode)
 
 
 template<typename eT>
+template<typename T1>
 inline
 bool
 gmm_diag<eT>::learn
   (
-  const Mat<eT>&       X,
+  const Base<eT,T1>&   data,
   const uword          n_gaus,
   const gmm_dist_mode& dist_mode,
   const gmm_seed_mode& seed_mode,
@@ -563,6 +572,9 @@ gmm_diag<eT>::learn
   arma_debug_check( (dist_mode_ok == false), "gmm_diag::learn(): dist_mode must be eucl_dist or maha_dist" );
   arma_debug_check( (seed_mode_ok == false), "gmm_diag::learn(): unknown seed_mode"                        );
   arma_debug_check( (var_floor < eT(0)    ), "gmm_diag::learn(): variance floor is negative"               );
+  
+  const unwrap<T1>   tmp_X(data.get_ref());
+  const Mat<eT>& X = tmp_X.M;
   
   if(X.is_empty()          )  { arma_warn(true, "gmm_diag::learn(): given matrix is empty"             ); reset(); return false; }
   if(X.is_finite() == false)  { arma_warn(true, "gmm_diag::learn(): given matrix has non-finite values"); reset(); return false; }

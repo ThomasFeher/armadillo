@@ -283,7 +283,7 @@ namespace arma
   #include "armadillo_bits/memory.hpp"
   
   //
-  //
+  // wrappers for various cmath functions
   
   #include "armadillo_bits/arma_cmath.hpp"
   
