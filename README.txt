@@ -1,37 +1,40 @@
 === Contents ===
 
 1: Introduction
-   1.1: Citation Details
 
-2: Installation
-   2.0: Preliminaries
-   2.1: Installation on Linux and Mac OS X
-   2.2: Manual Installation / Installation on Windows
+2: Citation Details
 
-3: Compiling Programs and Linking
-   3.0: Examples
-   3.1: Compiling & Linking on Linux and Mac OS X
-   3.2: Compiling & Linking on Windows
+3: Installation
+   3.0: Preliminaries
+   3.1: Installation on Linux and Mac OS X
+   3.2: Manual Installation / Installation on Windows
 
-4: Support for high-speed BLAS & LAPACK replacements
-   4.0: Support for Intel MKL and AMD ACML
-   4.1: Support for ATLAS
+4: Compiling Programs and Linking
+   4.0: Examples
+   4.1: Compiling & Linking on Linux and Mac OS X
+   4.2: Compiling & Linking on Windows
 
-5: Documentation / Reference Manual
+5: Support for high-speed BLAS & LAPACK replacements
+   5.0: Support for Intel MKL and AMD ACML
+   5.1: Support for ATLAS
 
-6: FAQs and Bug Reports
+6: Documentation / API Reference Manual
 
-7: Credits
+7: FAQs and Bug Reports
 
-8: License
+8: Developers and Contributors
+
+9: License
 
 
 
 
-=== 1.0: Introduction ===
+=== 1: Introduction ===
 
 Armadillo is a C++ linear algebra library (matrix maths)
 aiming towards a good balance between speed and ease of use.
+The syntax is deliberately similar to Matlab.
+
 Integer, floating point and complex numbers are supported,
 as well as a subset of trigonometric and statistics functions.
 Various matrix decompositions are provided through optional
@@ -43,24 +46,27 @@ to combine several operations into one and reduce (or eliminate)
 the need for temporaries. This is accomplished through recursive
 templates and template meta-programming.
 
-This library is useful if C++ has been decided as the language
-of choice (due to speed and/or integration capabilities),
-rather than another language like Matlab or Octave.
-It is distributed under a license that is useful in both
-open-source and proprietary contexts.
+This library is useful for conversion of research code into
+production environments, or if C++ has been decided as the
+language of choice, due to speed and/or integration capabilities.
+
+The library is open-source software, and is distributed under a
+license that is useful in both open-source and commercial/proprietary
+contexts. 
 
 Armadillo is primarily developed at NICTA (Australia),
 with contributions from around the world.
 More information about NICTA can be obtained from:
+
   http://nicta.com.au
 
 
 
-=== 1.1: Citation Details ===
+=== 2: Citation Details ===
 
-If you use Armadillo in your research and/or software,
-please cite the following tech report. Citations are useful
-for the continued development and maintenance of the library.
+Please cite the following tech report if you use Armadillo in your
+research and/or software. Citations are useful for the continued
+development and maintenance of the library.
 
   Conrad Sanderson.
   Armadillo: An Open Source C++ Linear Algebra Library for
@@ -69,7 +75,7 @@ for the continued development and maintenance of the library.
 
 
 
-=== 2.0: Installation: Preliminaries ===
+=== 3.0: Installation: Preliminaries ===
 
 Armadillo makes extensive use of template meta-programming,
 recursive templates and template based function overloading.
@@ -85,22 +91,22 @@ eigen decomposition or matrix inversion will not be.
 Matrix multiplication (mainly for big matrices) may not be as fast.
 
 * For automatic installation on Linux and Mac OS X systems,
-  see section 2.1. This installation is also likely to work on
+  see section 3.1. This installation is also likely to work on
   other Unix-like systems, such as FreeBSD, NetBSD, OpenBSD,
   Solaris, CygWin, etc.
   
 * For manual installation and/or installation on Windows,
-  see section 2.2.
+  see section 3.2.
 
 * If you have a previous version of Armadillo already installed,
   we recommend removing it before installing a newer version.
 
 
 
-=== 2.1: Installation on Linux and Mac OS X ===
+=== 3.1: Installation on Linux and Mac OS X ===
 
 You can use the manual installation process as described in
-section 2.2, or the following CMake based automatic installation.
+section 3.2, or the following CMake based automatic installation.
 
 * Step 1:
   If CMake is not already be present on your system, download
@@ -156,7 +162,7 @@ section 2.2, or the following CMake based automatic installation.
 
 
 
-=== 2.2: Manual Installation / Installation on Windows ===
+=== 3.2: Manual Installation / Installation on Windows ===
 
 The manual installation is comprised of 3 steps:
 
@@ -179,19 +185,20 @@ The manual installation is comprised of 3 steps:
   If you have LAPACK and/or BLAS present, configure your 
   compiler to link with these libraries. 
   
-  If using Windows, see Section 3.2.
+  If using Linux, link using -llapack -lblas
   If using Mac OS X, link using -framework Accelerate
+  If using Windows, see section 4.2.
   
   You can also link with high-speed replacements for LAPACK and BLAS,
-  eg. Intel's MKL or AMD's ACML.  See Section 4.0 for more info.
+  eg. Intel's MKL or AMD's ACML.  See section 5 for more info.
 
 
 
-=== 3.0: Compiling Programs and Linking: Examples ===
+=== 4.0: Compiling Programs and Linking: Examples ===
 
 The "examples" directory contains several quick example programs
 that use the Armadillo library. If Armadillo was installed manually
-(ie. according to section 2.2), you will also need to explicitly
+(ie. according to section 3.2), you will also need to explicitly
 link your programs with the libraries that were specified in
 "include/armadillo_bits/config.hpp".
 
@@ -208,7 +215,7 @@ NOTE: As Armadillo is a template library, we recommended that
 
 
 
-=== 3.1: Compiling & Linking on Linux and Mac OS X ===
+=== 4.1: Compiling & Linking on Linux and Mac OS X ===
 
 Please see "examples/Makefile", which may may need to be configured
 for your system. If Armadillo header files were installed in a
@@ -216,7 +223,7 @@ non-standard location, you will need to modify "examples/Makefile"
 to tell the compiler where they are.
 
 In general, programs which use Armadillo are compiled along these lines:
-  g++ example1.cpp -o example1 -O1 -larmadillo
+  g++ example1.cpp -o example1 -O2 -larmadillo
 
 (you may also need to specify the include directory via the -I switch)
 
@@ -224,7 +231,7 @@ If you get linking errors, or if Armadillo was installed manually
 and you specified that LAPACK and BLAS are available, you will
 need to explicitly link with LAPACK and BLAS (or their equivalents),
 for example:
-  g++ example1.cpp -o example1 -O1 -llapack -lblas
+  g++ example1.cpp -o example1 -O2 -llapack -lblas
 
 (you may also need to specify the library directory via the -L switch)
 
@@ -240,7 +247,7 @@ Notes:
 
 
 
-=== 3.2: Compiling & Linking on Windows ===
+=== 4.2: Compiling & Linking on Windows ===
 
 As a courtesy, we've provided pre-compiled 32 bit versions of
 standard LAPACK and BLAS for Windows, as well as MSVC project
@@ -255,7 +262,7 @@ are stored in:
 
 If you're getting messages such as "use of LAPACK needs to be enabled",
 you will need to manually modify "include/armadillo_bits/config.hpp"
-to enable the use of LAPACK. See section 2.2 for more information.
+to enable the use of LAPACK. See section 3.2 for more information.
 
 Note that on 64 bit systems (such as Windows 7), dedicated
 64 bit versions of BLAS and LAPACK are considerably faster.
@@ -284,7 +291,7 @@ try these versions:
   http://icl.cs.utk.edu/lapack-for-windows/lapack/
 
 The MKL and ACML libraries are generally the fastest.
-See Section 4.0 for more info on making Armadillo use MKL or ACML.
+See section 5 for more info on making Armadillo use MKL or ACML.
 
 
 You can find the original sources for standard BLAS and LAPACK at:
@@ -313,7 +320,7 @@ eg. Scientific Linux: http://www.scientificlinux.org/
 
 
 
-=== 4.0: Support for Intel MKL and AMD ACML ===
+=== 5.0: Support for Intel MKL and AMD ACML ===
 
 Armadillo can use Intel's Math Kernel Library (MKL) and the
 AMD Core Math Library (ACML) as high-speed replacements for BLAS and LAPACK.
@@ -350,7 +357,7 @@ the lines containing:
 
 
 
-=== 4.1: Support for ATLAS ===
+=== 5.1: Support for ATLAS ===
 
 Armadillo can use the ATLAS library for faster versions of
 certain LAPACK and BLAS functions. Not all ATLAS functions are
@@ -366,20 +373,24 @@ remove the old version and use the standard LAPACK library.
 
 
 
-=== 5: Documentation / Reference Manual ===
+=== 6: Documentation / API Reference Manual ===
 
-A reference manual (user documentation) is available at
-http://arma.sourceforge.net or in the "docs" folder of
-this archive.  Use a web browser to open docs/index.html
+A reference manual (documentation of APIs) is available at
 
-The user documentation explains how to use Armadillo's
+  http://arma.sourceforge.net/docs.html
+
+and in the "docs.html" file in this archive,
+which can be viewed with a web browser.
+
+The documentation explains how to use Armadillo's
 classes and functions, with snippets of example code.
 
 
 
-=== 6: FAQs and Bug Reports ===
+=== 7: FAQs and Bug Reports ===
 
 Answers to Frequently Asked Questions (FAQs) can be found at:
+
   http://arma.sourceforge.net/faq.html
 
 This library has gone through extensive testing and
@@ -388,15 +399,16 @@ However, as with almost all software, it's impossible
 to guarantee 100% correct functionality.
 
 If you find a bug in the library (or the documentation),
-we are interested in hearing about it. Please make a small
-self-contained program which exposes the bug and send the
-program source (as well as the bug description) to the 
-developers. The developers' contact details are available at:
+we are interested in hearing about it. Please make a
+_small_ _self-contained_ program which exposes the bug
+and send the program source (as well as the bug description)
+to the developers.  The developers' contact details are at:
+
   http://arma.sourceforge.net/contact.html
 
 
 
-=== 7: Credits ===
+=== 8: Developers and Contributors ===
 
 Main sponsoring organisation:
 - NICTA
@@ -404,23 +416,26 @@ Main sponsoring organisation:
 
 Main developers:
 - Conrad Sanderson - http://itee.uq.edu.au/~conrad/
+- Ryan Curtin
 - Ian Cullinan
 - Dimitrios Bouzas
 - Stanislav Funiak
 
 Contributors:
+- Matthew Amidon
 - Eric R. Anderson
 - Benoît Bayol
 - Salim Bcoin
 - Justin Bedo
 - Darius Braziunas
 - Ted Campbell
+- James Cline
 - Chris Cooper
 - Clement Creusot
-- Ryan Curtin
 - Chris Davey
 - Dirk Eddelbuettel
 - Romain Francois
+- Michael McNeil Forbes
 - Piotr Gawron
 - Charles Gretton
 - Benjamin Herzog
@@ -455,9 +470,8 @@ Contributors:
 
 
 
-=== 8: License ===
+=== 9: License ===
 
-Please see the "LICENSE.txt" file.
-
+See the "LICENSE.txt" file for license details.
 
 

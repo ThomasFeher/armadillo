@@ -15,8 +15,8 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
 set(ARMA_MAJOR 3)
-set(ARMA_MINOR 2)
-set(ARMA_PATCH 5)
+set(ARMA_MINOR 4)
+set(ARMA_PATCH 0)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 
@@ -39,7 +39,7 @@ set(ARMA_USE_LAPACK  false)
 set(ARMA_USE_BLAS    false)
 set(ARMA_USE_ATLAS   false)
 set(ARMA_USE_BOOST   false)
-#set(ARMA_USE_HDF5    false)
+set(ARMA_USE_HDF5    false)
 set(ARMA_USE_WRAPPER true )
 
 
@@ -180,15 +180,14 @@ if(APPLE)
   message(STATUS "MacOS X detected. Added '-framework Accelerate' to compiler flags")
 endif()
 
+find_package(HDF5)
+message(STATUS "HDF5_FOUND   = ${HDF5_FOUND}")
 
-#find_package(HDF5)
-#message(STATUS "HDF5_FOUND   = ${HDF5_FOUND}")
-#
-#if(HDF5_FOUND)
-#  set(ARMA_USE_HDF5 true)
-#  set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${HDF5_INCLUDE_DIRS})
-#  set(ARMA_LIBS ${ARMA_LIBS} ${HDF5_LIBRARIES})
-#endif()
+if(HDF5_FOUND)
+  set(ARMA_USE_HDF5 true)
+  set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${HDF5_INCLUDE_DIRS})
+  set(ARMA_LIBS ${ARMA_LIBS} ${HDF5_LIBRARIES})
+endif()
 
 message(STATUS "*** ")
 message(STATUS "*** The Armadillo run-time library component will be an alias for the following libraries:")

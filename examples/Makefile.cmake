@@ -32,14 +32,14 @@ LIB_FLAGS = -larmadillo $(EXTRA_LIB_FLAGS)
 
 
 
-OPT = -O1
+OPT = -O2
 ## As the Armadillo library uses recursive templates,
 ## compilation times depend on the level of optimisation:
 ##
 ## -O0: quick compilation, but the resulting program will be slow
-## -O1: produces programs which achieve most of the possible speedup
-## -O3: produces programs which have almost all possible speedups,
-##      but compilation takes considerably longer
+## -O1: good trade-off between compilation time and execution speed
+## -O2: produces programs which have almost all possible speedups,
+##      but compilation takes longer
 
 
 #OPT = -xO4 -xannotate=no

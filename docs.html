@@ -3,8 +3,69 @@
 <head>
   <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type">
   <title>Armadillo: C++ linear algebra library</title>
-  <link type="text/css" rel="stylesheet" href="style.css">
   <link rel="icon" href="armadillo_icon.png" type="image/png">
+  <style type="text/css">
+  <!--
+  body
+    {
+    font-family: "Trebuchet MS", Trebuchet, "DejaVu Sans", "Luxi Sans", "Liberation Sans", Arial, Helvetica, sans-serif;
+    color: #000000;
+    background-color: #FFFFFF;
+    /* font-size: 10pt; */
+    /* line-height: 120%; */
+    height: 110%;
+    }
+  
+  pre
+    {
+    font-family: "DejaVu Sans Mono", "Liberation Mono", "Andale Mono", "Bitstream Vera Sans Mono", "Luxi Mono", monospace;
+    font-size: smaller;
+    color: #666666;
+    }
+  
+  a
+    {
+    text-decoration: none;
+    color: #57a706;
+    }
+  
+  a:hover
+    {
+    text-decoration: underline;
+    color: #57a706;
+    }
+  
+  a.menu
+    {
+    text-decoration: none;
+    color: #CCCCCC;
+    }
+  
+  a.menu:hover
+    {
+    text-decoration: none;
+    color: #57a706;
+    }
+  
+  a.hidden, a.hidden:hover, a.hidden:active, a.hidden:link, a.hidden:visited
+    {
+    text-decoration: none;
+    border-bottom: 0px
+    }
+  
+  table
+    {
+    /* border: 1px solid #000; */
+    /* display: block; */
+    border-collapse: collapse;
+    }
+  
+  td.line
+    {
+    border-left: 2px solid rgb(204, 204, 204);
+    }
+  -->
+  </style>
 </head>
 <body>
 <center>
@@ -17,9 +78,9 @@
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 3.2</b></font>
+        <font size=+2><b>Reference for Armadillo 3.4</b></font>
         <br>
-        <font size=-1><b>&#8220;Creamfields&#8221;</b></font>
+        <b>(Ku De Ta)</b>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -101,7 +162,8 @@ Technical Report, NICTA, 2010.
 <a href="#Col">Col&lt;<i>type</i>&gt;, colvec and vec</a>&nbsp;&middot;
 <a href="#Row">Row&lt;<i>type</i>&gt;, rowvec</a>&nbsp;&middot;
 <a href="#Cube">Cube&lt;<i>type</i>&gt;, cube</a>&nbsp;&middot;
-<a href="#field">field&lt;<i>object&nbsp;type</i>&gt;</a>
+<a href="#field">field&lt;<i>object&nbsp;type</i>&gt;</a>&nbsp;&middot;
+<a href="#SpMat">SpMat&lt;<i>type</i>&gt;, sp_mat and sp_cx_mat</a>
 </ul>
 <br>
 
@@ -111,6 +173,7 @@ Technical Report, NICTA, 2010.
 <a href="#colptr">colptr</a>&nbsp;&middot;
 <a href="#copy_size">copy_size</a>&nbsp;&middot;
 <a href="#diag">diag</a>&nbsp;&middot;
+<a href="#each_colrow">each_col/each_row</a>&nbsp;&middot;
 <a href="#element_access">element&nbsp;access</a>&nbsp;&middot;
 <a href="#element_initialisation">element&nbsp;initialisation</a>&nbsp;&middot;
 <a href="#eval_member">eval</a>&nbsp;&middot;
@@ -165,6 +228,8 @@ Technical Report, NICTA, 2010.
 <a href="#ones_standalone">ones</a>&nbsp;&middot;
 <a href="#randu_randn_standalone">randu/randn</a>&nbsp;&middot;
 <a href="#repmat">repmat</a>&nbsp;&middot;
+<a href="#speye">speye</a>&nbsp;&middot;
+<a href="#sprandu_sprandn">sprandu/sprandn</a>&nbsp;&middot;
 <a href="#toeplitz">toeplitz/toeplitz_circ</a>&nbsp;&middot;
 <a href="#zeros_standalone">zeros</a>
 </ul>
@@ -242,6 +307,7 @@ Technical Report, NICTA, 2010.
 <a href="#pinv">pinv</a>&nbsp;&middot;
 <a href="#princomp">princomp</a>&nbsp;&middot;
 <a href="#qr">qr</a>&nbsp;&middot;
+<a href="#qr_econ">qr_econ</a>&nbsp;&middot;
 <a href="#solve">solve</a>&nbsp;&middot;
 <a href="#svd">svd</a>&nbsp;&middot;
 <a href="#svd_econ">svd_econ</a>&nbsp;&middot;
@@ -282,7 +348,7 @@ Technical Report, NICTA, 2010.
 <br><b>cx_mat</b>
 <ul>
 <li>
-The root template matrix class is <b>Mat&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i> can be one of:
+The root matrix class is <b>Mat&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i> can be one of:
 <i>char</i>, <i>int</i>, <i>float</i>, <i>double</i>, <i>std::complex&lt;double&gt;</i>, etc.
 </li>
 <br>
@@ -386,6 +452,7 @@ Constructors:
 <li>mat(vec)</li>
 <li>mat(rowvec)</li>
 <li>mat(string)</li>
+<li>mat(std::vector) &nbsp; (treated as a column vector)</li>
 <li>mat(initialiser_list) &nbsp; (C++11 only)</li>
 <li>cx_mat(mat,mat) &nbsp; (for constructing a complex matrix out of two real matrices)</li>
 </ul>
@@ -535,6 +602,7 @@ See also:
 <li><a href="#Col">Col class</a></li>
 <li><a href="#Row">Row class</a></li>
 <li><a href="#Cube">Cube class</a></li>
+<li><a href="#SpMat">SpMat class</a> (sparse matrix)</li>
 <li><a href="#config_hpp">config.hpp</a></li>
 </ul>
 </li>
@@ -651,6 +719,7 @@ Constructors
 <li>vec(vec)</li>
 <li>vec(mat) &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one column)</li>
 <li>vec(string) &nbsp; (elements separated by spaces)</li>
+<li>vec(std::vector)</li>
 <li>vec(initialiser_list) &nbsp; (C++11 only)</li>
 </ul>
 </li>
@@ -867,6 +936,7 @@ Constructors
 <li>rowvec(rowvec)</li>
 <li>rowvec(mat) &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one row)</li>
 <li>rowvec(string) &nbsp; (elements separated by spaces)</li>
+<li>rowvec(std::vector)</li>
 <li>rowvec(initialiser_list) &nbsp; (C++11 only)</li>
 </ul>
 </li>
@@ -988,7 +1058,7 @@ Classes for cubes, also known as "3D matrices" or 3rd order tensors
 </li>
 <br>
 <li>
-The root template cube class is <b>Cube&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i> can be one of:
+The cube class is <b>Cube&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i> can be one of:
 <i>char</i>, <i>int</i>, <i>float</i>, <i>double</i>, <i>std::complex&lt;double&gt;</i>, etc
 </li>
 <br>
@@ -1281,6 +1351,187 @@ G.save("vec_field");
 <br>
 </ul>
 <hr class="greyline">
+<br>
+
+
+<a name="SpMat"></a><b>SpMat&lt;</b><i>type</i><b>&gt;</b>
+<br><b>sp_mat</b>
+<br><b>sp_cx_mat</b>
+<ul>
+<li>
+The root sparse matrix class is <b>SpMat&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i> can be one of:
+<i>char</i>, <i>int</i>, <i>float</i>, <i>double</i>, <i>std::complex&lt;double&gt;</i>, etc.
+</li>
+<br>
+<li>
+For convenience the following typedefs have been defined:
+<ul>
+<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+      sp_mat
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      SpMat&lt;double&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      sp_fmat
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      SpMat&lt;float&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      sp_cx_mat
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      SpMat&lt;<a href="#cx_float_double">cx_double</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      sp_cx_fmat
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      SpMat&lt;<a href="#cx_float_double">cx_float</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      sp_umat
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      SpMat&lt;<a href="#uword">uword</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      sp_imat
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      SpMat&lt;<a href="#uword">sword</a>&gt;
+      </td>
+    </tr>
+  </tbody>
+</table>
+</ul>
+</li>
+<br>
+<li>
+In this documentation the <i>sp_mat</i> type is used for convenience;
+it is possible to use other types instead, eg. <i>sp_fmat</i>
+</li>
+<br>
+<a name="constructors_sp_mat"></a>
+<li>
+Constructors:
+<ul>
+<li>sp_mat()</li>
+<li>sp_mat(n_rows, n_cols)</li>
+<li>sp_mat(sp_mat)</li>
+<li>sp_mat(string)</li>
+<li>sp_cx_mat(sp_mat,sp_mat) &nbsp; (for constructing a complex matrix out of two real matrices)</li>
+</ul>
+</li>
+<br>
+<li>
+Elements are stored in the compressed sparse column (CSC) format
+</li>
+<br>
+<li>
+All elements are treated as zero by default
+</li>
+<br>
+<li>
+This class behaves in a similar manner to the <a href="#Mat">Mat</a> class,
+however, member functions which set all elements to non-zero values (and hence do not make sense for sparse matrices) have been deliberately omitted;
+examples of omitted functions: <a href="#fill">.fill()</a>, <a href="#ones_member">.ones()</a>, +=&nbsp;scalar, etc.
+</li>
+<br>
+<li>
+<b>Caveat:</b>
+support for sparse matrices in version 3.4 is <b>preliminary</b>;
+it is not yet fully optimised, and sparse matrix decompositions/factorisations are not yet implemented.
+The following subset of operations currently works with sparse matrices:
+<ul>
+<li>element access</li>
+<li>fundamental arithmetic operations (such as addition and multiplication)</li>
+<li>submatrix views</li>
+<li>
+<a href="#accu">accu()</a>,
+<a href="#as_scalar">as_scalar()</a>,
+<a href="#dot">dot()</a>,
+<a href="#min_and_max">min()</a>,
+<a href="#min_and_max">max()</a>,
+<a href="#print">print()</a>,
+<a href="#speye">speye()</a>,
+<a href="#sprandu_sprandn">sprandu()/sprandn()</a>,
+<a href="#misc_fns">square()</a>,
+<a href="#sum">sum()</a>,
+<a href="#trace">trace()</a>,
+<a href="#trans">trans()</a>
+</li>
+</ul>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+sp_mat A(5,6);
+sp_mat B(6,5);
+
+A(0,0) = 1;
+A(1,0) = 2;
+
+B(0,0) = 3;
+B(0,1) = 4;
+
+sp_mat C = 2*B;
+
+sp_mat D = A*C;
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#element_access">accessing elements</a></li>
+<li><a href="#print">printing matrices</a></li>
+<!--
+<li><a href="#SpCol">SpCol class</a> (TODO: add to documentation)</li>
+<li><a href="#SpRow">SpRow class</a> (TODO: add to documentation)</li>
+-->
+<li><a href="http://en.wikipedia.org/wiki/Sparse_matrix">Sparse Matrix in Wikipedia</a></li>
+<li><a href="#Mat">Mat class</a> (dense matrix)</li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline">
 <hr class="greyline">
 <br>
 <br>
@@ -1332,6 +1583,15 @@ G.save("vec_field");
 (number of slices)
 </td>
 </tr>
+<tr>
+<td>
+<b>.n_nonzero</b>
+</td>
+<td>&nbsp;&nbsp;</td>
+<td>
+(number of nonzero elements)
+</td>
+</tr>
 </tbody>
 </table>
 </ul>
@@ -1348,9 +1608,11 @@ or
 <a href="#reset">.reset()</a>
 </li>
 <br>
-<li><i>n_rows</i>, <i>n_cols</i> and <i>n_elem</i> are applicable to <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i> and <i>field</i> classes</li>
+<li><i>n_rows</i>, <i>n_cols</i> and <i>n_elem</i> are applicable to <i>Mat</i>, <i>SpMat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i> and <i>field</i> classes</li>
 <br>
 <li><i>n_slices</i> is applicable only to the <i>Cube</i> class</li>
+<br>
+<li><i>n_nonzero</i> is applicable only to the <i>SpMat</i> class</li>
 <br>
 <li>
 For the <i>Col</i> and <i>Row</i> classes, <i>n_elem</i> also indicates vector length</li>
@@ -1512,6 +1774,75 @@ See also:
 <li><a href="#eye_member">.eye()</a></li>
 <li><a href="#diagvec">diagvec()</a></li>
 <li><a href="#diagmat">diagmat()</a></li>
+<li><a href="#submat">submatrix views</a></li>
+<li><a href="#each_colrow">.each_col() &amp; .each_row()</a></li>
+</ul>
+</li>
+</ul>
+<br>
+<hr class="greyline"><br>
+
+<a name="each_colrow"></a>
+<b>.each_col()</b>
+<br>
+<b>.each_row()</b>
+<br>
+<br>
+<b>.each_col(</b><i>vector_of_indices</i><b>)</b>
+<br>
+<b>.each_row(</b><i>vector_of_indices</i><b>)</b>
+<ul>
+<li>
+Member functions of <i>Mat</i>
+</li>
+<br>
+<li>
+Write access to each column or row of a matrix/submatrix,
+allowing a vector operation to be repeated on each column or row
+</li>
+<br>
+<li>
+The operation can be in-place vector addition, subtraction, element-wise multiplication, element-wise division, or simply vector copy
+</li>
+<br>
+<li>The argument <i>vector_of_indices</i> is optional -- by default all columns or rows are accessed</li>
+<br>
+<li>
+If the argument <i>vector_of_indices</i> is used, it must evaluate to be a vector of type <i><a href="#Col">uvec</a></i>;
+the vector contains a list of indices of the columns or rows to be accessed
+</li>
+<br>
+<li>
+These functions were added in version 3.4
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat X = ones&lt;mat&gt;(6,5);
+vec v = linspace&lt;vec&gt;(10,15,6);
+
+// add v to each column in X
+X.each_col() += v;
+
+// subtract v from columns 0 through to 3 in X
+X.cols(0,3).each_col() -= v;
+
+uvec indices(2);
+indices(0) = 2;
+indices(1) = 4;
+
+// copy v to columns 2 and 4 in X
+X.each_col(indices) = v;
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#diag">diagonal views</a></li>
 <li><a href="#submat">submatrix views</a></li>
 </ul>
 </li>
@@ -4239,7 +4570,8 @@ X.elem(indices) = ones&lt;vec&gt;(4);
 <li>
 See also:
 <ul>
-<li><a href="#diag">.diag()</a> &nbsp;&nbsp; (read/write access to diagonals)</li>
+<li><a href="#diag">diagonal views</a> &nbsp;&nbsp; (read/write access to diagonals)</li>
+<li><a href="#each_colrow">.each_col() &amp; .each_row()</a> &nbsp;&nbsp; (vector operations repeated on each column or row)</li>
 <li><a href="#colptr">.colptr()</a></li>
 <li><a href="#in_range">.in_range()</a></li>
 <li><a href="#find">find()</a></li>
@@ -5086,6 +5418,92 @@ mat B = repmat(A, 4, 5);
 </ul>
 <hr class="greyline">
 <br>
+
+<a name="speye"></a>
+<b>speye(n_rows, n_cols)</b>
+<ul>
+<li>
+Generate a sparse matrix with the elements along the main diagonal set to one
+and off-diagonal elements set to zero
+</li>
+<br>
+<li>
+An identity matrix is generated when <i>n_rows</i> = <i>n_cols</i>
+</li>
+<br>
+<li>
+Usage:
+<ul>
+<li>
+<i>sparse_matrix_type</i> X = speye&lt;<i>sparse_matrix_type</i>&gt;(n_rows, n_cols)
+</li>
+</ul>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+sp_mat A = speye&lt;sp_mat&gt;(5,5);
+</pre>
+</ul>
+</li>
+<br>
+<li>See also:
+<ul>
+<li><a href="#sprandu_sprandn">sprandu()/sprandn()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="sprandu_sprandn"></a>
+<b>sprandu(n_rows, n_cols, density)</b>
+<br><b>sprandn(n_rows, n_cols, density)</b>
+<ul>
+<li>
+Generate a sparse matrix with the non-zero elements set to random values
+</li>
+<br>
+<li>
+The <i>density</i> argument specifies the percentage of non-zero elements; it must be in the [0,1] interval
+</li>
+<br>
+<li><i>sprandu()</i> uses a uniform distribution in the [0,1] interval
+</li>
+<br>
+<li><i>sprandn()</i> uses a normal/Gaussian distribution with zero mean and unit variance
+</li>
+<br>
+<li>
+Usage:
+<ul>
+<li><i>sparse_matrix_type</i> X = sprandu&lt;<i>sparse_matrix_type</i>&gt;(n_rows, n_cols, density)</li>
+</ul>
+</li>
+<br>
+<li>
+To change the seed, use the <a href="http://cplusplus.com/reference/clibrary/cstdlib/srand/">std::srand()</a> function.
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+sp_mat A = sprandu&lt;sp_mat&gt;(100, 200, 0.1);
+</pre>
+</ul>
+</li>
+<li>See also:
+<ul>
+<li><a href="#speye">speye()</a></li>
+<li><a href="http://cplusplus.com/reference/clibrary/cstdlib/srand/">std::srand()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
 
 <a name="toeplitz"></a>
 <b>toeplitz(A)</b>
@@ -7151,8 +7569,8 @@ If a given object has complex elements, a Hermitian transpose is done (ie. the c
 <li>
 <b>Caveat:</b> for complex matrices, the functionality of trans() has changed in version 2.0:
 <ul>
-<li>in version 1.2 and earlier, <i>trans()</i> does not take the conjugate of complex elements</li>
-<li>in version 1.2 and earlier, the <i>htrans()</i> function is used for the Hermitian transpose</li>
+<li>in version 1.x, <i>trans()</i> does not take the conjugate of complex elements</li>
+<li>in version 1.x, the <i>htrans()</i> function is used for the Hermitian transpose</li>
 </ul>
 </li>
 <br>
@@ -7336,11 +7754,11 @@ See also:
 <br>
 <li>
 By default, a standard eigen decomposition algorithm is used;
-a "divide and conquer" algorithm can be used instead by explicitly setting <i>method</i> to <i>"dc"</i>
+a divide-and-conquer algorithm can be used instead by explicitly setting <i>method</i> to <i>"dc"</i>
 </li>
 <br>
 <li>
-The "divide and conquer" algorithm provides slightly different results, but is notably faster for large matrices
+The divide-and-conquer algorithm provides slightly different results, but is notably faster for large matrices
 </li>
 <br>
 <li>If the decomposition fails, the output objects are reset and:
@@ -7362,11 +7780,9 @@ mat B = trans(A)*A;  // generate a symmetric matrix
 vec eigval;
 mat eigvec;
 
-// use standard algorithm by default
-eig_sym(eigval, eigvec, B);
+eig_sym(eigval, eigvec, B);        // use standard algorithm by default
 
-// use divide &amp; conquer algorithm
-eig_sym(eigval, eigvec, B, "dc");
+eig_sym(eigval, eigvec, B, "dc");  // use "divide &amp; conquer" algorithm
 </pre>
 </ul>
 </li>
@@ -7702,7 +8118,7 @@ See also:
 <b>qr(Q,R,X)</b>
 <ul>
 <li>
-Decomposition of matrix <i>X</i> into an orthogonal (<i>Q</i>) and a right triangular matrix (<i>R</i>), such that <i>Q*R = X</i>
+Decomposition of <i>X</i> into an orthogonal matrix <i>Q</i> and a right triangular matrix <i>R</i>, such that <i>Q*R = X</i>
 </li>
 <br>
 <li>
@@ -7724,9 +8140,57 @@ qr(Q,R,X);
 <li>
 See also:
 <ul>
+<li><a href="#qr_econ">qr_econ()</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Orthogonal_matrix">Orthogonal matrix in Wikipedia</a></li>
+<li><a href="http://en.wikipedia.org/wiki/QR_decomposition">QR decomposition in Wikipedia</a></li>
 <li><a href="http://mathworld.wolfram.com/QRDecomposition.html">QR decomposition in MathWorld</a></li>
+<li><a href="http://octave.sourceforge.net/octave/function/qr.html">QR decomposition in Octave</a></li>
+</ul>
+</li>
+</ul>
+<br>
+<hr class="greyline"><br>
+
+<a name="qr_econ"></a>
+<b>qr_econ(Q,R,X)</b>
+<ul>
+<li>
+Economical decomposition of <i>X</i> (with size <i>m</i> x <i>n</i>) into an orthogonal matrix <i>Q</i> and a right triangular matrix <i>R</i>, such that <i>Q*R = X</i>
+</li>
+<br>
+<li>
+If <i>m</i> &gt; <i>n</i>, only the first <i>n</i> rows of <i>R</i> and the first <i>n</i> columns of <i>Q</i> are calculated 
+(ie. the zero rows of <i>R</i> and the corresponding columns of <i>Q</i> are omitted)
+</li>
+<br>
+<li>
+If the decomposition fails, <i>Q</i> and <i>R</i> are reset and the function returns a bool set to <i>false</i>
+</li>
+<br>
+<li>
+This function was added in version 3.4
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat X = randu&lt;mat&gt;(6,5);
+mat Q, R;
+
+qr_econ(Q,R,X);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#qr">qr()</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Orthogonal_matrix">Orthogonal matrix in Wikipedia</a></li>
 <li><a href="http://en.wikipedia.org/wiki/QR_decomposition">QR decomposition in Wikipedia</a></li>
 <li><a href="http://octave.sourceforge.net/octave/function/qr.html">QR decomposition in Octave</a></li>
+<li><a href="http://mathworld.wolfram.com/QRDecomposition.html">QR decomposition in MathWorld</a></li>
 </ul>
 </li>
 </ul>
@@ -7828,15 +8292,26 @@ See also:
 <br><b>svd(vec s, mat X)</b>, 
 <br><b>svd(vec s, cx_mat X)</b> 
 <br>
-<br><b>svd(mat U, vec s, mat V, mat X)</b>
-<br><b>svd(cx_mat U, vec s, cx_mat V, cx_mat X)</b>
+<br><b>svd(mat U, vec s, mat V, mat X, method = "standard")</b>
+<br><b>svd(cx_mat U, vec s, cx_mat V, cx_mat X, method = "standard")</b>
 <ul>
 <li>
-The single and two argument versions compute the singular values of <i>X</i>
+The first four forms compute the singular values of <i>X</i>
 </li>
 <br>
 <li>
-The four argument version computes the full singular value decomposition of <i>X</i>
+The last two forms compute the full singular value decomposition of <i>X</i>
+</li>
+<br>
+<li>The <i>method</i> argument is optional</li>
+<br>
+<li>
+By default, a standard decomposition algorithm is used;
+a divide-and-conquer algorithm can be used instead by explicitly setting <i>method</i> to <i>"dc"</i>
+</li>
+<br>
+<li>
+The divide-and-conquer algorithm provides slightly different results, but is notably faster for large matrices
 </li>
 <br>
 <li>If <i>X</i> is square, it can be reconstructed using <i>X = U*diagmat(s)*trans(V)</i>
@@ -7868,7 +8343,10 @@ mat X = randu&lt;mat&gt;(5,5);
 mat U;
 vec s;
 mat V;
-svd(U,s,V,X);
+
+svd(U,s,V,X);        // use standard algorithm by default
+
+svd(U,s,V,X, "dc");  // use "divide &amp; conquer" algorithm
 </pre>
 </ul>
 </li>
@@ -10285,12 +10763,23 @@ Below is a list of deprecated functionality; this functionality will be <b>remov
 Below is a list of additions and changes since prior versions of Armadillo:
 <br>
 <br>
+<a name="added_in_34"></a>
+<li>Added in 3.4:
+<ul>
+<li>economical QR decomposition: <a href="#qr_econ">qr_econ()</a></li>
+<li><a href="#each_colrow">.each_col() &amp; .each_row()</a> for vector operations repeated on each column or row</li>
+<li>preliminary support for <a href="#SpMat">sparse matrices</a></li>
+<li>faster <a href="#svd">singular value decomposition</a> via optional use of divide-and-conquer algorithm</li>
+<li>faster <a href="#randu_randn_member">.randn()</a></li>
+</ul>
+<br>
+</li>
 <a name="added_in_32"></a>
 <li>Added in 3.2:
 <ul>
 <li><a href="#unique">unique()</a>, for finding unique elements of a matrix</li>
 <li><a href="#eval_member">.eval()</a>, for forcing the evaluation of delayed expressions</li>
-<li>faster <a href="#eig_sym">eigen decomposition</a> via "divide and conquer" algorithm</li>
+<li>faster <a href="#eig_sym">eigen decomposition</a> via optional use of divide-and-conquer algorithm</li>
 <li>faster <a href="#t_st_members">transpose</a> of vectors and compound expressions</li>
 <li>faster handling of <a href="#diag">diagonal views</a></li>
 <li>faster handling of tiny <a href="#adv_constructors_col_fixed">fixed size</a> vectors (&le; 4 elements)</li>
