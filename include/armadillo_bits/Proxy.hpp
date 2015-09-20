@@ -279,7 +279,7 @@ class Proxy< Gen<T1, gen_type > >
   template<typename eT2>
   arma_inline bool is_alias(const Mat<eT2>&) const { return false; }
   
-  arma_inline bool is_aligned() const { return false; }
+  arma_inline bool is_aligned() const { return Gen<T1, gen_type>::is_simple; }
   };
 
 
