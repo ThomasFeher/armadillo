@@ -1,3 +1,4 @@
+
 # Copyright (C) 2008-2011 NICTA (www.nicta.com.au)
 # Copyright (C) 2008-2011 Conrad Sanderson
 # Copyright (C)      2011 Clement Creusot
@@ -14,8 +15,8 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
 set(ARMA_MAJOR 2)
-set(ARMA_MINOR 2)
-set(ARMA_PATCH 5)
+set(ARMA_MINOR 4)
+set(ARMA_PATCH 0)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 
@@ -34,10 +35,11 @@ project(armadillo CXX)
 #CMAKE_REQUIRED_LIBRARIES = list of libraries to link
 
 
-set(ARMA_USE_LAPACK false)
-set(ARMA_USE_BLAS   false)
-set(ARMA_USE_ATLAS  false)
-set(ARMA_USE_BOOST  false)
+set(ARMA_USE_LAPACK  false)
+set(ARMA_USE_BLAS    false)
+set(ARMA_USE_ATLAS   false)
+set(ARMA_USE_BOOST   false)
+set(ARMA_USE_WRAPPER true )
 
 
 if(WIN32)
@@ -251,7 +253,7 @@ endif()
 #set(CMAKE_INSTALL_RPATH_USE_LINK_PATH  TRUE)
 
 
-add_library( armadillo SHARED src/pull_libs )
+add_library( armadillo SHARED src/wrap_libs )
 target_link_libraries( armadillo ${ARMA_LIBS} )
 
 set_target_properties(armadillo PROPERTIES VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH} SOVERSION 2)
@@ -264,7 +266,7 @@ set_target_properties(armadillo PROPERTIES VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.$
 
 # As Red Hat Enterprise Linux (and related systems such as Fedora)
 # does not search /usr/local/lib by default, we need to place the
-# library in /usr
+# library in either /usr/lib or /usr/lib64
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX "/usr")
@@ -272,15 +274,15 @@ endif()
 
 # Allow for the "lib" directory to be specified on the command line
 if(NOT INSTALL_LIB_DIR)
+  set(INSTALL_LIB_DIR "lib")
   if(UNIX AND NOT APPLE)   # I don't know how Mac OS handles 64 bit systems
     if(CMAKE_SIZEOF_VOID_P EQUAL 8)
       message(STATUS "Detected 64 bit system")
-      set(INSTALL_LIB_DIR "lib64")
-    else()
-      set(INSTALL_LIB_DIR "lib")
+        if(IS_DIRECTORY "${CMAKE_INSTALL_PREFIX}/lib64")
+          unset(INSTALL_LIB_DIR)
+          set(INSTALL_LIB_DIR "lib64")
+        endif()
     endif()
-  else()
-    set(INSTALL_LIB_DIR "lib")
   endif()
 endif()
 

@@ -12,6 +12,14 @@
 
 
 
+// #define ARMA_64BIT_WORD
+//// Uncomment the above line if you require matrices/vectors capable of holding more than 4 billion elements.
+//// Your machine and compiler must have support for 64 bit integers (eg. via "long" or "long long")
+
+// #define ARMA_USE_CXX11
+//// Uncomment the above line if you have a C++ compiler that supports the C++11 standard
+//// This will enable additional features, such as use of initialiser lists
+
 #if !defined(ARMA_USE_LAPACK)
 // #define ARMA_USE_LAPACK
 //// Uncomment the above line if you have LAPACK or a fast replacement for LAPACK,
@@ -48,6 +56,9 @@
 //// If you mainly use lots of very small vectors (eg. <= 4 elements),
 //// change the number to the size of your vectors.
 
+// #define ARMA_USE_TBB_ALLOC
+//// Uncomment the above line if you want to use Intel TBB scalable_malloc() and scalable_free() instead of standard new[] and delete[]
+
 // #define ARMA_USE_ATLAS
 // #define ARMA_ATLAS_INCLUDE_DIR /usr/include/
 //// If you're using ATLAS and the compiler can't find cblas.h and/or clapack.h
@@ -56,6 +67,7 @@
 
 // #define ARMA_USE_BOOST
 // #define ARMA_USE_BOOST_DATE
+// #define ARMA_USE_WRAPPER
 
 #define ARMA_PRINT_LOGIC_ERRORS
 #define ARMA_PRINT_RUNTIME_ERRORS

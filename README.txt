@@ -20,13 +20,11 @@
 
 5: Documentation / Reference Manual
 
-6: Using Armadillo with IT++
+6: FAQs and Bug Reports
 
-7: FAQs and Bug Reports
+7: Credits
 
-8: Credits
-
-9: License
+8: License
 
 
 
@@ -279,8 +277,8 @@ and ARMA_BLAS_UNDERSCORE macros in "armadillo_bits/config.hpp".
 To preserve our sanity, we (Armadillo developers) don't use Windows
 on a regular basis, and as such can't help you with the adaptations.
 If you are serious about doing experimentation and/or prototyping
-involving linear algebra, you shouldn't be using lower-grade operating
-systems such as Windows anyway.
+involving linear algebra, you shouldn't be using lower-grade (ie. unreliable)
+operating systems such as Windows anyway.
 
 The pre-compiled versions of LAPACK and BLAS were downloaded from:
   http://www.fi.muni.cz/~xsvobod2/misc/lapack/
@@ -377,15 +375,7 @@ classes and functions, with snippets of example code.
 
 
 
-=== 6: Using Armadillo with IT++ ===
-
-If you wish to use the IT++ library in conjunction with Armadillo,
-use #include "armadillo_itpp" instead of #include "armadillo"
-in your code. See also the "examples/example_itpp.cpp" file.
-
-
-
-=== 7: FAQs and Bug Reports ===
+=== 6: FAQs and Bug Reports ===
 
 Answers to Frequently Asked Questions (FAQs) can be found at:
   http://arma.sourceforge.net/faq.html
@@ -404,7 +394,7 @@ developers. The developers' contact details are available at:
 
 
 
-=== 8: Credits ===
+=== 7: Credits ===
 
 Main sponsoring organisation:
 - NICTA
@@ -434,6 +424,7 @@ Contributors:
 - Edmund Highcock
 - Kshitij Kulshreshtha
 - Oka Kurniawan
+- Simen Kvaal
 - David Lawrence
 - Carlos Mendes
 - Artem Novikov
@@ -455,7 +446,7 @@ Contributors:
 
 
 
-=== 9: License ===
+=== 8: License ===
 
 Please see the "LICENSE.txt" file.
 

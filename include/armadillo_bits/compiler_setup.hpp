@@ -24,12 +24,26 @@
 
 
 #if defined(ARMA_BLAS_UNDERSCORE)
-  #define arma_fortran2(function) function##_
+  #define arma_fortran2_noprefix(function) function##_
+  #define arma_fortran2_prefix(function)   wrapper_##function##_
 #else
-  #define arma_fortran2(function) function
+  #define arma_fortran2_prefix(function)   wrapper_##function
+  #define arma_fortran2_noprefix(function) function
 #endif
 
-#define arma_fortran(function) arma_fortran2(function)
+#if defined(ARMA_USE_WRAPPER)
+  #define arma_fortran(function) arma_fortran2_prefix(function)
+  #define arma_atlas(function)   wrapper_##function
+#else
+  #define arma_fortran(function) arma_fortran2_noprefix(function)
+  #define arma_atlas(function)   function
+#endif
+
+#define arma_fortran_prefix(function)   arma_fortran2_prefix(function)
+#define arma_fortran_noprefix(function) arma_fortran2_noprefix(function)
+
+
+#define ARMA_INCFILE_WRAP(x) <x>
 
 
 #if defined(__INTEL_COMPILER)
@@ -78,6 +92,10 @@
   
   #if defined(__GXX_EXPERIMENTAL_CXX0X__)
     #undef ARMA_HAVE_STD_TR1
+    
+    #if !defined(ARMA_USE_CXX11)
+      #define ARMA_USE_CXX11
+    #endif
   #endif
   
   #if defined(__clang__)
@@ -140,29 +158,3 @@
   #undef ARMA_HAVE_STD_ISNAN
   #undef ARMA_HAVE_STD_TR1
 #endif
-
-
-
-// 
-// whoever defined macros with the names "min" and "max" should be permanently removed from the gene pool
-
-#if defined(min)
-  #undef min
-  
-  #if defined(__GNUG__)
-    #warning         "detected 'min' macro and undefined it; you may wish to define NOMINMAX before including any windows header"
-  #elif defined(_MSC_VER)
-    #pragma message ("detected 'min' macro and undefined it; you may wish to define NOMINMAX before including any windows header")
-  #endif
-#endif
-
-#if defined(max)
-  #undef max
-  
-  #if defined(__GNUG__)
-    #warning         "detected 'max' macro and undefined it; you may wish to define NOMINMAX before including any windows header"
-  #elif defined(_MSC_VER)
-    #pragma message ("detected 'max' macro and undefined it; you may wish to define NOMINMAX before including any windows header")
-  #endif
-#endif
-

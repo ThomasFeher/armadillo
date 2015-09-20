@@ -22,7 +22,7 @@ class Proxy
   public:
   inline Proxy(const T1& A)
     {
-    arma_type_check< is_arma_type<T1>::value == false >::apply();
+    arma_type_check(( is_arma_type<T1>::value == false ));
     }
   };
 
@@ -52,12 +52,12 @@ class Proxy< Mat<eT> >
     arma_extra_debug_sigprint();
     }
   
-  arma_inline u32 get_n_rows() const { return Q.n_rows; }
-  arma_inline u32 get_n_cols() const { return Q.n_cols; }
-  arma_inline u32 get_n_elem() const { return Q.n_elem; }
+  arma_inline uword get_n_rows() const { return Q.n_rows; }
+  arma_inline uword get_n_cols() const { return Q.n_cols; }
+  arma_inline uword get_n_elem() const { return Q.n_elem; }
   
-  arma_inline elem_type operator[] (const u32 i)                  const { return Q[i];           }
-  arma_inline elem_type at         (const u32 row, const u32 col) const { return Q.at(row, col); }
+  arma_inline elem_type operator[] (const uword i)                    const { return Q[i];           }
+  arma_inline elem_type at         (const uword row, const uword col) const { return Q.at(row, col); }
   
   arma_inline ea_type get_ea()                   const { return Q.memptr(); }
   arma_inline bool    is_alias(const Mat<eT>& X) const { return (&Q == &X); }
@@ -86,12 +86,12 @@ class Proxy< Col<eT> >
     arma_extra_debug_sigprint();
     }
   
-  arma_inline u32 get_n_rows() const { return Q.n_rows; }
-  arma_inline u32 get_n_cols() const { return 1;        }
-  arma_inline u32 get_n_elem() const { return Q.n_elem; }
+  arma_inline uword get_n_rows() const { return Q.n_rows; }
+  arma_inline uword get_n_cols() const { return 1;        }
+  arma_inline uword get_n_elem() const { return Q.n_elem; }
   
-  arma_inline elem_type operator[] (const u32 i)                  const { return Q[i];           }
-  arma_inline elem_type at         (const u32 row, const u32 col) const { return Q.at(row, col); }
+  arma_inline elem_type operator[] (const uword i)                    const { return Q[i];           }
+  arma_inline elem_type at         (const uword row, const uword col) const { return Q.at(row, col); }
   
   arma_inline ea_type get_ea()                   const { return Q.memptr(); }
   arma_inline bool    is_alias(const Mat<eT>& X) const { return (&Q == &X); }
@@ -120,15 +120,49 @@ class Proxy< Row<eT> >
     arma_extra_debug_sigprint();
     }
   
-  arma_inline u32 get_n_rows() const { return 1;        }
-  arma_inline u32 get_n_cols() const { return Q.n_cols; }
-  arma_inline u32 get_n_elem() const { return Q.n_elem; }
+  arma_inline uword get_n_rows() const { return 1;        }
+  arma_inline uword get_n_cols() const { return Q.n_cols; }
+  arma_inline uword get_n_elem() const { return Q.n_elem; }
   
-  arma_inline elem_type operator[] (const u32 i)                  const { return Q[i];           }
-  arma_inline elem_type at         (const u32 row, const u32 col) const { return Q.at(row, col); }
+  arma_inline elem_type operator[] (const uword i)                    const { return Q[i];           }
+  arma_inline elem_type at         (const uword row, const uword col) const { return Q.at(row, col); }
   
   arma_inline ea_type get_ea()                   const { return Q.memptr(); }
   arma_inline bool    is_alias(const Mat<eT>& X) const { return (&Q == &X); }
+  };
+
+
+
+template<typename eT, typename gen_type>
+class Proxy< Gen<eT, gen_type > >
+  {
+  public:
+  
+  typedef          eT                              elem_type;
+  typedef typename get_pod_type<elem_type>::result pod_type;
+  typedef Gen<eT, gen_type>                        stored_type;
+  typedef const Gen<eT, gen_type>&                 ea_type;
+  
+  static const bool prefer_at_accessor = Gen<eT, gen_type>::prefer_at_accessor;
+  static const bool has_subview        = false;
+  
+  arma_aligned const Gen<eT, gen_type>& Q;
+  
+  inline explicit Proxy(const Gen<eT, gen_type>& A)
+    : Q(A)
+    {
+    arma_extra_debug_sigprint();
+    }
+  
+  arma_inline uword get_n_rows() const { return Q.n_rows;          }
+  arma_inline uword get_n_cols() const { return Q.n_cols;          }
+  arma_inline uword get_n_elem() const { return Q.n_rows*Q.n_cols; }
+  
+  arma_inline elem_type operator[] (const uword i)                    const { return Q[i];           }
+  arma_inline elem_type at         (const uword row, const uword col) const { return Q.at(row, col); }
+  
+  arma_inline ea_type get_ea()                        const { return Q;     }
+  arma_inline bool    is_alias(const Mat<elem_type>&) const { return false; }
   };
 
 
@@ -154,12 +188,12 @@ class Proxy< Op<T1, op_type> >
     arma_extra_debug_sigprint();
     }
   
-  arma_inline u32 get_n_rows() const { return Q.n_rows; }
-  arma_inline u32 get_n_cols() const { return Q.n_cols; }
-  arma_inline u32 get_n_elem() const { return Q.n_elem; }
+  arma_inline uword get_n_rows() const { return Q.n_rows; }
+  arma_inline uword get_n_cols() const { return Q.n_cols; }
+  arma_inline uword get_n_elem() const { return Q.n_elem; }
   
-  arma_inline elem_type operator[] (const u32 i)                  const { return Q[i];           }
-  arma_inline elem_type at         (const u32 row, const u32 col) const { return Q.at(row, col); }
+  arma_inline elem_type operator[] (const uword i)                    const { return Q[i];           }
+  arma_inline elem_type at         (const uword row, const uword col) const { return Q.at(row, col); }
   
   arma_inline ea_type get_ea()                        const { return Q.memptr(); }
   arma_inline bool    is_alias(const Mat<elem_type>&) const { return false;      }
@@ -188,12 +222,12 @@ class Proxy< Glue<T1, T2, glue_type> >
     arma_extra_debug_sigprint();
     }
 
-  arma_inline u32 get_n_rows() const { return Q.n_rows; }
-  arma_inline u32 get_n_cols() const { return Q.n_cols; }
-  arma_inline u32 get_n_elem() const { return Q.n_elem; }
+  arma_inline uword get_n_rows() const { return Q.n_rows; }
+  arma_inline uword get_n_cols() const { return Q.n_cols; }
+  arma_inline uword get_n_elem() const { return Q.n_elem; }
   
-  arma_inline elem_type operator[] (const u32 i)                  const { return Q[i];           }
-  arma_inline elem_type at         (const u32 row, const u32 col) const { return Q.at(row, col); }
+  arma_inline elem_type operator[] (const uword i)                    const { return Q[i];           }
+  arma_inline elem_type at         (const uword row, const uword col) const { return Q.at(row, col); }
   
   arma_inline ea_type get_ea()                        const { return Q.memptr(); }
   arma_inline bool    is_alias(const Mat<elem_type>&) const { return false;      }
@@ -222,12 +256,12 @@ class Proxy< subview<eT> >
     arma_extra_debug_sigprint();
     }
   
-  arma_inline u32 get_n_rows() const { return Q.n_rows; }
-  arma_inline u32 get_n_cols() const { return Q.n_cols; }
-  arma_inline u32 get_n_elem() const { return Q.n_elem; }
+  arma_inline uword get_n_rows() const { return Q.n_rows; }
+  arma_inline uword get_n_cols() const { return Q.n_cols; }
+  arma_inline uword get_n_elem() const { return Q.n_elem; }
   
-  arma_inline elem_type operator[] (const u32 i)                  const { return Q[i];           }
-  arma_inline elem_type at         (const u32 row, const u32 col) const { return Q.at(row, col); }
+  arma_inline elem_type operator[] (const uword i)                    const { return Q[i];           }
+  arma_inline elem_type at         (const uword row, const uword col) const { return Q.at(row, col); }
   
   arma_inline ea_type get_ea()                   const { return Q;              }
   arma_inline bool    is_alias(const Mat<eT>& X) const { return (&(Q.m) == &X); }
@@ -256,12 +290,12 @@ class Proxy< subview_elem1<eT,T1> >
     arma_extra_debug_sigprint();
     }
   
-  arma_inline u32 get_n_rows() const { return Q.n_rows; }
-  arma_inline u32 get_n_cols() const { return 1;        }
-  arma_inline u32 get_n_elem() const { return Q.n_elem; }
+  arma_inline uword get_n_rows() const { return Q.n_rows; }
+  arma_inline uword get_n_cols() const { return 1;        }
+  arma_inline uword get_n_elem() const { return Q.n_elem; }
   
-  arma_inline elem_type operator[] (const u32 i)                  const { return Q[i];           }
-  arma_inline elem_type at         (const u32 row, const u32 col) const { return Q.at(row, col); }
+  arma_inline elem_type operator[] (const uword i)                    const { return Q[i];           }
+  arma_inline elem_type at         (const uword row, const uword col) const { return Q.at(row, col); }
   
   arma_inline ea_type get_ea()                 const { return Q.memptr(); }
   arma_inline bool    is_alias(const Mat<eT>&) const { return false;      }
@@ -290,12 +324,12 @@ class Proxy< diagview<eT> >
     arma_extra_debug_sigprint();
     }
   
-  arma_inline u32 get_n_rows() const { return Q.n_rows; }
-  arma_inline u32 get_n_cols() const { return 1;        }
-  arma_inline u32 get_n_elem() const { return Q.n_elem; }
+  arma_inline uword get_n_rows() const { return Q.n_rows; }
+  arma_inline uword get_n_cols() const { return 1;        }
+  arma_inline uword get_n_elem() const { return Q.n_elem; }
   
-  arma_inline elem_type operator[] (const u32 i)                  const { return Q[i];           }
-  arma_inline elem_type at         (const u32 row, const u32 col) const { return Q.at(row, col); }
+  arma_inline elem_type operator[] (const uword i)                    const { return Q[i];           }
+  arma_inline elem_type at         (const uword row, const uword col) const { return Q.at(row, col); }
   
   arma_inline ea_type get_ea()                   const { return Q;              }
   arma_inline bool    is_alias(const Mat<eT>& X) const { return (&(Q.m) == &X); }
@@ -325,12 +359,12 @@ class Proxy< eOp<T1, eop_type > >
     arma_extra_debug_sigprint();
     }
   
-  arma_inline u32 get_n_rows() const { return Q.get_n_rows(); }
-  arma_inline u32 get_n_cols() const { return Q.get_n_cols(); }
-  arma_inline u32 get_n_elem() const { return Q.get_n_elem(); }
+  arma_inline uword get_n_rows() const { return Q.get_n_rows(); }
+  arma_inline uword get_n_cols() const { return Q.get_n_cols(); }
+  arma_inline uword get_n_elem() const { return Q.get_n_elem(); }
   
-  arma_inline elem_type operator[] (const u32 i)                  const { return Q[i];           }
-  arma_inline elem_type at         (const u32 row, const u32 col) const { return Q.at(row, col); }
+  arma_inline elem_type operator[] (const uword i)                    const { return Q[i];           }
+  arma_inline elem_type at         (const uword row, const uword col) const { return Q.at(row, col); }
   
   arma_inline ea_type get_ea()                          const { return Q;               }
   arma_inline bool    is_alias(const Mat<elem_type>& X) const { return Q.P.is_alias(X); }
@@ -359,12 +393,12 @@ class Proxy< eGlue<T1, T2, eglue_type > >
     arma_extra_debug_sigprint();
     }
   
-  arma_inline u32 get_n_rows() const { return Q.get_n_rows(); }
-  arma_inline u32 get_n_cols() const { return Q.get_n_cols(); }
-  arma_inline u32 get_n_elem() const { return Q.get_n_elem(); }
+  arma_inline uword get_n_rows() const { return Q.get_n_rows(); }
+  arma_inline uword get_n_cols() const { return Q.get_n_cols(); }
+  arma_inline uword get_n_elem() const { return Q.get_n_elem(); }
   
-  arma_inline elem_type operator[] (const u32 i)                  const { return Q[i];           }
-  arma_inline elem_type at         (const u32 row, const u32 col) const { return Q.at(row, col); }
+  arma_inline elem_type operator[] (const uword i)                    const { return Q[i];           }
+  arma_inline elem_type at         (const uword row, const uword col) const { return Q.at(row, col); }
   
   arma_inline ea_type get_ea()                          const { return Q;                                      }
   arma_inline bool    is_alias(const Mat<elem_type>& X) const { return (Q.P1.is_alias(X) || Q.P2.is_alias(X)); }
@@ -393,12 +427,12 @@ class Proxy< mtOp<out_eT, T1, op_type> >
     arma_extra_debug_sigprint();
     }
   
-  arma_inline u32 get_n_rows() const { return Q.n_rows; }
-  arma_inline u32 get_n_cols() const { return Q.n_cols; }
-  arma_inline u32 get_n_elem() const { return Q.n_elem; }
+  arma_inline uword get_n_rows() const { return Q.n_rows; }
+  arma_inline uword get_n_cols() const { return Q.n_cols; }
+  arma_inline uword get_n_elem() const { return Q.n_elem; }
   
-  arma_inline elem_type operator[] (const u32 i)                  const { return Q[i];          }
-  arma_inline elem_type at         (const u32 row, const u32 col) const { return Q.at(row,col); }
+  arma_inline elem_type operator[] (const uword i)                    const { return Q[i];          }
+  arma_inline elem_type at         (const uword row, const uword col) const { return Q.at(row,col); }
   
   arma_inline ea_type get_ea()                     const { return Q.memptr(); }
   arma_inline bool    is_alias(const Mat<out_eT>&) const { return false;      }
@@ -427,12 +461,12 @@ class Proxy< mtGlue<out_eT, T1, T2, glue_type > >
     arma_extra_debug_sigprint();
     }
   
-  arma_inline u32 get_n_rows() const { return Q.n_rows; }
-  arma_inline u32 get_n_cols() const { return Q.n_cols; }
-  arma_inline u32 get_n_elem() const { return Q.n_elem; }
+  arma_inline uword get_n_rows() const { return Q.n_rows; }
+  arma_inline uword get_n_cols() const { return Q.n_cols; }
+  arma_inline uword get_n_elem() const { return Q.n_elem; }
   
-  arma_inline elem_type operator[] (const u32 i)                  const { return Q[i];          }
-  arma_inline elem_type at         (const u32 row, const u32 col) const { return Q.at(row,col); }
+  arma_inline elem_type operator[] (const uword i)                    const { return Q[i];          }
+  arma_inline elem_type at         (const uword row, const uword col) const { return Q.at(row,col); }
   
   arma_inline ea_type get_ea()                     const { return Q.memptr(); }
   arma_inline bool    is_alias(const Mat<out_eT>&) const { return false;      }

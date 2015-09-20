@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> -->
 <html>
 <head>
   <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type">
@@ -17,9 +17,9 @@
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 2.2.5</b></font>
+        <font size=+2><b>Reference for Armadillo 2.4.0</b></font>
         <br>
-        <font size=-1><b>(Blue Skies Debauchery)</b></font>
+        <font size=-1><b>(Loco Lounge Lizard)</b></font>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -61,7 +61,8 @@ If you find any bugs or regressions, please <a href="http://arma.sourceforge.net
 </li>
 <br>
 <li>
-<b>Caveat:</b> the API for version 2.0 has <a href="#api_changes">changes &amp; additions</a> compared to version 1.2
+<b>Caveat:</b> the API for version 2.x has <a href="#api_changes">changes &amp; additions</a> compared to version 1.2;
+see also the list of <a href="#deprecated">deprecated</a> functionality
 </li>
 </ul>
 </td>
@@ -82,7 +83,6 @@ we would appreciate a citation to the following tech report:
 Conrad Sanderson.
 <br>
 <i><a href="armadillo_nicta_2010.pdf">Armadillo: An Open Source C++ Linear Algebra Library for Fast Prototyping and Computationally Intensive Experiments</a></i>.
-<!--<i><a href="http://itee.uq.edu.au/~conrad/code.html">Armadillo: An Open Source C++ Linear Algebra Library for Fast Prototyping and Computationally Intensive Experiments</a></i>.-->
 <br>
 Technical Report, NICTA, 2010.
 </font>
@@ -113,7 +113,7 @@ Technical Report, NICTA, 2010.
 <a href="#copy_size">copy_size</a>&nbsp;&middot;
 <a href="#diag">diag</a>&nbsp;&middot;
 <a href="#element_access">element&nbsp;access</a>&nbsp;&middot;
-<a href="#element_injection">element&nbsp;injection</a>&nbsp;&middot;
+<a href="#element_initialisation">element&nbsp;initialisation</a>&nbsp;&middot;
 <a href="#eye_member">eye</a>&nbsp;&middot;
 <a href="#fill">fill</a>&nbsp;&middot;
 <a href="#insert">insert rows/cols/slices</a>&nbsp;&middot;
@@ -129,9 +129,7 @@ Technical Report, NICTA, 2010.
 <a href="#ones_member">ones</a>&nbsp;&middot;
 <a href="#operators">operators</a>&nbsp;&middot;
 <a href="#print">print</a>&nbsp;&middot;
-<a href="#print_trans">print_trans</a>&nbsp;&middot;
 <a href="#raw_print">raw_print</a>&nbsp;&middot;
-<a href="#raw_print">raw_print_trans</a>&nbsp;&middot;
 <a href="#randu_randn_member">randu/randn</a>&nbsp;&middot;
 <a href="#reset">reset</a>&nbsp;&middot;
 <a href="#reshape_member">reshape</a>&nbsp;&middot;
@@ -145,6 +143,7 @@ Technical Report, NICTA, 2010.
 <a href="#subcube">subcube&nbsp;views</a>&nbsp;&middot;
 <a href="#subfield">subfield&nbsp;views</a>&nbsp;&middot;
 <a href="#swap_rows">swap_rows/cols</a>&nbsp;&middot;
+<a href="#t_st_members">t/st (transpose)</a>&nbsp;&middot;
 <a href="#zeros_member">zeros</a>
 </ul>
 <br>
@@ -251,7 +250,7 @@ Technical Report, NICTA, 2010.
 <a href="#math_constants">math constants (pi, ...)</a>&nbsp;&middot;
 <a href="#phys_constants">physical constants (speed of light, ...)</a>&nbsp;&middot;
 <a href="#log_add">log_add</a>&nbsp;&middot;
-<a href="#s32_u32">s32/u32</a>&nbsp;&middot;
+<a href="#uword">uword/sword</a>&nbsp;&middot;
 <a href="#cx_float_double">cx_float/cx_double</a>&nbsp;&middot;
 <a href="#syntax">Matlab/Armadillo syntax differences</a>&nbsp;&middot;
 <a href="#example_prog">example program</a>&nbsp;&middot;
@@ -288,24 +287,24 @@ For convenience the following typedefs have been defined:
   <tbody>
     <tr>
       <td style="vertical-align: top;">
-      imat
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Mat&lt;<a href="#s32_u32">s32</a>&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
       umat
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Mat&lt;<a href="#s32_u32">u32</a>&gt;
+      Mat&lt;<a href="#uword">uword</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      imat
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Mat&lt;<a href="#uword">sword</a>&gt;
       </td>
     </tr>
     <tr>
@@ -381,6 +380,7 @@ Constructors:
 <li>mat(vec)</li>
 <li>mat(rowvec)</li>
 <li>mat(string)</li>
+<li>mat(initialiser_list) &nbsp; (C++11 only)</li>
 <li>cx_mat(mat,mat) &nbsp; (for constructing a complex matrix out of two real matrices)</li>
 </ul>
 </li>
@@ -388,7 +388,7 @@ Constructors:
 <li>
 The string format for the constructor is elements separated by spaces, and rows denoted by semicolons.
 For example, the 2x2 identity matrix can be created using the format string <code>"1 0; 0 1"</code>.
-While string based initialisation is compact, directly setting the elements or using <a href="#element_injection">element injection</a> is considerably faster.
+While string based initialisation is compact, directly setting the elements or using <a href="#element_initialisation">element initialisation</a> is considerably faster.
 </li>
 <br>
 <a name="adv_constructors_mat"></a>
@@ -527,7 +527,7 @@ See also:
 <ul>
 <li><a href="#attributes">matrix attributes</a></li>
 <li><a href="#element_access">accessing elements</a></li>
-<li><a href="#element_injection">injecting elements</a></li>
+<li><a href="#element_initialisation">initialising elements</a></li>
 <li><a href="#operators">math &amp; relational operators</a></li>
 <li><a href="#submat">submatrix views</a></li>
 <li><a href="#save_load_mat">saving &amp; loading matrices</a></li>
@@ -563,24 +563,24 @@ For convenience the following typedefs have been defined:
   <tbody>
     <tr>
       <td style="vertical-align: top;">
-      ivec, icolvec
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Col&lt;<a href="#s32_u32">s32</a>&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
       uvec, ucolvec
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Col&lt;<a href="#s32_u32">u32</a>&gt;
+      Col&lt;<a href="#uword">uword</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      ivec, icolvec
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Col&lt;<a href="#uword">sword</a>&gt;
       </td>
     </tr>
     <tr>
@@ -652,6 +652,7 @@ Constructors
 <li>vec(vec)</li>
 <li>vec(mat) &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one column)</li>
 <li>vec(string) &nbsp; (elements separated by spaces)</li>
+<li>vec(initialiser_list) &nbsp; (C++11 only)</li>
 </ul>
 </li>
 <br>
@@ -790,24 +791,24 @@ For convenience the following typedefs have been defined:
   <tbody>
     <tr>
       <td style="vertical-align: top;">
-      irowvec
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Row&lt;<a href="#s32_u32">s32</a>&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
       urowvec
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Row&lt;<a href="#s32_u32">u32</a>&gt;
+      Row&lt;<a href="#uword">uword</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      irowvec
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Row&lt;<a href="#uword">sword</a>&gt;
       </td>
     </tr>
     <tr>
@@ -876,6 +877,7 @@ Constructors
 <li>rowvec(rowvec)</li>
 <li>rowvec(mat) &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one row)</li>
 <li>rowvec(string) &nbsp; (elements separated by spaces)</li>
+<li>rowvec(initialiser_list) &nbsp; (C++11 only)</li>
 </ul>
 </li>
 <br>
@@ -1017,24 +1019,24 @@ For convenience the following typedefs have been defined:
   <tbody>
     <tr>
       <td style="vertical-align: top;">
-      icube
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Cube&lt;<a href="#s32_u32">s32</a>&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
       ucube
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Cube&lt;<a href="#s32_u32">u32</a>&gt;
+      Cube&lt;<a href="#uword">uword</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      icube
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Cube&lt;<a href="#uword">sword</a>&gt;
       </td>
     </tr>
     <tr>
@@ -1329,7 +1331,7 @@ G.save("vec_field");
 <td>
 <b>.n_rows</b>
 </td>
-<td>&nbsp;</td>
+<td>&nbsp;&nbsp;</td>
 <td>
 (number of rows)
 </td>
@@ -1338,7 +1340,7 @@ G.save("vec_field");
 <td>
 <b>.n_cols</b>
 </td>
-<td>&nbsp;</td>
+<td>&nbsp;&nbsp;</td>
 <td>
 (number of columns)
 </td>
@@ -1347,7 +1349,7 @@ G.save("vec_field");
 <td>
 <b>.n_elem</b>
 </td>
-<td>&nbsp;</td>
+<td>&nbsp;&nbsp;</td>
 <td>
 (total number of elements)
 </td>
@@ -1356,18 +1358,9 @@ G.save("vec_field");
 <td>
 <b>.n_slices</b>
 </td>
-<td>&nbsp;</td>
+<td>&nbsp;&nbsp;</td>
 <td>
 (number of slices)
-</td>
-</tr>
-<tr>
-<td>
-<b>.n_elem_slice</b>
-</td>
-<td>&nbsp;</td>
-<td>
-(number of elements per slice)
 </td>
 </tr>
 </tbody>
@@ -1388,12 +1381,12 @@ or
 <br>
 <li><i>n_rows</i>, <i>n_cols</i> and <i>n_elem</i> are applicable to <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i> and <i>field</i> classes</li>
 <br>
-<li><i>n_slices</i> and <i>n_elem_slice</i> are applicable only to the <i>Cube</i> class</li>
+<li><i>n_slices</i> is applicable only to the <i>Cube</i> class</li>
 <br>
 <li>
 For the <i>Col</i> and <i>Row</i> classes, <i>n_elem</i> also indicates vector length</li>
 <br>
-<li>The variables are of type <a href="#s32_u32">u32</a> (unsigned integer)</li>
+<li>The variables are of type <a href="#uword">uword</a></li>
 <br>
 <li>
 Examples:
@@ -1689,11 +1682,11 @@ double z = p[9];
 </ul>
 <hr class="greyline"><br>
 
-<a name="element_injection"></a>
-<b>element injection via the &lt;&lt; stream operator</b>
+<a name="element_initialisation"></a>
+<b>element initialisation</b>
 <ul>
 <li>
-Initialise an instance of <i>Mat</i>, <i>Col</i>, <i>Row</i> or <i>field</i> classes via repeated use of the &lt;&lt; operator
+Instances of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>field</i> classes can be initialised via repeated use of the &lt;&lt; operator
 </li>
 <br>
 <li>
@@ -1701,8 +1694,13 @@ Special element <i>endr</i> indicates "end of row" (conceptually similar to <i>s
 </li>
 <br>
 <li>
-Setting elements via &lt;&lt; is a bit slower than directly accessing the elements,
+Setting elements via &lt;&lt; is a bit slower than directly <a href="#element_access">accessing</a> the elements,
 but code using &lt;&lt; is generally more readable as well as being easier to write
+</li>
+<br>
+<li>
+If you have a C++11 compiler, instances of <i>Mat</i>, <i>Col</i> and <i>Row</i> classes can be also initialised via initialiser lists;
+this requires support for the C++11 standard to be <a href="#added_in_24">explicitly enabled</a>
 </li>
 <br>
 <li>
@@ -1713,6 +1711,9 @@ mat A;
 
 A &lt;&lt; 1 &lt;&lt; 2 &lt;&lt; 3 &lt;&lt; endr
   &lt;&lt; 4 &lt;&lt; 5 &lt;&lt; 6 &lt;&lt; endr;
+
+mat B = { 1, 2, 3, 4, 5, 6 };  // C++11 only
+B.reshape(2,3);
 </pre>
 </ul>
 </li>
@@ -1720,6 +1721,7 @@ A &lt;&lt; 1 &lt;&lt; 2 &lt;&lt; 3 &lt;&lt; endr
 <li>
 See also:
 <ul>
+<li><a href="#element_access">element access</a></li>
 <li><a href="#print">.print()</a></li>
 <li><a href="#save_load_mat">saving &amp; loading matrices</a></li>
 <li><a href="#adv_constructors_mat">advanced constructors (matrices)</a></li>
@@ -2827,7 +2829,7 @@ With one or more arguments: return the extremum value of an object and store the
 </li>
 <br>
 <li>
-The provided variables must be of type <a href="#s32_u32">u32</a>.
+The provided variables must be of type <a href="#uword">uword</a>.
 </li>
 <br>
 <li>
@@ -2839,7 +2841,7 @@ vec v = randu&lt;vec&gt;(10);
 cout &lt;&lt; "min value is " &lt;&lt; v.min() &lt;&lt; endl;
 
 
-u32    index;
+uword  index;
 double min_val = v.min(index);
 
 cout &lt;&lt; "index of min value is " &lt;&lt; index &lt;&lt; endl;
@@ -2847,8 +2849,8 @@ cout &lt;&lt; "index of min value is " &lt;&lt; index &lt;&lt; endl;
 
 mat A = randu&lt;mat&gt;(5,5);
 
-u32    row;
-u32    col;
+uword  row;
+uword  col;
 double min_val2 = A.max(row,col);
 
 cout &lt;&lt; "max value is at " &lt;&lt; row &lt;&lt; ',' &lt;&lt; col &lt;&lt; endl;
@@ -3092,6 +3094,9 @@ mat B = randu&lt;mat&gt;(6,6);
 
 A.print();
 
+// print a transposed version of A
+A.t().print();
+
 // "B:" is the optional header line
 B.print("B:");
 
@@ -3104,31 +3109,14 @@ cout &lt;&lt; "B:" &lt;&lt; endl &lt;&lt; B &lt;&lt; endl;
 <li>
 See also:
 <ul>
-<li><a href="#print_trans">.print_trans()</a></li>
 <li><a href="#raw_print">.raw_print()</a></li>
-<li><a href="#raw_print_trans">.raw_print_trans()</a></li>
 <li><a href="#save_load_mat">saving &amp; loading matrices</a></li>
-<li><a href="#element_injection">injecting elements</a></li>
+<li><a href="#element_initialisation">initialising elements</a></li>
 <li><a href="#logging">logging of errors and warnings</a></li>
 </ul>
 </li>
 <br>
 </ul>
-<hr class="greyline"><br>
-
-<a name="print_trans"></a>
-<b>.print_trans(header="")</b>
-<br><b>.print_trans(stream, header="")</b>
-<ul>
-<li>
-Member function of <i>Mat</i>, <i>Col</i> and <i>Row</i>
-</li>
-<br>
-<li>
-Similar to <a href="#print">.print()</a>, with the difference being that a transposed version of the object is printed
-</li>
-</ul>
-<br>
 <hr class="greyline"><br>
 
 <a name="raw_print"></a>
@@ -3160,21 +3148,6 @@ cout.setf(ios::fixed);
 A.raw_print(cout, "A =");
 </pre>
 </ul>
-</li>
-</ul>
-<br>
-<hr class="greyline"><br>
-
-<a name="raw_print_trans"></a>
-<b>.raw_print_trans(header="")</b>
-<br><b>.raw_print_trans(stream, header="")</b>
-<ul>
-<li>
-Member function of <i>Mat</i>, <i>Col</i> and <i>Row</i>
-</li>
-<br>
-<li>
-Similar to <a href="#raw_print">.raw_print()</a>, with the difference being that a transposed version of the object is printed
 </li>
 </ul>
 <br>
@@ -4200,6 +4173,53 @@ See also:
 </ul>
 <hr class="greyline"><br>
 
+<a name="t_st_members"></a>
+<b>
+.t()
+<br>.st()
+</b>
+<ul>
+<li>
+Member functions of any expression involving matrices or vectors
+</li>
+<br>
+<li>
+<i>.t()</i> provides a transposed copy of the object; if a given object has complex elements, a Hermitian transpose is done (ie. the conjugate of the elements is taken during the transpose operation) 
+</li>
+<br>
+<li>
+<i>.st()</i> provides a transposed copy of the object, without taking the conjugate of the elements (complex matrices)
+</li>
+<br>
+<li>
+For non-complex objects, the <i>.t()</i> and <i>.st()</i> functions are equivalent
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(4,5);
+mat B = A.t();
+</pre>
+</ul>
+</li>
+<br>
+<li>
+The <i>.t()</i> and <i>.st()</i> functions were added in version 2.4
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#trans">trans()</a></li>
+<li><a href="#strans">strans()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
 <a name="zeros_member"></a>
 <b>.zeros()</b>
 <br><b>.zeros(n_elem)</b>
@@ -4377,7 +4397,7 @@ Examples:
 <pre>
 running_stat&lt;double&gt; stats;
 
-for(u32 i=0; i&lt;10000; ++i)
+for(uword i=0; i&lt;10000; ++i)
   {
   double sample = double(rand())/RAND_MAX;
   stats(sample);
@@ -4545,7 +4565,7 @@ running_stat_vec&lt;rowvec::elem_type&gt; stats;
 
 rowvec sample;
 
-for(u32 i=0; i&lt;10000; ++i)
+for(uword i=0; i&lt;10000; ++i)
   {
   sample = randu&lt;rowvec&gt;(5);
   stats(sample);
@@ -4561,7 +4581,7 @@ cout &lt;&lt; "max  = " &lt;&lt; stats.max()  &lt;&lt; endl;
 
 running_stat_vec&lt;rowvec::elem_type&gt; more_stats(true);
 
-for(u32 i=0; i&lt;20; ++i)
+for(uword i=0; i&lt;20; ++i)
   {
   sample = randu&lt;rowvec&gt;(3);
   
@@ -4612,7 +4632,7 @@ mat B = randu&lt;mat&gt;(4,4);
 mat C;
 
 timer.tic();
-for(u32 i=0; i&lt;100000; ++i)
+for(uword i=0; i&lt;100000; ++i)
   C = A + B + A + B;
 
 double n_secs = timer.toc();
@@ -5563,7 +5583,7 @@ Examples:
 <ul>
 <pre>
 mat A = randu&lt;mat&gt;(4,5);
-u32 r = rank(A);
+uword r = rank(A);
 </pre>
 </ul>
 </li>
@@ -6299,7 +6319,7 @@ See also:
 <li>Return a column vector of the indices of non-zero elements of <i>X</i></li>
 <br>
 <li>The output vector must have the type <a href="#Col">uvec</a> or <a href="#Mat">umat</a>
-(ie. the indices are stored as unsigned integers of type <a href="#s32_u32">u32</a>)
+(ie. the indices are stored as unsigned integers of type <a href="#uword">uword</a>)
 </li>
 <br>
 <li>
@@ -6399,6 +6419,10 @@ mat    A = imag(C);
 mat    B = real(C);
 </pre>
 </ul>
+</li>
+<br>
+<li><b>Caveat:</b> versions 4.4, 4.5 and 4.6 of the GCC C++ compiler have a bug when using the <i>-std=c++0x</i> compiler option (ie. experimental support for C++11);
+to work around this bug, preface Armadillo's imag() and real() with the <i>arma</i> namespace qualification, eg. arma::imag(C)
 </li>
 <br>
 <li>See also:
@@ -6595,7 +6619,7 @@ mat B = sort(A);
 </li>
 <br>
 <li>The output vector must have the type <a href="#Col">uvec</a> or <a href="#Mat">umat</a>
-(ie. the indices are stored as unsigned integers of type <a href="#s32_u32">u32</a>)
+(ie. the indices are stored as unsigned integers of type <a href="#uword">uword</a>)
 </li>
 <br>
 <li><i>sort_type=0</i> (default) indicates an ascending sort</li>
@@ -6676,6 +6700,7 @@ Use <a href="#trans">trans()</a> instead, unless you explicitly need to take the
 <br>
 <li>See also:
 <ul>
+<li><a href="#t_st_members">.st()</a></li>
 <li><a href="#trans">trans()</a></li>
 </ul>
 </li>
@@ -6720,6 +6745,7 @@ mat B = trans(A);
 <br>
 <li>See also:
 <ul>
+<li><a href="#t_st_members">.t()</a></li>
 <li><a href="#strans">strans()</a></li>
 </ul>
 </li>
@@ -8165,15 +8191,19 @@ log_a, log_b and log_c must have the same type
 <br>
 <hr class="greyline"><br>
 
-<a name="s32_u32"></a>
-<b>s32</b>, <b>u32</b>
+<a name="uword"></a>
+<b>uword</b>, <b>sword</b>
 <ul>
 <li>
-s32 is a typedef for a signed integer with a minimum width of 32 bits; this is typically <i>signed int</i>, but is machine dependent
+<i>uword</i> is a typedef for an unsigned integer with a minimum width of 32 bits; if <i>ARMA_64BIT_WORD</i> is enabled, the minimum width is 64 bits
 </li>
 <br>
 <li>
-u32 is a typedef for an unsigned integer with a minimum width of 32 bits; this is typically <i>unsigned int</i>, but is machine dependent
+<i>sword</i> is a typedef for a signed integer with a minimum width of 32 bits; if <i>ARMA_64BIT_WORD</i> is enabled, the minimum width is 64 bits
+</li>
+<br>
+<li>
+<i>ARMA_64BIT_WORD</i> can be enabled via editing <i>include/armadillo_bits/config.hpp</i>
 </li>
 <br>
 <li>See also:
@@ -8691,7 +8721,7 @@ will require taking into account that indexing starts at 0
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      <a href="#trans">trans</a>(A)
+      A<a href="#t_st_members">.t()</a> or <a href="#trans">trans</a>(A)
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8710,7 +8740,7 @@ will require taking into account that indexing starts at 0
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      <a href="#strans">strans</a>(A)
+       A<a href="#t_st_members">.st()</a> or <a href="#strans">strans</a>(A)
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8974,7 +9004,7 @@ A&nbsp;<font size=-1>&lt;&lt;</font> 1 <font size=-1>&lt;&lt;</font> 2 <font siz
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      initialisation via <a href="#element_injection">element injection</a>;
+      initialisation via <a href="#element_initialisation">element initialisation</a>;
       special element <i>endr</i> indicates <i>end of row</i>
     </td>
   </tr>
@@ -9258,32 +9288,78 @@ See also:
 <a name="api_changes"></a>
 <hr class="greyline">
 <br>
-<b>API Changes &amp; Additions</b>
+<b>API Changes, Additions and Deprecations</b>
 <br>
 <br>
 Armadillo's version number is X.Y.Z, where X is a major version, Y is a minor version, and Z is the patch level (indicating bug fixes).
 <br>
 <br>
-Within each major version (eg. 1.x), minor versions with an even number (eg. 1.2) are backwards compatible with earlier even minor versions (eg. 1.0).
-For example, code written for version 1.0 will work with version 1.2.
+Within each major version (eg. 2.x), minor versions with an even number (eg. 2.2) are backwards compatible with earlier even minor versions (eg. 2.0).
+For example, code written for version 2.0 will work with version 2.2.
 However, as each minor version may have more features (ie. API extensions) than earlier versions,
-code written for version 1.2 doesn't necessarily work with 1.0.
+code written for version 2.2 doesn't necessarily work with 2.0.
 <br>
 <br>
-An odd minor version number (eg. 0.9, 1.3, 1.9) indicates an experimental version.
+An odd minor version number (eg. 2.3) indicates an experimental version.
 Experimental versions are generally faster and have more functionality,
 but their APIs have not been finalised yet.
 <br>
 <br>
 In general, we don't like changes to existing APIs and prefer not to break any user software.
-However, to allow evolution, we reserve the right to change the APIs in future major versions of Armadillo,
+However, to allow evolution and help code maintenance, we reserve the right to change the APIs in future major versions of Armadillo,
 while remaining backwards compatible wherever possible
-(eg. 2.x may have different APIs than 1.x).
+(eg. 3.0 may have slightly different APIs than 2.x).
 Also, in a rare instance the user API may need to be altered if a bug fix absolutely requires it.
+<br>
+<br>
+<br>
+<a name="deprecated"></a>
+Below is a list of deprecated functionality; this functionality will be <b>removed</b> in version 3.0:
+<ul>
+<li>
+<i>htrans()</i> is deprecated; use <a href="#trans">trans()</a> instead
+<br>&nbsp;
+</li>
+<li>
+<i>.print_trans()</i> and <i>.raw_print_trans()</i> are deprecated;
+<br>instead, you can chain <i>.t()</i> and <i>.print()</i> to achieve a similar result: <i>.t().print()</i>
+<br>&nbsp;
+</li>
+<li>
+support for tying writeable auxiliary (external) memory to fixed size matrices is deprecated;
+<br>instead, you can use standard matrices with <a href="#adv_constructors_mat">writeable auxiliary memory</a>,
+or initialise fixed size matrices by <a href="#adv_constructors_mat">copying the memory</a>.
+Using auxiliary memory with standard matrices is unaffected.
+<br>&nbsp;
+</li>
+<li>the <i>.n_elem_slice</i> member variable of the Cube class is deprecated;
+<br>you can get equivalent information by multiplying <i>.n_rows</i> with <i>.n_cols</i>
+</li>
+</ul>
 <br>
 <br>
 Below is a list of additions and changes since prior versions of Armadillo:
 <ul>
+<a name="added_in_24"></a>
+<li>Added in 2.4:
+<ul>
+<li>shorter forms of transposes: <a href="#t_st_members">.t()</a> and <a href="#t_st_members">.st()</a></li>
+<li>optional use of 64 bit indices (allowing matrices to have more than 4 billion elements),
+<br>enabled via ARMA_64BIT_WORD in <i>include/armadillo_bits/config.hpp</i></li>
+<li>experimental support for C++11 initialiser lists, enabled via ARMA_USE_CXX11 in <i>include/armadillo_bits/config.hpp</i></li>
+</ul>
+<br>
+<li>Changed in 2.4:
+<ul>
+<li>refactored code to eliminate warnings when using the Clang C++ compiler</li>
+<li><a href="#Mat">umat</a>, <a href="#Col">uvec</a>, <a href="#min_and_max_member">.min()</a> and <a href="#min_and_max_member">.max()</a>
+have been changed to use the <a href="#uword"><i>uword</i></a> type instead of the <i>u32</i> type;
+by default the <i>uword</i> and <i>u32</i> types are equivalent (ie. unsigned integer type with a minimum width 32 bits);
+however, when the use of 64 bit indices is enabled via ARMA_64BIT_WORD in <i>include/armadillo_bits/config.hpp</i>,
+the <i>uword</i> type then has a minimum width of 64 bits
+</ul>
+</li>
+<br>
 <li>Added in 2.2:
 <ul>
 <li><a href="#svd_econ">svd_econ()</a></li>
@@ -9294,7 +9370,6 @@ Below is a list of additions and changes since prior versions of Armadillo:
 <li>Changed in 2.0:
 <ul>
 <li><a href="#trans">trans()</a> now takes the complex conjugate when transposing a complex matrix</li>
-<li>htrans() has been deprecated; use <a href="#trans">trans()</a> instead</li>
 <li>Forms of
 <a href="#chol">chol()</a>, <a href="#eig_sym">eig_sym()</a>, <a href="#eig_gen">eig_gen()</a>,
 <a href="#inv">inv()</a>, <a href="#lu">lu()</a>, <a href="#pinv">pinv()</a>, <a href="#princomp">princomp()</a>,
