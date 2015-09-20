@@ -774,7 +774,7 @@ SpSubview<eT>::eye()
 
   for(uword ind = 0; ind < end_index; ++ind)
     {
-    m.at(ind + aux_row1, ind + aux_col1) = eT(1);
+    access::rw(m).at(ind + aux_row1, ind + aux_col1) = eT(1);
     }
   }
 
