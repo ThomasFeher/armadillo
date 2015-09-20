@@ -13,7 +13,7 @@
 
 #define ARMA_VERSION_MAJOR 3
 #define ARMA_VERSION_MINOR 800
-#define ARMA_VERSION_PATCH 1
+#define ARMA_VERSION_PATCH 2
 #define ARMA_VERSION_NAME  "Miami Beach"
 
 

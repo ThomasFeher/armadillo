@@ -13,7 +13,7 @@ cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
 set(ARMA_MAJOR 3)
 set(ARMA_MINOR 800)
-set(ARMA_PATCH 1)
+set(ARMA_PATCH 2)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 
@@ -268,11 +268,20 @@ endif()
 #set(CMAKE_INSTALL_RPATH_USE_LINK_PATH  TRUE)
 
 
+if(APPLE)
+  # work around a silly limitation in Mac OS X
+  if(${ARMA_MINOR} GREATER 99)
+    math(EXPR ARMA_MINOR_ALT "${ARMA_MINOR} / 10")
+  else()
+    set(ARMA_MINOR_ALT ${ARMA_MINOR})
+  endif()
+else()
+  set(ARMA_MINOR_ALT ${ARMA_MINOR})
+endif()
+
 add_library( armadillo SHARED src/wrap_libs )
 target_link_libraries( armadillo ${ARMA_LIBS} )
-
-set_target_properties(armadillo PROPERTIES VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH} SOVERSION 3)
-
+set_target_properties(armadillo PROPERTIES VERSION ${ARMA_MAJOR}.${ARMA_MINOR_ALT}.${ARMA_PATCH} SOVERSION ${ARMA_MAJOR})
 
 
 ################################################################################
