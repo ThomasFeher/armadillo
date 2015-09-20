@@ -114,9 +114,8 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 4.000</b></font>
+        <font size=+2><b>Reference for Armadillo 4.100</b></font>
         <br>
-        <b>(Feral Steamroller)</b>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -303,6 +302,8 @@ Technical Report, NICTA, 2010.
 
 <b>Scalar/Vector Valued Functions of Vectors/Matrices</b>
 <ul>
+<a href="#all">all</a>&nbsp;&middot;
+<a href="#any">any</a>&nbsp;&middot;
 <a href="#diagvec">diagvec</a>&nbsp;&middot;
 <a href="#min_and_max">min/max</a>&nbsp;&middot;
 <a href="#prod">prod</a>&nbsp;&middot;
@@ -313,8 +314,6 @@ Technical Report, NICTA, 2010.
 
 <b>Vector/Matrix/Cube Valued Functions of Vectors/Matrices/Cubes</b>
 <ul>
-<a href="#all">all</a>&nbsp;&middot;
-<a href="#any">any</a>&nbsp;&middot;
 <a href="#conv">conv</a>&nbsp;&middot;
 <a href="#cor">cor</a>&nbsp;&middot;
 <a href="#cov">cov</a>&nbsp;&middot;
@@ -329,6 +328,7 @@ Technical Report, NICTA, 2010.
 <a href="#inplace_trans">inplace_trans</a>&nbsp;&middot;
 <a href="#join">join_rows/cols/slices</a>&nbsp;&middot;
 <a href="#kron">kron</a>&nbsp;&middot;
+<a href="#normalise">normalise</a>&nbsp;&middot;
 <a href="#reshape">reshape</a>&nbsp;&middot;
 <a href="#resize">resize</a>&nbsp;&middot;
 <a href="#shuffle">shuffle</a>&nbsp;&middot;
@@ -1443,11 +1443,12 @@ See also:
 <b>field&lt;</b><i>object type</i><b>&gt;</b>
 <ul>
 <li>
-Class for storing arbitrary objects in a matrix-like layout
+Class for storing arbitrary objects in matrix-like or cube-like layouts
 </li>
 <br>
 <li>
-Somewhat similar to a matrix, but instead of each element being a scalar, each element can be a vector or matrix (eg. field of vectors)
+Somewhat similar to a matrix or cube, but instead of each element being a scalar,
+each element can be a vector (resulting in a field of vectors), or matrix, or cube
 </li>
 <br>
 <li>
@@ -1457,10 +1458,11 @@ Each element can have an arbitrary size
 <li>
 Constructors (where <i>object type</i> is another class, eg. <i>vec</i>, <i>mat</i>, <i>std::string</i>, etc):
 <ul>
-field&lt;<i>object type</i>&gt;()
-<br>field&lt;<i>object type</i>&gt;(n_elem)
-<br>field&lt;<i>object type</i>&gt;(n_rows, n_cols)
-<br>field&lt;<i>object type</i>&gt;(field&lt;<i>object type</i>&gt;)
+<li>field&lt;<i>object type</i>&gt;()</li>
+<li>field&lt;<i>object type</i>&gt;(n_elem)</li>
+<li>field&lt;<i>object type</i>&gt;(n_rows, n_cols)</li>
+<li>field&lt;<i>object type</i>&gt;(n_rows, n_cols, n_slices)</li>
+<li>field&lt;<i>object type</i>&gt;(field&lt;<i>object type</i>&gt;)</li>
 </ul>
 </li>
 <br>
@@ -1680,35 +1682,21 @@ If <i>sort_locations</i> is set to <i>false</i>, the <i>locations</i> matrix is 
 <li>
 <b>Caveat:</b>
 support for sparse matrices in this version is <b>preliminary</b>;
-it is not yet fully optimised, and sparse matrix decompositions/factorisations are not yet fully implemented.
-The following subset of operations currently works with sparse matrices:
+it is not yet fully optimised, and sparse matrix decompositions/factorisations are not yet fully implemented;
+the following subset of operations currently works with sparse matrices:
 <ul>
 <li>element access</li>
 <li>fundamental arithmetic operations (such as addition and multiplication)</li>
 <li>submatrix views</li>
 <li>saving and loading (in <i>arma_binary</i> format)</li>
-<li>
-<a href="#abs">abs()</a>,
-<a href="#accu">accu()</a>,
-<a href="#as_scalar">as_scalar()</a>,
-<a href="#dot">dot()</a>,
-<a href="#eigs_sym">eigs_sym()</a>,
-<a href="#eigs_gen">eigs_gen()</a>,
-<a href="#stats_fns">mean()</a>,
-<a href="#min_and_max">min()</a>,
-<a href="#min_and_max">max()</a>,
-<a href="#norm">norm()</a>,
-<a href="#print">print()</a>,
-<a href="#speye">speye()</a>,
-<a href="#spones">spones()</a>,
-<a href="#sprandu_sprandn">sprandu()/sprandn()</a>,
-<a href="#misc_fns">square()</a>,
-<a href="#misc_fns">sqrt()</a>,
-<a href="#sum">sum()</a>,
-<a href="#trace">trace()</a>,
-<a href="#trans">trans()</a>,
-<a href="#stats_fns">var()</a>
-</li>
+<li>element-wise functions: <a href="#abs">abs()</a>, <a href="#misc_fns">sqrt()</a>, <a href="#misc_fns">square()</a></li>
+<li>scalar functions of matrices: <a href="#accu">accu()</a>, <a href="#as_scalar">as_scalar()</a>, <a href="#dot">dot()</a>, <a href="#norm">norm()</a>, <a href="#trace">trace()</a></li>
+<li>vector valued functions of matrices: <a href="#min_and_max">min()</a>, <a href="#min_and_max">max()</a>, <a href="#sum">sum()</a>, <a href="#stats_fns">mean()</a>, <a href="#stats_fns">var()</a></li>
+<li>matrix values functions of matrices: <a href="#t_st_members">.t()</a>, <a href="#trans">trans()</a></li>
+<li>generated matrices: <a href="#speye">speye()</a>, <a href="#spones">spones()</a>, <a href="#sprandu_sprandn">sprandu()/sprandn()</a></li>
+<li>eigen decomposition: <a href="#eigs_sym">eigs_sym()</a>, <a href="#eigs_gen">eigs_gen()</a></li>
+<!-- <li>solution of sparse linear systems: <a href="#solve">solve()</a> -->
+<li>miscellaneous: <a href="#print">print()</a></li>
 </ul>
 </li>
 <br>
@@ -2506,7 +2494,7 @@ See also:
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member of <i>Cube</i>)
+      <td style="vertical-align: top;">(member of <i>Cube</i> and <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -2514,7 +2502,7 @@ See also:
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member of <i>Cube</i>)
+      <td style="vertical-align: top;">(member of <i>Cube</i> and <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -2544,11 +2532,11 @@ See also:
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><b>.in_range(</b> first_row<b>,</b> first_col<b>, </b> first_slice<b>, size(</b>Q<b>) )</b> &nbsp;&nbsp;<i>(Q is a cube)</i></td>
+      <td style="vertical-align: top;"><b>.in_range(</b> first_row<b>,</b> first_col<b>, </b> first_slice<b>, size(</b>Q<b>) )</b> &nbsp;&nbsp;<i>(Q is a cube or field)</i></td>
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member of <i>Cube</i>)
+      <td style="vertical-align: top;">(member of <i>Cube</i> and <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -2556,7 +2544,7 @@ See also:
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member of <i>Cube</i>)
+      <td style="vertical-align: top;">(member of <i>Cube</i> and <i>field</i>)
       </td>
     </tr>
   </tbody>
@@ -4529,24 +4517,24 @@ else
 <br>
 <li>Store/retrieve fields in files or stream</li>
 <br>
-<li>On success, save(), load(), quiet_save(), and quite_load() will return a <i>bool</i> set to <i>true</i></li>
+<li>On success, <i>save()</i>, <i>load()</i>, <i>quiet_save()</i>, and <i>quite_load()</i> will return a <i>bool</i> set to <i>true</i></li>
 <br>
-<li>save() and quiet_save() will return a <i>bool</i> set to <i>false</i> if the saving process fails</li>
+<li><i>save()</i> and <i>quiet_save()</i> will return a <i>bool</i> set to <i>false</i> if the saving process fails</li>
 <br>
 <li>
-load() and quiet_load() will return a <i>bool</i> set to <i>false</i> if the loading process fails;
+<i>load()</i> and <i>quiet_load()</i> will return a <i>bool</i> set to <i>false</i> if the loading process fails;
 additionally, the field will be reset so it has no elements
 </li>
 <br>
-<li>load() and save() will print warning messages if any problems are encountered</li>
+<li><i>load()</i> and <i>save()</i> will print warning messages if any problems are encountered</li>
 <br>
-<li>quiet_load() and quiet_save() do not print any error messages</li>
+<li><i>quiet_load()</i> and <i>quiet_save()</i> do not print any error messages</li>
 <br>
 <li>
 Fields with objects of type <i>std::string</i> are saved and loaded as raw text files.
 The text files do not have a header.
 Each string is separated by a whitespace.
-load() and quiet_load() will only accept text files that have the same number of strings on each line.
+<i>load()</i> and <i>quiet_load()</i> will only accept text files that have the same number of strings on each line.
 The strings can have variable lengths.
 </li>
 <br>
@@ -4564,8 +4552,8 @@ Other than storing string fields as text files, the following file formats are s
                         <td style="vertical-align: top;">
 <br>
 <li>
-load(): try to automatically detect the field format type as one of the formats described below.
-This is the default operation.
+load(): try to automatically detect the field format type as one of the formats described below;
+this is the default operation.
 </li>
 <br>
                         </td>
@@ -4577,12 +4565,12 @@ This is the default operation.
                         <td style="vertical-align: top;">
 <br>
 <li>
-Objects are stored in machine dependent binary format.
+Objects are stored in machine dependent binary format
 <li>
-Default type for fields of type <i>Mat</i>, <i>Col</i> or <i>Row</i>.
+Default type for fields of type <i>Mat</i>, <i>Col</i>, <i>Row</i> or <i>Cube</i>
 </li>
 <li>
-Only applicable to fields of type <i>Mat</i>, <i>Col</i> or <i>Row</i>.
+Only applicable to fields of type <i>Mat</i>, <i>Col</i>, <i>Row</i> or <i>Cube</i>
 </li>
 <br>
                         </td>
@@ -4597,18 +4585,18 @@ Only applicable to fields of type <i>Mat</i>, <i>Col</i> or <i>Row</i>.
 Image data stored in Portable Pixmap Map (PPM) format.
 </li>
 <li>
-Only applicable to fields of type <i>Mat</i>, <i>Col</i> or <i>Row</i>.
+Only applicable to fields of type <i>Mat</i>, <i>Col</i> or <i>Row</i>
 </li>
 <li>
-.load(): Loads the specified image and stores the red, green and blue components as three separate matrices.
-The resulting field is comprised of the three matrices,
-with the red, green and blue components in the first, second and third matrix, respectively.
+<i>.load()</i>: loads the specified image and stores the red, green and blue components as three separate matrices;
+the resulting field is comprised of the three matrices,
+with the red, green and blue components in the first, second and third matrix, respectively
 </li>
 <li>
-.save(): Saves a field with exactly three matrices of equal size as an image.
-It is assumed that the red, green and blue components are stored in the first, second and third matrix, respectively.
-Saving <i>int</i>, <i>float</i> or <i>double</i> matrices is a lossy operation,
-as each matrix element is copied and converted to an 8 bit representation.
+<i>.save()</i>: saves a field with exactly three matrices of equal size as an image;
+it is assumed that the red, green and blue components are stored in the first, second and third matrix, respectively;
+saving <i>int</i>, <i>float</i> or <i>double</i> matrices is a lossy operation,
+as each matrix element is copied and converted to an 8 bit representation
 </li>
 
                         </td>
@@ -4921,24 +4909,23 @@ X.<b>row(&nbsp;</b>row_number<b>&nbsp;)</b><br>
 X.<b>cols(&nbsp;</b>first_col<b>,</b> last_col<b>&nbsp;)</b><br>
 X.<b>rows(&nbsp;</b>first_row<b>,</b> last_row<b>&nbsp;)</b><br>
 <br>
+X.<b>submat(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> last_row<b>,</b> last_col<b>&nbsp;)</b><br>
+<br>
+X<b>(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> last_col<b>)&nbsp;)</b><br>
+<br>
+X<b>(&nbsp;</b>first_row<b>,</b> first_col<b>, size(</b>n_rows<b>, </b>n_cols<b>)&nbsp;)</b><br>
+X<b>(&nbsp;</b>first_row<b>,</b> first_col<b>, size(</b>Y<b>)&nbsp;)</b> &nbsp;&nbsp;&nbsp;<i>(Y is a mat)</i><br>
+<br>
 X<b>(</b>&nbsp;<b>span::all,</b> col_number&nbsp;<b>)</b><br>
 X<b>(</b>&nbsp;<b>span(</b>first_row<b>,</b> last_row<b>),</b> col_number&nbsp;<b>)</b><br>
 <br>
 X<b>(</b>&nbsp;row_number<b>,</b> <b>span::all</b>&nbsp;<b>)</b><br>
 X<b>(</b>&nbsp;row_number<b>,</b> <b>span(</b>first_col<b>,</b> last_col<b>)&nbsp;)</b><br>
 <br>
-X.<b>submat(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> last_row<b>,</b> last_col<b>&nbsp;)</b><br>
-<br>
-X<b>(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> last_col<b>)&nbsp;)</b><br>
-X.<b>submat(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> last_col<b>)&nbsp;)</b><br>
-<br>
 X.<b>unsafe_col(&nbsp;</b>col_number<b>&nbsp;)</b><br>
 <br>
 V<b>(&nbsp;span(</b>first_index<b>,</b> last_index<b>)&nbsp;)</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>(for vectors only)</i><br>
 V.<b>subvec(&nbsp;</b>first_index<b>,</b> last_index<b>&nbsp;)</b> &nbsp;&nbsp;&nbsp; <i>(for vectors only)</i><br>
-<br>
-X<b>(&nbsp;</b>first_row<b>,</b> first_col<b>, size(</b>n_rows<b>, </b>n_cols<b>)&nbsp;)</b><br>
-X<b>(&nbsp;</b>first_row<b>,</b> first_col<b>, size(</b>Y<b>)&nbsp;)</b> &nbsp;&nbsp;&nbsp;<i>(Y is a mat)</i><br>
 </ul>
 </li>
 <br>
@@ -5066,17 +5053,16 @@ Q.<b>slice(&nbsp;</b>slice_number&nbsp;<b>)</b><br>
 Q.<b>slices(&nbsp;</b>first_slice<b>,</b> last_slice&nbsp;<b>)</b><br>
 <br>
 Q.<b>subcube(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> first_slice<b>, </b>last_row<b>,</b> last_col<b>, </b>last_slice&nbsp;<b>)</b><br>
-Q.<b>subcube(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> last_col<b>), span(</b>first_slice<b>,</b> last_slice<b>)&nbsp;)</b><br>
 <br>
 Q<b>(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> last_col<b>), span(</b>first_slice<b>,</b> last_slice<b>)&nbsp;)</b><br>
+<br>
+Q<b>(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> first_slice<b>, size(</b>n_rows<b>,</b> n_cols<b>, </b>n_slices<b>)&nbsp;)</b><br>
+Q<b>(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> first_slice<b>, size(</b>R<b>)&nbsp;)</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>(R is a cube)</i><br>
 <br>
 Q.<b>tube(&nbsp;</b>row<b>,</b> col&nbsp;<b>)</b><br>
 Q.<b>tube(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> last_row<b>,</b> last_col&nbsp;<b>)</b><br>
 Q.<b>tube(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> last_col<b>)&nbsp;)</b><br>
 Q.<b>tube(&nbsp;</b>first_row<b>,</b> first_col<b>, size(</b>n_rows<b>,</b> n_cols<b>)&nbsp;)</b><br>
-<br>
-Q<b>(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> first_slice<b>, size(</b>n_rows<b>,</b> n_cols<b>, </b>n_slices<b>)&nbsp;)</b><br>
-Q<b>(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> first_slice<b>, size(</b>R<b>)&nbsp;)</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>(R is a cube)</i><br>
 </ul>
 </li>
 <br>
@@ -5162,7 +5148,7 @@ See also:
 <ul>
 <li>A collection of member functions of the <i>field</i> class that provide subfield views<br>
 <br>
-<li>For a field <i>F</i>, the subfields are accessed as:</li>
+<li>For a 2D field <i>F</i>, the subfields are accessed as:</li>
 <br>
 <ul>
 F.<b>row(&nbsp;</b>row_number&nbsp;<b>)</b><br>
@@ -5174,10 +5160,24 @@ F.<b>cols(&nbsp;</b>first_col<b>,</b> last_col&nbsp;<b>)</b><br>
 F.<b>subfield(&nbsp;</b>first_row<b>,</b>&nbsp;first_col<b>,</b> last_row<b>,</b>&nbsp;last_col <b>)</b><br>
 <br>
 F<b>(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b>&nbsp;last_col<b>) )</b><br>
-F.<b>subfield(&nbsp;span(</b>first_row<b>,</b>&nbsp;last_row<b>), span(</b>first_col<b>,</b>&nbsp;last_col<b>) )</b><br>
 <br>
-F<b>(&nbsp;</b>first_row<b>,</b> first_col<b>, size(</b>G<b>)&nbsp;)</b> &nbsp;&nbsp;&nbsp;<i>(G is a field)</i><br>
+F<b>(&nbsp;</b>first_row<b>,</b> first_col<b>, size(</b>G<b>)&nbsp;)</b> &nbsp;&nbsp;&nbsp;<i>(G is a 2D field)</i><br>
 F<b>(&nbsp;</b>first_row<b>,</b> first_col<b>, size(</b>n_rows<b>, </b>n_cols<b>)&nbsp;)</b><br>
+</ul>
+<br>
+<li>For a 3D field <i>F</i>, the subfields are accessed as:</li>
+<br>
+<ul>
+F.<b>slice(&nbsp;</b>slice_number&nbsp;<b>)</b><br>
+<br>
+F.<b>slices(&nbsp;</b>first_slice<b>,</b> last_slice&nbsp;<b>)</b><br>
+<br>
+F.<b>subfield(&nbsp;</b>first_row<b>,</b>&nbsp;first_col<b>,</b>&nbsp;first_slice<b>,</b> last_row<b>,</b>&nbsp;last_col<b>,</b>&nbsp;last_slice <b>)</b><br>
+<br>
+F<b>(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b>&nbsp;last_col<b>), span(</b>first_slice<b>,</b>&nbsp;last_slice<b>) )</b><br>
+<br>
+F<b>(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> first_slice<b>, size(</b>G<b>)&nbsp;)</b> &nbsp;&nbsp;&nbsp;<i>(G is a 3D field)</i><br>
+F<b>(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> first_slice<b>, size(</b>n_rows<b>, </b>n_cols<b>, </b>n_slices<b>)&nbsp;)</b><br>
 </ul>
 </li>
 <br>
@@ -7093,9 +7093,8 @@ See also:
 <hr class="greyline"><br>
 
 <a name="norm"></a>
-<b>
-norm( X, p )
-</b>
+<b>norm( X )</b>
+<br><b>norm( X, p )</b>
 <ul>
 <li>
 Compute the <i>p</i>-norm of <i>X</i>, where <i>X</i> can be a vector or a matrix
@@ -7119,6 +7118,10 @@ use this expression: <a href="#accu">accu</a>(X&nbsp;!=&nbsp;0)
 </li>
 <br>
 <li>
+In version 4.100+, the argument <i>p</i> is optional; by default <i>p=2</i> is used
+</li>
+<br>
+<li>
 Examples:
 <ul>
 <pre>
@@ -7134,6 +7137,7 @@ double y = norm(q, "inf");
 See also:
 <ul>
 <li><a href="#dot">dot()</a></li>
+<li><a href="#normalise">normalise()</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Norm_(mathematics)">Vector Norm in Wikipedia</a></li>
 <li><a href="http://mathworld.wolfram.com/VectorNorm.html">Vector Norm in MathWorld</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Matrix_norm">Matrix Norm in Wikipedia</a></li>
@@ -7233,6 +7237,142 @@ See also:
 <br>
 <hr class="greyline">
 <br>
+
+<a name="all"></a>
+<b>all( V )</b>
+<br><b>all( X )</b>
+<br><b>all( X, dim )</b>
+<ul>
+<li>For vector <i>V</i>, return <i>true</i> if all elements of the vector are non-zero or satisfy a relational condition</li>
+<br>
+<li>
+For matrix <i>X</i> and
+<ul>
+<li>
+<i>dim=0</i>, return a row vector (of type <a href="#Row">urowvec</a> or <a href="#Mat">umat</a>),
+with each element (0 or 1) indicating whether the corresponding column of <i>X</i> has all non-zero elements</li>
+<br>
+<li>
+<i>dim=1</i>, return a column vector (of type <a href="#Col">ucolvec</a> or <a href="#Mat">umat</a>),
+with each element (0 or 1) indicating whether the corresponding row of <i>X</i> has all non-zero elements</li>
+</ul>
+</li>
+<br>
+<li>
+The <i>dim</i> argument is optional; by default <i>dim=0</i> is used
+</li>
+<br>
+<li>
+Relational operators can be used instead of <i>V</i> or <i>X</i>, eg.&nbsp;<i>A&nbsp;&gt;&nbsp;0.5</i>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+vec V = randu&lt;vec&gt;(10);
+mat X = randu&lt;mat&gt;(5,5);
+
+
+// status1 will be set to true if vector V has all non-zero elements
+bool status1 = all(V);
+
+// status2 will be set to true if vector V has all elements greater than 0.5
+bool status2 = all(V > 0.5);
+
+// status3 will be set to true if matrix X has all elements greater than 0.6;
+// note the use of vectorise()
+bool status3 = all(vectorise(X) > 0.6);
+
+// generate a row vector indicating which columns of X have all elements greater than 0.7
+umat A = all(X > 0.7);
+
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#any">any()</a></li>
+<li><a href="#find">find()</a></li>
+<li><a href="#conv_to">conv_to()</a> (convert between matrix/vector types)</li>
+<li><a href="#vectorise">vectorise()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline">
+<br>
+
+
+<a name="any"></a>
+<b>any( V )</b>
+<br><b>any( X )</b>
+<br><b>any( X, dim )</b>
+<ul>
+<li>For vector <i>V</i>, return <i>true</i> if any element of the vector is non-zero or satisfies a relational condition</li>
+<br>
+<li>
+For matrix <i>X</i> and
+<ul>
+<li>
+<i>dim=0</i>, return a row vector (of type <a href="#Row">urowvec</a> or <a href="#Mat">umat</a>),
+with each element (0 or 1) indicating whether the corresponding column of <i>X</i> has any non-zero elements</li>
+<br>
+<li>
+<i>dim=1</i>, return a column vector (of type <a href="#Col">ucolvec</a> or <a href="#Mat">umat</a>),
+with each element (0 or 1) indicating whether the corresponding row of <i>X</i> has any non-zero elements</li>
+</ul>
+</li>
+<br>
+<li>
+The <i>dim</i> argument is optional; by default <i>dim=0</i> is used
+</li>
+<br>
+<li>
+Relational operators can be used instead of <i>V</i> or <i>X</i>, eg.&nbsp;<i>A&nbsp;&gt;&nbsp;0.9</i>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+vec V = randu&lt;vec&gt;(10);
+mat X = randu&lt;mat&gt;(5,5);
+
+
+// status1 will be set to true if vector V has any non-zero elements
+bool status1 = any(V);
+
+// status2 will be set to true if vector V has any elements greater than 0.5
+bool status2 = any(V > 0.5);
+
+// status3 will be set to true if matrix X has any elements greater than 0.6;
+// note the use of vectorise()
+bool status3 = any(vectorise(X) > 0.6);
+
+// generate a row vector indicating which columns of X have elements greater than 0.7
+umat A = any(X > 0.7);
+
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#all">all()</a></li>
+<li><a href="#find">find()</a></li>
+<li><a href="#conv_to">conv_to()</a> (convert between matrix/vector types)</li>
+<li><a href="#vectorise">vectorise()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline">
+<br>
+
 
 <a name="diagvec"></a>
 <b>diagvec( A )</b>
@@ -7592,142 +7732,6 @@ See also:
 <font size=+1><b>Vector/Matrix/Cube Valued Functions of Vectors/Matrices/Cubes</b></font>
 <br>
 <br>
-<hr class="greyline">
-<br>
-
-
-<a name="all"></a>
-<b>all( V )</b>
-<br><b>all( X )</b>
-<br><b>all( X, dim )</b>
-<ul>
-<li>For vector <i>V</i>, return <i>true</i> if all elements of the vector are non-zero or satisfy a relational condition</li>
-<br>
-<li>
-For matrix <i>X</i> and
-<ul>
-<li>
-<i>dim=0</i>, return a row vector (of type <a href="#Row">urowvec</a> or <a href="#Mat">umat</a>),
-with each element (0 or 1) indicating whether the corresponding column of <i>X</i> has all non-zero elements</li>
-<br>
-<li>
-<i>dim=1</i>, return a column vector (of type <a href="#Col">ucolvec</a> or <a href="#Mat">umat</a>),
-with each element (0 or 1) indicating whether the corresponding row of <i>X</i> has all non-zero elements</li>
-</ul>
-</li>
-<br>
-<li>
-The <i>dim</i> argument is optional; by default <i>dim=0</i> is used
-</li>
-<br>
-<li>
-Relational operators can be used instead of <i>V</i> or <i>X</i>, eg.&nbsp;<i>A&nbsp;&gt;&nbsp;0.5</i>
-</li>
-<br>
-<li>
-Examples:
-<ul>
-<pre>
-vec V = randu&lt;vec&gt;(10);
-mat X = randu&lt;mat&gt;(5,5);
-
-
-// status1 will be set to true if vector V has all non-zero elements
-bool status1 = all(V);
-
-// status2 will be set to true if vector V has all elements greater than 0.5
-bool status2 = all(V > 0.5);
-
-// status3 will be set to true if matrix X has all elements greater than 0.6;
-// note the use of vectorise()
-bool status3 = all(vectorise(X) > 0.6);
-
-// generate a row vector indicating which columns of X have all elements greater than 0.7
-umat A = all(X > 0.7);
-
-</pre>
-</ul>
-</li>
-<br>
-<li>
-See also:
-<ul>
-<li><a href="#any">any()</a></li>
-<li><a href="#find">find()</a></li>
-<li><a href="#conv_to">conv_to()</a> (convert between matrix/vector types)</li>
-<li><a href="#vectorise">vectorise()</a></li>
-</ul>
-</li>
-<br>
-</ul>
-<hr class="greyline">
-<br>
-
-
-<a name="any"></a>
-<b>any( V )</b>
-<br><b>any( X )</b>
-<br><b>any( X, dim )</b>
-<ul>
-<li>For vector <i>V</i>, return <i>true</i> if any element of the vector is non-zero or satisfies a relational condition</li>
-<br>
-<li>
-For matrix <i>X</i> and
-<ul>
-<li>
-<i>dim=0</i>, return a row vector (of type <a href="#Row">urowvec</a> or <a href="#Mat">umat</a>),
-with each element (0 or 1) indicating whether the corresponding column of <i>X</i> has any non-zero elements</li>
-<br>
-<li>
-<i>dim=1</i>, return a column vector (of type <a href="#Col">ucolvec</a> or <a href="#Mat">umat</a>),
-with each element (0 or 1) indicating whether the corresponding row of <i>X</i> has any non-zero elements</li>
-</ul>
-</li>
-<br>
-<li>
-The <i>dim</i> argument is optional; by default <i>dim=0</i> is used
-</li>
-<br>
-<li>
-Relational operators can be used instead of <i>V</i> or <i>X</i>, eg.&nbsp;<i>A&nbsp;&gt;&nbsp;0.9</i>
-</li>
-<br>
-<li>
-Examples:
-<ul>
-<pre>
-vec V = randu&lt;vec&gt;(10);
-mat X = randu&lt;mat&gt;(5,5);
-
-
-// status1 will be set to true if vector V has any non-zero elements
-bool status1 = any(V);
-
-// status2 will be set to true if vector V has any elements greater than 0.5
-bool status2 = any(V > 0.5);
-
-// status3 will be set to true if matrix X has any elements greater than 0.6;
-// note the use of vectorise()
-bool status3 = any(vectorise(X) > 0.6);
-
-// generate a row vector indicating which columns of X have elements greater than 0.7
-umat A = any(X > 0.7);
-
-</pre>
-</ul>
-</li>
-<br>
-<li>
-See also:
-<ul>
-<li><a href="#all">all()</a></li>
-<li><a href="#find">find()</a></li>
-<li><a href="#conv_to">conv_to()</a> (convert between matrix/vector types)</li>
-<li><a href="#vectorise">vectorise()</a></li>
-</ul>
-</li>
-<br>
-</ul>
 <hr class="greyline">
 <br>
 
@@ -8376,6 +8380,58 @@ See also:
 </ul>
 <br>
 <hr class="greyline"><br>
+
+
+<a name="normalise"></a>
+<b>normalise( V )</b>
+<br><b>normalise( V, p )</b>
+<br>
+<br><b>normalise( X )</b>
+<br><b>normalise( X, p )</b>
+<br><b>normalise( X, p, dim )</b>
+<ul>
+<li>For vector <i>V</i>, return its normalised version (ie. having unit <i>p</i>-norm)</li>
+<br>
+<li>
+For matrix <i>X</i>, return its normalised version, where each column (<i>dim=0</i>) or row (<i>dim=1</i>) has been normalised to have unit <i>p</i>-norm</li>
+<br>
+<li>
+The <i>p</i> argument is optional; by default <i>p=2</i> is used
+</li>
+<br>
+<li>
+The <i>dim</i> argument is optional; by default <i>dim=0</i> is used
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+vec A = randu&lt;vec&gt;(10);
+vec B = normalise(A);
+vec C = normalise(A, 1);
+
+mat X = randu&lt;mat&gt;(5,6);
+mat Y = normalise(X);
+mat Z = normalise(X, 2, 1);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#norm">norm()</a></li>
+<li><a href="#dot">norm_dot()</a></li>
+<li><a href="http://mathworld.wolfram.com/NormalizedVector.html">Normalised vector in MathWorld</a>
+<li><a href="http://en.wikipedia.org/wiki/Unit_vector">Unit vector in Wikipedia</a>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline">
+<br>
+
 
 <a name="reshape"></a>
 <b>reshape( mat, n_rows, n_cols )</b>
@@ -9079,10 +9135,13 @@ See also:
 
 <a name="eigs_sym"></a>
 <b>vec eigval = eigs_sym( X, k )</b>
+<br><b>vec eigval = eigs_sym( X, k, form )</b>
 <br>
 <br><b>eigs_sym( eigval, X, k )</b>
+<br><b>eigs_sym( eigval, X, k, form )</b>
 <br>
 <br><b>eigs_sym( eigval, eigvec, X, k )</b>
+<br><b>eigs_sym( eigval, eigvec, X, k, form )</b>
 <ul>
 <li>Obtain a limited number of eigenvalues and eigenvectors of <b>sparse</b> symmetric real matrix <i>X</i></li>
 <br>
@@ -9090,9 +9149,18 @@ See also:
 <i>k</i> specifies the number of eigenvalues and eigenvectors
 </li>
 <br>
-<li>The eigenvalues and corresponding eigenvectors are stored in <i>eigval</i> and <i>eigvec</i>, respectively</li>
+<li>The argument <i>form</i> is optional; <i>form</i> is either "lm" or "sm":
+<ul>
+<table>
+<tbody>
+<tr><td><li>"lm":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with largest magnitude (default operation)</td></tr>
+<tr><td><li>"sm":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with smallest magnitude</td></tr>
+</tbody>
+</table>
+</ul>
+</li>
 <br>
-<li>The eigenvalues are in ascending order</li>
+<li>The eigenvalues and corresponding eigenvectors are stored in <i>eigval</i> and <i>eigvec</i>, respectively</li>
 <br>
 <li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
 <br>
@@ -9135,10 +9203,13 @@ See also:
 
 <a name="eigs_gen"></a>
 <b>cx_vec eigval = eigs_gen( X, k )</b>
+<br><b>cx_vec eigval = eigs_gen( X, k, form )</b>
 <br>
 <br><b>eigs_gen( eigval, X, k )</b>
+<br><b>eigs_gen( eigval, X, k, form )</b>
 <br>
 <br><b>eigs_gen( eigval, eigvec, X, k )</b>
+<br><b>eigs_gen( eigval, eigvec, X, k, form )</b>
 <ul>
 <li>
 Obtain a limited number of eigenvalues and eigenvectors of <b>sparse</b> general (non-symmetric/non-hermitian) square matrix <i>X</i>
@@ -9146,6 +9217,21 @@ Obtain a limited number of eigenvalues and eigenvectors of <b>sparse</b> general
 <br>
 <li>
 <i>k</i> specifies the number of eigenvalues and eigenvectors
+</li>
+<br>
+<li>The argument <i>form</i> is optional; <i>form</i> is one of:
+<ul>
+<table>
+<tbody>
+<tr><td><li>"lm":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with largest magnitude (default operation)</td></tr>
+<tr><td><li>"sm":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with smallest magnitude</td></tr>
+<tr><td><li>"lr":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with largest real part</td></tr>
+<tr><td><li>"sr":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with smallest real part</td></tr>
+<tr><td><li>"li":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with largest imaginary part</td></tr>
+<tr><td><li>"si":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with smallest imaginary part</td></tr>
+</tbody>
+</table>
+</ul>
 </li>
 <br>
 <li>
@@ -12401,7 +12487,7 @@ This policy is applicable to the APIs described in this documentation; it is not
 <br>
 <li>
 <a name="deprecated"></a>
-List of deprecated functionality; this functionality will be <b>removed</b> in version 4.0:
+List of deprecated functionality; this functionality will be <b>removed</b> in version 5.0:
 <ul>
 <li>
 ...
@@ -12418,6 +12504,17 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="added_in_4100"></a>
+<li>Added in 4.100:
+<ul>
+<li>added <a href="#normalise">normalise()</a> for normalising vectors to unit <i>p</i>-norm</li>
+<li>extended the <a href="#field">field class</a> to handle 3D layout</li>
+<li>extended <a href="#eigs_sym">eigs_sym()</a> and <a href="#eigs_gen">eigs_gen()</a> to obtain eigenvalues of various forms (eg. largest or smallest magnitude)</li>
+<li>automatic SIMD vectorisation of elementary expressions (eg. matrix addition) when using Clang 3.4+ with -O3 optimisation</li>
+<li>faster handling of sparse submatrix views</li>
+</ul>
+</li>
+<br>
 <a name="added_in_4000"></a>
 <li>Added in 4.000:
 <ul>
