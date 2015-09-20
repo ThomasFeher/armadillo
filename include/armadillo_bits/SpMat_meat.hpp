@@ -3873,7 +3873,7 @@ SpMat<eT>::init(uword in_rows, uword in_cols)
     (
       (
       ( (in_rows > ARMA_MAX_UHWORD) || (in_cols > ARMA_MAX_UHWORD) )
-        ? ( (float(in_rows) * float(in_cols)) > float(ARMA_MAX_UHWORD) )
+        ? ( (float(in_rows) * float(in_cols)) > float(ARMA_MAX_UWORD) )
         : false
       ),
       "SpMat::init(): requested size is too large"
