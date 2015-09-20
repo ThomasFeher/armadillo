@@ -13,7 +13,7 @@
 
 #define ARMA_VERSION_MAJOR 3
 #define ARMA_VERSION_MINOR 930
-#define ARMA_VERSION_PATCH 3
+#define ARMA_VERSION_PATCH 4
 #define ARMA_VERSION_NAME  "Dragon's Back"
 
 

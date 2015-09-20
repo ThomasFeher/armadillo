@@ -185,6 +185,7 @@ is_finite(const BaseCube<typename T1::elem_type,T1>& X)
 
 template<typename T1>
 arma_inline
+arma_deprecated
 Op<T1, op_sympd>
 sympd(const Base<typename T1::elem_type,T1>& X)
   {

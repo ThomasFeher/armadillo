@@ -187,17 +187,23 @@
     #define arma_cold __attribute__((__cold__))
   #endif
   
-  #if (ARMA_GCC_VERSION >= 40200)
-    #if defined(_GLIBCXX_USE_C99_MATH_TR1) && defined(_GLIBCXX_USE_C99_COMPLEX_TR1)
-      #define ARMA_HAVE_STD_TR1
+  #if defined(__GXX_EXPERIMENTAL_CXX0X__)
+    #if !defined(ARMA_USE_CXX11)
+      #define ARMA_USE_CXX11
     #endif
   #endif
   
-  #if defined(__GXX_EXPERIMENTAL_CXX0X__)
-    #undef ARMA_HAVE_STD_TR1
-    
+  #if defined(ARMA_USE_CXX11)
+    #if (ARMA_GCC_VERSION < 40700) && !defined(__clang__)
+      #pragma message ("Your C++ compiler is in C++11 mode, but it has incomplete support for C++11 features")
+    #endif
+  #endif
+  
+  #if (ARMA_GCC_VERSION >= 40200)
     #if !defined(ARMA_USE_CXX11)
-      #define ARMA_USE_CXX11
+      #if defined(_GLIBCXX_USE_C99_MATH_TR1) && defined(_GLIBCXX_USE_C99_COMPLEX_TR1)
+        #define ARMA_HAVE_TR1
+      #endif
     #endif
   #endif
   
