@@ -13,8 +13,8 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(ARMA_MAJOR 4)
-set(ARMA_MINOR 450)
-set(ARMA_PATCH 4)
+set(ARMA_MINOR 500)
+set(ARMA_PATCH 0)
 set(ARMADILLO_VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH})
 
 message(STATUS "Configuring Armadillo ${ARMADILLO_VERSION}")
@@ -28,6 +28,9 @@ include(ARMA_CheckMathProto)
 
 project(armadillo CXX)
 
+option(BUILD_SHARED_LIBS "build shared library" ON)
+option(DETECT_HDF5 "Detect HDF5 and include HDF5 support, if found" OFF)
+
 set(ARMA_USE_LAPACK    false)
 set(ARMA_USE_BLAS      false)
 set(ARMA_USE_ATLAS     false)
@@ -35,7 +38,6 @@ set(ARMA_USE_HDF5_ALT  false)
 set(ARMA_USE_ARPACK    false)
 set(ARMA_USE_CXX11_RNG false)
 set(ARMA_USE_WRAPPER   true )
-option(BUILD_SHARED_LIBS "build shared library" ON)
 
 ## NOTE:
 ## Set ARMA_USE_WRAPPER to false if you're getting linking errors when compiling your programs,
@@ -224,18 +226,23 @@ if(APPLE)
 endif()
 
 
-## TODO: to take into account various HDF5 installations which have varying include folders,
-##       need to specify the hdf5 include folder in include/armadillo_bits/config.hpp and include/armadillo_bits/config.hpp.cmake
-##       and then include the hdf5 header file within the main armadillo header in a similar manner to including the ATLAS header
+# set(DETECT_HDF5 true)
 
-# find_package(HDF5)
-# message(STATUS "HDF5_FOUND     = ${HDF5_FOUND}")
-# 
-# if(HDF5_FOUND)
-#   set(ARMA_USE_HDF5_ALT true)
-#   set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${HDF5_INCLUDE_DIRS})
-#   set(ARMA_LIBS ${ARMA_LIBS} ${HDF5_LIBRARIES})
-# endif()
+## uncomment the above line to enable the detection of the HDF5 library;
+## you can also enable HDF5 detection directly on the command line:
+## cmake -D DETECT_HDF5=true .
+
+if(DETECT_HDF5)
+  find_package(HDF5)
+  message(STATUS "HDF5_FOUND     = ${HDF5_FOUND}")
+ 
+  if(HDF5_FOUND)
+    set(ARMA_USE_HDF5_ALT true)
+    set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${HDF5_INCLUDE_DIRS})
+    set(ARMA_LIBS ${ARMA_LIBS} ${HDF5_LIBRARIES})
+    set(ARMA_HDF5_INCLUDE_DIR ${HDF5_INCLUDE_DIRS})
+  endif()
+endif()
 
 
 include(ARMA_FindARPACK)

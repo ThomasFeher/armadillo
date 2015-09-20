@@ -9,15 +9,15 @@
 
 
 #if !defined(ARMA_USE_LAPACK)
-// #define ARMA_USE_LAPACK
-//// Uncomment the above line if you have LAPACK or a high-speed replacement for LAPACK,
+#define ARMA_USE_LAPACK
+//// Comment out the above line if you don't have LAPACK or a high-speed replacement for LAPACK,
 //// such as Intel MKL, AMD ACML, or the Accelerate framework.
 //// LAPACK is required for matrix decompositions (eg. SVD) and matrix inverse.
 #endif
 
 #if !defined(ARMA_USE_BLAS)
-// #define ARMA_USE_BLAS
-//// Uncomment the above line if you have BLAS or a high-speed replacement for BLAS,
+#define ARMA_USE_BLAS
+//// Comment out the above line if you don't have BLAS or a high-speed replacement for BLAS,
 //// such as OpenBLAS, GotoBLAS, Intel MKL, AMD ACML, or the Accelerate framework.
 //// BLAS is used for matrix multiplication.
 //// Without BLAS, matrix multiplication will still work, but might be slower.
@@ -94,6 +94,8 @@
 #if defined(ARMA_USE_HDF5_ALT) && defined(ARMA_USE_WRAPPER)
   #undef  ARMA_USE_HDF5
   #define ARMA_USE_HDF5
+  
+  // #define ARMA_HDF5_INCLUDE_DIR /usr/include/
 #endif
 
 #if !defined(ARMA_MAT_PREALLOC)

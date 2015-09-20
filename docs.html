@@ -114,7 +114,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 4.450</b></font>
+        <font size=+2><b>Reference for Armadillo 4.500</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -408,7 +408,7 @@ The root matrix class is <b>Mat&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i>
 <ul>
 <li>
 <i>float</i>, <i>double</i>, <i>std::complex&lt;float&gt;</i>, <i>std::complex&lt;double&gt;</i>,
-<i>char</i>, <i>short</i>, <i>int</i>, <i>long</i> and unsigned versions of <i>char</i>, <i>short</i>, <i>int</i>, <i>long</i>
+<i>short</i>, <i>int</i>, <i>long</i>, and unsigned versions of <i>short</i>, <i>int</i>, <i>long</i>
 </li>
 </ul>
 </li>
@@ -1197,7 +1197,7 @@ The cube class is <b>Cube&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i> is on
 <ul>
 <li>
 <i>float</i>, <i>double</i>, <i>std::complex&lt;float&gt;</i>, <i>std::complex&lt;double&gt;</i>,
-<i>char</i>, <i>short</i>, <i>int</i>, <i>long</i> and unsigned versions of <i>char</i>, <i>short</i>, <i>int</i>, <i>long</i>
+<i>short</i>, <i>int</i>, <i>long</i> and unsigned versions of <i>short</i>, <i>int</i>, <i>long</i>
 </li>
 </ul>
 </li>
@@ -1512,7 +1512,7 @@ The root sparse matrix class is <b>SpMat&lt;</b><i>type</i><b>&gt;</b>, where <i
 <ul>
 <li>
 <i>float</i>, <i>double</i>, <i>std::complex&lt;float&gt;</i>, <i>std::complex&lt;double&gt;</i>,
-<i>char</i>, <i>short</i>, <i>int</i>, <i>long</i> and unsigned versions of <i>char</i>, <i>short</i>, <i>int</i>, <i>long</i>
+<i>short</i>, <i>int</i>, <i>long</i> and unsigned versions of <i>short</i>, <i>int</i>, <i>long</i>
 </li>
 </ul>
 </li>
@@ -8729,13 +8729,24 @@ See also:
 <a name="chol"></a>
 <b>R = chol( X )</b>
 <br><b>chol( R, X )</b>
+<br>
+<br><b>R = chol( X, layout )</b>
+<br><b>chol( R, X, layout )</b>
 <ul>
 <li>
-Cholesky decomposition of matrix <i>X</i>, such that <i>R.t()*R = X</i>
+Cholesky decomposition of matrix <i>X</i>
 </li>
 <br>
 <li>
 Matrix <i>X</i> must be symmetric and positive-definite
+</li>
+<br>
+<li>
+By default, <i>R</i> is upper triangular, such that <i>R.t()*R = X</i>
+</li>
+<br>
+<li>
+The argument <i>layout</i> is optional; <i>layout</i> is either "upper" or "lower", which specifies whether <i>R</i> is upper or lower triangular
 </li>
 <br>
 <li>If the decomposition fails, <i>R</i> is reset and:
@@ -8752,7 +8763,8 @@ Examples:
 mat X = randu&lt;mat&gt;(5,5);
 mat Y = X.t()*X;
 
-mat R = chol(Y);
+mat R1 = chol(Y);
+mat R2 = chol(Y, "lower");
 </pre>
 </ul>
 </li>
@@ -10483,6 +10495,7 @@ model.save("my_model.gmm");
 <ul>
 <li><a href="#stats_fns">statistics functions</a></li>
 <li><a href="#running_stat_vec">running_stat_vec</a></li>
+<li><a href="#diagmat">diagmat()</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Mahalanobis_distance">Mahalanobis distance in Wikipedia</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Normal_distribution">normal distribution in Wikipedia</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Mixture_model">mixture model in Wikipedia</a></li>
@@ -13304,6 +13317,15 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="added_in_4500"></a>
+<li>Added in 4.500:
+<ul>
+<li>faster handling of complex vectors by <a href="#norm">norm()</a></li>
+<li>expanded <a href="#chol">chol()</a> to optionally specify output matrix as upper or lower triangular</li>
+<li>better handling of non-finite values when <a href="#save_load_mat">saving</a> matrices as text files</li>
+</ul>
+</li>
+<br>
 <a name="added_in_4450"></a>
 <li>Added in 4.450:
 <ul>

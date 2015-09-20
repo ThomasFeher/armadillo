@@ -1861,7 +1861,7 @@ gmm_diag<eT>::em_generate_acc
   acc_norm_lhoods.zeros();
   gaus_log_lhoods.zeros();
   
-  const uword n_dim  = means.n_rows;
+  const uword N_dims = means.n_rows;
   const uword N_gaus = means.n_cols;
   
   const eT* log_hefts_mem       = log_hefts.memptr();
@@ -1897,7 +1897,7 @@ gmm_diag<eT>::em_generate_acc
       eT* acc_mean_mem = acc_means.colptr(g);
       eT* acc_dcov_mem = acc_dcovs.colptr(g);
       
-      for(uword d=0; d < n_dim; ++d)
+      for(uword d=0; d < N_dims; ++d)
         {
         const eT x_d = x[d];
         const eT y_d = x_d * norm_lhood;
