@@ -1,5 +1,5 @@
 // Copyright (C) 2011-2014 Ryan Curtin
-// Copyright (C) 2012-2014 Conrad Sanderson
+// Copyright (C) 2012-2015 Conrad Sanderson
 // Copyright (C) 2011 Matthew Amidon
 // 
 // This Source Code Form is subject to the terms of the Mozilla Public
@@ -1885,313 +1885,6 @@ SpMat<eT>::operator()(const span& row_span, const uword col_num) const
 
 
 
-/**
- * Swap in_row1 with in_row2.
- */
-template<typename eT>
-inline
-void
-SpMat<eT>::swap_rows(const uword in_row1, const uword in_row2)
-  {
-  arma_extra_debug_sigprint();
-
-  arma_debug_check
-    (
-    (in_row1 >= n_rows) || (in_row2 >= n_rows),
-    "SpMat::swap_rows(): out of bounds"
-    );
-
-  // Sanity check.
-  if (in_row1 == in_row2)
-    {
-    return;
-    }
-
-  // The easier way to do this, instead of collecting all the elements in one row and then swapping with the other, will be
-  // to iterate over each column of the matrix (since we store in column-major format) and then swap the two elements in the two rows at that time.
-  // We will try to avoid using the at() call since it is expensive, instead preferring to use an iterator to track our position.
-  uword col1 = (in_row1 < in_row2) ? in_row1 : in_row2;
-  uword col2 = (in_row1 < in_row2) ? in_row2 : in_row1;
-
-  for (uword lcol = 0; lcol < n_cols; lcol++)
-    {
-    // If there is nothing in this column we can ignore it.
-    if (col_ptrs[lcol] == col_ptrs[lcol + 1])
-      {
-      continue;
-      }
-
-    // These will represent the positions of the items themselves.
-    uword loc1 = n_nonzero + 1;
-    uword loc2 = n_nonzero + 1;
-
-    for (uword search_pos = col_ptrs[lcol]; search_pos < col_ptrs[lcol + 1]; search_pos++)
-      {
-      if (row_indices[search_pos] == col1)
-        {
-        loc1 = search_pos;
-        }
-
-      if (row_indices[search_pos] == col2)
-        {
-        loc2 = search_pos;
-        break; // No need to look any further.
-        }
-      }
-
-    // There are four cases: we found both elements; we found one element (loc1); we found one element (loc2); we found zero elements.
-    // If we found zero elements no work needs to be done and we can continue to the next column.
-    if ((loc1 != (n_nonzero + 1)) && (loc2 != (n_nonzero + 1)))
-      {
-      // This is an easy case: just swap the values.  No index modifying necessary.
-      eT tmp = values[loc1];
-      access::rw(values[loc1]) = values[loc2];
-      access::rw(values[loc2]) = tmp;
-      }
-    else if (loc1 != (n_nonzero + 1)) // We only found loc1 and not loc2.
-      {
-      // We need to find the correct place to move our value to.  It will be forward (not backwards) because in_row2 > in_row1.
-      // Each iteration of the loop swaps the current value (loc1) with (loc1 + 1); in this manner we move our value down to where it should be.
-      while (((loc1 + 1) < col_ptrs[lcol + 1]) && (row_indices[loc1 + 1] < in_row2))
-        {
-        // Swap both the values and the indices.  The column should not change.
-        eT tmp = values[loc1];
-        access::rw(values[loc1]) = values[loc1 + 1];
-        access::rw(values[loc1 + 1]) = tmp;
-
-        uword tmp_index = row_indices[loc1];
-        access::rw(row_indices[loc1]) = row_indices[loc1 + 1];
-        access::rw(row_indices[loc1 + 1]) = tmp_index;
-
-        loc1++; // And increment the counter.
-        }
-
-      // Now set the row index correctly.
-      access::rw(row_indices[loc1]) = in_row2;
-
-      }
-    else if (loc2 != (n_nonzero + 1))
-      {
-      // We need to find the correct place to move our value to.  It will be backwards (not forwards) because in_row1 < in_row2.
-      // Each iteration of the loop swaps the current value (loc2) with (loc2 - 1); in this manner we move our value up to where it should be.
-      while (((loc2 - 1) >= col_ptrs[lcol]) && (row_indices[loc2 - 1] > in_row1))
-        {
-        // Swap both the values and the indices.  The column should not change.
-        eT tmp = values[loc2];
-        access::rw(values[loc2]) = values[loc2 - 1];
-        access::rw(values[loc2 - 1]) = tmp;
-
-        uword tmp_index = row_indices[loc2];
-        access::rw(row_indices[loc2]) = row_indices[loc2 - 1];
-        access::rw(row_indices[loc2 - 1]) = tmp_index;
-
-        loc2--; // And decrement the counter.
-        }
-
-      // Now set the row index correctly.
-      access::rw(row_indices[loc2]) = in_row1;
-
-      }
-    /* else: no need to swap anything; both values are zero */
-    }
-  }
-
-/**
- * Swap in_col1 with in_col2.
- */
-template<typename eT>
-inline
-void
-SpMat<eT>::swap_cols(const uword in_col1, const uword in_col2)
-  {
-  arma_extra_debug_sigprint();
-
-  // slow but works
-  for(uword lrow = 0; lrow < n_rows; ++lrow)
-    {
-    eT tmp = at(lrow, in_col1);
-    at(lrow, in_col1) = at(lrow, in_col2);
-    at(lrow, in_col2) = tmp;
-    }
-  }
-
-/**
- * Remove the row row_num.
- */
-template<typename eT>
-inline
-void
-SpMat<eT>::shed_row(const uword row_num)
-  {
-  arma_extra_debug_sigprint();
-  arma_debug_check (row_num >= n_rows, "SpMat::shed_row(): out of bounds");
-
-  shed_rows (row_num, row_num);
-  }
-
-/**
- * Remove the column col_num.
- */
-template<typename eT>
-inline
-void
-SpMat<eT>::shed_col(const uword col_num)
-  {
-  arma_extra_debug_sigprint();
-  arma_debug_check (col_num >= n_cols, "SpMat::shed_col(): out of bounds");
-
-  shed_cols(col_num, col_num);
-  }
-
-/**
- * Remove all rows between (and including) in_row1 and in_row2.
- */
-template<typename eT>
-inline
-void
-SpMat<eT>::shed_rows(const uword in_row1, const uword in_row2)
-  {
-  arma_extra_debug_sigprint();
-
-  arma_debug_check
-    (
-    (in_row1 > in_row2) || (in_row2 >= n_rows),
-    "SpMat::shed_rows(): indices out of bounds or incorectly used"
-    );
-
-  uword i, j;
-  // Store the length of values
-  uword vlength = n_nonzero;
-  // Store the length of col_ptrs
-  uword clength = n_cols + 1;
-
-  // This is O(n * n_cols) and inplace, there may be a faster way, though.
-  for (i = 0, j = 0; i < vlength; ++i)
-    {
-    // Store the row of the ith element.
-    const uword lrow = row_indices[i];
-    // Is the ith element in the range of rows we want to remove?
-    if (lrow >= in_row1 && lrow <= in_row2)
-      {
-      // Increment our "removed elements" counter.
-      ++j;
-
-      // Adjust the values of col_ptrs each time we remove an element.
-      // Basically, the length of one column reduces by one, and everything to
-      // its right gets reduced by one to represent all the elements being
-      // shifted to the left by one.
-      for(uword k = 0; k < clength; ++k)
-        {
-        if (col_ptrs[k] > (i - j + 1))
-          {
-          --access::rw(col_ptrs[k]);
-          }
-        }
-      }
-    else
-      {
-      // We shift the element we checked to the left by how many elements
-      // we have removed.
-      // j = 0 until we remove the first element.
-      if (j != 0)
-        {
-        access::rw(row_indices[i - j]) = (lrow > in_row2) ? (lrow - (in_row2 - in_row1 + 1)) : lrow;
-        access::rw(values[i - j]) = values[i];
-        }
-      }
-    }
-
-  // j is the number of elements removed.
-
-  // Shrink the vectors.  This will copy the memory.
-  mem_resize(n_nonzero - j);
-
-  // Adjust row and element counts.
-  access::rw(n_rows)    = n_rows - (in_row2 - in_row1) - 1;
-  access::rw(n_elem)    = n_rows * n_cols;
-  }
-
-/**
- * Remove all columns between (and including) in_col1 and in_col2.
- */
-template<typename eT>
-inline
-void
-SpMat<eT>::shed_cols(const uword in_col1, const uword in_col2)
-  {
-  arma_extra_debug_sigprint();
-
-  arma_debug_check
-    (
-    (in_col1 > in_col2) || (in_col2 >= n_cols),
-    "SpMat::shed_cols(): indices out of bounds or incorrectly used"
-    );
-
-  // First we find the locations in values and row_indices for the column entries.
-  uword col_beg = col_ptrs[in_col1];
-  uword col_end = col_ptrs[in_col2 + 1];
-
-  // Then we find the number of entries in the column.
-  uword diff = col_end - col_beg;
-
-  if (diff > 0)
-    {
-    eT*    new_values      = memory::acquire_chunked<eT>   (n_nonzero - diff);
-    uword* new_row_indices = memory::acquire_chunked<uword>(n_nonzero - diff);
-
-    // Copy first part.
-    if (col_beg != 0)
-      {
-      arrayops::copy(new_values, values, col_beg);
-      arrayops::copy(new_row_indices, row_indices, col_beg);
-      }
-
-    // Copy second part.
-    if (col_end != n_nonzero)
-      {
-      arrayops::copy(new_values + col_beg, values + col_end, n_nonzero - col_end);
-      arrayops::copy(new_row_indices + col_beg, row_indices + col_end, n_nonzero - col_end);
-      }
-
-    memory::release(values);
-    memory::release(row_indices);
-
-    access::rw(values)      = new_values;
-    access::rw(row_indices) = new_row_indices;
-
-    // Update counts and such.
-    access::rw(n_nonzero) -= diff;
-    }
-  
-  // Update column pointers.
-  const uword new_n_cols = n_cols - ((in_col2 - in_col1) + 1);
-  
-  uword* new_col_ptrs = memory::acquire<uword>(new_n_cols + 2);
-  new_col_ptrs[new_n_cols + 1] = std::numeric_limits<uword>::max();
-  
-  // Copy first set of columns (no manipulation required).
-  if (in_col1 != 0)
-    {
-    arrayops::copy(new_col_ptrs, col_ptrs, in_col1);
-    }
-  
-  // Copy second set of columns (manipulation required).
-  uword cur_col = in_col1;
-  for (uword i = in_col2 + 1; i <= n_cols; ++i, ++cur_col)
-    {
-    new_col_ptrs[cur_col] = col_ptrs[i] - diff;
-    }
-  
-  memory::release(col_ptrs);
-  access::rw(col_ptrs) = new_col_ptrs;
-  
-  // We update the element and column counts, and we're done.
-  access::rw(n_cols) = new_n_cols;
-  access::rw(n_elem) = n_cols * n_rows;
-  }
-
-
-
 template<typename eT>
 arma_inline
 SpSubview<eT>
@@ -2480,6 +2173,425 @@ SpMat<eT>::operator()(const uword in_row1, const uword in_col1, const SizeMat& s
 
 
 
+template<typename eT>
+inline
+SpSubview<eT>
+SpMat<eT>::head_rows(const uword N)
+  {
+  arma_extra_debug_sigprint();
+  
+  arma_debug_check( (N > n_rows), "SpMat::head_rows(): size out of bounds");
+  
+  return SpSubview<eT>(*this, 0, 0, N, n_cols);
+  }
+
+
+
+template<typename eT>
+inline
+const SpSubview<eT>
+SpMat<eT>::head_rows(const uword N) const
+  {
+  arma_extra_debug_sigprint();
+  
+  arma_debug_check( (N > n_rows), "SpMat::head_rows(): size out of bounds");
+  
+  return SpSubview<eT>(*this, 0, 0, N, n_cols);
+  }
+
+
+
+template<typename eT>
+inline
+SpSubview<eT>
+SpMat<eT>::tail_rows(const uword N)
+  {
+  arma_extra_debug_sigprint();
+  
+  arma_debug_check( (N > n_rows), "SpMat::tail_rows(): size out of bounds");
+  
+  const uword start_row = n_rows - N;
+  
+  return SpSubview<eT>(*this, start_row, 0, N, n_cols);
+  }
+
+
+
+template<typename eT>
+inline
+const SpSubview<eT>
+SpMat<eT>::tail_rows(const uword N) const
+  {
+  arma_extra_debug_sigprint();
+  
+  arma_debug_check( (N > n_rows), "SpMat::tail_rows(): size out of bounds");
+  
+  const uword start_row = n_rows - N;
+  
+  return SpSubview<eT>(*this, start_row, 0, N, n_cols);
+  }
+
+
+
+template<typename eT>
+inline
+SpSubview<eT>
+SpMat<eT>::head_cols(const uword N)
+  {
+  arma_extra_debug_sigprint();
+  
+  arma_debug_check( (N > n_cols), "SpMat::head_cols(): size out of bounds");
+  
+  return SpSubview<eT>(*this, 0, 0, n_rows, N);
+  }
+
+
+
+template<typename eT>
+inline
+const SpSubview<eT>
+SpMat<eT>::head_cols(const uword N) const
+  {
+  arma_extra_debug_sigprint();
+  
+  arma_debug_check( (N > n_cols), "SpMat::head_cols(): size out of bounds");
+  
+  return SpSubview<eT>(*this, 0, 0, n_rows, N);
+  }
+
+
+
+template<typename eT>
+inline
+SpSubview<eT>
+SpMat<eT>::tail_cols(const uword N)
+  {
+  arma_extra_debug_sigprint();
+  
+  arma_debug_check( (N > n_cols), "SpMat::tail_cols(): size out of bounds");
+  
+  const uword start_col = n_cols - N;
+  
+  return SpSubview<eT>(*this, 0, start_col, n_rows, N);
+  }
+
+
+
+template<typename eT>
+inline
+const SpSubview<eT>
+SpMat<eT>::tail_cols(const uword N) const
+  {
+  arma_extra_debug_sigprint();
+  
+  arma_debug_check( (N > n_cols), "SpMat::tail_cols(): size out of bounds");
+  
+  const uword start_col = n_cols - N;
+  
+  return SpSubview<eT>(*this, 0, start_col, n_rows, N);
+  }
+
+
+
+template<typename eT>
+inline
+void
+SpMat<eT>::swap_rows(const uword in_row1, const uword in_row2)
+  {
+  arma_extra_debug_sigprint();
+
+  arma_debug_check
+    (
+    (in_row1 >= n_rows) || (in_row2 >= n_rows),
+    "SpMat::swap_rows(): out of bounds"
+    );
+
+  // Sanity check.
+  if (in_row1 == in_row2)
+    {
+    return;
+    }
+
+  // The easier way to do this, instead of collecting all the elements in one row and then swapping with the other, will be
+  // to iterate over each column of the matrix (since we store in column-major format) and then swap the two elements in the two rows at that time.
+  // We will try to avoid using the at() call since it is expensive, instead preferring to use an iterator to track our position.
+  uword col1 = (in_row1 < in_row2) ? in_row1 : in_row2;
+  uword col2 = (in_row1 < in_row2) ? in_row2 : in_row1;
+
+  for (uword lcol = 0; lcol < n_cols; lcol++)
+    {
+    // If there is nothing in this column we can ignore it.
+    if (col_ptrs[lcol] == col_ptrs[lcol + 1])
+      {
+      continue;
+      }
+
+    // These will represent the positions of the items themselves.
+    uword loc1 = n_nonzero + 1;
+    uword loc2 = n_nonzero + 1;
+
+    for (uword search_pos = col_ptrs[lcol]; search_pos < col_ptrs[lcol + 1]; search_pos++)
+      {
+      if (row_indices[search_pos] == col1)
+        {
+        loc1 = search_pos;
+        }
+
+      if (row_indices[search_pos] == col2)
+        {
+        loc2 = search_pos;
+        break; // No need to look any further.
+        }
+      }
+
+    // There are four cases: we found both elements; we found one element (loc1); we found one element (loc2); we found zero elements.
+    // If we found zero elements no work needs to be done and we can continue to the next column.
+    if ((loc1 != (n_nonzero + 1)) && (loc2 != (n_nonzero + 1)))
+      {
+      // This is an easy case: just swap the values.  No index modifying necessary.
+      eT tmp = values[loc1];
+      access::rw(values[loc1]) = values[loc2];
+      access::rw(values[loc2]) = tmp;
+      }
+    else if (loc1 != (n_nonzero + 1)) // We only found loc1 and not loc2.
+      {
+      // We need to find the correct place to move our value to.  It will be forward (not backwards) because in_row2 > in_row1.
+      // Each iteration of the loop swaps the current value (loc1) with (loc1 + 1); in this manner we move our value down to where it should be.
+      while (((loc1 + 1) < col_ptrs[lcol + 1]) && (row_indices[loc1 + 1] < in_row2))
+        {
+        // Swap both the values and the indices.  The column should not change.
+        eT tmp = values[loc1];
+        access::rw(values[loc1]) = values[loc1 + 1];
+        access::rw(values[loc1 + 1]) = tmp;
+
+        uword tmp_index = row_indices[loc1];
+        access::rw(row_indices[loc1]) = row_indices[loc1 + 1];
+        access::rw(row_indices[loc1 + 1]) = tmp_index;
+
+        loc1++; // And increment the counter.
+        }
+
+      // Now set the row index correctly.
+      access::rw(row_indices[loc1]) = in_row2;
+
+      }
+    else if (loc2 != (n_nonzero + 1))
+      {
+      // We need to find the correct place to move our value to.  It will be backwards (not forwards) because in_row1 < in_row2.
+      // Each iteration of the loop swaps the current value (loc2) with (loc2 - 1); in this manner we move our value up to where it should be.
+      while (((loc2 - 1) >= col_ptrs[lcol]) && (row_indices[loc2 - 1] > in_row1))
+        {
+        // Swap both the values and the indices.  The column should not change.
+        eT tmp = values[loc2];
+        access::rw(values[loc2]) = values[loc2 - 1];
+        access::rw(values[loc2 - 1]) = tmp;
+
+        uword tmp_index = row_indices[loc2];
+        access::rw(row_indices[loc2]) = row_indices[loc2 - 1];
+        access::rw(row_indices[loc2 - 1]) = tmp_index;
+
+        loc2--; // And decrement the counter.
+        }
+
+      // Now set the row index correctly.
+      access::rw(row_indices[loc2]) = in_row1;
+
+      }
+    /* else: no need to swap anything; both values are zero */
+    }
+  }
+
+
+
+template<typename eT>
+inline
+void
+SpMat<eT>::swap_cols(const uword in_col1, const uword in_col2)
+  {
+  arma_extra_debug_sigprint();
+
+  // slow but works
+  for(uword lrow = 0; lrow < n_rows; ++lrow)
+    {
+    eT tmp = at(lrow, in_col1);
+    at(lrow, in_col1) = at(lrow, in_col2);
+    at(lrow, in_col2) = tmp;
+    }
+  }
+
+
+
+template<typename eT>
+inline
+void
+SpMat<eT>::shed_row(const uword row_num)
+  {
+  arma_extra_debug_sigprint();
+  arma_debug_check (row_num >= n_rows, "SpMat::shed_row(): out of bounds");
+
+  shed_rows (row_num, row_num);
+  }
+
+
+
+template<typename eT>
+inline
+void
+SpMat<eT>::shed_col(const uword col_num)
+  {
+  arma_extra_debug_sigprint();
+  arma_debug_check (col_num >= n_cols, "SpMat::shed_col(): out of bounds");
+
+  shed_cols(col_num, col_num);
+  }
+
+
+
+template<typename eT>
+inline
+void
+SpMat<eT>::shed_rows(const uword in_row1, const uword in_row2)
+  {
+  arma_extra_debug_sigprint();
+
+  arma_debug_check
+    (
+    (in_row1 > in_row2) || (in_row2 >= n_rows),
+    "SpMat::shed_rows(): indices out of bounds or incorectly used"
+    );
+
+  uword i, j;
+  // Store the length of values
+  uword vlength = n_nonzero;
+  // Store the length of col_ptrs
+  uword clength = n_cols + 1;
+
+  // This is O(n * n_cols) and inplace, there may be a faster way, though.
+  for (i = 0, j = 0; i < vlength; ++i)
+    {
+    // Store the row of the ith element.
+    const uword lrow = row_indices[i];
+    // Is the ith element in the range of rows we want to remove?
+    if (lrow >= in_row1 && lrow <= in_row2)
+      {
+      // Increment our "removed elements" counter.
+      ++j;
+
+      // Adjust the values of col_ptrs each time we remove an element.
+      // Basically, the length of one column reduces by one, and everything to
+      // its right gets reduced by one to represent all the elements being
+      // shifted to the left by one.
+      for(uword k = 0; k < clength; ++k)
+        {
+        if (col_ptrs[k] > (i - j + 1))
+          {
+          --access::rw(col_ptrs[k]);
+          }
+        }
+      }
+    else
+      {
+      // We shift the element we checked to the left by how many elements
+      // we have removed.
+      // j = 0 until we remove the first element.
+      if (j != 0)
+        {
+        access::rw(row_indices[i - j]) = (lrow > in_row2) ? (lrow - (in_row2 - in_row1 + 1)) : lrow;
+        access::rw(values[i - j]) = values[i];
+        }
+      }
+    }
+
+  // j is the number of elements removed.
+
+  // Shrink the vectors.  This will copy the memory.
+  mem_resize(n_nonzero - j);
+
+  // Adjust row and element counts.
+  access::rw(n_rows)    = n_rows - (in_row2 - in_row1) - 1;
+  access::rw(n_elem)    = n_rows * n_cols;
+  }
+
+
+
+template<typename eT>
+inline
+void
+SpMat<eT>::shed_cols(const uword in_col1, const uword in_col2)
+  {
+  arma_extra_debug_sigprint();
+
+  arma_debug_check
+    (
+    (in_col1 > in_col2) || (in_col2 >= n_cols),
+    "SpMat::shed_cols(): indices out of bounds or incorrectly used"
+    );
+
+  // First we find the locations in values and row_indices for the column entries.
+  uword col_beg = col_ptrs[in_col1];
+  uword col_end = col_ptrs[in_col2 + 1];
+
+  // Then we find the number of entries in the column.
+  uword diff = col_end - col_beg;
+
+  if (diff > 0)
+    {
+    eT*    new_values      = memory::acquire_chunked<eT>   (n_nonzero - diff);
+    uword* new_row_indices = memory::acquire_chunked<uword>(n_nonzero - diff);
+
+    // Copy first part.
+    if (col_beg != 0)
+      {
+      arrayops::copy(new_values, values, col_beg);
+      arrayops::copy(new_row_indices, row_indices, col_beg);
+      }
+
+    // Copy second part.
+    if (col_end != n_nonzero)
+      {
+      arrayops::copy(new_values + col_beg, values + col_end, n_nonzero - col_end);
+      arrayops::copy(new_row_indices + col_beg, row_indices + col_end, n_nonzero - col_end);
+      }
+
+    memory::release(values);
+    memory::release(row_indices);
+
+    access::rw(values)      = new_values;
+    access::rw(row_indices) = new_row_indices;
+
+    // Update counts and such.
+    access::rw(n_nonzero) -= diff;
+    }
+  
+  // Update column pointers.
+  const uword new_n_cols = n_cols - ((in_col2 - in_col1) + 1);
+  
+  uword* new_col_ptrs = memory::acquire<uword>(new_n_cols + 2);
+  new_col_ptrs[new_n_cols + 1] = std::numeric_limits<uword>::max();
+  
+  // Copy first set of columns (no manipulation required).
+  if (in_col1 != 0)
+    {
+    arrayops::copy(new_col_ptrs, col_ptrs, in_col1);
+    }
+  
+  // Copy second set of columns (manipulation required).
+  uword cur_col = in_col1;
+  for (uword i = in_col2 + 1; i <= n_cols; ++i, ++cur_col)
+    {
+    new_col_ptrs[cur_col] = col_ptrs[i] - diff;
+    }
+  
+  memory::release(col_ptrs);
+  access::rw(col_ptrs) = new_col_ptrs;
+  
+  // We update the element and column counts, and we're done.
+  access::rw(n_cols) = new_n_cols;
+  access::rw(n_elem) = n_cols * n_rows;
+  }
+
+
+
 /**
  * Element access; acces the i'th element (works identically to the Mat accessors).
  * If there is nothing at element i, 0 is returned.
@@ -2675,15 +2787,7 @@ arma_warn_unused
 bool
 SpMat<eT>::is_finite() const
   {
-  for(uword i = 0; i < n_nonzero; i++)
-    {
-    if(arma_isfinite(values[i]) == false)
-      {
-      return false;
-      }
-    }
-
-  return true; // No infinite values.
+  return arrayops::is_finite(values, n_nonzero);
   }
 
 
@@ -4861,7 +4965,7 @@ SpMat<eT>::delete_element(const uword in_row, const uword in_col)
   // exact position.  If it doesn't exist... well, we don't need to do anything.
   uword colptr      = col_ptrs[in_col];
   uword next_colptr = col_ptrs[in_col + 1];
-
+  
   if (colptr != next_colptr)
     {
     // There's at least one element in this column.
@@ -4875,19 +4979,19 @@ SpMat<eT>::delete_element(const uword in_row, const uword in_col)
         --access::rw(n_nonzero); // Remove one from the count of nonzero elements.
         
         // Found it.  Now remove it.
-          
+        
         // Figure out the actual amount of memory currently allocated and the actual amount that will be required
         // NOTE: this relies on memory::acquire_chunked() being used for the 'values' and 'row_indices' arrays
-          
+        
         const uword n_alloc     = memory::enlarge_to_mult_of_chunksize(old_n_nonzero + 1);
-        const uword n_alloc_mod = memory::enlarge_to_mult_of_chunksize(n_nonzero + 1);
-          
+        const uword n_alloc_mod = memory::enlarge_to_mult_of_chunksize(n_nonzero     + 1);
+        
         // If possible, avoid time-consuming memory allocation
         if(n_alloc_mod == n_alloc)
           {
           if (pos < n_nonzero)  // remember, we decremented n_nonzero
             {
-            arrayops::copy_forwards(access::rwp(values)      + pos, values + pos + 1, (n_nonzero - pos) + 1);
+            arrayops::copy_forwards(access::rwp(values)      + pos, values      + pos + 1, (n_nonzero - pos) + 1);
             arrayops::copy_forwards(access::rwp(row_indices) + pos, row_indices + pos + 1, (n_nonzero - pos) + 1);
             }
           }
@@ -4896,19 +5000,19 @@ SpMat<eT>::delete_element(const uword in_row, const uword in_col)
           // Make new arrays.
           eT*    new_values      = memory::acquire_chunked<eT>   (n_nonzero + 1);
           uword* new_row_indices = memory::acquire_chunked<uword>(n_nonzero + 1);
-            
+          
           if (pos > 0)
             {
             arrayops::copy(new_values,      values,      pos);
             arrayops::copy(new_row_indices, row_indices, pos);
             }
-            
+          
           arrayops::copy(new_values      + pos, values      + pos + 1, (n_nonzero - pos) + 1);
           arrayops::copy(new_row_indices + pos, row_indices + pos + 1, (n_nonzero - pos) + 1);
-            
+          
           memory::release(values);
           memory::release(row_indices);
-            
+          
           access::rw(values)      = new_values;
           access::rw(row_indices) = new_row_indices;
           }

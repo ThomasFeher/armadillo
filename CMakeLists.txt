@@ -13,11 +13,30 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(ARMA_MAJOR 4)
-set(ARMA_MINOR 600)
-set(ARMA_PATCH 5)
+set(ARMA_MINOR 650)
+set(ARMA_PATCH 0)
 set(ARMADILLO_VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH})
 
 message(STATUS "Configuring Armadillo ${ARMADILLO_VERSION}")
+
+
+## Set ARMA_USE_WRAPPER to false if you're getting linking errors when compiling your programs,
+## or if you prefer to directly link with BLAS and/or LAPACK.
+## You will then need to link your programs with -lblas -llapack instead of -larmadillo
+## If you're using OpenBLAS, link your programs with -lopenblas -llapack instead of -larmadillo
+
+set(ARMA_USE_WRAPPER true)
+
+
+# the settings below will be automatically configured by the rest of this script
+
+set(ARMA_USE_LAPACK           false)
+set(ARMA_USE_BLAS             false)
+set(ARMA_USE_ATLAS            false)
+set(ARMA_USE_HDF5_ALT         false)
+set(ARMA_USE_ARPACK           false)
+set(ARMA_USE_EXTERN_CXX11_RNG false)
+
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_aux/Modules/")
 
@@ -30,21 +49,6 @@ project(armadillo CXX)
 
 option(BUILD_SHARED_LIBS "build shared library" ON)
 option(DETECT_HDF5 "Detect HDF5 and include HDF5 support, if found" OFF)
-
-set(ARMA_USE_LAPACK    false)
-set(ARMA_USE_BLAS      false)
-set(ARMA_USE_ATLAS     false)
-set(ARMA_USE_HDF5_ALT  false)
-set(ARMA_USE_ARPACK    false)
-set(ARMA_USE_CXX11_RNG false)
-set(ARMA_USE_WRAPPER   true )
-
-## NOTE:
-## Set ARMA_USE_WRAPPER to false if you're getting linking errors when compiling your programs,
-## or if you prefer to directly link with BLAS and/or LAPACK.
-## You will then need to link your programs with -lblas -llapack instead of -larmadillo
-## If you're using OpenBLAS, link your programs with -lopenblas -llapack instead of -larmadillo
-
 
 message(STATUS "CMAKE_SYSTEM_NAME          = ${CMAKE_SYSTEM_NAME}"         )
 message(STATUS "CMAKE_CXX_COMPILER_ID      = ${CMAKE_CXX_COMPILER_ID}"     )
@@ -263,7 +267,7 @@ message(STATUS "")
 
 if(DEFINED CMAKE_CXX_COMPILER_ID AND DEFINED CMAKE_CXX_COMPILER_VERSION)
   if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 4.8.3)
-    set(ARMA_USE_CXX11_RNG true)
+    set(ARMA_USE_EXTERN_CXX11_RNG true)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
     message(STATUS "Detected gcc 4.8.3 or later. Added '-std=c++11' to compiler flags")
   endif()

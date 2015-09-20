@@ -10,7 +10,7 @@
 #include "armadillo_bits/include_atlas.hpp"
 
 
-#if defined(ARMA_USE_CXX11_RNG)
+#if defined(ARMA_USE_EXTERN_CXX11_RNG)
   #include <random>
   #include <ctime>
   

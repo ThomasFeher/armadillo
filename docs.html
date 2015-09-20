@@ -127,7 +127,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 4.600</b></font>
+        <font size=+2><b>Reference for Armadillo 4.650</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -310,10 +310,11 @@ Technical Report, NICTA, 2010.
 <tr style="background-color: #EEEEEE;"><td><a href="#ones_standalone">ones</a></td><td>&nbsp;</td><td>generate object filled with ones</td></tr>
 <tr><td><a href="#randi">randi</a></td><td>&nbsp;</td><td>generate object with random integer values in specified interval</td></tr>
 <tr><td><a href="#randu_randn_standalone">randu&nbsp;/&nbsp;randn</a></td><td>&nbsp;</td><td>generate object with random values (uniform and normal distributions)</td></tr>
-<tr><td><a href="#speye">speye</a></td><td>&nbsp;</td><td>generate sparse identity matrix</td></tr>
+<tr><td><a href="#randg">randg</a></td><td>&nbsp;</td><td>generate object with random values (gamma distribution)</td></tr>
+<tr style="background-color: #EEEEEE;"><td><a href="#speye">speye</a></td><td>&nbsp;</td><td>generate sparse identity matrix</td></tr>
 <tr style="background-color: #EEEEEE;"><td><a href="#spones">spones</a></td><td>&nbsp;</td><td>generate sparse matrix with non-zero elements set to one</td></tr>
 <tr style="background-color: #EEEEEE;"><td><a href="#sprandu_sprandn">sprandu&nbsp;/&nbsp;sprandn</a></td><td>&nbsp;</td><td>generate sparse matrix with non-zero elements set to random values</td></tr>
-<tr style="background-color: #EEEEEE;"><td><a href="#toeplitz">toeplitz</a></td><td>&nbsp;</td><td>generate Toeplitz matrix</td></tr>
+<tr><td><a href="#toeplitz">toeplitz</a></td><td>&nbsp;</td><td>generate Toeplitz matrix</td></tr>
 <tr><td><a href="#zeros_standalone">zeros</a></td><td>&nbsp;</td><td>generate object filled with zeros</td></tr>
 </tbody>
 </table>
@@ -3016,45 +3017,83 @@ A.reset();
 <ul>
 <li>A collection of member functions of <i>Mat</i>, <i>Col</i> and <i>Row</i> classes that provide read/write access to submatrix views<br>
 <br>
-<li>For a matrix or vector <i>X</i>, the subviews are accessed as:</li>
+<table>
+<tbody>
+<tr>
+<td>
+
+<table>
+<tbody>
+<tr>
+<td>
+
+<li>contiguous views for matrix X:
+<br>
 <br>
 <ul>
-<li>contiguous views:
-<ul>
-<br>
 X.<b>col(&nbsp;</b>col_number<b>&nbsp;)</b><br>
 X.<b>row(&nbsp;</b>row_number<b>&nbsp;)</b><br>
 <br>
-X.<b>cols(&nbsp;</b>first_col<b>,</b> last_col<b>&nbsp;)</b><br>
-X.<b>rows(&nbsp;</b>first_row<b>,</b> last_row<b>&nbsp;)</b><br>
+X.<b>cols(&nbsp;</b>first_col<b>,</b>&nbsp;last_col<b>&nbsp;)</b><br>
+X.<b>rows(&nbsp;</b>first_row<b>,</b>&nbsp;last_row<b>&nbsp;)</b><br>
 <br>
-X.<b>submat(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> last_row<b>,</b> last_col<b>&nbsp;)</b><br>
+X.<b>submat(&nbsp;</b>first_row<b>,</b>&nbsp;first_col<b>,</b>&nbsp;last_row<b>,</b>&nbsp;last_col<b>&nbsp;)</b><br>
 <br>
-X<b>(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> last_col<b>)&nbsp;)</b><br>
+X<b>(&nbsp;span(</b>first_row<b>,</b>&nbsp;last_row<b>),&nbsp;span(</b>first_col<b>,</b>&nbsp;last_col<b>)&nbsp;)</b><br>
 <br>
-X<b>(&nbsp;</b>first_row<b>,</b> first_col<b>, size(</b>n_rows<b>, </b>n_cols<b>)&nbsp;)</b><br>
-X<b>(&nbsp;</b>first_row<b>,</b> first_col<b>, size(</b>Y<b>)&nbsp;)</b> &nbsp;&nbsp;&nbsp;<i>(Y is a mat)</i><br>
+X<b>(&nbsp;</b>first_row<b>,</b>&nbsp;first_col<b>,&nbsp;size(</b>n_rows<b>,&nbsp;</b>n_cols<b>)&nbsp;)</b><br>
+X<b>(&nbsp;</b>first_row<b>,</b>&nbsp;first_col<b>,&nbsp;size(</b>Y<b>)&nbsp;)</b>&nbsp;&nbsp;&nbsp;&nbsp;<i>(Y&nbsp;is&nbsp;a&nbsp;mat)</i><br>
 <br>
-X<b>(</b>&nbsp;<b>span::all,</b> col_number&nbsp;<b>)</b><br>
-X<b>(</b>&nbsp;<b>span(</b>first_row<b>,</b> last_row<b>),</b> col_number&nbsp;<b>)</b><br>
+X<b>(</b>&nbsp;<b>span::all,</b>&nbsp;col_number&nbsp;<b>)</b><br>
+X<b>(</b>&nbsp;<b>span(</b>first_row<b>,</b>&nbsp;last_row<b>),</b>&nbsp;col_number&nbsp;<b>)</b><br>
 <br>
-X<b>(</b>&nbsp;row_number<b>,</b> <b>span::all</b>&nbsp;<b>)</b><br>
-X<b>(</b>&nbsp;row_number<b>,</b> <b>span(</b>first_col<b>,</b> last_col<b>)&nbsp;)</b><br>
+X<b>(</b>&nbsp;row_number<b>,</b>&nbsp;<b>span::all</b>&nbsp;<b>)</b><br>
+X<b>(</b>&nbsp;row_number<b>,</b>&nbsp;<b>span(</b>first_col<b>,</b>&nbsp;last_col<b>)&nbsp;)</b><br>
+<br>
+X.<b>head_cols(&nbsp;</b>number_of_cols<b>&nbsp;)</b><br>
+X.<b>tail_cols(&nbsp;</b>number_of_cols<b>&nbsp;)</b><br>
+<br>
+X.<b>head_rows(&nbsp;</b>number_of_rows<b>&nbsp;)</b><br>
+X.<b>tail_rows(&nbsp;</b>number_of_rows<b>&nbsp;)</b><br>
 <br>
 X.<b>unsafe_col(&nbsp;</b>col_number<b>&nbsp;)</b><br>
-<br>
-<table border="0" cellpadding="0" cellspacing="0">
-<tbody>
-<tr><td>V<b>(&nbsp;span(</b>first_index<b>,</b> last_index<b>)&nbsp;)</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>&#9131;</td><td>&nbsp;</td></tr>
-<tr><td>V.<b>subvec(&nbsp;</b>first_index<b>,</b> last_index<b>&nbsp;)</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>&#9130;</td><td>&nbsp;</td></tr>
-<tr><td>V.<b>head(&nbsp;</b>number_of_elements<b>&nbsp;)</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>&#9132;</td><td>&nbsp;&nbsp;<i>for vectors only</i></td></tr>
-<tr><td>V.<b>tail(&nbsp;</b>number_of_elements<b>&nbsp;)</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>&#9133;</td><td>&nbsp;</td></tr>
+</ul>
+</li>
+
+</td>
+</tr>
 </tbody>
 </table>
+
+</td>
+
+<td>&nbsp;&nbsp;&nbsp;</td>
+<td class="line" style="vertical-align: top;">&nbsp;</td>
+<td>&nbsp;&nbsp;&nbsp;</td>
+
+<td style="vertical-align: top;">
+
+<table>
+<tbody>
+<tr>
+<td>
+
+<li>
+contiguous views for vector V:
+<br>
+<br>
+<ul>
+V<b>(&nbsp;span(</b>first_index<b>,</b> last_index<b>)&nbsp;)</b><br>
+V.<b>subvec(&nbsp;</b>first_index<b>,</b> last_index<b>&nbsp;)</b><br>
+<br>
+V.<b>head(&nbsp;</b>number_of_elements<b>&nbsp;)</b><br>
+V.<b>tail(&nbsp;</b>number_of_elements<b>&nbsp;)</b>
 </ul>
 </li>
 <br>
-<li>non-contiguous views:
+<br>
+
+<li>non-contiguous views for matrix or vector X:
 <ul>
 <br>
 X.<b>elem(</b>&nbsp;vector_of_indices&nbsp;<b>)</b><br>
@@ -3069,6 +3108,8 @@ X<b>(</b>&nbsp;vector_of_row_indices<b>,</b>&nbsp;vector_of_column_indices&nbsp;
 </ul>
 </li>
 <br>
+<br>
+
 <li>related views (documented separately)
 <ul>
 <br>
@@ -3077,7 +3118,18 @@ X.<a href="#each_colrow">each_row()</a><br>
 X.<a href="#each_colrow">each_col()</a><br>
 </ul>
 </li>
-</ul>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+
 <br>
 <li>
 Instances of <i>span::all</i>, to indicate an entire range, can be replaced by <i>span()</i>, where no number is specified
@@ -3086,7 +3138,7 @@ Instances of <i>span::all</i>, to indicate an entire range, can be replaced by <
 <li>
 For functions requiring one or more vector of indices,
 eg. <i>X.submat(vector_of_row_indices,vector_of_column_indices)</i>,
-each vector of indices must be of type <i><a href="#Col">uvec</a></i>.
+each vector of indices must be of type <i><a href="#Col">uvec</a></i>
 </li>
 <br>
 <li>
@@ -3103,7 +3155,7 @@ The aggregate set of the specified elements is treated as a column vector
 <li>
 The function <i>.unsafe_col()</i> is provided for speed reasons and should be used only if you know what you're doing.
 The function creates a seemingly independent <i>Col</i> vector object (eg. <i>vec</i>),
-but the vector actually uses memory from the existing matrix object.
+but it actually uses memory from the existing matrix object.
 As such, the created <i>Col</i> vector is currently not alias safe
 and does not take into account that the parent matrix object could be deleted.
 If deleted memory is accessed through the created <i>Col</i> vector,
@@ -5753,11 +5805,87 @@ arma_rng::set_seed_random();  // set the seed to a random value
 <li><a href="#randu_randn_member">.randu() &amp; .randn()</a> (member functions)</li>
 <li><a href="#imbue">.imbue()</a></li>
 <li><a href="#randi">randi()</a></li>
+<li><a href="#randg">randg()</a></li>
 <li><a href="#ones_standalone">ones()</a></li>
 <li><a href="#zeros_standalone">zeros()</a></li>
 <li><a href="#shuffle">shuffle()</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Uniform_distribution_(continuous)">uniform distribution in Wikipedia</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Normal_distribution">normal distribution in Wikipedia</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="randg"></a>
+<b>randg( n_elem )</b> 
+<br><b>randg( n_elem, distr_param(a,b) )</b> 
+<br>
+<br><b>randg( n_rows, n_cols )</b>
+<br><b>randg( n_rows, n_cols, distr_param(a,b) )</b>
+<br>
+<br><b>randg( n_rows, n_cols, n_slices )</b>
+<br><b>randg( n_rows, n_cols, n_slices, distr_param(a,b) )</b>
+<ul>
+<li>
+Available only when using a C++11 compiler
+</li>
+<br>
+<li>
+Generate a vector, matrix or cube with the elements set to random values from a gamma distribution:
+<ul>
+<table style="text-align: left;" border="0" cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;</td><td style="vertical-align: top;">&nbsp;</td><td style="vertical-align: top;"><i>x<sup>&thinsp;a-1</sup> exp(&thinsp;-x&thinsp;/&thinsp;b&thinsp;)</i></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><i>p<font size=+1>(</font>x|a,b<font size=+1>)</font></i></td><td style="vertical-align: top;">&nbsp;<font size=+1>=</font>&nbsp;</td><td style="vertical-align: top;"><font size=+1><b><hr></b></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;</td><td style="vertical-align: top;">&nbsp;</td><td style="vertical-align: top; text-align: center;"><i>b<sup>&thinsp;a</sup>&nbsp;&Gamma;(a)</i></td>
+    </tr>
+  </tbody>
+</table>
+</ul>
+</li>
+<br>
+<li>The default distribution parameters are <i>a=1</i> and <i>b=1</i>
+</li>
+<br>
+<li>
+Usage:
+<ul>
+<li><i>vector_type</i> v = randg&lt;<i>vector_type</i>&gt;(n_elem)</li>
+<li><i>vector_type</i> v = randg&lt;<i>vector_type</i>&gt;(n_elem, distr_param(a,b))</li>
+<br>
+<li><i>matrix_type</i> X = randg&lt;<i>matrix_type</i>&gt;(n_rows, n_cols)</li>
+<li><i>matrix_type</i> X = randg&lt;<i>matrix_type</i>&gt;(n_rows, n_cols, distr_param(a,b))</li>
+<br>
+<li><i>cube_type</i> Q = randg&lt;<i>cube_type</i>&gt;(n_rows, n_cols, n_slices)</li>
+<li><i>cube_type</i> Q = randg&lt;<i>cube_type</i>&gt;(n_rows, n_cols, n_slices, distr_param(a,b))</li>
+</ul>
+</li>
+<br>
+<li>
+To change the RNG seed, use <i>arma_rng::set_seed(value)</i> or <i>arma_rng::set_seed_random()</i> functions
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+vec v = randg&lt;vec&gt;(100, distr_param(2,1));
+
+mat X = randg&lt;mat&gt;(10, 10, distr_param(2,1));
+</pre>
+</ul>
+</li>
+<li>See also:
+<ul>
+<li><a href="#randu_randn_standalone">randu() &amp; randn()</a></li>
+<li><a href="#imbue">.imbue()</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Gamma_distribution">gamma distribution in Wikipedia</a></li>
 </ul>
 </li>
 <br>
@@ -8936,12 +9064,14 @@ See also:
 <i>k</i> specifies the number of eigenvalues and eigenvectors
 </li>
 <br>
-<li>The argument <i>form</i> is optional; <i>form</i> is either "lm" or "sm":
+<li>The argument <i>form</i> is optional; <i>form</i> is either "lm", "sm", "la", or "sa":
 <ul>
 <table>
 <tbody>
 <tr><td><li>"lm":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with largest magnitude (default operation)</td></tr>
 <tr><td><li>"sm":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with smallest magnitude</td></tr>
+<tr><td><li>"la":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with largest algebraic value</td></tr>
+<tr><td><li>"sa":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with smallest algebraic value</td></tr>
 </tbody>
 </table>
 </ul>
@@ -9381,9 +9511,13 @@ The computation is based on singular value decomposition
 <br>
 <li>The <i>tolerance</i> argument is optional</li>
 <br>
-<li>For matrix <i>A</i> with <i>m</i> rows and <i>n</i> columns,
-the default tolerance is <i>max(m,n)*norm(A)*datum::eps</i>,
-where <i>datum::eps</i> denotes the difference between 1 and the least value greater than 1 that is representable</li>
+<li>The default tolerance is <i>max(m,n)*max_sv*datum::eps</i>, where:
+<ul>
+<li><i>m</i> = number of rows and <i>n</i> = number of columns in <i>A</i></li>
+<li><i>max_sv</i> = maximal singular value of <i>A</i></li>
+<li><i>datum::eps</i> = difference between 1 and the least value greater than 1 that is representable</li>
+</ul>
+</li>
 <br>
 <li>Any singular values less than <i>tolerance</i> are treated as zero</li>
 <br>
@@ -13156,8 +13290,18 @@ List of additions and changes for each version:
 <br>
 <ul>
 
-<a name="added_in_4600"></a>
-<li>Added in 4.600:
+<a name="version_4650"></a>
+<li>Version 4.650:
+<ul>
+<li>added <a href="#randg">randg()</a> for generating random values from gamma distributions (C++11 only)</li>
+<li>added <i>.head_rows()</i> and <i>.tail_rows()</i> to <a href="#submat">submatrix views</a></li>
+<li>added <i>.head_cols()</i> and <i>.tail_cols()</i> to <a href="#submat">submatrix views</a></li>
+<li>expanded <a href="#eigs_sym">eigs_sym()</a> to optionally calculate eigenvalues with smallest/largest algebraic values</li>
+</ul>
+</li>
+<br>
+<a name="version_4600"></a>
+<li>Version 4.600:
 <ul>
 <li>added <i>.head()</i> and <i>.tail()</i> to <a href="#submat">submatrix views</a></li>
 <li>faster matrix transposes within compound expressions</li>
@@ -13166,8 +13310,8 @@ List of additions and changes for each version:
 </ul>
 </li>
 <br>
-<a name="added_in_4550"></a>
-<li>Added in 4.550:
+<a name="version_4550"></a>
+<li>Version 4.550:
 <ul>
 <li>added matrix exponential function: <a href="#expmat">expmat()</a></li>
 <li>faster <i>.log_p()</i> and <i>.avg_log_p()</i> functions in the <a href="#gmm_diag">gmm_diag</a> class when compiling with OpenMP enabled</li>
@@ -13175,8 +13319,8 @@ List of additions and changes for each version:
 </ul>
 </li>
 <br>
-<a name="added_in_4500"></a>
-<li>Added in 4.500:
+<a name="version_4500"></a>
+<li>Version 4.500:
 <ul>
 <li>faster handling of complex vectors by <a href="#norm">norm()</a></li>
 <li>expanded <a href="#chol">chol()</a> to optionally specify output matrix as upper or lower triangular</li>
@@ -13184,8 +13328,8 @@ List of additions and changes for each version:
 </ul>
 </li>
 <br>
-<a name="added_in_4450"></a>
-<li>Added in 4.450:
+<a name="version_4450"></a>
+<li>Version 4.450:
 <ul>
 <li>faster handling of matrix transposes within compound expressions</li>
 <li>expanded <a href="#symmat">symmatu()/symmatl()</a> to optionally disable taking the complex conjugate of elements</li>
@@ -13194,8 +13338,8 @@ List of additions and changes for each version:
 </ul>
 </li>
 <br>
-<a name="added_in_4400"></a>
-<li>Added in 4.400:
+<a name="version_4400"></a>
+<li>Version 4.400:
 <ul>
 <li>faster handling of subvectors by <a href="#dot">dot()</a></li>
 <li>faster handling of aliasing by <a href="#submat">submatrix</a> views</li>
@@ -13205,8 +13349,8 @@ List of additions and changes for each version:
 </ul>
 </li>
 <br>
-<a name="added_in_4320"></a>
-<li>Added in 4.320:
+<a name="version_4320"></a>
+<li>Version 4.320:
 <ul>
 <li>expanded <a href="#eigs_sym">eigs_sym()</a> and <a href="#eigs_gen">eigs_gen()</a> to use an optional tolerance parameter</li>
 <li>expanded <a href="#eig_sym">eig_sym()</a> to automatically fall back to standard decomposition method if divide-and-conquer fails</li>
@@ -13214,16 +13358,16 @@ List of additions and changes for each version:
 </ul>
 </li>
 <br>
-<a name="added_in_4300"></a>
-<li>Added in 4.300:
+<a name="version_4300"></a>
+<li>Version 4.300:
 <ul>
 <li>added <a href="#find_finite">find_finite()</a> and <a href="#find_nonfinite">find_nonfinite()</a></li>
 <li>expressions <i>X=<a href="#inv">inv</a>(A)*B*C</i> and <i>X=A<a href="#i_member">.i()</a>*B*C</i> are automatically converted to <i>X=<a href="#solve">solve</a>(A,B*C)</i></li>
 </ul>
 </li>
 <br>
-<a name="added_in_4200"></a>
-<li>Added in 4.200:
+<a name="version_4200"></a>
+<li>Version 4.200:
 <ul>
 <li>faster transpose of sparse matrices</li>
 <li>more efficient handling of aliasing during matrix multiplication</li>
@@ -13231,8 +13375,8 @@ List of additions and changes for each version:
 </ul>
 </li>
 <br>
-<a name="added_in_4100"></a>
-<li>Added in 4.100:
+<a name="version_4100"></a>
+<li>Version 4.100:
 <ul>
 <li>added <a href="#normalise">normalise()</a> for normalising vectors to unit <i>p</i>-norm</li>
 <li>extended the <a href="#field">field class</a> to handle 3D layout</li>
@@ -13242,23 +13386,18 @@ List of additions and changes for each version:
 </ul>
 </li>
 <br>
-<a name="added_in_4000"></a>
-<li>Added in 4.000:
+<a name="version_4000"></a>
+<li>Version 4.000:
 <ul>
-<li>eigen decompositions of sparse matrices: <a href="#eigs_sym">eigs_sym()</a> and <a href="#eigs_gen">eigs_gen()</a></li>
-<li>eigen decomposition for pair of matrices: <a href="#eig_pair">eig_pair()</a></li>
-<li>simpler forms of <a href="#eig_gen">eig_gen()</a></li>
-<li>condition number of matrices: <a href="#cond">cond()</a></li>
+<li>added eigen decompositions of sparse matrices: <a href="#eigs_sym">eigs_sym()</a> and <a href="#eigs_gen">eigs_gen()</a></li>
+<li>added eigen decomposition for pair of matrices: <a href="#eig_pair">eig_pair()</a></li>
+<li>added simpler forms of <a href="#eig_gen">eig_gen()</a></li>
+<li>added condition number of matrices: <a href="#cond">cond()</a></li>
 <li>expanded <a href="#find">find()</a> to handle cubes</li>
 <li>expanded <a href="#subcube">subcube views</a> to access elements specified in a vector</li>
 <li>template argument for <a href="#running_stat_vec">running_stat_vec</a> expanded to accept vector types</li>
 <li>more robust fast <a href="#inv">inverse</a> of 4x4 matrices</li>
-</ul>
-</li>
-<br>
-<li>Changed in 4.000:
-<ul>
-<li>Faster divide-and-conquer decompositions are now used by default for
+<li>faster divide-and-conquer decompositions are now used by default for
 <a href="#eig_sym">eig_sym()</a>,
 <a href="#pinv">pinv()</a>,
 <a href="#princomp">princomp()</a>,
@@ -13267,62 +13406,62 @@ List of additions and changes for each version:
 <a href="#svd_econ">svd_econ()</a>
 </li>
 <li>
-The form <i>inv(sympd(X))</i> no longer assumes that <i>X</i> is positive definite; use <a href="#inv_sympd">inv_sympd()</a> instead 
+the form <i>inv(sympd(X))</i> no longer assumes that <i>X</i> is positive definite; use <a href="#inv_sympd">inv_sympd()</a> instead 
 </li>
 </ul>
 </li>
 <br>
-<a name="added_in_3930"></a>
-<li>Added in 3.930:
+<a name="version_3930"></a>
+<li>Version 3.930:
 <ul>
-<li><i>size()</i> based specifications of <a href="#submat">submatrix view</a> sizes</li>
-<li>element-wise variants of <a href="#min_and_max">min()</a> and <a href="#min_and_max">max()</a></li>
-<li>divide-and-conquer variant of <a href="#svd_econ">svd_econ()</a></li>
-<li>divide-and-conquer variant of <a href="#pinv">pinv()</a></li>
-<li><a href="#randi">randi()</a> for generating matrices with random integer values</li>
-<li><a href="#inplace_trans">inplace_trans()</a> for memory efficient in-place transposes</li>
-<li>more intuitive specification of sort direction in <a href="#sort">sort()</a> and <a href="#sort_index">sort_index()</a></li>
-<li>more intuitive specification of method in <a href="#det">det()</a>, <a href="#i_member">.i()</a>, <a href="#inv">inv()</a> and <a href="#solve">solve()</a></li>
+<li>added <i>size()</i> based specifications of <a href="#submat">submatrix view</a> sizes</li>
+<li>added element-wise variants of <a href="#min_and_max">min()</a> and <a href="#min_and_max">max()</a></li>
+<li>added divide-and-conquer variant of <a href="#svd_econ">svd_econ()</a></li>
+<li>added divide-and-conquer variant of <a href="#pinv">pinv()</a></li>
+<li>added <a href="#randi">randi()</a> for generating matrices with random integer values</li>
+<li>added <a href="#inplace_trans">inplace_trans()</a> for memory efficient in-place transposes</li>
+<li>added more intuitive specification of sort direction in <a href="#sort">sort()</a> and <a href="#sort_index">sort_index()</a></li>
+<li>added more intuitive specification of method in <a href="#det">det()</a>, <a href="#i_member">.i()</a>, <a href="#inv">inv()</a> and <a href="#solve">solve()</a></li>
 <li>more precise timer for the <a href="#wall_clock">wall_clock</a> class when using C++11</li>
 </ul>
 </li>
 <br>
-<a name="added_in_3920"></a>
-<li>Added in 3.920:
+<a name="version_3920"></a>
+<li>Version 3.920:
 <ul>
 <li>faster <a href="#zeros_member">.zeros()</a></li>
 <li>faster <a href="#misc_fns">round()</a>, <a href="#misc_fns">exp2()</a> and <a href="#misc_fns">log2()</a> when using C++11</li>
-<li>signum function: <a href="#misc_fns">sign()</a></li>
-<li>move constructors when using C++11</li>
-<li>2D fast Fourier transform: <a href="#fft2">fft2()</a></li>
-<li><a href="#subcube">.tube()</a> for easier extraction of vectors and subcubes from cubes</li>
-<li>specification of a fill type during construction of <a href="#Mat">Mat</a>, <a href="#Col">Col</a>, <a href="#Row">Row</a> and <a href="#Cube">Cube</a> classes,
+<li>added signum function: <a href="#misc_fns">sign()</a></li>
+<li>added move constructors when using C++11</li>
+<li>added 2D fast Fourier transform: <a href="#fft2">fft2()</a></li>
+<li>added <a href="#subcube">.tube()</a> for easier extraction of vectors and subcubes from cubes</li>
+<li>added specification of a fill type during construction of <a href="#Mat">Mat</a>, <a href="#Col">Col</a>, <a href="#Row">Row</a> and <a href="#Cube">Cube</a> classes,
 eg. <i>mat&nbsp;X(4,&nbsp;5,&nbsp;fill::zeros)</i></li>
 </ul>
 </li>
 <br>
-<a name="added_in_3910"></a>
-<li>Added in 3.910:
+<a name="version_3910"></a>
+<li>Version 3.910:
 <ul>
 <li>faster multiplication of a matrix with a transpose of itself, ie. <i>X*X.t()</i> and <i>X.t()*X</i></li>
-<li><a href="#vectorise">vectorise()</a> for reshaping matrices into vectors</li>
-<li><a href="#all">all()</a> and <a href="#any">any()</a> for indicating presence of elements satisfying a relational condition</li>
+<li>added <a href="#vectorise">vectorise()</a> for reshaping matrices into vectors</li>
+<li>added <a href="#all">all()</a> and <a href="#any">any()</a> for indicating presence of elements satisfying a relational condition</li>
 </ul>
 </li>
 <br>
-<a name="added_in_3900"></a>
-<li>Added in 3.900:
+<a name="version_3900"></a>
+<li>Version 3.900:
 <ul>
-<li>automatic SSE2 vectorisation of elementary expressions (eg. matrix addition) when using GCC 4.7+ with -O3 optimisation</li>
+<li>added automatic SSE2 vectorisation of elementary expressions (eg. matrix addition) when using GCC 4.7+ with -O3 optimisation</li>
 <li>faster <a href="#stats_fns">median()</a></li>
 <li>faster handling of compound expressions with transposes of <a href="#submat">submatrix</a> rows</li>
 <li>faster handling of compound expressions with transposes of complex vectors</li>
-<li>support for <a href="#save_load_mat">saving &amp; loading</a> of <a href="#Cube">cubes</a> in HDF5 format</li>
+<li>added support for <a href="#save_load_mat">saving &amp; loading</a> of <a href="#Cube">cubes</a> in HDF5 format</li>
 </ul>
 </li>
 <br>
-<a name="added_in_3820"></a>
-<li>Added in 3.820:
+<a name="version_3820"></a>
+<li>Version 3.820:
 <ul>
 <li>faster <a href="#as_scalar">as_scalar()</a> for compound expressions</li>
 <li>faster transpose of small vectors</li>
@@ -13331,64 +13470,58 @@ eg. <i>mat&nbsp;X(4,&nbsp;5,&nbsp;fill::zeros)</i></li>
 </ul>
 </li>
 <br>
-<a name="added_in_3810"></a>
-<li>Added in 3.810:
+<a name="version_3810"></a>
+<li>Version 3.810:
 <ul>
-<li>fast Fourier transform: <a href="#fft">fft()</a></li>
-<li>handling of <a href="#imbue">.imbue()</a> and <a href="#transform">.transform()</a> by submatrices and subcubes</li>
-<li><a href="#batch_constructors_sp_mat">batch insertion constructors</a> for sparse matrices
+<li>added fast Fourier transform: <a href="#fft">fft()</a></li>
+<li>added handling of <a href="#imbue">.imbue()</a> and <a href="#transform">.transform()</a> by submatrices and subcubes</li>
+<li>added <a href="#batch_constructors_sp_mat">batch insertion constructors</a> for sparse matrices
 </ul>
 </li>
 <br>
-<a name="added_in_3800"></a>
-<li>Added in 3.800:
+<a name="version_3800"></a>
+<li>Version 3.800:
 <ul>
-<li><a href="#imbue">.imbue()</a> for filling a matrix/cube with values provided by a functor or lambda expression</li>
-<li><a href="#swap">.swap()</a> for swapping contents with another matrix</li>
-<li><a href="#transform">.transform()</a> for transforming a matrix/cube using a functor or lambda expression</li>
-<li><a href="#misc_fns">round()</a> for rounding matrix elements towards nearest integer</li>
+<li>added <a href="#imbue">.imbue()</a> for filling a matrix/cube with values provided by a functor or lambda expression</li>
+<li>added <a href="#swap">.swap()</a> for swapping contents with another matrix</li>
+<li>added <a href="#transform">.transform()</a> for transforming a matrix/cube using a functor or lambda expression</li>
+<li>added <a href="#misc_fns">round()</a> for rounding matrix elements towards nearest integer</li>
 <li>faster <a href="#find">find()</a></li>
-</ul>
-</li>
-<br>
-<li>Changed in 3.800:
-<ul>
-<li>Armadillo is now licensed using the <a href="http://www.mozilla.org/MPL/2.0/">Mozilla Public License 2.0</a>;
-<br>
+<li>changed license to the <a href="http://www.mozilla.org/MPL/2.0/">Mozilla Public License 2.0</a>;
 see also the associated <a href="http://www.mozilla.org/MPL/2.0/FAQ.html">frequently asked questions</a> about the license</li>
 </ul>
 <br>
 </li>
-<a name="added_in_36"></a>
-<li>Added in 3.6:
+<a name="version_36"></a>
+<li>Version 3.6:
 <ul>
 <li>faster handling of compound expressions with submatrices and subcubes</li>
 <li>faster <a href="#trace">trace()</a></li>
-<li>support for loading matrices as text files with <i>NaN</i> and <i>Inf</i> elements</li>
-<li><a href="#sort_index">stable_sort_index()</a>, which preserves the relative order of elements with equivalent values</li>
-<li>handling of <a href="#SpMat">sparse matrices</a> by <a href="#stats_fns">mean()</a>, <a href="#stats_fns">var()</a>, <a href="#norm">norm()</a>, <a href="#abs">abs()</a>, <a href="#misc_fns">square()</a>, <a href="#misc_fns">sqrt()</a></li>
-<li>saving and loading of sparse matrices in <i>arma_binary</i> format</li>
+<li>added support for loading matrices as text files with <i>NaN</i> and <i>Inf</i> elements</li>
+<li>added <a href="#sort_index">stable_sort_index()</a>, which preserves the relative order of elements with equivalent values</li>
+<li>added handling of <a href="#SpMat">sparse matrices</a> by <a href="#stats_fns">mean()</a>, <a href="#stats_fns">var()</a>, <a href="#norm">norm()</a>, <a href="#abs">abs()</a>, <a href="#misc_fns">square()</a>, <a href="#misc_fns">sqrt()</a></li>
+<li>added saving and loading of sparse matrices in <i>arma_binary</i> format</li>
 </ul>
 <br>
 </li>
-<a name="added_in_34"></a>
-<li>Added in 3.4:
+<a name="version_34"></a>
+<li>Version 3.4:
 <ul>
-<li>economical QR decomposition: <a href="#qr_econ">qr_econ()</a></li>
-<li><a href="#each_colrow">.each_col() &amp; .each_row()</a> for vector operations repeated on each column or row of a matrix</li>
-<li>preliminary support for <a href="#SpMat">sparse matrices</a></li>
-<li>ability to <a href="#save_load_mat">save and load</a> matrices in HDF5 format</li>
+<li>added economical QR decomposition: <a href="#qr_econ">qr_econ()</a></li>
+<li>added <a href="#each_colrow">.each_col() &amp; .each_row()</a> for vector operations repeated on each column or row of a matrix</li>
+<li>added preliminary support for <a href="#SpMat">sparse matrices</a></li>
+<li>added ability to <a href="#save_load_mat">save and load</a> matrices in HDF5 format</li>
 <li>faster <a href="#svd">singular value decomposition</a> via optional use of divide-and-conquer algorithm</li>
 <li>faster <a href="#randu_randn_member">.randn()</a></li>
 <li>faster <a href="#dot">dot() and cdot()</a> for complex numbers</li>
 </ul>
 <br>
 </li>
-<a name="added_in_32"></a>
-<li>Added in 3.2:
+<a name="version_32"></a>
+<li>Version 3.2:
 <ul>
-<li><a href="#unique">unique()</a>, for finding unique elements of a matrix</li>
-<li><a href="#eval_member">.eval()</a>, for forcing the evaluation of delayed expressions</li>
+<li>added <a href="#unique">unique()</a>, for finding unique elements of a matrix</li>
+<li>added <a href="#eval_member">.eval()</a>, for forcing the evaluation of delayed expressions</li>
 <li>faster <a href="#eig_sym">eigen decomposition</a> via optional use of divide-and-conquer algorithm</li>
 <li>faster <a href="#t_st_members">transpose</a> of vectors and compound expressions</li>
 <li>faster handling of <a href="#diag">diagonal views</a></li>
@@ -13396,21 +13529,16 @@ see also the associated <a href="http://www.mozilla.org/MPL/2.0/FAQ.html">freque
 </ul>
 <br>
 </li>
-<a name="added_in_30"></a>
-<li>Added in 3.0:
+<a name="version_30"></a>
+<li>Version 3.0:
 <ul>
-<li>shorthand for inverse: <a href="#i_member">.i()</a></li>
-<li><a href="#constants">datum</a> class</li>
-<li><a href="#hist">hist()</a> and <a href="#histc">histc()</a></li>
-<li>non-contiguous <a href="#submat">submatrix views</a></li>
+<li>added shorthand for inverse: <a href="#i_member">.i()</a></li>
+<li>added <a href="#constants">datum</a> class</li>
+<li>added <a href="#hist">hist()</a> and <a href="#histc">histc()</a></li>
+<li>added non-contiguous <a href="#submat">submatrix views</a></li>
 <li>faster handling of <a href="#submat">submatrix views</a> with a single row or column</li>
 <li>faster element access in <a href="#adv_constructors_mat_fixed">fixed size matrices</a></li>
 <li>faster <a href="#repmat">repmat()</a></li>
-</ul>
-<br>
-</li>
-<li>Changed in 3.0:
-<ul>
 <li>expressions <i>X=<a href="#inv">inv</a>(A)*B</i> and <i>X=A<a href="#i_member">.i()</a>*B</i> are automatically converted to <i>X=<a href="#solve">solve</a>(A,B)</i>
 <li>better detection of vector expressions by <a href="#sum">sum()</a>, <a href="#cumsum">cumsum()</a>, <a href="#prod">prod()</a>, <a href="#min_and_max">min()</a>, <a href="#min_and_max">max()</a>, <a href="#stats_fns">mean()</a>, <a href="#stats_fns">median()</a>, <a href="#stats_fns">stddev()</a>, <a href="#stats_fns">var()</a>
 <li>faster generation of random numbers
@@ -13420,8 +13548,8 @@ via an algorithm that produces slightly different numbers than in 2.x
 <li>
 support for tying writable auxiliary (external) memory to fixed size matrices has been removed;
 instead, you can use standard matrices with <a href="#adv_constructors_mat">writable auxiliary memory</a>,
-or initialise fixed size matrices by <a href="#adv_constructors_mat">copying the memory</a>.
-Using auxiliary memory with standard matrices is unaffected.
+or initialise fixed size matrices by <a href="#adv_constructors_mat">copying the memory</a>;
+using auxiliary memory with standard matrices is unaffected
 </li>
 <li>
 <i>.print_trans()</i> and <i>.raw_print_trans()</i> have been removed;
@@ -13430,19 +13558,13 @@ instead, you can chain <i><a href="#t_st_members">.t()</a></i> and <i><a href="#
 </ul>
 <br>
 </li>
-<a name="added_in_24"></a>
-<li>Added in 2.4:
+<a name="version_24"></a>
+<li>Version 2.4:
 <ul>
-<li>shorter forms of transposes: <a href="#t_st_members">.t()</a> and <a href="#t_st_members">.st()</a></li>
-<li><a href="#resize_member">.resize()</a> and <a href="#resize">resize()</a></li>
-<li>optional use of 64 bit indices (allowing matrices to have more than 4 billion elements),
-<br>enabled via ARMA_64BIT_WORD in <i>include/armadillo_bits/config.hpp</i></li>
-<li>experimental support for C++11 initialiser lists,
-<br>enabled via ARMA_USE_CXX11 in <i>include/armadillo_bits/config.hpp</i></li>
-</ul>
-<br>
-<li>Changed in 2.4:
-<ul>
+<li>added shorter forms of transposes: <a href="#t_st_members">.t()</a> and <a href="#t_st_members">.st()</a></li>
+<li>added <a href="#resize_member">.resize()</a> and <a href="#resize">resize()</a></li>
+<li>added optional use of 64 bit indices (allowing matrices to have more than 4 billion elements), enabled via ARMA_64BIT_WORD in <i>include/armadillo_bits/config.hpp</i></li>
+<li>added experimental support for C++11 initialiser lists, enabled via ARMA_USE_CXX11 in <i>include/armadillo_bits/config.hpp</i></li>
 <li>refactored code to eliminate warnings when using the Clang C++ compiler</li>
 <li><a href="#Mat">umat</a>, <a href="#Col">uvec</a>, <a href="#min_and_max_member">.min()</a> and <a href="#min_and_max_member">.max()</a>
 have been changed to use the <a href="#uword"><i>uword</i></a> type instead of the <i>u32</i> type;
@@ -13452,33 +13574,29 @@ the <i>uword</i> type then has a minimum width of 64 bits
 </ul>
 </li>
 <br>
-<li>Added in 2.2:
+<li>Version 2.2:
 <ul>
-<li><a href="#svd_econ">svd_econ()</a></li>
-<li><a href="#toeplitz">circ_toeplitz()</a></li>
-<li><a href="#is_vec">.is_colvec()</a> and <a href="#is_vec">.is_rowvec()</a></li>
+<li>added <a href="#svd_econ">svd_econ()</a></li>
+<li>added <a href="#toeplitz">circ_toeplitz()</a></li>
+<li>added <a href="#is_vec">.is_colvec()</a> and <a href="#is_vec">.is_rowvec()</a></li>
 </ul>
 <br>
-<li>Added in 2.0:
+<li>Version 2.0:
 <ul>
 <li><a href="#det">det()</a>, <a href="#inv">inv()</a> and <a href="#solve">solve()</a> can be forced to use more precise algorithms for tiny matrices (&le;&nbsp;4x4)</li>
-<li><a href="#syl">syl()</a>, for solving Sylvester's equation</li>
-<li><a href="#trans">strans()</a>, for transposing a complex matrix without taking the complex conjugate</li>
-<li><a href="#symmat">symmatu()</a> and <a href="#symmat">symmatl()</a></li>
-<li>submatrices of <a href="#submat">submatrices</a></li>
+<li>added <a href="#syl">syl()</a>, for solving Sylvester's equation</li>
+<li>added <a href="#trans">strans()</a>, for transposing a complex matrix without taking the complex conjugate</li>
+<li>added <a href="#symmat">symmatu()</a> and <a href="#symmat">symmatl()</a></li>
+<li>added submatrices of <a href="#submat">submatrices</a></li>
 <li>faster <a href="#inv">inverse</a> of symmetric positive definite matrices</li>
 <li>faster element access for <a href="#adv_constructors_mat_fixed">fixed size</a> matrices</li>
 <li>faster multiplication of tiny matrices (eg. 4x4)</li>
 <li>faster compound expressions containing <a href="#submat">submatrices</a></li>
-<li>handling of arbitrarily sized empty matrices (eg. 5x0)</li>
-<li>.count() member function in <a href="#running_stat">running_stat</a> and <a href="#running_stat_vec">running_stat_vec</a></li>
-<li><a href="#save_load_mat">loading &amp; saving</a> of matrices as CSV text files</li>
-</ul>
-<br>
-<li>Changed in 2.0:
-<ul>
+<li>added handling of arbitrarily sized empty matrices (eg. 5x0)</li>
+<li>added .count() member function in <a href="#running_stat">running_stat</a> and <a href="#running_stat_vec">running_stat_vec</a></li>
+<li>added <a href="#save_load_mat">loading &amp; saving</a> of matrices as CSV text files</li>
 <li><a href="#trans">trans()</a> now takes the complex conjugate when transposing a complex matrix</li>
-<li>Forms of
+<li>forms of
 <a href="#chol">chol()</a>, <a href="#eig_sym">eig_sym()</a>, <a href="#eig_gen">eig_gen()</a>,
 <a href="#inv">inv()</a>, <a href="#lu">lu()</a>, <a href="#pinv">pinv()</a>, <a href="#princomp">princomp()</a>,
 <a href="#qr">qr()</a>, <a href="#solve">solve()</a>, <a href="#svd">svd()</a>, <a href="#syl">syl()</a>
@@ -13488,14 +13606,14 @@ that do not return a bool indicating success now throw <i>std::runtime_error</i>
 <li>set_log_stream() &amp; get_log_stream() have been replaced by <a href="#logging">set_stream_err1()</a> &amp; <a href="#logging">get_stream_err1()</a></li>
 </ul>
 <br>
-<li>Added in 1.2:
+<li>Version 1.2:
 <ul>
-<li><a href="#min_and_max_member">.min() &amp; .max()</a> member functions of Mat and Cube</li>
-<li><a href="#misc_fns">floor()</a> and <a href="#misc_fns">ceil()</a></li>
-<li>representation of &ldquo;not a number&rdquo;: math::nan()</li>
-<li>representation of infinity: math::inf()</li>
-<li>standalone <a href="#is_finite">is_finite()</a></li>
-<li><a href="#in_range">.in_range()</a> can use <b>span()</b> arguments</li>
+<li>added <a href="#min_and_max_member">.min() &amp; .max()</a> member functions of Mat and Cube</li>
+<li>added <a href="#misc_fns">floor()</a> and <a href="#misc_fns">ceil()</a></li>
+<li>added representation of &ldquo;not a number&rdquo;: math::nan()</li>
+<li>added representation of infinity: math::inf()</li>
+<li>added standalone <a href="#is_finite">is_finite()</a></li>
+<li><a href="#in_range">.in_range()</a> expanded to use <b>span()</b> arguments</li>
 <li><a href="#adv_constructors_mat">fixed size</a> matrices and vectors can use auxiliary (external) memory</li>
 <li><a href="#submat">submatrices</a> and <a href="#subfield">subfields</a> can be accessed via <i><b>X(</b>&nbsp;<b>span(</b>a,b<b>)</b>,&nbsp;<b>span(</b>c,d<b>)</b>&nbsp;<b>)</b></i></li>
 <li><a href="#subcube">subcubes</a> can be accessed via <i><b>X(</b>&nbsp;<b>span(</b>a,b<b>)</b>,&nbsp;<b>span(</b>c,d<b>)</b>,&nbsp;<b>span(</b>e,f<b>)</b>&nbsp;<b>)</b></i></li>
@@ -13517,12 +13635,12 @@ Q(&nbsp;span(1),&nbsp;span(1),&nbsp;span::all&nbsp;)&nbsp;=&nbsp;v;
 </pre>
 </ul>
 </li>
-<li>interpretation of matrices as triangular through <a href="#trimat">trimatu() / trimatl()</a></li>
-<li>explicit handling of triangular matrices by <a href="#solve">solve()</a> and <a href="#inv">inv()</a></li>
+<li>added interpretation of matrices as triangular through <a href="#trimat">trimatu() / trimatl()</a></li>
+<li>added explicit handling of triangular matrices by <a href="#solve">solve()</a> and <a href="#inv">inv()</a></li>
 <li>extended syntax for <a href="#submat">submatrices</a>, including access to elements whose indices are specified in a vector</li>
-<li>ability to change the stream used for <a href="#logging">logging</a> of errors and warnings</li>
-<li>ability to <a href="#save_load_mat">save/load matrices</a> in raw binary format</li>
-<li>cumulative sum function: <a href="#cumsum">cumsum()</a></li>
+<li>added ability to change the stream used for <a href="#logging">logging</a> of errors and warnings</li>
+<li>added ability to <a href="#save_load_mat">save/load matrices</a> in raw binary format</li>
+<li>added cumulative sum function: <a href="#cumsum">cumsum()</a></li>
 </ul>
 </li>
 <br>
