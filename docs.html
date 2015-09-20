@@ -8,7 +8,7 @@
   <!--
 body
   {
-  font-family: "Trebuchet MS", Trebuchet, "DejaVu Sans", "Luxi Sans", "Liberation Sans", Arial, Helvetica, sans-serif;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   color: #000000;
   background-color: #FFFFFF;
   /* font-size: 10pt; */
@@ -110,9 +110,9 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 3.6</b></font>
+        <font size=+2><b>Reference for Armadillo 3.800</b></font>
         <br>
-        <b>(Piazza del Duomo)</b>
+        <b>(Miami Beach)</b>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -213,6 +213,7 @@ Technical Report, NICTA, 2010.
 <a href="#eye_member">eye</a>&nbsp;&middot;
 <a href="#fill">fill</a>&nbsp;&middot;
 <a href="#i_member">i (inverse)</a>&nbsp;&middot;
+<a href="#imbue">imbue</a>&nbsp;&middot;
 <a href="#insert">insert rows/cols/slices</a>&nbsp;&middot;
 <a href="#in_range">in_range</a>&nbsp;&middot;
 <a href="#is_empty">is_empty</a>&nbsp;&middot;
@@ -240,8 +241,10 @@ Technical Report, NICTA, 2010.
 <a href="#submat">submatrix&nbsp;views</a>&nbsp;&middot;
 <a href="#subcube">subcube&nbsp;views</a>&nbsp;&middot;
 <a href="#subfield">subfield&nbsp;views</a>&nbsp;&middot;
+<a href="#swap">swap</a>&nbsp;&middot;
 <a href="#swap_rows">swap_rows/cols</a>&nbsp;&middot;
 <a href="#t_st_members">t/st (transpose)</a>&nbsp;&middot;
+<a href="#transform">transform</a>&nbsp;&middot;
 <a href="#zeros_member">zeros</a>
 </ul>
 <br>
@@ -1512,7 +1515,7 @@ examples of omitted functions: <a href="#fill">.fill()</a>, <a href="#ones_membe
 <br>
 <li>
 <b>Caveat:</b>
-support for sparse matrices in version 3.6 is <b>preliminary</b>;
+support for sparse matrices in this version is <b>preliminary</b>;
 it is not yet fully optimised, and sparse matrix decompositions/factorisations are not yet implemented.
 The following subset of operations currently works with sparse matrices:
 <ul>
@@ -2181,15 +2184,15 @@ B.eye(5,5);
 <hr class="greyline"><br>
 
 <a name="fill"></a>
-<b>.fill(value)</b>
+<b>.fill(</b>value<b>)</b>
 <ul>
 <li>
 Member function of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>Cube</i> classes.
 </li>
 <br>
-<li>Sets the elements to a specified value.
-The type of value must match the type of elements used by the container object
-(eg. for <i>mat</i> the type is double)
+<li>Sets the elements to a specified value</li>
+<br>
+<li>the type of value must match the type of elements used by the container object (eg. for <i>mat</i> the type is double)
 </li>
 <br>
 <li>
@@ -2205,6 +2208,7 @@ A.fill(123.0);
 <li>
 See also:
 <ul>
+<li><a href="#imbue">.imbue()</a></li>
 <li><a href="#ones_member">.ones()</a></li>
 <li><a href="#zeros_member">.zeros()</a></li>
 <li><a href="#randu_randn_member">.randu() &amp; .randn()</a></li>
@@ -2561,6 +2565,60 @@ See also:
 </li>
 </ul>
 <br>
+<hr class="greyline"><br>
+
+<a name="imbue"></a>
+<b>.imbue(&nbsp;</b>functor<b>&nbsp;)</b>
+<br>
+<b>.imbue(&nbsp;</b>lambda function<b>&nbsp;)</b>&nbsp;&nbsp;&nbsp;<i>(C++11 only)</i>
+<br>
+<ul>
+<li>
+Imbue (fill) with values provided by a functor or lambda function
+</li>
+<br>
+<li>
+For matrices, filling is done column-by-column (ie. column 0 is filled, then column 1, ...)
+</li>
+<br>
+<li>
+For cubes, filling is done slice-by-slice; each slice is filled column-by-column
+</li>
+<br>
+<li>
+This function was added in version 3.800
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+// C++11 only example
+// need to include &lt;random&gt;
+
+std::mt19937 engine;  // Mersenne twister random number engine
+
+std::uniform_real_distribution&lt;double&gt; distr(0.0, 1.0);
+  
+mat A(4,5);
+  
+A.imbue( [&amp;]() { return distr(engine); } );
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#fill">.fill()</a></li>
+<li><a href="#transform">.transform()</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Function_object">function object</a> at Wikipedia</li>
+<li><a href="http://en.wikipedia.org/wiki/C%2B%2B11#Lambda_functions_and_expressions">C++11 lambda functions</a> at Wikipedia</li>
+<li><a href="http://www.cprogramming.com/c++11/c++11-lambda-closures.html">lambda function</a> at cprogramming.com</li>
+</ul>
+</li>
+<br>
+</ul>
 <hr class="greyline"><br>
 
 <a name="insert"></a>
@@ -3391,6 +3449,7 @@ See also:
 <li><a href="#eye_member">.eye()</a></li>
 <li><a href="#zeros_member">.zeros()</a></li>
 <li><a href="#fill">.fill()</a></li>
+<li><a href="#imbue">.imbue()</a></li>
 <li><a href="#randu_randn_member">.randu()</a></li>
 </ul>
 </li>
@@ -3537,6 +3596,7 @@ See also:
 <li><a href="#accu">accu()</a></li>
 <li><a href="#as_scalar">as_scalar()</a></li>
 <li><a href="#find">find()</a></li>
+<li><a href="#transform">transform()</a></li>
 </ul>
 </li>
 <br>
@@ -3681,6 +3741,7 @@ See also:
 <li><a href="#fill">.fill()</a></li>
 <li><a href="#ones_member">.ones()</a></li>
 <li><a href="#zeros_member">.zeros()</a></li>
+<li><a href="#imbue">.imbue()</a></li>
 <li><a href="http://cplusplus.com/reference/clibrary/cstdlib/srand/">std::srand()</a></li>
 </ul>
 </li>
@@ -4754,6 +4815,39 @@ See also:
 </ul>
 <hr class="greyline"><br>
 
+<a name="swap"></a>
+<b>.swap(</b>X<b>)</b>
+<ul>
+<li>
+Swap contents with matrix <i>X</i>
+</li>
+<br>
+<li>
+This function was added in version 3.800
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = zeros&lt;mat&gt;(4,5);
+mat B =  ones&lt;mat&gt;(6,7);
+
+A.swap(B);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#swap_rows">.swap_rows() &amp; .swap_cols()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
 <a name="swap_rows"></a>
 <b>
 .swap_rows(row1, row2)
@@ -4782,6 +4876,7 @@ X.swap_rows(0,4);
 See also:
 <ul>
 <li><a href="#flip">fliplr() &amp; flipud()</a></li>
+<li><a href="#swap">.swap()</a></li>
 </ul>
 </li>
 <br>
@@ -4835,6 +4930,57 @@ See also:
 </ul>
 <hr class="greyline"><br>
 
+<a name="transform"></a>
+<b>.transform(&nbsp;</b>functor<b>&nbsp;)</b>
+<br>
+<b>.transform(&nbsp;</b>lambda function<b>&nbsp;)</b>&nbsp;&nbsp;&nbsp;<i>(C++11 only)</i>
+<br>
+<ul>
+<li>
+Transform each element using a functor or lambda function
+</li>
+<br>
+<li>
+For matrices, transformation is done column-by-column (ie. column 0 is transformed, then column 1, ...)
+</li>
+<br>
+<li>
+For cubes, transformation is done slice-by-slice; each slice is transformed column-by-column
+</li>
+<br>
+<li>
+This function was added in version 3.800
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+// C++11 only example
+
+mat A = ones&lt;mat&gt;(4,5);
+
+// add 123 to every element
+A.transform( [](double val) { return (val + 123.0); } );
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#operators">overloaded operators</a></li>
+<li><a href="#imbue">.imbue()</a></li>
+<li><a href="#fill">.fill()</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Function_object">function object</a> at Wikipedia</li>
+<li><a href="http://en.wikipedia.org/wiki/C%2B%2B11#Lambda_functions_and_expressions">C++11 lambda functions</a> at Wikipedia</li>
+<li><a href="http://www.cprogramming.com/c++11/c++11-lambda-closures.html">lambda function</a> at cprogramming.com</li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
 <a name="zeros_member"></a>
 <b>.zeros()</b>
 <br><b>.zeros(n_elem)</b>
@@ -4876,6 +5022,7 @@ See also:
 <li><a href="#ones_member">.ones()</a></li>
 <li><a href="#randu_randn_member">.randu()</a></li>
 <li><a href="#fill">.fill()</a></li>
+<li><a href="#imbue">.imbue()</a></li>
 <li><a href="#reset">.reset()</a></li>
 <li><a href="#set_size">.set_size()</a></li>
 </ul>
@@ -5766,7 +5913,7 @@ miscellaneous functions:
 <br>&nbsp; exp, exp2, exp10, trunc_exp, 
 <br>&nbsp; log, log2, log10, trunc_log,
 <br>&nbsp; pow, sqrt, square
-<br>&nbsp; floor, ceil
+<br>&nbsp; floor, ceil, round
 </b>
 <br>
 <ul>
@@ -5939,6 +6086,17 @@ misc_fn(A) is one of:
     </td>
     <td style="vertical-align: top;">
       smallest integral value that is not less than the input value
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      round(A)
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      round to nearest integer, away from zero
     </td>
   </tr>
 </tbody>
@@ -7447,7 +7605,7 @@ mat B = resize(A, 7, 6);
 </li>
 <br>
 <li>
-This function was added in version 2.4.1
+This function was added in version 2.4
 </li>
 <br>
 <li>
@@ -10842,42 +11000,72 @@ See also:
 <b>API Additions, Changes and Deprecations</b>
 <br>
 <br>
+<li>API and Version Policy
+<ul>
+<li>
 Armadillo's version number is X.Y.Z, where X is a major version, Y is a minor version, and Z is the patch level (indicating bug fixes).
+</li>
 <br>
-<br>
+<li>
 Within each major version (eg. 3.x), minor versions with an even number (eg. 3.2) are backwards compatible with earlier even minor versions (eg. 3.0).
 For example, code written for version 3.0 will work with version 3.2.
 However, as each minor version may have more features (ie. API extensions) than earlier versions,
 code specifically written for version 3.2 doesn't necessarily work with 3.0.
+</li>
 <br>
-<br>
+<li>
 An odd minor version number (eg. 3.3) indicates an experimental version.
 Experimental versions are generally faster and have more functionality,
 but their APIs have not been finalised yet.
+</li>
 <br>
-<br>
+<li>
 In general, we don't like changes to existing APIs and prefer not to break any user software.
 However, to allow evolution and help code maintenance, we reserve the right to change the APIs in future major versions of Armadillo,
 while remaining backwards compatible wherever possible
 (eg. 4.0 may have slightly different APIs than 3.x).
 Also, in a rare instance the user API may need to be altered if a bug fix absolutely requires it.
+</li>
+</ul>
+</li>
+
 <!--
 <br>
-<br>
-<br>
+<li>
 <a name="deprecated"></a>
-Below is a list of deprecated functionality; this functionality will be <b>removed</b> in version 4.0:
+List of deprecated functionality; this functionality will be <b>removed</b> in version 4.0:
 <ul>
 <li>
 ...
 </li>
 </ul>
+</li>
 -->
+
 <br>
 <br>
-Below is a list of additions and changes since prior versions of Armadillo:
+<li>
+List of additions and changes since prior versions of Armadillo:
 <br>
 <br>
+<ul>
+<a name="added_in_3800"></a>
+<li>Added in 3.800:
+<ul>
+<li><a href="#imbue">.imbue()</a> for filling a matrix/cube with values provided by a functor or lambda expression</li>
+<li><a href="#swap">.swap()</a> for swapping contents with another matrix</li>
+<li><a href="#transform">.transform()</a> for transforming a matrix/cube using a functor or lambda expression</li>
+<li><a href="#misc_fns">round()</a> for rounding matrix elements towards nearest integer</li>
+</ul>
+</li>
+<br>
+<li>Changed in 3.800:
+<ul>
+<li>Armadillo is now licensed using the <a href="http://www.mozilla.org/MPL/2.0/">Mozilla Public License 2.0</a>;
+see also the associated <a href="http://www.mozilla.org/MPL/2.0/FAQ.html">frequently asked questions</a> about the license
+</ul>
+<br>
+</li>
 <a name="added_in_36"></a>
 <li>Added in 3.6:
 <ul>
@@ -11085,6 +11273,8 @@ For example, if your code assumed that the output of some functions was a pure m
 eg. <i>chol(m).diag()</i>, change the code to <i>mat(chol(m)).diag()</i>.
 Similarly, if you need to pass the result of an operation such as <i>A+B</i> to one of your own functions,
 use <i>my_function(&nbsp;mat(A+B)&nbsp;)</i>.
+</li>
+</ul>
 </li>
 </ul>
 </li>

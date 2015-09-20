@@ -1,14 +1,9 @@
 // Copyright (C) 2008-2012 NICTA (www.nicta.com.au)
 // Copyright (C) 2008-2012 Conrad Sanderson
 // 
-// This file is part of the Armadillo C++ library.
-// It is provided without any warranty of fitness
-// for any purpose. You can redistribute this file
-// and/or modify it under the terms of the GNU
-// Lesser General Public License (LGPL) as published
-// by the Free Software Foundation, either version 3
-// of the License or (at your option) any later version.
-// (see http://www.opensource.org/licenses for more info)
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
 //! \addtogroup glue_times
@@ -81,8 +76,6 @@ glue_times_redirect2_helper<true>::apply(Mat<typename T1::elem_type>& out, const
   else
     {
     arma_extra_debug_print("glue_times_redirect<2>::apply(): detected inv(A)*B");
-    
-    typedef typename strip_inv<T1>::stored_type T1_stripped;
     
     const strip_inv<T1> A_strip(X.A);
     
@@ -233,13 +226,11 @@ void
 glue_times::apply(Mat<typename T1::elem_type>& out, const Glue<T1,T2,glue_times>& X)
   {
   arma_extra_debug_sigprint();
-
-  typedef typename T1::elem_type eT;
-
+  
   const sword N_mat = 1 + depth_lhs< glue_times, Glue<T1,T2,glue_times> >::num;
-
+  
   arma_extra_debug_print(arma_boost::format("N_mat = %d") % N_mat);
-
+  
   glue_times_redirect<N_mat>::apply(out, X);
   }
 

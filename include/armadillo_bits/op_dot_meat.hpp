@@ -1,14 +1,9 @@
 // Copyright (C) 2008-2012 NICTA (www.nicta.com.au)
 // Copyright (C) 2008-2012 Conrad Sanderson
 // 
-// This file is part of the Armadillo C++ library.
-// It is provided without any warranty of fitness
-// for any purpose. You can redistribute this file
-// and/or modify it under the terms of the GNU
-// Lesser General Public License (LGPL) as published
-// by the Free Software Foundation, either version 3
-// of the License or (at your option) any later version.
-// (see http://www.opensource.org/licenses for more info)
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
 //! \addtogroup op_dot
@@ -87,7 +82,7 @@ template<typename eT>
 arma_hot
 arma_pure
 inline
-typename arma_float_only<eT>::result
+typename arma_real_only<eT>::result
 op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
   {
   arma_extra_debug_sigprint();
@@ -320,14 +315,14 @@ op_dot::apply_proxy(const T1& X, const T2& Y)
     
     for(uword i=0; i<N; ++i)
       {
-      const std::complex<T> X = A[i];
-      const std::complex<T> Y = B[i];
+      const std::complex<T> xx = A[i];
+      const std::complex<T> yy = B[i];
       
-      const T a = X.real();
-      const T b = X.imag();
+      const T a = xx.real();
+      const T b = xx.imag();
       
-      const T c = Y.real();
-      const T d = Y.imag();
+      const T c = yy.real();
+      const T d = yy.imag();
       
       val_real += (a*c) - (b*d);
       val_imag += (a*d) + (b*c);

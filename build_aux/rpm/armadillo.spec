@@ -1,10 +1,10 @@
 Name:           armadillo
-Version:        3.4.4
+Version:        3.800.0
 Release:        1%{?dist}
 Summary:        Fast C++ matrix library with interfaces to LAPACK and ATLAS
 
 Group:          Development/Libraries
-License:        LGPLv3+
+License:        MPLv2.0
 URL:            http://arma.sourceforge.net/
 Source:         http://sourceforge.net/projects/arma/files/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -83,7 +83,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %{_libdir}/*.so.*
 %doc LICENSE.txt
-%doc licenses
 
 %files devel
 %defattr(-,root,root,-)
@@ -92,9 +91,21 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/armadillo_bits/
 %{_datadir}/Armadillo/
 %doc README.txt index.html docs.html
-%doc examples armadillo_icon.png armadillo_nicta_2010.pdf
+%doc examples armadillo_icon.png armadillo_nicta_2010.pdf rcpp_armadillo_csda_2013.pdf
 
 %changelog
+* Fri Feb 22 2013 Conrad Sanderson - 3.800.0-1
+- License change to Mozilla Public License v2.0
+
+* Fri Feb  8 2013 José Matos <jamatos@fedoraproject.org> - 3.6.2-1
+- Update to latest stable release
+
+* Mon Dec 17 2012 José Matos <jamatos@fedoraproject.org> - 3.6.1-1
+- Update to latest stable release
+
+* Sat Dec  8 2012 José Matos <jamatos@fedoraproject.org> - 3.6.0-1
+- Update to latest stable release
+
 * Mon Dec  3 2012 José Matos <jamatos@fedoraproject.org> - 3.4.4-1
 - Update to latest stable release
 - Clean the spec files (documentation has a special treatment with rpm)

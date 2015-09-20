@@ -1,15 +1,10 @@
-// Copyright (C) 2008-2012 NICTA (www.nicta.com.au)
-// Copyright (C) 2008-2012 Conrad Sanderson
+// Copyright (C) 2008-2013 NICTA (www.nicta.com.au)
+// Copyright (C) 2008-2013 Conrad Sanderson
 // Copyright (C) 2012 Ryan Curtin
 // 
-// This file is part of the Armadillo C++ library.
-// It is provided without any warranty of fitness
-// for any purpose. You can redistribute this file
-// and/or modify it under the terms of the GNU
-// Lesser General Public License (LGPL) as published
-// by the Free Software Foundation, either version 3
-// of the License or (at your option) any later version.
-// (see http://www.opensource.org/licenses for more info)
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
 //! \addtogroup Mat
@@ -711,6 +706,90 @@ Mat<eT>::init
       *out_mem = std::complex<T>(PX.at(urow,ucol), PY.at(urow,ucol));
       out_mem++;
       }
+    }
+  }
+
+
+
+//! EXPERIMENTAL: swap the contents of this matrix, denoted as matrix A, with given matrix B
+template<typename eT>
+inline
+void
+Mat<eT>::swap(Mat<eT>& B)
+  {
+  Mat<eT>& A = (*this);
+  
+  arma_extra_debug_sigprint(arma_boost::format("A = %x   B = %x") % &A % &B);
+  
+  arma_debug_check( (A.vec_state != B.vec_state), "Mat::swap(): incompatible object types" );
+  
+  const uhword A_mem_state = A.mem_state;
+  const uhword B_mem_state = B.mem_state;
+  
+  if( (A_mem_state == 0) && (B_mem_state == 0) )
+    {
+    const uword A_n_elem = A.n_elem;
+    const uword B_n_elem = B.n_elem;
+    
+    const bool A_use_local_mem = (A_n_elem <= arma_config::mat_prealloc);
+    const bool B_use_local_mem = (B_n_elem <= arma_config::mat_prealloc);
+    
+    if( (A_use_local_mem == false) && (B_use_local_mem == false) )
+      {
+      std::swap( access::rw(A.mem), access::rw(B.mem) );
+      }
+    else
+    if( (A_use_local_mem == true) && (B_use_local_mem == true) )
+      {
+      const uword N = (std::max)(A_n_elem, B_n_elem);
+      
+      eT* A_mem = A.memptr();
+      eT* B_mem = B.memptr();
+      
+      for(uword ii=0; ii < N; ++ii)  { std::swap( A_mem[ii], B_mem[ii] ); }
+      }
+    else
+    if( (A_use_local_mem == true) && (B_use_local_mem == false) )
+      {
+      eT* A_mem_local = &(A.mem_local[0]);
+      eT* B_mem_local = &(B.mem_local[0]);
+      
+      arrayops::copy(B_mem_local, A_mem_local, A_n_elem);
+      
+      access::rw(A.mem) = B.mem;
+      access::rw(B.mem) = B_mem_local;
+      }
+    else
+    if( (A_use_local_mem == false) && (B_use_local_mem == true) )
+      {
+      eT* A_mem_local = &(A.mem_local[0]);
+      eT* B_mem_local = &(B.mem_local[0]);
+      
+      arrayops::copy(A_mem_local, B_mem_local, B_n_elem);
+      
+      access::rw(B.mem) = A.mem;
+      access::rw(A.mem) = A_mem_local;
+      }
+    
+    std::swap( access::rw(A.n_rows), access::rw(B.n_rows) );
+    std::swap( access::rw(A.n_cols), access::rw(B.n_cols) );
+    std::swap( access::rw(A.n_elem), access::rw(B.n_elem) );
+    }
+  else
+  if( (A_mem_state == 3) && (B_mem_state == 3) )
+    {
+    arma_debug_check( ((A.n_rows != B.n_rows) || (A.n_cols != B.n_cols)), "Mat::swap(): incompatible object types" );
+    
+    const uword N = A.n_elem;
+    
+    eT* A_mem = A.memptr();
+    eT* B_mem = B.memptr();
+    
+    for(uword ii=0; ii < N; ++ii)  { std::swap(A_mem[ii], B_mem[ii]); }
+    }
+  else
+    {
+    arma_bad("Mat::swap(): incompatible object types");
     }
   }
 
@@ -4839,6 +4918,77 @@ Mat<eT>::copy_size(const Base<eT2, expr>& X)
   const uword X_n_cols = P.get_n_cols();
   
   init_warm(X_n_rows, X_n_cols);
+  }
+
+
+
+//! transform each element in the matrix using a functor
+template<typename eT>
+template<typename functor>
+inline
+const Mat<eT>&
+Mat<eT>::transform(functor F)
+  {
+  arma_extra_debug_sigprint();
+  
+  eT* out_mem = memptr();
+  
+  const uword N = n_elem;
+  
+  uword ii, jj;
+  
+  for(ii=0, jj=1; jj < N; ii+=2, jj+=2)
+    {
+    eT tmp_ii = out_mem[ii];
+    eT tmp_jj = out_mem[jj];
+    
+    tmp_ii = eT( F(tmp_ii) );
+    tmp_jj = eT( F(tmp_jj) );
+    
+    out_mem[ii] = tmp_ii;
+    out_mem[jj] = tmp_jj;
+    }
+  
+  if(ii < N)
+    {
+    out_mem[ii] = eT( F(out_mem[ii]) );
+    }
+  
+  return *this;
+  }
+
+
+
+//! imbue (fill) the matrix with values provided by a functor
+template<typename eT>
+template<typename functor>
+inline
+const Mat<eT>&
+Mat<eT>::imbue(functor F)
+  {
+  arma_extra_debug_sigprint();
+  
+  eT* out_mem = memptr();
+  
+  const uword N = n_elem;
+  
+  uword ii, jj;
+  
+  for(ii=0, jj=1; jj < N; ii+=2, jj+=2)
+    {
+    const eT tmp_ii = eT( F() );
+    const eT tmp_jj = eT( F() );
+    
+    out_mem[ii] = tmp_ii;
+    out_mem[jj] = tmp_jj;
+    }
+  
+  if(ii < N)
+    {
+    out_mem[ii] = eT( F() );
+    }
+  
+  return *this;
   }
 
 
