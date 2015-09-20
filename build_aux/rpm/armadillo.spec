@@ -1,5 +1,5 @@
 Name:           armadillo
-Version:        3.4.0
+Version:        3.4.4
 Release:        1%{?dist}
 Summary:        Fast C++ matrix library with interfaces to LAPACK and ATLAS
 
@@ -64,13 +64,11 @@ done
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
-rm -rf   $RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}/
-mkdir -p $RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}/
 rm -f examples/Makefile.cmake
 rm -rf examples/example1_win32
 rm -rf examples/example2_win32
 rm -rf examples/lib_win32
-cp -r LICENSE.txt licenses README.txt index.html examples docs.html armadillo_icon.png armadillo_nicta_2010.pdf $RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}/
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -84,26 +82,22 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_libdir}/*.so.*
-%dir %{_docdir}/%{name}-%{version}/
-%doc %{_docdir}/%{name}-%{version}/LICENSE.txt
-%doc %{_docdir}/%{name}-%{version}/licenses/
+%doc LICENSE.txt
+%doc licenses
 
 %files devel
 %defattr(-,root,root,-)
 %{_libdir}/*.so
 %{_includedir}/armadillo
 %{_includedir}/armadillo_bits/
-%doc %{_docdir}/%{name}-%{version}/README.txt
-%doc %{_docdir}/%{name}-%{version}/index.html
-%doc %{_docdir}/%{name}-%{version}/examples/
-%doc %{_docdir}/%{name}-%{version}/docs.html
-%doc %{_docdir}/%{name}-%{version}/armadillo_icon.png
-%doc %{_docdir}/%{name}-%{version}/armadillo_nicta_2010.pdf
 %{_datadir}/Armadillo/
+%doc README.txt index.html docs.html
+%doc examples armadillo_icon.png armadillo_nicta_2010.pdf
 
 %changelog
-* Wed Sep 05 2012 Conrad Sanderson - 3.4.0-1
-- Update to version 3.4.0
+* Mon Dec  3 2012 José Matos <jamatos@fedoraproject.org> - 3.4.4-1
+- Update to latest stable release
+- Clean the spec files (documentation has a special treatment with rpm)
 
 * Wed Jul 25 2012 José Matos <jamatos@fedoraproject.org> - 3.2.4-1
 - Update to version 3.2.4
@@ -240,4 +234,3 @@ rm -rf $RPM_BUILD_ROOT
 
 * Thu Jan 22 2009  Conrad Sanderson
 - Initial spec file prepared
-

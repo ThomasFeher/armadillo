@@ -427,7 +427,9 @@ Contributors:
 - Benoît Bayol
 - Salim Bcoin
 - Justin Bedo
+- Evan Bollig
 - Darius Braziunas
+- Filip Bruman
 - Ted Campbell
 - James Cline
 - Chris Cooper

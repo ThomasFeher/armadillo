@@ -78,9 +78,9 @@
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 3.4</b></font>
+        <font size=+2><b>Reference for Armadillo 3.6</b></font>
         <br>
-        <b>(Ku De Ta)</b>
+        <b>(Piazza del Duomo)</b>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -1457,7 +1457,7 @@ Constructors:
 </li>
 <br>
 <li>
-Elements are stored in the compressed sparse column (CSC) format
+Elements are stored in the <i>compressed sparse column</i> (CSC) format
 </li>
 <br>
 <li>
@@ -1472,26 +1472,32 @@ examples of omitted functions: <a href="#fill">.fill()</a>, <a href="#ones_membe
 <br>
 <li>
 <b>Caveat:</b>
-support for sparse matrices in version 3.4 is <b>preliminary</b>;
+support for sparse matrices in version 3.6 is <b>preliminary</b>;
 it is not yet fully optimised, and sparse matrix decompositions/factorisations are not yet implemented.
 The following subset of operations currently works with sparse matrices:
 <ul>
 <li>element access</li>
 <li>fundamental arithmetic operations (such as addition and multiplication)</li>
 <li>submatrix views</li>
+<li>saving and loading (in <i>arma_binary</i> format)</li>
 <li>
+<a href="#abs">abs()</a>,
 <a href="#accu">accu()</a>,
 <a href="#as_scalar">as_scalar()</a>,
 <a href="#dot">dot()</a>,
+<a href="#stats_fns">mean()</a>,
 <a href="#min_and_max">min()</a>,
 <a href="#min_and_max">max()</a>,
+<a href="#norm">norm()</a>,
 <a href="#print">print()</a>,
 <a href="#speye">speye()</a>,
 <a href="#sprandu_sprandn">sprandu()/sprandn()</a>,
 <a href="#misc_fns">square()</a>,
+<a href="#misc_fns">sqrt()</a>,
 <a href="#sum">sum()</a>,
 <a href="#trace">trace()</a>,
-<a href="#trans">trans()</a>
+<a href="#trans">trans()</a>,
+<a href="#stats_fns">var()</a>
 </li>
 </ul>
 </li>
@@ -5331,6 +5337,7 @@ Examples:
 <ul>
 <pre>
 vec  v = ones&lt;vec&gt;(10);
+uvec u = ones&lt;uvec&gt;(11);
 mat  A = ones&lt;mat&gt;(5,6);
 cube Q = ones&lt;cube&gt;(5,6,7);
 
@@ -5345,6 +5352,7 @@ See also:
 <li><a href="#ones_member">.ones()</a> (member function of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>Cube</i>)</li>
 <li><a href="#eye_standalone">eye()</a></li>
 <li><a href="#linspace">linspace()</a></li>
+<li><a href="#zeros_standalone">zeros()</a></li>
 </ul>
 </li>
 </ul>
@@ -5582,7 +5590,8 @@ Usage:
 Examples:
 <ul>
 <pre>
-vec  v = zeros&lt;vec&gt;(5);
+vec  v = zeros&lt;vec&gt;(10);
+uvec u = zeros&lt;uvec&gt;(11);
 mat  A = zeros&lt;mat&gt;(5,6);
 cube Q = zeros&lt;cube&gt;(5,6,7);
 </pre>
@@ -7467,6 +7476,9 @@ See also:
 <a name="sort_index"></a>
 <b>sort_index(colvec, sort_type=0)</b>
 <br><b>sort_index(rowvec, sort_type=0)</b>
+<br>
+<br><b>stable_sort_index(colvec, sort_type=0)</b>
+<br><b>stable_sort_index(rowvec, sort_type=0)</b>
 <ul>
 <li>Return a vector which describes the sorted order of the given vector's elements 
 (ie. it contains the indices of the given vector's elements)
@@ -7479,6 +7491,8 @@ See also:
 <li><i>sort_type=0</i> (default) indicates an ascending sort</li>
 <br>
 <li><i>sort_type=1</i> indicates a descending sort</li>
+<br>
+<li>The <i>stable_sort_index()</i> variant preserves the relative order of elements with equivalent values; the variant was added in version 3.6</li>
 <br>
 <li>
 Examples:
@@ -10807,6 +10821,17 @@ Below is a list of deprecated functionality; this functionality will be <b>remov
 Below is a list of additions and changes since prior versions of Armadillo:
 <br>
 <br>
+<a name="added_in_36"></a>
+<li>Added in 3.6:
+<ul>
+<li>faster handling of compound expressions with submatrices and subcubes</li>
+<li>support for loading matrices as text files with NaN and Inf elements</li>
+<li><a href="#sort_index">stable_sort_index()</a>, which preserves the relative order of elements with equivalent values</li>
+<li>handling of sparse matrices by <a href="#stats_fns">mean()</a>, <a href="#stats_fns">var()</a>, <a href="#norm">norm()</a>, <a href="#abs">abs()</a>, <a href="#misc_fns">square()</a>, <a href="#misc_fns">sqrt()</a></li>
+<li>saving and loading of sparse matrices in <i>arma_binary</i> format</li>
+</ul>
+<br>
+</li>
 <a name="added_in_34"></a>
 <li>Added in 3.4:
 <ul>
