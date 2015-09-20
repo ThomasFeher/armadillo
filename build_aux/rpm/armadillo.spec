@@ -91,11 +91,24 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/armadillo_bits/
 %{_datadir}/Armadillo/
 %doc README.txt index.html docs.html
-%doc examples armadillo_icon.png armadillo_nicta_2010.pdf rcpp_armadillo_csda_2013.pdf
+%doc examples armadillo_icon.png
+%doc armadillo_nicta_2010.pdf rcpp_armadillo_csda_2013.pdf
 
 %changelog
-* Fri Feb 22 2013 Conrad Sanderson - 3.800.0-1
-- License change to Mozilla Public License v2.0
+* Sat Mar  2 2013 José Matos <jamatos@fedoraproject.org> - 3.800.0-1
+- Update to latest stable version
+- License changed from LGPLv3+ to MPLv2.0
+- Added another documentation file (rcpp related)
+- Spec changelog trimmed
+
+* Thu Feb 21 2013 José Matos <jamatos@fedoraproject.org> - 3.6.3-1
+- Update to latest stable release
+
+* Sun Feb 10 2013 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 3.6.2-3
+- Rebuild for Boost-1.53.0
+
+* Sat Feb 09 2013 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 3.6.2-2
+- Rebuild for Boost-1.53.0
 
 * Fri Feb  8 2013 José Matos <jamatos@fedoraproject.org> - 3.6.2-1
 - Update to latest stable release

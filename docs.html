@@ -266,7 +266,7 @@ Technical Report, NICTA, 2010.
 <a href="#repmat">repmat</a>&nbsp;&middot;
 <a href="#speye">speye</a>&nbsp;&middot;
 <a href="#sprandu_sprandn">sprandu/sprandn</a>&nbsp;&middot;
-<a href="#toeplitz">toeplitz/toeplitz_circ</a>&nbsp;&middot;
+<a href="#toeplitz">toeplitz/circ_toeplitz</a>&nbsp;&middot;
 <a href="#zeros_standalone">zeros</a>
 </ul>
 <br>
@@ -356,7 +356,7 @@ Technical Report, NICTA, 2010.
 <a href="#is_finite_standalone">is_finite()</a>&nbsp;&middot;
 <a href="#logging">logging of errors/warnings</a>&nbsp;&middot;
 <a href="#constants">various constants (pi, inf, speed of light, ...)</a>&nbsp;&middot;
-<a href="#log_add">log_add</a>&nbsp;&middot;
+<!--<a href="#log_add">log_add</a>&nbsp;&middot;-->
 <a href="#uword">uword/sword</a>&nbsp;&middot;
 <a href="#cx_float_double">cx_float/cx_double</a>&nbsp;&middot;
 <a href="#syntax">Matlab/Armadillo syntax differences</a>&nbsp;&middot;
@@ -3596,7 +3596,7 @@ See also:
 <li><a href="#accu">accu()</a></li>
 <li><a href="#as_scalar">as_scalar()</a></li>
 <li><a href="#find">find()</a></li>
-<li><a href="#transform">transform()</a></li>
+<li><a href="#transform">.transform()</a></li>
 </ul>
 </li>
 <br>
@@ -9342,6 +9342,7 @@ See also:
 <br>
 <hr class="greyline"><br>
 
+<!--
 <a name="log_add"></a>
 <b>log_add(log_a, log_b)</b>
 <ul>
@@ -9366,6 +9367,7 @@ log_a, log_b and log_c must have the same type
 </ul>
 <br>
 <hr class="greyline"><br>
+-->
 
 <a name="uword"></a>
 <b>uword</b>, <b>sword</b>
@@ -11056,13 +11058,14 @@ List of additions and changes since prior versions of Armadillo:
 <li><a href="#swap">.swap()</a> for swapping contents with another matrix</li>
 <li><a href="#transform">.transform()</a> for transforming a matrix/cube using a functor or lambda expression</li>
 <li><a href="#misc_fns">round()</a> for rounding matrix elements towards nearest integer</li>
+<li>faster <a href="#find">find()</a></li>
 </ul>
 </li>
 <br>
 <li>Changed in 3.800:
 <ul>
 <li>Armadillo is now licensed using the <a href="http://www.mozilla.org/MPL/2.0/">Mozilla Public License 2.0</a>;
-see also the associated <a href="http://www.mozilla.org/MPL/2.0/FAQ.html">frequently asked questions</a> about the license
+see also the associated <a href="http://www.mozilla.org/MPL/2.0/FAQ.html">frequently asked questions</a> about the license</li>
 </ul>
 <br>
 </li>
