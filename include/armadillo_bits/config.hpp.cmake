@@ -1,5 +1,5 @@
-// Copyright (C) 2008-2011 NICTA (www.nicta.com.au)
-// Copyright (C) 2008-2011 Conrad Sanderson
+// Copyright (C) 2008-2012 NICTA (www.nicta.com.au)
+// Copyright (C) 2008-2012 Conrad Sanderson
 // 
 // This file is part of the Armadillo C++ library.
 // It is provided without any warranty of fitness
@@ -68,6 +68,8 @@
 #cmakedefine ARMA_USE_BOOST
 #cmakedefine ARMA_USE_BOOST_DATE
 #cmakedefine ARMA_USE_WRAPPER
+
+#define ARMA_DEFAULT_OSTREAM std::cout
 
 #define ARMA_PRINT_LOGIC_ERRORS
 #define ARMA_PRINT_RUNTIME_ERRORS

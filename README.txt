@@ -264,7 +264,8 @@ The LAPACK and BLAS libraries are stored in:
 Note that on 64 bit systems (such as Windows 7), dedicated
 64 bit versions of BLAS and LAPACK are considerably faster.
 
-If you're not using MSVC, you will need to manually modify 
+If you're not using MSVC, or you're getting "use of LAPACK needs
+to be enabled" messages, you will need to manually modify 
 "include/armadillo_bits/config.hpp" to enable the use of
 LAPACK and BLAS. Please see section 2.1 for more information.
 
@@ -276,9 +277,9 @@ and ARMA_BLAS_UNDERSCORE macros in "armadillo_bits/config.hpp".
 
 To preserve our sanity, we (Armadillo developers) don't use Windows
 on a regular basis, and as such can't help you with the adaptations.
-If you are serious about doing experimentation and/or prototyping
-involving linear algebra, you shouldn't be using lower-grade (ie. unreliable)
-operating systems such as Windows anyway.
+For best results we recommend using an operating system that's
+more reliable and more suitable for heavy duty work,
+such as Linux or Mac OS X. 
 
 The pre-compiled versions of LAPACK and BLAS were downloaded from:
   http://www.fi.muni.cz/~xsvobod2/misc/lapack/
@@ -300,17 +301,17 @@ the original sources at:
 If you encounter issues with the MS Visual C++ compiler,
 the following high-quality compilers are useful alternatives:
 
-  * Intel's C++ compiler
-    http://software.intel.com/en-us/intel-compilers/
-
   * GCC (part MinGW)
     http://www.mingw.org/
 
   * GCC (part of CygWin)
     http://www.cygwin.com/
 
-If using Intel's C++ compiler, you'll need version 10.0 or better.
+  * Intel's C++ compiler
+    http://software.intel.com/en-us/intel-compilers/
+
 If using GCC, you'll need version 4.0 or better.
+If using Intel's C++ compiler, you'll need version 10.0 or better.
 
 
 
