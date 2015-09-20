@@ -17,7 +17,7 @@
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 2.4.3</b></font>
+        <font size=+2><b>Reference for Armadillo 2.4.4</b></font>
         <br>
         <font size=-1><b>(Loco Lounge Lizard)</b></font>
       </td>
@@ -9491,10 +9491,6 @@ Also, in a rare instance the user API may need to be altered if a bug fix absolu
 Below is a list of deprecated functionality; this functionality will be <b>removed</b> in version 3.0:
 <ul>
 <li>
-<i>htrans()</i> is deprecated; use <a href="#trans">trans()</a> instead
-<br>&nbsp;
-</li>
-<li>
 <i>.print_trans()</i> and <i>.raw_print_trans()</i> are deprecated;
 <br>instead, you can chain <i>.t()</i> and <i>.print()</i> to achieve a similar result: <i>.t().print()</i>
 <br>&nbsp;
@@ -9505,9 +9501,6 @@ support for tying writeable auxiliary (external) memory to fixed size matrices i
 or initialise fixed size matrices by <a href="#adv_constructors_mat">copying the memory</a>.
 Using auxiliary memory with standard matrices is unaffected.
 <br>&nbsp;
-</li>
-<li>the <i>.n_elem_slice</i> member variable of the Cube class is deprecated;
-<br>you can get equivalent information by multiplying <i>.n_rows</i> with <i>.n_cols</i>
 </li>
 </ul>
 <br>

@@ -69,7 +69,9 @@
 #cmakedefine ARMA_USE_BOOST_DATE
 #cmakedefine ARMA_USE_WRAPPER
 
-#define ARMA_DEFAULT_OSTREAM std::cout
+#if !defined(ARMA_DEFAULT_OSTREAM)
+  #define ARMA_DEFAULT_OSTREAM std::cout
+#endif
 
 #define ARMA_PRINT_LOGIC_ERRORS
 #define ARMA_PRINT_RUNTIME_ERRORS
