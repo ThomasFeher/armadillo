@@ -110,9 +110,9 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 3.810</b></font>
+        <font size=+2><b>Reference for Armadillo 3.820</b></font>
         <br>
-        <b>(Newell Highway)</b>
+        <b>(Mt Cootha)</b>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -3794,9 +3794,9 @@ See also:
 <ul>
 <li><a href="#randu_randn_standalone">randu() &amp; randn()</a> (standalone functions)</li>
 <li><a href="#fill">.fill()</a></li>
+<li><a href="#imbue">.imbue()</a></li>
 <li><a href="#ones_member">.ones()</a></li>
 <li><a href="#zeros_member">.zeros()</a></li>
-<li><a href="#imbue">.imbue()</a></li>
 <li><a href="http://cplusplus.com/reference/clibrary/cstdlib/srand/">std::srand()</a></li>
 </ul>
 </li>
@@ -5652,6 +5652,7 @@ cube Q = randu&lt;cube&gt;(5,6,7);
 <li>See also:
 <ul>
 <li><a href="#randu_randn_member">.randu() &amp; .randn()</a> (member functions)</li>
+<li><a href="#imbue">.imbue()</a></li>
 <li><a href="#ones_standalone">ones()</a></li>
 <li><a href="#zeros_standalone">zeros()</a></li>
 <li><a href="#shuffle">shuffle()</a></li>
@@ -11164,6 +11165,16 @@ List of additions and changes for each version:
 <br>
 <br>
 <ul>
+<a name="added_in_3820"></a>
+<li>Added in 3.820:
+<ul>
+<li>faster <a href="#as_scalar">as_scalar()</a> for compound expressions</li>
+<li>faster transpose of small vectors</a></li>
+<li>faster matrix-vector product for small vectors</li>
+<li>faster multiplication of small <a href="#adv_constructors_mat_fixed">fixed size matrices</a></li>
+</ul>
+</li>
+<br>
 <a name="added_in_3810"></a>
 <li>Added in 3.810:
 <ul>
