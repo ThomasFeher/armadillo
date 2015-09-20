@@ -13,8 +13,8 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(ARMA_MAJOR 4)
-set(ARMA_MINOR 100)
-set(ARMA_PATCH 2)
+set(ARMA_MINOR 200)
+set(ARMA_PATCH 0)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 
@@ -215,9 +215,7 @@ if(APPLE)
   message(STATUS "MacOS X detected. Added '-framework Accelerate' to compiler flags")
   
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    add_definitions(
-        -stdlib=libc++
-    )
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
   message(STATUS "Clang compiler on MacOS X detected. Added '-stdlib=libc++' to compiler flags")
   endif()
 

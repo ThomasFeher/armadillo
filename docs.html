@@ -114,7 +114,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 4.100</b></font>
+        <font size=+2><b>Reference for Armadillo 4.200</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -354,6 +354,7 @@ Technical Report, NICTA, 2010.
 <a href="#fft">fft/ifft</a>&nbsp;&middot;
 <a href="#fft2">fft2/ifft2</a>&nbsp;&middot;
 <a href="#inv">inv</a>&nbsp;&middot;
+<a href="#inv_sympd">inv_sympd</a>&nbsp;&middot;
 <a href="#lu">lu</a>&nbsp;&middot;
 <a href="#pinv">pinv</a>&nbsp;&middot;
 <a href="#princomp">princomp</a>&nbsp;&middot;
@@ -9408,6 +9409,10 @@ If <i>A</i> is not square, a <i>std::logic_error</i> exception is thrown
 </li>
 <br>
 <li>
+<b>Caveat:</b> if matrix <i>A</i> is know to be diagonal, use <i>inv(&nbsp;diagmat(A)&nbsp;)</i>
+</li>
+<br>
+<li>
 <b>Caveat:</b> 
 if you want to solve a system of linear equations, such as <i>Z&nbsp;=&nbsp;inv(X)*Y</i>,
 it is faster and more accurate to use <a href="#solve">solve()</a> instead
@@ -9428,10 +9433,11 @@ mat B = inv(A);
 See also: 
 <ul>
 <li><a href="#i_member">.i()</a>
+<li><a href="#inv_sympd">inv_sympd()</a>
 <li><a href="#cond">cond()</a>
 <li><a href="#pinv">pinv()</a>
 <li><a href="#solve">solve()</a></li>
-<li><a href="#trimat">trimatu() / trimatl()</a></li>
+<li><a href="#diagmat">diagmat()</a></li>
 <li><a href="http://mathworld.wolfram.com/MatrixInverse.html">matrix inverse in MathWorld</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Invertible_matrix">invertible matrix in Wikipedia</a></li>
 </ul>
@@ -12504,6 +12510,15 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="added_in_4200"></a>
+<li>Added in 4.200:
+<ul>
+<li>faster transpose of sparse matrices</li>
+<li>more efficient handling of aliasing during matrix multiplication</li>
+<li>faster <a href="#inv">inverse</a> of matrices marked as diagonal</li>
+</ul>
+</li>
+<br>
 <a name="added_in_4100"></a>
 <li>Added in 4.100:
 <ul>
