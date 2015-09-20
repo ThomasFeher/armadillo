@@ -1,4 +1,4 @@
-// Copyright (C) 2011-2014 Ryan Curtin
+// Copyright (C) 2011-2015 Ryan Curtin
 // Copyright (C) 2012-2015 Conrad Sanderson
 // Copyright (C) 2011 Matthew Amidon
 // 
@@ -103,6 +103,8 @@ SpMat<eT>::operator=(const char* text)
   arma_extra_debug_sigprint();
 
   init(std::string(text));
+  
+  return *this;
   }
 
 
@@ -132,8 +134,10 @@ const SpMat<eT>&
 SpMat<eT>::operator=(const std::string& text)
   {
   arma_extra_debug_sigprint();
-
+  
   init(text);
+  
+  return *this;
   }
 
 
@@ -518,6 +522,8 @@ SpMat<eT>::operator*=(const eT val)
   if(val != eT(0))
     {
     arrayops::inplace_mul( access::rwp(values), val, n_nonzero );
+    
+    remove_zeros();
     }
   else
     {
@@ -540,6 +546,8 @@ SpMat<eT>::operator/=(const eT val)
   arma_debug_check( (val == eT(0)), "element-wise division: division by zero" );
   
   arrayops::inplace_div( access::rwp(values), val, n_nonzero );
+  
+  remove_zeros();
   
   return *this;
   }
@@ -770,44 +778,37 @@ template<typename eT>
 template<typename T1>
 inline
 const SpMat<eT>&
-SpMat<eT>::operator=(const Base<eT, T1>& x)
+SpMat<eT>::operator=(const Base<eT, T1>& expr)
   {
   arma_extra_debug_sigprint();
   
-  const Proxy<T1> p(x.get_ref());
+  const quasi_unwrap<T1> tmp(expr.get_ref());
+  const Mat<eT>& x     = tmp.M;
   
-  const uword x_n_rows = p.get_n_rows();
-  const uword x_n_cols = p.get_n_cols();
-  const uword x_n_elem = p.get_n_elem();
-
+  const uword x_n_rows = x.n_rows;
+  const uword x_n_cols = x.n_cols;
+  const uword x_n_elem = x.n_elem;
+  
   init(x_n_rows, x_n_cols);
-
+  
   // Count number of nonzero elements in base object.
   uword n = 0;
-  if(Proxy<T1>::prefer_at_accessor == true)
+  
+  const eT* x_mem = x.memptr();
+  
+  for(uword i = 0; i < x_n_elem; ++i)
     {
-    for(uword j = 0; j < x_n_cols; ++j)
-    for(uword i = 0; i < x_n_rows; ++i)
-      {
-      if(p.at(i, j) != eT(0)) { ++n; }
-      }
+    n += (x_mem[i] != eT(0)) ? uword(1) : uword(0);
     }
-  else
-    {
-    for(uword i = 0; i < x_n_elem; ++i)
-      {
-      if(p[i] != eT(0)) { ++n; }
-      }
-    }
-
+  
   mem_resize(n);
-
+  
   // Now the memory is resized correctly; add nonzero elements.
   n = 0;
   for(uword j = 0; j < x_n_cols; ++j)
   for(uword i = 0; i < x_n_rows; ++i)
     {
-    const eT val = p.at(i, j);
+    const eT val = (*x_mem);  x_mem++;
     
     if(val != eT(0))
       {
@@ -817,7 +818,7 @@ SpMat<eT>::operator=(const Base<eT, T1>& x)
       ++n;
       }
     }
-
+  
   // Sum column counts to be column pointers.
   for(uword c = 1; c <= n_cols; ++c)
     {
@@ -825,6 +826,32 @@ SpMat<eT>::operator=(const Base<eT, T1>& x)
     }
   
   return *this;
+  }
+
+
+
+template<typename eT>
+template<typename T1>
+inline
+const SpMat<eT>&
+SpMat<eT>::operator+=(const Base<eT, T1>& x)
+  {
+  arma_extra_debug_sigprint();
+  
+  return (*this).operator=( (*this) + x.get_ref() );
+  }
+
+
+
+template<typename eT>
+template<typename T1>
+inline
+const SpMat<eT>&
+SpMat<eT>::operator-=(const Base<eT, T1>& x)
+  {
+  arma_extra_debug_sigprint();
+  
+  return (*this).operator=( (*this) - x.get_ref() );
   }
 
 
@@ -1154,202 +1181,6 @@ SpMat<eT>::operator/=(const SpSubview<eT>& x)
     at(elem) /= x(elem);
     }
   
-  return *this;
-  }
-
-
-
-/**
- * Operators on regular subviews.
- */
-template<typename eT>
-inline
-SpMat<eT>::SpMat(const subview<eT>& x)
-  : n_rows(0)
-  , n_cols(0)
-  , n_elem(0)
-  , n_nonzero(0)
-  , vec_state(0)
-  , values(NULL) // extra value set in operator=()
-  , row_indices(NULL)
-  , col_ptrs(NULL)
-  {
-  arma_extra_debug_sigprint_this(this);
-
-  (*this).operator=(x);
-  }
-
-
-
-template<typename eT>
-inline
-const SpMat<eT>&
-SpMat<eT>::operator=(const subview<eT>& x)
-  {
-  arma_extra_debug_sigprint();
-  
-  const uword x_n_rows = x.n_rows;
-  const uword x_n_cols = x.n_cols;
-  
-  // Set the size correctly.
-  init(x_n_rows, x_n_cols);
-
-  // Count number of nonzero elements.
-  uword n = 0;
-  for(uword c = 0; c < x_n_cols; ++c)
-    {
-    for(uword r = 0; r < x_n_rows; ++r)
-      {
-      if(x.at(r, c) != eT(0))
-        {
-        ++n;
-        }
-      }
-    }
-
-  // Resize memory appropriately.
-  mem_resize(n);
-
-  n = 0;
-  for(uword c = 0; c < x_n_cols; ++c)
-    {
-    for(uword r = 0; r < x_n_rows; ++r)
-      {
-      const eT val = x.at(r, c);
-      
-      if(val != eT(0))
-        {
-        access::rw(values[n]) = val;
-        access::rw(row_indices[n]) = r;
-        ++access::rw(col_ptrs[c + 1]);
-        ++n;
-        }
-      }
-    }
-
-  // Fix column counts into column pointers.
-  for(uword c = 1; c <= n_cols; ++c)
-    {
-    access::rw(col_ptrs[c]) += col_ptrs[c - 1];
-    }
-  
-  return *this;
-  }
-
-
-
-template<typename eT>
-inline
-const SpMat<eT>&
-SpMat<eT>::operator+=(const subview<eT>& x)
-  {
-  arma_extra_debug_sigprint();
-  
-  arma_debug_assert_same_size(n_rows, n_cols, x.n_rows, x.n_cols, "addition");
-  
-  // Loop over every element.  This could probably be written in a more
-  // efficient way, by calculating the number of nonzero elements the output
-  // matrix will have, allocating the memory correctly, and then filling the
-  // matrix correctly.  However... for now, this works okay.
-  for(uword lcol = 0; lcol < n_cols; ++lcol)
-  for(uword lrow = 0; lrow < n_rows; ++lrow)
-    {
-    at(lrow, lcol) += x.at(lrow, lcol);
-    }
-  
-  return *this;
-  }
-
-
-
-template<typename eT>
-inline
-const SpMat<eT>&
-SpMat<eT>::operator-=(const subview<eT>& x)
-  {
-  arma_extra_debug_sigprint();
-  
-  arma_debug_assert_same_size(n_rows, n_cols, x.n_rows, x.n_cols, "subtraction");
-  
-  // Loop over every element.
-  for(uword lcol = 0; lcol < n_cols; ++lcol)
-  for(uword lrow = 0; lrow < n_rows; ++lrow)
-    {
-    at(lrow, lcol) -= x.at(lrow, lcol);
-    }
-  
-  return *this;
-  }
-
-
-
-template<typename eT>
-inline
-const SpMat<eT>&
-SpMat<eT>::operator*=(const subview<eT>& y)
-  {
-  arma_extra_debug_sigprint();
-
-  arma_debug_assert_mul_size(n_rows, n_cols, y.n_rows, y.n_cols, "matrix multiplication");
-
-  SpMat<eT> z(n_rows, y.n_cols);
-
-  // Performed in the same fashion as operator*=(SpMat).
-  for (const_row_iterator x_row_it = begin_row(); x_row_it.pos() < n_nonzero; ++x_row_it)
-    {
-    for (uword lcol = 0; lcol < y.n_cols; ++lcol)
-      {
-      // At this moment in the loop, we are calculating anything that is contributed to by *x_row_it and *y_col_it.
-      // Given that our position is x_ab and y_bc, there will only be a contribution if x.col == y.row, and that
-      // contribution will be in location z_ac.
-      z.at(x_row_it.row, lcol) += (*x_row_it) * y.at(x_row_it.col, lcol);
-      }
-    }
-
-  steal_mem(z);
-
-  return *this;
-  }
-
-
-
-template<typename eT>
-inline
-const SpMat<eT>&
-SpMat<eT>::operator%=(const subview<eT>& x)
-  {
-  arma_extra_debug_sigprint();
-  
-  arma_debug_assert_same_size(n_rows, n_cols, x.n_rows, x.n_cols, "element-wise multiplication");
-  
-  // Loop over every element.
-  for(uword lcol = 0; lcol < n_cols; ++lcol)
-  for(uword lrow = 0; lrow < n_rows; ++lrow)
-    {
-    at(lrow, lcol) *= x.at(lrow, lcol);
-    }
-
-  return *this;
-  }
-
-
-
-template<typename eT>
-inline
-const SpMat<eT>&
-SpMat<eT>::operator/=(const subview<eT>& x)
-  {
-  arma_extra_debug_sigprint();
-  
-  arma_debug_assert_same_size(n_rows, n_cols, x.n_rows, x.n_cols, "element-wise division");
-  
-  // Loop over every element.
-  for(uword lcol = 0; lcol < n_cols; ++lcol)
-  for(uword lrow = 0; lrow < n_rows; ++lrow)
-    {
-    at(lrow, lcol) /= x.at(lrow, lcol);
-    }
-
   return *this;
   }
 
@@ -3796,7 +3627,7 @@ void
 SpMat<eT>::init(uword in_rows, uword in_cols)
   {
   arma_extra_debug_sigprint();
-
+  
   // Verify that we are allowed to do this.
   if(vec_state > 0)
     {
@@ -3821,7 +3652,7 @@ SpMat<eT>::init(uword in_rows, uword in_cols)
         );
       }
     }
-
+  
   // Ensure that n_elem can hold the result of (n_rows * n_cols)
   arma_debug_check
     (
@@ -3832,28 +3663,28 @@ SpMat<eT>::init(uword in_rows, uword in_cols)
       ),
       "SpMat::init(): requested size is too large; suggest to enable ARMA_64BIT_WORD"
     );
-
+  
   // Clean out the existing memory.
   if (values)
     {
     memory::release(values);
     memory::release(row_indices);
     }
-
+  
   access::rw(values)      = memory::acquire_chunked<eT>   (1);
   access::rw(row_indices) = memory::acquire_chunked<uword>(1);
-
-  access::rw(values[0]) = 0;
+  
+  access::rw(values[0])      = 0;
   access::rw(row_indices[0]) = 0;
-
+  
   memory::release(col_ptrs);
-
+  
   // Set the new size accordingly.
   access::rw(n_rows)    = in_rows;
   access::rw(n_cols)    = in_cols;
   access::rw(n_elem)    = (in_rows * in_cols);
   access::rw(n_nonzero) = 0;
-
+  
   // Try to allocate the column pointers, filling them with 0,
   // except for the last element which contains the maximum possible element
   // (so iterators terminate correctly).
@@ -4337,6 +4168,60 @@ SpMat<eT>::mem_resize(const uword new_n_nonzero)
 
 
 
+template<typename eT>
+inline
+void
+SpMat<eT>::remove_zeros()
+  {
+  arma_extra_debug_sigprint();
+  
+  const uword old_n_nonzero = n_nonzero;
+        uword new_n_nonzero = 0;
+  
+  const eT* old_values = values;
+  
+  for(uword i=0; i < old_n_nonzero; ++i)
+    {
+    new_n_nonzero += (old_values[i] != eT(0)) ? uword(1) : uword(0);
+    }
+  
+  if(new_n_nonzero != old_n_nonzero)
+    {
+    if(new_n_nonzero == 0)  { init(n_rows, n_cols); return; }
+    
+    SpMat<eT> tmp(n_rows, n_cols);
+    
+    tmp.mem_resize(new_n_nonzero);
+    
+    uword new_index = 0;
+    
+    const_iterator it     = begin();
+    const_iterator it_end = end();
+    
+    for(; it != it_end; ++it)
+      {
+      const eT val = eT(*it);
+      
+      if(val != eT(0))
+        {
+        access::rw(tmp.values[new_index])      = val;
+        access::rw(tmp.row_indices[new_index]) = it.row();
+        access::rw(tmp.col_ptrs[it.col() + 1])++;
+        ++new_index;
+        }
+      }
+    
+    for(uword i=0; i < n_cols; ++i)
+      {
+      access::rw(tmp.col_ptrs[i + 1]) += tmp.col_ptrs[i];
+      }
+    
+    steal_mem(tmp);
+    }
+  }
+
+
+
 // Steal memory from another matrix.
 template<typename eT>
 inline
@@ -4396,6 +4281,8 @@ SpMat<eT>::init_xform(const SpBase<eT,T1>& A, const Functor& func)
       {
       t_values[i] = func(t_values[i]);
       }
+    
+    remove_zeros();
     }
   else
     {
@@ -4463,9 +4350,10 @@ SpMat<eT>::init_xform_mt(const SpBase<eT2,T1>& A, const Functor& func)
     
     mem_resize(P.get_n_nonzero());
     
-    typename SpProxy<T1>::const_iterator_type it = P.begin();
+    typename SpProxy<T1>::const_iterator_type it     = P.begin();
+    typename SpProxy<T1>::const_iterator_type it_end = P.end();
     
-    while(it != P.end())
+    while(it != it_end)
       {
       access::rw(row_indices[it.pos()]) = it.row();
       access::rw(values[it.pos()]) = func(*it);   // NOTE: func() must produce a value of type eT (ie. act as a convertor between eT2 and eT)
@@ -4479,6 +4367,8 @@ SpMat<eT>::init_xform_mt(const SpBase<eT2,T1>& A, const Functor& func)
       access::rw(col_ptrs[c]) += col_ptrs[c - 1];
       }
     }
+  
+  remove_zeros();
   }
 
 

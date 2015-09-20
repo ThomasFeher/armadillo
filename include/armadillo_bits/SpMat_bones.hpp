@@ -120,6 +120,8 @@ class SpMat : public SpBase< eT, SpMat<eT> >
    */
   template<typename T1> inline explicit          SpMat(const Base<eT, T1>& m);
   template<typename T1> inline const SpMat&  operator=(const Base<eT, T1>& m);
+  template<typename T1> inline const SpMat& operator+=(const Base<eT, T1>& m);
+  template<typename T1> inline const SpMat& operator-=(const Base<eT, T1>& m);
   template<typename T1> inline const SpMat& operator*=(const Base<eT, T1>& m);
   template<typename T1> inline const SpMat& operator/=(const Base<eT, T1>& m);
   template<typename T1> inline const SpMat& operator%=(const Base<eT, T1>& m);
@@ -140,18 +142,6 @@ class SpMat : public SpBase< eT, SpMat<eT> >
   inline const SpMat& operator%=(const SpSubview<eT>& X);
   inline const SpMat& operator/=(const SpSubview<eT>& X);
   
-  /**
-   * Operations on regular subviews.
-   */
-  inline                   SpMat(const subview<eT>& x);
-  inline const SpMat&  operator=(const subview<eT>& x);
-  inline const SpMat& operator+=(const subview<eT>& x);
-  inline const SpMat& operator-=(const subview<eT>& x);
-  inline const SpMat& operator*=(const subview<eT>& x);
-  inline const SpMat& operator%=(const subview<eT>& x);
-  inline const SpMat& operator/=(const subview<eT>& x);
-
-
   // delayed unary ops
   template<typename T1, typename spop_type> inline                   SpMat(const SpOp<T1, spop_type>& X);
   template<typename T1, typename spop_type> inline const SpMat&  operator=(const SpOp<T1, spop_type>& X);
@@ -559,6 +549,9 @@ class SpMat : public SpBase< eT, SpMat<eT> >
    * updated.
    */
   inline void mem_resize(const uword new_n_nonzero);
+  
+  //! don't use this unless you're writing internal Armadillo code
+  inline void remove_zeros();
   
   //! don't use this unless you're writing internal Armadillo code
   inline void steal_mem(SpMat& X);
