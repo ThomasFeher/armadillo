@@ -376,7 +376,7 @@ Old versions (eg. 3.6) can produce incorrect results
 as well as corrupting memory, leading to random crashes.
 
 Users of Ubuntu and Debian based systems should explicitly
-check that version 3.6 is not installed. It's better to
+check that version 3.6 is not installed.  It's better to
 remove the old version and use the standard LAPACK library.
 
 
@@ -476,6 +476,7 @@ Contributors:
 - Paul Torfs
 - Martin Uhrin
 - Simon Urbanek
+- Juergen Wiest
 - Arnold Wiliem
 - Yong Kang Wong
 - Buote Xu
@@ -491,4 +492,5 @@ See the "LICENSE.txt" file for license details.
 The file "include/armadillo_bits/fft_engine.hpp" is licensed under
 both the Mozilla Public License v2.0 and a 3-clause BSD license.
 See "include/armadillo_bits/fft_engine.hpp" for license details.
+
 

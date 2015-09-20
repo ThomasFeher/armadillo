@@ -1,6 +1,6 @@
 
-# Copyright (C) 2008-2012 NICTA (www.nicta.com.au)
-# Copyright (C) 2008-2012 Conrad Sanderson
+# Copyright (C) 2008-2013 NICTA (www.nicta.com.au)
+# Copyright (C) 2008-2013 Conrad Sanderson
 # Copyright (C) 2011 Clement Creusot
 # 
 # This Source Code Form is subject to the terms of the Mozilla Public
@@ -13,7 +13,7 @@ cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
 set(ARMA_MAJOR 3)
 set(ARMA_MINOR 810)
-set(ARMA_PATCH 0)
+set(ARMA_PATCH 1)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 
@@ -27,17 +27,20 @@ include(ARMA_CheckMathProto)
 
 project(armadillo CXX)
 
-#CMAKE_REQUIRED_FLAGS = string of compile command line flags
-#CMAKE_REQUIRED_DEFINITIONS = list of macros to define (-DFOO=bar)
-#CMAKE_REQUIRED_LIBRARIES = list of libraries to link
-
-
 set(ARMA_USE_LAPACK  false)
 set(ARMA_USE_BLAS    false)
 set(ARMA_USE_ATLAS   false)
 set(ARMA_USE_BOOST   false)
 set(ARMA_USE_HDF5    false)
-set(ARMA_USE_WRAPPER true )  # set this to false if you prefer to directly link with LAPACK and/or BLAS (eg. -llapack -lblas) instead of -larmadillo
+set(ARMA_USE_WRAPPER true )
+
+# NOTE:
+# Set ARMA_USE_WRAPPER to false if you're getting linking errors when compiling your programs,
+# or if you prefer to directly link with LAPACK and/or BLAS.
+# You will then need to link your programs directly with -llapack -lblas instead of -larmadillo
+
+
+message(STATUS "CMAKE_SYSTEM_NAME = ${CMAKE_SYSTEM_NAME}")
 
 
 if(WIN32)
@@ -268,8 +271,8 @@ endif()
 #set(CMAKE_INSTALL_RPATH_USE_LINK_PATH  TRUE)
 
 
+# work around a silly limitation in Mac OS X
 if(APPLE)
-  # work around a silly limitation in Mac OS X
   if(${ARMA_MINOR} GREATER 99)
     math(EXPR ARMA_MINOR_ALT "${ARMA_MINOR} / 10")
   else()
@@ -277,6 +280,13 @@ if(APPLE)
   endif()
 else()
   set(ARMA_MINOR_ALT ${ARMA_MINOR})
+endif()
+
+
+# necessary when linking against Intel MKL on Linux systems
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-as-needed")
+  message(STATUS "CMAKE_SHARED_LINKER_FLAGS = ${CMAKE_SHARED_LINKER_FLAGS}")
 endif()
 
 add_library( armadillo SHARED src/wrap_libs )
