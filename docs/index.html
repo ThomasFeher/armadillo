@@ -17,7 +17,7 @@
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 2.4.0</b></font>
+        <font size=+2><b>Reference for Armadillo 2.4.1</b></font>
         <br>
         <font size=-1><b>(Loco Lounge Lizard)</b></font>
       </td>
@@ -133,6 +133,7 @@ Technical Report, NICTA, 2010.
 <a href="#randu_randn_member">randu/randn</a>&nbsp;&middot;
 <a href="#reset">reset</a>&nbsp;&middot;
 <a href="#reshape_member">reshape</a>&nbsp;&middot;
+<a href="#resize_member">resize</a>&nbsp;&middot;
 <a href="#save_load_mat">save/load (matrices &amp; cubes)</a>&nbsp;&middot;
 <a href="#save_load_field">save/load (fields)</a>&nbsp;&middot;
 <a href="#set_imag">set_imag/real</a>&nbsp;&middot;
@@ -216,6 +217,7 @@ Technical Report, NICTA, 2010.
 <a href="#join">join&nbsp;rows/cols/slices</a>&nbsp;&middot;
 <a href="#kron">kron</a>&nbsp;&middot;
 <a href="#reshape">reshape</a>&nbsp;&middot;
+<a href="#resize">resize</a>&nbsp;&middot;
 <a href="#shuffle">shuffle</a>&nbsp;&middot;
 <a href="#sort">sort</a>&nbsp;&middot;
 <a href="#sort_index">sort_index</a>&nbsp;&middot;
@@ -2169,6 +2171,7 @@ See also:
 <ul>
 <li><a href="#shed">shed rows/columns/slices</a></li>
 <li><a href="#join">join rows/columns/slices</a></li>
+<li><a href="#resize_member">.resize()</a></li>
 <li><a href="#submat">submatrix views</a></li>
 <li><a href="#subcube">subcube views</a></li>
 </ul>
@@ -3262,27 +3265,39 @@ A.reset();
 <br>
 <ul>
 <li>
-Reshape the object to the specified size, while preserving elements;
-the order of preservation of the elements can be either column-wise (dim=0) or row-wise (dim=1)
+Recreate the object according to given size specifications,
+with the elements taken from the previous version of the object,
+either column-wise (dim=0) or row-wise (dim=1);
+the elements in the recreated object are placed column-wise
 </li>
 <br>
 <li>
-The new total number of elements (according to the specified size) doesn't have to be the same as the current total number of elements in the object
+The layout of the elements in the recreated object will be different to the layout in the previous version of the object
 </li>
 <br>
 <li>
-If the total number of elements in the object is less than the specified size,
-the remaining elements in the reshaped object are set to zero
+The new total number of elements (according to the specified size) doesn't have to be the same as the previous total number of elements in the object
 </li>
 <br>
 <li>
-If the total number of elements in the given object is greater than the specified size,
-only a subset of the elements is preserved
+If the total number of elements in the previous version of the object is less than the specified size,
+the extra elements in the recreated object are set to zero
+</li>
+<br>
+<li>
+If the total number of elements in the previous version of the object is greater than the specified size,
+only a subset of the elements is taken
 </li>
 <br>
 <li>
 <b>Caveat:</b>
 .reshape() is slower than <a href="#set_size">.set_size()</a>, which doesn't preserve data
+</li>
+<br>
+<li>
+<b>Caveat:</b>
+if you wish to grow/shrink the object while preserving the elements <b>as well as</b> the layout of the elements,
+use <a href="#resize_member">.resize()</a> instead
 </li>
 <br>
 <li>
@@ -3297,9 +3312,79 @@ A.reshape(5,4);
 <br>
 <li>See also:
 <ul>
-<li><a href="#reshape">reshape()</a> (standalone function)</li>
+<li><a href="#resize_member">.resize()</a></li>
 <li><a href="#set_size">.set_size()</a></li>
 <li><a href="#reset">.reset()</a></li>
+<li><a href="#reshape">reshape()</a> (standalone function)</li>
+</ul>
+</li>
+</ul>
+<br>
+<hr class="greyline"><br>
+
+<a name="resize_member"></a>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><b>.resize(n_elem)</b></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">(member function of <i>Col</i>, <i>Row</i>)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><b>.resize(n_rows, n_cols)</b></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">(member function of <i>Mat</i>)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><b>.resize(n_rows, n_cols, n_slices)</b></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">(member function of <i>Cube</i>)
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<ul>
+<li>
+Recreate the object according to given size specifications, while preserving the elements as well as the layout of the elements
+</li>
+<br>
+<li>
+Can be used for growing or shrinking an object (ie. adding/removing rows, and/or columns, and/or slices)
+</li>
+<br>
+<li>
+<b>Caveat:</b>
+.resize() is slower than <a href="#set_size">.set_size()</a>, which doesn't preserve data
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(4,5);
+A.resize(7,6);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+This function was added in version 2.4.1
+</li>
+<br>
+<li>See also:
+<ul>
+<li><a href="#reshape_member">.reshape()</a></li>
+<li><a href="#set_size">.set_size()</a></li>
+<li><a href="#reset">.reset()</a></li>
+<li><a href="#insert">insert rows/cols/slices</a></li>
+<li><a href="#shed">shed rows/cols/slices</a></li>
+<li><a href="#resize">resize()</a> (standalone function)</li>
 </ul>
 </li>
 </ul>
@@ -3747,6 +3832,7 @@ q.set_size(100);
 <ul>
 <li><a href="#reset">.reset()</a></li>
 <li><a href="#reshape_member">.reshape()</a></li>
+<li><a href="#resize_member">.resize()</a></li>
 </ul>
 </li>
 </ul>
@@ -3823,6 +3909,7 @@ See also:
 <ul>
 <li><a href="#insert">insert rows/columns/slices</a></li>
 <li><a href="#join">join rows/columns/slices</a></li>
+<li><a href="#resize_member">.resize()</a></li>
 <li><a href="#submat">submatrix views</a></li>
 <li><a href="#subcube">subcube views</a></li>
 <li><a href="http://thesaurus.com/browse/shed"><i>shed</i> in thesaurus.com</a></li>
@@ -5384,6 +5471,7 @@ See also:
 <li><a href="#dot">dot()</a></li>
 <li><a href="#norm">norm()</a></li>
 <li><a href="#reshape">reshape()</a></li>
+<li><a href="#resize">resize()</a></li>
 </ul>
 </li>
 <br>
@@ -6052,6 +6140,7 @@ See also:
 <ul>
 <li><a href="#as_scalar">as_scalar()</a></li>
 <li><a href="#reshape">reshape()</a></li>
+<li><a href="#resize">resize()</a></li>
 <li><a href="#adv_constructors_mat">advanced constructors (matrices)</a></li>
 <li><a href="#adv_constructors_cube">advanced constructors (cubes)</a></li>
 </ul>
@@ -6522,7 +6611,12 @@ See also:
 <ul>
 <li>
 Generate a matrix/cube sized according to given size specifications,
-whose elements are taken from the given matrix/cube, either column-wise (dim=0) or row-wise (dim=1)
+whose elements are taken from the given matrix/cube, either column-wise (dim=0) or row-wise (dim=1);
+the elements in the generated object are placed column-wise
+</li>
+<br>
+<li>
+The layout of the elements in the generated object will be different to the layout in the given object
 </li>
 <br>
 <li>
@@ -6540,6 +6634,17 @@ only a subset of elements is taken from the given matrix/cube
 </li>
 <br>
 <li>
+<b>Caveat:</b>
+reshape() is slower than <a href="#set_size">.set_size()</a>, which doesn't preserve data
+</li>
+<br>
+<li>
+<b>Caveat:</b>
+if you wish to grow/shrink a matrix while preserving the elements <b>as well as</b> the layout of the elements,
+use <a href="#resize">resize()</a> instead
+</li>
+<br>
+<li>
 Examples:
 <ul>
 <pre>
@@ -6553,6 +6658,50 @@ mat B = reshape(A, 5, 10);
 See also:
 <ul>
 <li><a href="#reshape_member">.reshape()</a> (member function of Mat and Cube)</li>
+<li><a href="#set_size">.set_size()</a> (member function of Mat and Cube)</li>
+<li><a href="#resize">resize()</a></li>
+<li><a href="#as_scalar">as_scalar()</a></li>
+<li><a href="#conv_to">conv_to()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="resize"></a>
+<b>resize(mat, n_rows, n_cols)</b>
+<br><b>resize(cube, n_rows, n_cols, n_slices)</b>
+<ul>
+<li>
+Generate a matrix/cube sized according to given size specifications,
+whose elements as well as the layout of the elements are taken from the given matrix/cube
+</li>
+<br>
+<li>
+<b>Caveat:</b>
+resize() is slower than <a href="#set_size">.set_size()</a>, which doesn't preserve data
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(4, 5);
+mat B = resize(A, 7, 6);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+This function was added in version 2.4.1
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#resize_member">.resize()</a> (member function of Mat and Cube)</li>
+<li><a href="#set_size">.set_size()</a> (member function of Mat and Cube)</li>
+<li><a href="#reshape">reshape()</a></li>
 <li><a href="#as_scalar">as_scalar()</a></li>
 <li><a href="#conv_to">conv_to()</a></li>
 </ul>
@@ -9344,6 +9493,7 @@ Below is a list of additions and changes since prior versions of Armadillo:
 <li>Added in 2.4:
 <ul>
 <li>shorter forms of transposes: <a href="#t_st_members">.t()</a> and <a href="#t_st_members">.st()</a></li>
+<li><a href="#resize_member">.resize()</a> and <a href="#resize">resize()</a> (added in 2.4.1)</li>
 <li>optional use of 64 bit indices (allowing matrices to have more than 4 billion elements),
 <br>enabled via ARMA_64BIT_WORD in <i>include/armadillo_bits/config.hpp</i></li>
 <li>experimental support for C++11 initialiser lists, enabled via ARMA_USE_CXX11 in <i>include/armadillo_bits/config.hpp</i></li>
