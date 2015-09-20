@@ -6,7 +6,7 @@ check_cmake()
   {
   (cmake --version) </dev/null >/dev/null 2>&1 ||
     {
-    echo "error: cmake (version 2.6 or later) must be present to configure and install Armadillo"
+    echo "error: cmake (version 2.8 or later) must be present to configure and install Armadillo"
     echo ""
     echo "cmake might be available as a package for your system,"
     echo "or can be downloaded from http://cmake.org"

@@ -20,12 +20,6 @@ endif
 ## When using the Sun Studio compiler
 
 
-ifeq (${ARMA_USE_BOOST},true)
-  BOOST_INCLUDE_FLAG = -I ${Boost_INCLUDE_DIR}
-endif
-
-
-
 LIB_FLAGS = -larmadillo $(EXTRA_LIB_FLAGS)
 ## NOTE: on Ubuntu and Debian based systems you may need to add 
 ## -lgfortran to LIB_FLAGS
@@ -68,7 +62,7 @@ OPT = -O2
 #
 #
 
-CXXFLAGS = $(BOOST_INCLUDE_FLAG) $(DEBUG) $(FINAL) $(OPT) $(EXTRA_OPT)
+CXXFLAGS = $(DEBUG) $(FINAL) $(OPT) $(EXTRA_OPT)
 
 all: example1 example2
 

@@ -1,7 +1,8 @@
 
-# Copyright (C) 2008-2013 Conrad Sanderson
-# Copyright (C) 2008-2013 NICTA (www.nicta.com.au)
+# Copyright (C) 2008-2014 Conrad Sanderson
+# Copyright (C) 2008-2014 NICTA (www.nicta.com.au)
 # Copyright (C) 2011 Clement Creusot
+# Copyright (C) 2013 Ryan Curtin
 # 
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,11 +10,11 @@
 
 
 
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
-set(ARMA_MAJOR 3)
-set(ARMA_MINOR 930)
-set(ARMA_PATCH 4)
+set(ARMA_MAJOR 4)
+set(ARMA_MINOR 0)
+set(ARMA_PATCH 0)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 
@@ -21,18 +22,18 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/build_aux/cmake/
 
 include(CheckIncludeFileCXX)
 include(CheckLibraryExists)
-include(FindBoost)
 include(ARMA_CheckProto)
 include(ARMA_CheckMathProto)
 
 project(armadillo CXX)
 
-set(ARMA_USE_LAPACK  false)
-set(ARMA_USE_BLAS    false)
-set(ARMA_USE_ATLAS   false)
-set(ARMA_USE_BOOST   false)
-set(ARMA_USE_HDF5    false)
-set(ARMA_USE_WRAPPER true )
+set(ARMA_USE_LAPACK    false)
+set(ARMA_USE_BLAS      false)
+set(ARMA_USE_ATLAS     false)
+set(ARMA_USE_HDF5      false)
+set(ARMA_USE_ARPACK    false)
+set(ARMA_USE_CXX11_RNG false)
+set(ARMA_USE_WRAPPER   true )
 
 ## NOTE:
 ## Set ARMA_USE_WRAPPER to false if you're getting linking errors when compiling your programs,
@@ -44,6 +45,7 @@ set(ARMA_USE_WRAPPER true )
 message(STATUS "CMAKE_SYSTEM_NAME          = ${CMAKE_SYSTEM_NAME}"         )
 message(STATUS "CMAKE_CXX_COMPILER_ID      = ${CMAKE_CXX_COMPILER_ID}"     )
 message(STATUS "CMAKE_CXX_COMPILER_VERSION = ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS "CMAKE_COMPILER_IS_GNUCXX   = ${CMAKE_COMPILER_IS_GNUCXX}"  )
 
 
 if(WIN32)
@@ -97,6 +99,7 @@ else()
     message(STATUS "*** you may need to change the SELinux type of all MKL/ACML libraries")
     message(STATUS "*** to fix permission problems that may occur during run-time.")
     message(STATUS "*** See README.txt for more information")
+    message(STATUS "")
     
   else()
     
@@ -135,6 +138,7 @@ else()
       message(STATUS "*** make sure the run-time linker can find it.")
       message(STATUS "*** On Linux systems this can be done by editing /etc/ld.so.conf")
       message(STATUS "*** or modifying the LD_LIBRARY_PATH environment variable.")
+      message(STATUS "")
       
     else()
       
@@ -151,7 +155,7 @@ else()
     endif()
     
   endif()
-  
+
 endif()
 
 
@@ -220,16 +224,23 @@ if(APPLE)
 endif()
 
 
-# if(CMAKE_VERSION VERSION_GREATER "2.7")
-#   find_package(HDF5)
-#   message(STATUS "HDF5_FOUND     = ${HDF5_FOUND}")
-#   
-#   if(HDF5_FOUND)
-#     set(ARMA_USE_HDF5 true)
-#     set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${HDF5_INCLUDE_DIRS})
-#     set(ARMA_LIBS ${ARMA_LIBS} ${HDF5_LIBRARIES})
-#   endif()
+# find_package(HDF5)
+# message(STATUS "HDF5_FOUND     = ${HDF5_FOUND}")
+# 
+# if(HDF5_FOUND)
+#   set(ARMA_USE_HDF5 true)
+#   set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${HDF5_INCLUDE_DIRS})
+#   set(ARMA_LIBS ${ARMA_LIBS} ${HDF5_LIBRARIES})
 # endif()
+
+
+include(ARMA_FindARPACK)
+message(STATUS "ARPACK_FOUND = ${ARPACK_FOUND}")
+
+if(ARPACK_FOUND)
+  set(ARMA_USE_ARPACK true)
+  set(ARMA_LIBS ${ARMA_LIBS} ${ARPACK_LIBRARY})
+endif()
 
 
 message(STATUS "")
@@ -237,58 +248,18 @@ message(STATUS "*** The run-time library component of Armadillo will use the fol
 message(STATUS "*** ARMA_LIBS = ${ARMA_LIBS}")
 message(STATUS "")
 
-find_package(Boost)
 
-if(Boost_FOUND)
-  
-  message(STATUS "Boost_MAJOR_VERSION = ${Boost_MAJOR_VERSION}")
-  message(STATUS "Boost_MINOR_VERSION = ${Boost_MINOR_VERSION}")
-  
-  if(Boost_MAJOR_VERSION GREATER 0)
-    if(Boost_MINOR_VERSION GREATER 33)
-      set(ARMA_USE_BOOST true)
-      message(STATUS "Boost_INCLUDE_DIR = ${Boost_INCLUDE_DIR}")
-    endif()
-  endif()
-  
-endif()
+message(STATUS "Copying ${PROJECT_SOURCE_DIR}/include/ to ${PROJECT_BINARY_DIR}/build_tmp/include/")
+file(COPY ${PROJECT_SOURCE_DIR}/include/ DESTINATION ${PROJECT_BINARY_DIR}/build_tmp/include/)
 
-if(ARMA_USE_BOOST STREQUAL false)
-  message(STATUS "Boost libraries either not found or their version is too low (1.34 or later is good).")
-  message(STATUS "( It's possible that CMake didn't find the particular version of Boost you may have. )")
-  message(STATUS "( If that's the case, please edit include/armadillo_bits/config.hpp manually. )")
-endif()
+message(STATUS "Generating ${PROJECT_BINARY_DIR}/build_tmp/include/config.hpp")
+configure_file(${PROJECT_BINARY_DIR}/build_tmp/include/armadillo_bits/config.hpp.cmake ${PROJECT_BINARY_DIR}/build_tmp/include/armadillo_bits/config.hpp)
+
+message(STATUS "Generating ${PROJECT_SOURCE_DIR}/examples/Makefile")
+configure_file(${PROJECT_SOURCE_DIR}/examples/Makefile.cmake ${PROJECT_SOURCE_DIR}/examples/Makefile)
 
 
-## if Boost libraries were found, explicitly check if the Boost date_time library is also present
-## TODO: remove use of Boost date_time library in Armadillo 4.0
-
-if(ARMA_USE_BOOST STREQUAL true)
-  set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${Boost_INCLUDE_DIR})
-  CHECK_INCLUDE_FILE_CXX("boost/date_time/posix_time/posix_time.hpp" ARMA_USE_BOOST_DATE)
-endif()
-
-ARMA_CHECK_MATH_PROTO("isfinite" "std" "cmath"  ARMA_HAVE_STD_ISFINITE)
-ARMA_CHECK_MATH_PROTO("isinf"    "std" "cmath"  ARMA_HAVE_STD_ISINF)
-ARMA_CHECK_MATH_PROTO("isnan"    "std" "cmath"  ARMA_HAVE_STD_ISNAN)
-ARMA_CHECK_MATH_PROTO("log1p"    ""    "cmath"  ARMA_HAVE_LOG1P)
-
-ARMA_CHECK_PROTO("snprintf"     "std" "cstdio"     ARMA_HAVE_STD_SNPRINTF)
-ARMA_CHECK_PROTO("gettimeofday" ""    "sys/time.h" ARMA_HAVE_GETTIMEOFDAY)
-
-
-message(STATUS "Generating 'include/armadillo_bits/config.hpp'")
-configure_file(include/armadillo_bits/config.hpp.cmake include/armadillo_bits/config.hpp)
-
-message(STATUS "Generating 'examples/Makefile'")
-configure_file(examples/Makefile.cmake examples/Makefile)
-
-
-if(ARMA_USE_BOOST STREQUAL true)
-  include_directories(include ${Boost_INCLUDE_DIR})
-else()
-  include_directories(include)
-endif()
+include_directories(${PROJECT_BINARY_DIR}/build_tmp/include/)
 
 
 ## For any library that is not in a default location,
@@ -331,16 +302,20 @@ endif()
 #   OR
 #   (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 3.4)
 #   )
-#   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-#   message(STATUS "Detected C++11 compiler. Added '-std=c++11' to compiler flags")
+#   set(ARMA_USE_CXX11_RNG true)
+#   add_definitions(-std=c++11)
+#   message(STATUS "Detected C++11 compiler. Using -std=c++11")
 # endif()
 
+
+if(CMAKE_COMPILER_IS_GNUCXX)
+  add_definitions(-O2)
+endif()
 
 message(STATUS "CMAKE_CXX_FLAGS           = ${CMAKE_CXX_FLAGS}"          )
 message(STATUS "CMAKE_SHARED_LINKER_FLAGS = ${CMAKE_SHARED_LINKER_FLAGS}")
 
-
-add_library( armadillo SHARED src/wrapper )
+add_library( armadillo SHARED ${PROJECT_SOURCE_DIR}/src/wrapper.cpp )
 target_link_libraries( armadillo ${ARMA_LIBS} )
 set_target_properties(armadillo PROPERTIES VERSION ${ARMA_MAJOR}.${ARMA_MINOR_ALT}.${ARMA_PATCH} SOVERSION ${ARMA_MAJOR})
 
@@ -407,15 +382,11 @@ message(STATUS "INSTALL_DATA_DIR     = ${INSTALL_DATA_DIR}"    )
 
 # Note that the trailing / character in "include/" is critical
 
-install(DIRECTORY include/ DESTINATION ${INSTALL_INCLUDE_DIR}
+install(DIRECTORY ${PROJECT_BINARY_DIR}/build_tmp/include/ DESTINATION ${INSTALL_INCLUDE_DIR}
 PATTERN ".svn" EXCLUDE
 PATTERN "*.cmake" EXCLUDE
 PATTERN "*~" EXCLUDE
 PATTERN "*orig" EXCLUDE
-)
-
-install(FILES ${PROJECT_BINARY_DIR}/include/armadillo_bits/config.hpp
-DESTINATION ${INSTALL_INCLUDE_DIR}/armadillo_bits
 )
 
 install(TARGETS armadillo 
@@ -424,9 +395,7 @@ install(TARGETS armadillo
 
 # Export the package for use from the build-tree
 # (this registers the build-tree with a global CMake-registry)
-if(CMAKE_VERSION VERSION_GREATER "2.7")
- export(PACKAGE armadillo)
-endif()
+export(PACKAGE armadillo)
 
 ## LOCAL FILES
 # Create ArmadilloConfig.cmake file for the use from the build tree
@@ -437,11 +406,11 @@ set(ARMADILLO_CMAKE_DIR    "${PROJECT_BINARY_DIR}")
 
 message(STATUS "Generating '${PROJECT_BINARY_DIR}/ArmadilloConfig.cmake'")
 # copy/change config and configVersion file (modify only the @xyz@ variables)
-configure_file(build_aux/cmake/InstallFiles/ArmadilloConfig.cmake.in
+configure_file(${PROJECT_SOURCE_DIR}/build_aux/cmake/InstallFiles/ArmadilloConfig.cmake.in
   "${PROJECT_BINARY_DIR}/ArmadilloConfig.cmake" @ONLY)
 
 message(STATUS "Generating '${PROJECT_BINARY_DIR}/ArmadilloConfigVersion.cmake'")
-configure_file(build_aux/cmake/InstallFiles/ArmadilloConfigVersion.cmake.in
+configure_file(${PROJECT_SOURCE_DIR}/build_aux/cmake/InstallFiles/ArmadilloConfigVersion.cmake.in
   "${PROJECT_BINARY_DIR}/ArmadilloConfigVersion.cmake" @ONLY)
 
 
@@ -461,11 +430,11 @@ set(ARMADILLO_CMAKE_DIR    "${INSTALL_DATA_DIR}/Armadillo/CMake")
 
 message(STATUS "Generating '${PROJECT_BINARY_DIR}/InstallFiles/ArmadilloConfig.cmake'")
 # copy/change config and configVersion file (modify only the @xyz@ variables)
-configure_file(build_aux/cmake/InstallFiles/ArmadilloConfig.cmake.in
+configure_file(${PROJECT_SOURCE_DIR}/build_aux/cmake/InstallFiles/ArmadilloConfig.cmake.in
   "${PROJECT_BINARY_DIR}/InstallFiles/ArmadilloConfig.cmake" @ONLY)
 
 message(STATUS "Generating '${PROJECT_BINARY_DIR}/InstallFiles/ArmadilloConfigVersion.cmake'")
-configure_file(build_aux/cmake/InstallFiles/ArmadilloConfigVersion.cmake.in
+configure_file(${PROJECT_SOURCE_DIR}/build_aux/cmake/InstallFiles/ArmadilloConfigVersion.cmake.in
   "${PROJECT_BINARY_DIR}/InstallFiles/ArmadilloConfigVersion.cmake" @ONLY)
 
 # Install files to be found by cmake users with find_package()

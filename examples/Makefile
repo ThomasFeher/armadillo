@@ -24,12 +24,6 @@ ARMA_INCLUDE_FLAG = -I ../include
 ## and uncomment the above line.
 
 
-#BOOST_INCLUDE_FLAG = -I /usr/include
-## If you have Boost libraries, change /usr/include
-## to point to where they are installed and uncomment
-## the above line.
-
-
 #EXTRA_LIB_FLAGS = -llapack -lblas
 ## The above line is an example of the extra libraries
 ## that can be used by Armadillo. You will also need
@@ -91,7 +85,7 @@ OPT = -O2
 #
 #
 
-CXXFLAGS = $(ARMA_INCLUDE_FLAG) $(BOOST_INCLUDE_FLAG) $(DEBUG) $(FINAL) $(OPT) $(EXTRA_OPT) 
+CXXFLAGS = $(ARMA_INCLUDE_FLAG) $(DEBUG) $(FINAL) $(OPT) $(EXTRA_OPT) 
 
 all: example1 example2
 

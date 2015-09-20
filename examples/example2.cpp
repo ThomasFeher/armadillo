@@ -51,16 +51,12 @@ int main(int argc, char** argv)
   cout << "k*trans(B)*C = " << endl << k*trans(B)*C;
   
   
-  // If you want to see a trace of how Armadillo
-  // evaluates expressions, compile with the
-  // ARMA_EXTRA_DEBUG macro defined.
-  // This was designed to work with the GCC compiler,
-  // but it may also work with other compilers
-  // if you have the Boost libraries installed
-  // and told Armadillo to use them.
+  // To see a trace of how Armadillo evaluates expressions,
+  // compile with the ARMA_EXTRA_DEBUG macro defined.
+  // This was designed to work with the GCC compiler in C++11 mode.
   // 
   // Example for GCC:
-  // g++ example2.cpp -o example2 -larmadillo -DARMA_EXTRA_DEBUG
+  // g++ example2.cpp -o example2 -larmadillo -std=c++11 -DARMA_EXTRA_DEBUG
   // 
   // Running example2 will now produce a truckload of messages,
   // so you may want to redirect the output to a log file.
