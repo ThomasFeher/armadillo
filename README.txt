@@ -15,7 +15,7 @@
    4.2: Compiling & Linking on Windows
 
 5: Support for high-speed BLAS & LAPACK replacements
-   5.0: Support for Intel MKL and AMD ACML
+   5.0: Support for OpenBLAS, Intel MKL and AMD ACML
    5.1: Support for ATLAS
 
 6: Documentation / API Reference Manual
@@ -39,7 +39,7 @@ Integer, floating point and complex numbers are supported,
 as well as a subset of trigonometric and statistics functions.
 Various matrix decompositions are provided through optional
 integration with LAPACK or high-performance LAPACK-compatible
-libraries (such as Intel's MKL or AMD's ACML).
+libraries (such as Intel MKL or AMD ACML).
 
 A delayed evaluation approach is employed (during compile time)
 to combine several operations into one and reduce (or eliminate)
@@ -55,10 +55,8 @@ license that is useful in both open-source and commercial/proprietary
 contexts. 
 
 Armadillo is primarily developed at NICTA (Australia),
-with contributions from around the world.
-More information about NICTA can be obtained from:
-
-  http://nicta.com.au
+with contributions from around the world.  More information
+about NICTA can be obtained from http://nicta.com.au
 
 
 
@@ -97,7 +95,7 @@ Matrix multiplication (mainly for big matrices) may not be as fast.
   
 * For manual installation and/or installation on Windows,
   see section 3.2.
-
+  
 * If you have a previous version of Armadillo already installed,
   we recommend removing it before installing a newer version.
 
@@ -111,7 +109,7 @@ section 3.2, or the following CMake based automatic installation.
 * Step 1:
   If CMake is not already be present on your system, download
   it from http://www.cmake.org
-
+  
   On major Linux systems (such as Fedora, Ubuntu, Debian, etc),
   cmake is available as a pre-built package, though it may need
   to be explicitly installed (using a tool such as PackageKit,
@@ -125,6 +123,9 @@ section 3.2, or the following CMake based automatic installation.
   are present: LAPACK, BLAS, ATLAS and Boost. LAPACK and BLAS are
   the most important. If you have ATLAS and Boost, it's also necessary
   to have the corresponding header files installed.
+  
+  For best performance, we recommend using the multi-threaded OpenBLAS
+  library instead of standard BLAS.  See http://xianyi.github.com/OpenBLAS/
   
 * Step 3:
   Open a shell (command line), change into the directory that was
@@ -171,16 +172,16 @@ The manual installation is comprised of 3 steps:
   and tell your compiler to use that location for header files
   (in addition to the locations it uses already).
   Alternatively, you can use the "include" folder directly.
-
+  
 * Step 2:
   Modify "include/armadillo_bits/config.hpp" to indicate 
   which libraries are currently available on your system.
-  For example, if you have LAPACK and BLAS present, 
+  For example, if you have LAPACK and BLAS (or OpenBLAS) present, 
   uncomment the following lines:
   
   #define ARMA_USE_LAPACK
   #define ARMA_USE_BLAS
-
+  
 * Step 3:
   If you have LAPACK and/or BLAS present, configure your 
   compiler to link with these libraries. 
@@ -190,7 +191,7 @@ The manual installation is comprised of 3 steps:
   If using Windows, see section 4.2.
   
   You can also link with high-speed replacements for LAPACK and BLAS,
-  eg. Intel's MKL or AMD's ACML.  See section 5 for more info.
+  such as OpenBLAS, or Intel MKL, or AMD ACML. See section 5 for more info.
 
 
 
@@ -290,8 +291,8 @@ try these versions:
   http://www.stanford.edu/~vkl/code/libs.html
   http://icl.cs.utk.edu/lapack-for-windows/lapack/
 
-The MKL and ACML libraries are generally the fastest.
-See section 5 for more info on making Armadillo use MKL or ACML.
+The OpenBLAS, MKL and ACML libraries are generally the fastest.
+See section 5 for more info on making Armadillo use these libraries.
 
 
 You can find the original sources for standard BLAS and LAPACK at:
@@ -307,29 +308,31 @@ We recommend the following high-quality compilers:
   * GCC (part of CygWin)
     http://www.cygwin.com/
 
-  * Intel's C++ compiler
+  * Intel C++ compiler
     http://software.intel.com/en-us/intel-compilers/
 
 For the GCC compiler, use version 4.0 or later.
-For Intel's C++ compiler, use version 10.0 or later.
+For the Intel compiler, use version 10.0 or later.
 
-For best results we recommend using an operating system that's
-more reliable and more suitable for heavy duty work,
+For best results we also recommend using an operating system
+that's more reliable and more suitable for heavy duty work,
 such as Mac OS X or the various flavours of Linux,
 eg. Scientific Linux: http://www.scientificlinux.org/
 
 
 
-=== 5.0: Support for Intel MKL and AMD ACML ===
+=== 5.0: Support for OpenBLAS, Intel MKL and AMD ACML ===
 
-Armadillo can use Intel's Math Kernel Library (MKL) and the
+Armadillo can use OpenBLAS, or Intel Math Kernel Library (MKL), or the
 AMD Core Math Library (ACML) as high-speed replacements for BLAS and LAPACK.
+Generally this just involves linking with the replacement libraries
+instead of BLAS and LAPACK.
 
 You may need to make minor modifications to "include/armadillo_bits/config.hpp"
 in order to make sure Armadillo uses the same style of function names
 as used by MKL or ACML. For example, the function names might be in capitals.
 
-On Linux systems, MKL and ACML are typically installed in a non-standard
+On Linux systems, MKL and ACML might be installed in a non-standard
 location, such as /opt, which can cause problems during linking.
 Before installing Armadillo, the system should know where the MKL or ACML
 libraries are located. For example, "/opt/intel/mkl/lib/intel64/".

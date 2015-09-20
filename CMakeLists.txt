@@ -13,7 +13,7 @@ cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
 set(ARMA_MAJOR 3)
 set(ARMA_MINOR 820)
-set(ARMA_PATCH 0)
+set(ARMA_PATCH 1)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 
@@ -36,8 +36,9 @@ set(ARMA_USE_WRAPPER true )
 
 # NOTE:
 # Set ARMA_USE_WRAPPER to false if you're getting linking errors when compiling your programs,
-# or if you prefer to directly link with LAPACK and/or BLAS.
-# You will then need to link your programs directly with -llapack -lblas instead of -larmadillo
+# or if you prefer to directly link with BLAS and/or LAPACK.
+# You will then need to link your programs with -lblas -llapack instead of -larmadillo
+# If you're using OpenBLAS, link your programs with -lopenblas -llapack instead of -larmadillo
 
 
 message(STATUS "CMAKE_SYSTEM_NAME = ${CMAKE_SYSTEM_NAME}")
@@ -76,20 +77,21 @@ else()
   include(ARMA_FindACMLMP)
   include(ARMA_FindACML)
   
-  message(STATUS "MKL_FOUND     = ${MKL_FOUND}")
-  message(STATUS "ACMLMP_FOUND  = ${ACMLMP_FOUND}")
-  message(STATUS "ACML_FOUND    = ${ACML_FOUND}")
+  message(STATUS "   MKL_FOUND   = ${MKL_FOUND}")
+  message(STATUS "ACMLMP_FOUND   = ${ACMLMP_FOUND}")
+  message(STATUS "  ACML_FOUND   = ${ACML_FOUND}")
   
   if(MKL_FOUND OR ACMLMP_FOUND OR ACML_FOUND)
     
-    set(ARMA_USE_BLAS true)
+    set(ARMA_USE_BLAS   true)
     set(ARMA_USE_LAPACK true)
     
-    message(STATUS "*** If the MKL or ACML libraries are installed in a non-standard location,")
-    message(STATUS "*** such as /opt, make sure the run-time linker can find them.")
+    message(STATUS "")
+    message(STATUS "*** If the MKL or ACML libraries are installed in")
+    message(STATUS "*** /opt or /usr/local, make sure the run-time linker can find them.")
     message(STATUS "*** On Linux systems this can be done by editing /etc/ld.so.conf")
     message(STATUS "*** or modifying the LD_LIBRARY_PATH environment variable.")
-    message(STATUS "*** On systems with SELinux enabled (e.g. Fedora, RHEL),")
+    message(STATUS "*** On systems with SELinux enabled (eg. Fedora, RHEL),")
     message(STATUS "*** you may need to change the SELinux type of all MKL/ACML libraries")
     message(STATUS "*** to fix permission problems that may occur during run-time.")
     message(STATUS "*** See README.txt for more information")
@@ -97,14 +99,16 @@ else()
   else()
     
     include(ARMA_FindLAPACK)
+    include(ARMA_FindOpenBLAS)
     include(ARMA_FindBLAS)
     include(ARMA_FindCLAPACK)
     include(ARMA_FindCBLAS)
     
-    message(STATUS "LAPACK_FOUND  = ${LAPACK_FOUND}")
-    message(STATUS "BLAS_FOUND    = ${BLAS_FOUND}")
-    message(STATUS "CLAPACK_FOUND = ${CLAPACK_FOUND}")
-    message(STATUS "CBLAS_FOUND   = ${CBLAS_FOUND}")
+    message(STATUS "  LAPACK_FOUND = ${LAPACK_FOUND}")
+    message(STATUS "    BLAS_FOUND = ${BLAS_FOUND}")
+    message(STATUS "OpenBLAS_FOUND = ${OpenBLAS_FOUND}")
+    message(STATUS " CLAPACK_FOUND = ${CLAPACK_FOUND}")
+    message(STATUS "   CBLAS_FOUND = ${CBLAS_FOUND}")
     
     if(LAPACK_FOUND)
       set(ARMA_USE_LAPACK true)
@@ -114,13 +118,34 @@ else()
       set(ARMA_USE_BLAS true)
     endif()
     
-    if(CLAPACK_FOUND AND CBLAS_FOUND)
-      message(STATUS "CLAPACK_INCLUDE_DIR = ${CLAPACK_INCLUDE_DIR}")
-      message(STATUS "CBLAS_INCLUDE_DIR   = ${CBLAS_INCLUDE_DIR}")
-      if(${CLAPACK_INCLUDE_DIR} STREQUAL ${CBLAS_INCLUDE_DIR})
-        set(ARMA_USE_ATLAS true)
-        set(ARMA_ATLAS_INCLUDE_DIR ${CLAPACK_INCLUDE_DIR})
+    if(OpenBLAS_FOUND AND CLAPACK_FOUND AND CBLAS_FOUND)
+      message(STATUS "")
+      message(STATUS "*** WARNING: both OpenBLAS and ATLAS have been found; ATLAS will not be used")
+    endif()
+    
+    if(OpenBLAS_FOUND)
+      
+      set(ARMA_USE_BLAS true)
+      
+      message(STATUS "")
+      message(STATUS "*** If the OpenBLAS library is installed in")
+      message(STATUS "*** /usr/local/lib or /usr/local/lib64")
+      message(STATUS "*** make sure the run-time linker can find it.")
+      message(STATUS "*** On Linux systems this can be done by editing /etc/ld.so.conf")
+      message(STATUS "*** or modifying the LD_LIBRARY_PATH environment variable.")
+      
+    else()
+      
+      if(CLAPACK_FOUND AND CBLAS_FOUND)
+        message(STATUS "CLAPACK_INCLUDE_DIR = ${CLAPACK_INCLUDE_DIR}")
+        message(STATUS "  CBLAS_INCLUDE_DIR = ${CBLAS_INCLUDE_DIR}")
+        
+        if(${CLAPACK_INCLUDE_DIR} STREQUAL ${CBLAS_INCLUDE_DIR})
+          set(ARMA_USE_ATLAS true)
+          set(ARMA_ATLAS_INCLUDE_DIR ${CLAPACK_INCLUDE_DIR})
+        endif()
       endif()
+      
     endif()
     
   endif()
@@ -159,12 +184,16 @@ if(MKL_FOUND OR ACMLMP_FOUND OR ACML_FOUND)
   
 else()
   
-  if(ARMA_USE_LAPACK STREQUAL true)
-    set(ARMA_LIBS ${ARMA_LIBS} ${LAPACK_LIBRARIES})
+  if(ARMA_USE_BLAS STREQUAL true)
+    if(OpenBLAS_FOUND)
+      set(ARMA_LIBS ${ARMA_LIBS} ${OpenBLAS_LIBRARIES})
+    else()
+      set(ARMA_LIBS ${ARMA_LIBS} ${BLAS_LIBRARIES})
+    endif()
   endif()
   
-  if(ARMA_USE_BLAS STREQUAL true)
-    set(ARMA_LIBS ${ARMA_LIBS} ${BLAS_LIBRARIES})
+  if(ARMA_USE_LAPACK STREQUAL true)
+    set(ARMA_LIBS ${ARMA_LIBS} ${LAPACK_LIBRARIES})
   endif()
   
   if(ARMA_USE_ATLAS STREQUAL true)
@@ -188,19 +217,23 @@ if(APPLE)
 
 endif()
 
-# find_package(HDF5)
-# message(STATUS "HDF5_FOUND   = ${HDF5_FOUND}")
-# 
-# if(HDF5_FOUND)
-#   set(ARMA_USE_HDF5 true)
-#   set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${HDF5_INCLUDE_DIRS})
-#   set(ARMA_LIBS ${ARMA_LIBS} ${HDF5_LIBRARIES})
+
+# if(CMAKE_VERSION VERSION_GREATER "2.7")
+#   find_package(HDF5)
+#   message(STATUS "HDF5_FOUND     = ${HDF5_FOUND}")
+#   
+#   if(HDF5_FOUND)
+#     set(ARMA_USE_HDF5 true)
+#     set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${HDF5_INCLUDE_DIRS})
+#     set(ARMA_LIBS ${ARMA_LIBS} ${HDF5_LIBRARIES})
+#   endif()
 # endif()
 
-message(STATUS "*** ")
-message(STATUS "*** The Armadillo run-time library component will be an alias for the following libraries:")
+
+message(STATUS "")
+message(STATUS "*** The run-time library component of Armadillo will be an alias for the following libraries:")
 message(STATUS "*** ARMA_LIBS = ${ARMA_LIBS}")
-message(STATUS "*** ")
+message(STATUS "")
 
 find_package(Boost)
 
@@ -219,15 +252,13 @@ if(Boost_FOUND)
 endif()
 
 if(ARMA_USE_BOOST STREQUAL false)
-  message(STATUS "Boost libraries either not found or their version is too low (version 1.34 or later is good).")
+  message(STATUS "Boost libraries either not found or their version is too low (1.34 or later is good).")
   message(STATUS "( It's possible that CMake didn't find the particular version of Boost you may have. )")
   message(STATUS "( If that's the case, please edit include/armadillo_bits/config.hpp manually. )")
 endif()
 
 
 # If Boost libraries were found, explicitly check if Boost's date_time library is also present.
-# This is due to the non-standard packaging of Boost libraries on Debian and Ubuntu systems,
-# where certain individual Boost libraries are packaged separately.
 
 if(ARMA_USE_BOOST STREQUAL true)
   set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${Boost_INCLUDE_DIR})
@@ -283,7 +314,7 @@ else()
 endif()
 
 
-# necessary when linking against Intel MKL on Linux systems
+# necessary when linking with Intel MKL on Linux systems
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-as-needed")
   message(STATUS "CMAKE_SHARED_LINKER_FLAGS = ${CMAKE_SHARED_LINKER_FLAGS}")
