@@ -146,7 +146,7 @@
 #endif
 
 
-#if defined(__GNUG__) && !defined(__clang__) && !defined(__INTEL_COMPILER) && !defined(__NVCC__)
+#if defined(__GNUG__) && !defined(__clang__) && !defined(__INTEL_COMPILER) && !defined(__NVCC__) && !defined(__PGI) && !defined(__PATHSCALE__)
   
   #undef  ARMA_GCC_VERSION
   #define ARMA_GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)

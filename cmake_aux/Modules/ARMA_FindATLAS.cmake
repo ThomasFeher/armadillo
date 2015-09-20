@@ -1,9 +1,19 @@
-find_path(ATLAS_INCLUDE_DIR cblas.h
-/usr/include/atlas/
-/usr/include/
-/usr/local/include/atlas/
-/usr/local/include/
+find_path(ATLAS_CBLAS_INCLUDE_DIR
+NAMES cblas.h
+PATHS /usr/include/atlas/ /usr/include/ /usr/local/include/atlas/ /usr/local/include/
 )
+
+find_path(ATLAS_CLAPACK_INCLUDE_DIR
+NAMES clapack.h
+PATHS /usr/include/atlas/ /usr/include/ /usr/local/include/atlas/ /usr/local/include/
+)
+
+if(ATLAS_CBLAS_INCLUDE_DIR AND ATLAS_CLAPACK_INCLUDE_DIR)
+  if(ATLAS_CBLAS_INCLUDE_DIR STREQUAL ATLAS_CLAPACK_INCLUDE_DIR)
+    set(ATLAS_INCLUDE_DIR ${ATLAS_CBLAS_INCLUDE_DIR})
+  endif()
+endif()
+
 
 set(ATLAS_NAMES)
 set(ATLAS_NAMES ${ATLAS_NAMES} tatlas)
