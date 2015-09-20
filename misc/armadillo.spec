@@ -1,5 +1,5 @@
 Name:           armadillo
-Version:        4.500.0
+Version:        5.000.1
 Release:        1%{?dist}
 Summary:        Fast C++ matrix library with interfaces to LAPACK and ATLAS
 
@@ -8,7 +8,7 @@ License:        MPLv2.0
 URL:            http://arma.sourceforge.net/
 Source:         http://sourceforge.net/projects/arma/files/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:  cmake, blas-devel, lapack-devel, atlas-devel, arpack-devel, hdf5-devel, libstdc++-devel
+BuildRequires:  cmake, blas-devel, lapack-devel, atlas-devel, arpack-devel, hdf5-devel, libstdc++-devel, SuperLU-devel
 
 %description
 Armadillo is a C++ linear algebra library (matrix maths)
@@ -30,7 +30,7 @@ than another language like Matlab or Octave.
 Summary:        Development headers and documentation for the Armadillo C++ library
 Group:          Development/Libraries
 Requires:       %{name} = %{version}-%{release}
-Requires:       blas-devel, lapack-devel, atlas-devel, arpack-devel, hdf5-devel, libstdc++-devel
+Requires:       blas-devel, lapack-devel, atlas-devel, arpack-devel, hdf5-devel, libstdc++-devel, SuperLU-devel
 
 %description devel
 This package contains files necessary for development using the
