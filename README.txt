@@ -285,7 +285,7 @@ The pre-compiled versions of LAPACK and BLAS were downloaded from:
 If the provided libraries don't work for you, or you want more speed,
 try these versions:
   http://software.intel.com/en-us/intel-mkl/
-  http://www.amd.com/acml
+  http://developer.amd.com/tools-and-sdks/cpu-development/amd-core-math-library-acml/
   http://xianyi.github.com/OpenBLAS/
   http://www.stanford.edu/~vkl/code/libs.html
   http://icl.cs.utk.edu/lapack-for-windows/lapack/

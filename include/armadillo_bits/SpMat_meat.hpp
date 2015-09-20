@@ -636,10 +636,11 @@ SpMat<eT>::SpMat
   // Compile-time abort if types are not compatible.
   arma_type_check(( is_same_type< std::complex<T>, eT >::value == false ));
 
-  // Hack until Proxy supports sparse matrices: assume get_ref() is SpMat<> (at
-  // the moment it must be).
-  const SpMat<T>& X = A.get_ref();
-  const SpMat<T>& Y = B.get_ref();
+  const unwrap_spmat<T1> tmp1(A.get_ref());
+  const unwrap_spmat<T2> tmp2(B.get_ref());
+  
+  const SpMat<T>& X = tmp1.M;
+  const SpMat<T>& Y = tmp2.M;
 
   arma_assert_same_size(X.n_rows, X.n_cols, Y.n_rows, Y.n_cols, "SpMat()");
 
