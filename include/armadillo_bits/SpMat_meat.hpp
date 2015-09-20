@@ -1073,9 +1073,10 @@ SpMat<eT>::operator=(const SpSubview<eT>& X)
 
     mem_resize(x_n_nonzero);
 
-    typename SpSubview<eT>::const_iterator it = X.begin();
+    typename SpSubview<eT>::const_iterator it     = X.begin();
+    typename SpSubview<eT>::const_iterator it_end = X.end();
 
-    while(it != X.end())
+    while(it != it_end)
       {
       access::rw(row_indices[it.pos()]) = it.row();
       access::rw(values[it.pos()]) = (*it);
@@ -2332,63 +2333,80 @@ void
 SpMat<eT>::shed_rows(const uword in_row1, const uword in_row2)
   {
   arma_extra_debug_sigprint();
-
+  
   arma_debug_check
     (
     (in_row1 > in_row2) || (in_row2 >= n_rows),
     "SpMat::shed_rows(): indices out of bounds or incorectly used"
     );
-
-  uword i, j;
-  // Store the length of values
-  uword vlength = n_nonzero;
-  // Store the length of col_ptrs
-  uword clength = n_cols + 1;
-
-  // This is O(n * n_cols) and inplace, there may be a faster way, though.
-  for (i = 0, j = 0; i < vlength; ++i)
+  
+  SpMat<eT> newmat(n_rows - (in_row2 - in_row1 + 1), n_cols);
+  
+  // First, count the number of elements we will be removing.
+  uword removing = 0;
+  for (uword i = 0; i < n_nonzero; ++i)
     {
-    // Store the row of the ith element.
     const uword lrow = row_indices[i];
-    // Is the ith element in the range of rows we want to remove?
     if (lrow >= in_row1 && lrow <= in_row2)
       {
-      // Increment our "removed elements" counter.
-      ++j;
-
-      // Adjust the values of col_ptrs each time we remove an element.
-      // Basically, the length of one column reduces by one, and everything to
-      // its right gets reduced by one to represent all the elements being
-      // shifted to the left by one.
-      for(uword k = 0; k < clength; ++k)
-        {
-        if (col_ptrs[k] > (i - j + 1))
-          {
-          --access::rw(col_ptrs[k]);
-          }
-        }
+      ++removing;
+      }
+    }
+  
+  // Obtain counts of the number of points in each column and store them as the
+  // (invalid) column pointers of the new matrix.
+  for (uword i = 1; i < n_cols + 1; ++i)
+    {
+    access::rw(newmat.col_ptrs[i]) = col_ptrs[i] - col_ptrs[i - 1];
+    }
+  
+  // Now initialize memory for the new matrix.
+  newmat.mem_resize(n_nonzero - removing);
+  
+  // Now, copy over the elements.
+  // i is the index in the old matrix; j is the index in the new matrix.
+  const_iterator it     = begin();
+  const_iterator it_end = end();
+  
+  uword j = 0; // The index in the new matrix.
+  while (it != it_end)
+    {
+    const uword lrow = it.row();
+    const uword lcol = it.col();
+    
+    if (lrow >= in_row1 && lrow <= in_row2)
+      {
+      // This element is being removed.  Subtract it from the column counts.
+      --access::rw(newmat.col_ptrs[lcol + 1]);
       }
     else
       {
-      // We shift the element we checked to the left by how many elements
-      // we have removed.
-      // j = 0 until we remove the first element.
-      if (j != 0)
+      // This element is being kept.  We may need to map the row index,
+      // if it is past the section of rows we are removing.
+      if (lrow > in_row2)
         {
-        access::rw(row_indices[i - j]) = (lrow > in_row2) ? (lrow - (in_row2 - in_row1 + 1)) : lrow;
-        access::rw(values[i - j]) = values[i];
+        access::rw(newmat.row_indices[j]) = lrow - (in_row2 - in_row1 + 1);
         }
+      else
+        {
+        access::rw(newmat.row_indices[j]) = lrow;
+        }
+
+      access::rw(newmat.values[j]) = (*it);
+      ++j; // Increment index in new matrix.
       }
+    
+    ++it;
     }
-
-  // j is the number of elements removed.
-
-  // Shrink the vectors.  This will copy the memory.
-  mem_resize(n_nonzero - j);
-
-  // Adjust row and element counts.
-  access::rw(n_rows)    = n_rows - (in_row2 - in_row1) - 1;
-  access::rw(n_elem)    = n_rows * n_cols;
+  
+  // Finally, sum the column counts so they are correct column pointers.
+  for (uword i = 1; i < n_cols + 1; ++i)
+    {
+    access::rw(newmat.col_ptrs[i]) += newmat.col_ptrs[i - 1];
+    }
+  
+  // Now steal the memory of the new matrix.
+  steal_mem(newmat);
   }
 
 

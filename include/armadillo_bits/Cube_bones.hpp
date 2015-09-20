@@ -42,7 +42,7 @@ class Cube : public BaseCube< eT, Cube<eT> >
   // mem_state = 3: fixed size (e.g. via template based size specification).
   
   
-  arma_aligned const Mat<eT>** const mat_ptrs; //!< pointer to an array containing pointers to Mat instances (one for each slice)
+  arma_aligned const Mat<eT>** const mat_ptrs; //!< WARNING: DO NOT USE! mat_ptrs will be private in version 6.0
   arma_aligned const eT*       const mem;      //!< pointer to the memory used by the cube (memory is read-only)
   
   protected:

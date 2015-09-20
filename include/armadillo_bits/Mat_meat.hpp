@@ -5452,11 +5452,11 @@ Mat<eT>::is_sorted(const char* direction, const uword dim) const
       
       const uword local_n_rows_m1 = local_n_rows - 1;
       
-      for(uword col=0; col < local_n_cols; ++col)
+      for(uword c=0; c < local_n_cols; ++c)
         {
-        const eT* coldata = colptr(col);
+        const eT* coldata = colptr(c);
         
-        for(uword row=0; row < local_n_rows_m1; ++row)
+        for(uword r=0; r < local_n_rows_m1; ++r)
           {
           const eT val1 = (*coldata); coldata++;
           const eT val2 = (*coldata);
@@ -5475,7 +5475,7 @@ Mat<eT>::is_sorted(const char* direction, const uword dim) const
         {
         const eT* rowdata = memptr();
         
-        for(uword col=0; col < local_n_cols_m1; ++col)
+        for(uword c=0; c < local_n_cols_m1; ++c)
           {
           const eT val1 = (*rowdata);  rowdata++;
           const eT val2 = (*rowdata);
@@ -5485,11 +5485,11 @@ Mat<eT>::is_sorted(const char* direction, const uword dim) const
         }
       else
         {
-        for(uword row=0; row < local_n_rows;    ++row)
-        for(uword col=0; col < local_n_cols_m1; ++col)
+        for(uword r=0; r < local_n_rows;    ++r)
+        for(uword c=0; c < local_n_cols_m1; ++c)
           {
-          const eT val1 = at(row,col  );
-          const eT val2 = at(row,col+1);
+          const eT val1 = at(r,c  );
+          const eT val2 = at(r,c+1);
           
           if(comparator(val1,val2))  { return false; }
           }
@@ -5510,11 +5510,11 @@ Mat<eT>::is_sorted(const char* direction, const uword dim) const
       
       const uword local_n_rows_m1 = local_n_rows - 1;
       
-      for(uword col=0; col < local_n_cols; ++col)
+      for(uword c=0; c < local_n_cols; ++c)
         {
-        const eT* coldata = colptr(col);
+        const eT* coldata = colptr(c);
         
-        for(uword row=0; row < local_n_rows_m1; ++row)
+        for(uword r=0; r < local_n_rows_m1; ++r)
           {
           const eT val1 = (*coldata); coldata++;
           const eT val2 = (*coldata);
@@ -5533,7 +5533,7 @@ Mat<eT>::is_sorted(const char* direction, const uword dim) const
         {
         const eT* rowdata = memptr();
         
-        for(uword col=0; col < local_n_cols_m1; ++col)
+        for(uword c=0; c < local_n_cols_m1; ++c)
           {
           const eT val1 = (*rowdata);  rowdata++;
           const eT val2 = (*rowdata);
@@ -5543,11 +5543,11 @@ Mat<eT>::is_sorted(const char* direction, const uword dim) const
         }
       else
         {
-        for(uword row=0; row < local_n_rows;    ++row)
-        for(uword col=0; col < local_n_cols_m1; ++col)
+        for(uword r=0; r < local_n_rows;    ++r)
+        for(uword c=0; c < local_n_cols_m1; ++c)
           {
-          const eT val1 = at(row,col  );
-          const eT val2 = at(row,col+1);
+          const eT val1 = at(r,c  );
+          const eT val2 = at(r,c+1);
           
           if(comparator(val1,val2))  { return false; }
           }

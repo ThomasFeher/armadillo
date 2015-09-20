@@ -750,8 +750,9 @@ arma_ostream::print(std::ostream& o, const SpMat<eT>& m, const bool modify)
     const std::streamsize cell_width = modify ? modify_stream<eT>(o, m.begin(), m_n_nonzero) : o.width();
     
     typename SpMat<eT>::const_iterator begin = m.begin();
+    typename SpMat<eT>::const_iterator m_end = m.end();
     
-    while(begin != m.end())
+    while(begin != m_end)
       {
       const uword row = begin.row();
       
