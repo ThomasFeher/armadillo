@@ -213,7 +213,7 @@ Technical Report, NICTA, 2010.
 <a href="#eval_member">eval</a>&nbsp;&middot;
 <a href="#eye_member">eye</a>&nbsp;&middot;
 <a href="#fill">fill</a>&nbsp;&middot;
-<a href="#i_member">i (inverse)</a>&nbsp;&middot;
+<a href="#i_member">i&nbsp;(inverse)</a>&nbsp;&middot;
 <a href="#imbue">imbue</a>&nbsp;&middot;
 <a href="#insert">insert_rows/cols/slices</a>&nbsp;&middot;
 <a href="#in_range">in_range</a>&nbsp;&middot;
@@ -5154,7 +5154,7 @@ A( span(0,1), span(0,1), span(1,2) ) = randu&lt;cube&gt;(2,2,2);
 A( 0,0,1, size(2,2,2) )              = randu&lt;cube&gt;(2,2,2);
 
 // add 123 to all elements of A greater than 0.5
-A.elem( find(A > 0.5) ) += 123.0;
+A.elem( find(A &gt; 0.5) ) += 123.0;
 </pre>
 </ul>
 </li>
@@ -9899,7 +9899,7 @@ Can also be used for vector quantisation (VQ)
 </li>
 <br>
 <li>
-Provides associated parameter estimation algorithms: k-means and Expectation-Maximisation (EM)
+Provides associated parameter estimation algorithms: k-means clustering and Expectation-Maximisation (EM)
 </li>
 <br>
 <li>
@@ -10148,7 +10148,7 @@ For an instance of <i>gmm_diag</i> named as <i>M</i>, the member functions and v
       <td style="vertical-align: top;">&nbsp;<br>
       </td>
       <td style="vertical-align: top;">
-      read-only matrix containing the means, stored as column vectors
+      read-only matrix containing the means (centroids), stored as column vectors
       </td>
     </tr>
     <tr>

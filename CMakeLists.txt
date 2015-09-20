@@ -14,7 +14,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(ARMA_MAJOR 4)
 set(ARMA_MINOR 400)
-set(ARMA_PATCH 1)
+set(ARMA_PATCH 2)
 set(ARMADILLO_VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH})
 
 message(STATUS "Configuring Armadillo ${ARMADILLO_VERSION}")
@@ -224,14 +224,14 @@ if(APPLE)
 endif()
 
 
-find_package(HDF5)
-message(STATUS "HDF5_FOUND     = ${HDF5_FOUND}")
+# find_package(HDF5)
+# message(STATUS "HDF5_FOUND     = ${HDF5_FOUND}")
 # 
-if(HDF5_FOUND)
-  set(ARMA_USE_HDF5 true)
-  set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${HDF5_INCLUDE_DIRS})
-  set(ARMA_LIBS ${ARMA_LIBS} ${HDF5_LIBRARIES})
-endif()
+# if(HDF5_FOUND)
+#   set(ARMA_USE_HDF5 true)
+#   set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${HDF5_INCLUDE_DIRS})
+#   set(ARMA_LIBS ${ARMA_LIBS} ${HDF5_LIBRARIES})
+# endif()
 
 
 include(ARMA_FindARPACK)

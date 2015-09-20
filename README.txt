@@ -467,6 +467,7 @@ Contributors:
 - Chris Cooper
 - Clement Creusot
 - Chris Davey
+- Patrick Dondl
 - Alexandre Drouin
 - Dirk Eddelbuettel
 - Carles Fernandez
