@@ -8,6 +8,7 @@
 #include "armadillo_bits/compiler_setup.hpp"
 #include "armadillo_bits/typedef_elem.hpp"
 #include "armadillo_bits/include_atlas.hpp"
+#include "armadillo_bits/include_superlu.hpp"
 
 
 #if defined(ARMA_USE_EXTERN_CXX11_RNG)
@@ -41,6 +42,7 @@ namespace arma
 #include "armadillo_bits/blas_bones.hpp"
 #include "armadillo_bits/lapack_bones.hpp"
 #include "armadillo_bits/arpack_bones.hpp"
+#include "armadillo_bits/superlu_bones.hpp"
 // no need to include hdf5_bones.hpp -- it only contains #defines for when ARMA_USE_HDF5_ALT is not defined.
 
 
@@ -860,6 +862,72 @@ extern "C"
       arma_fortran_noprefix(arma_dseupd)(rvec, howmny, select, d, z, ldz, sigma, bmat, n, which, nev, tol, resid, ncv, v, ldv, iparam, ipntr, workd, workl, lworkl, info);
       }
 
+  #endif
+  
+  
+  
+  #if defined(ARMA_USE_SUPERLU)
+    
+    void wrapper_sgssv(superlu::superlu_options_t* a, superlu::SuperMatrix* b, int* c, int* d, superlu::SuperMatrix* e, superlu::SuperMatrix* f, superlu::SuperMatrix* g, superlu::SuperLUStat_t* h, int* i)
+      {
+      sgssv(a,b,c,d,e,f,g,h,i);
+      }
+    
+    void wrapper_dgssv(superlu::superlu_options_t* a, superlu::SuperMatrix* b, int* c, int* d, superlu::SuperMatrix* e, superlu::SuperMatrix* f, superlu::SuperMatrix* g, superlu::SuperLUStat_t* h, int* i)
+      {
+      dgssv(a,b,c,d,e,f,g,h,i);
+      }
+    
+    void wrapper_cgssv(superlu::superlu_options_t* a, superlu::SuperMatrix* b, int* c, int* d, superlu::SuperMatrix* e, superlu::SuperMatrix* f, superlu::SuperMatrix* g, superlu::SuperLUStat_t* h, int* i)
+      {
+      cgssv(a,b,c,d,e,f,g,h,i);
+      }
+    
+    void wrapper_zgssv(superlu::superlu_options_t* a, superlu::SuperMatrix* b, int* c, int* d, superlu::SuperMatrix* e, superlu::SuperMatrix* f, superlu::SuperMatrix* g, superlu::SuperLUStat_t* h, int* i)
+      {
+      zgssv(a,b,c,d,e,f,g,h,i);
+      }
+    
+    void wrapper_StatInit(superlu::SuperLUStat_t* a)
+      {
+      StatInit(a);
+      }
+
+    void wrapper_StatFree(superlu::SuperLUStat_t* a)
+      {
+      StatFree(a);
+      }
+      
+    void wrapper_set_default_options(superlu::superlu_options_t* a)
+      {
+      set_default_options(a);
+      }
+    
+    void wrapper_Destroy_SuperNode_Matrix(superlu::SuperMatrix* a)
+      {
+      Destroy_SuperNode_Matrix(a);
+      }
+
+    void wrapper_Destroy_CompCol_Matrix(superlu::SuperMatrix* a)
+      {
+      Destroy_CompCol_Matrix(a);
+      }
+
+    void wrapper_Destroy_SuperMatrix_Store(superlu::SuperMatrix* a)
+      {
+      Destroy_SuperMatrix_Store(a);
+      }
+    
+    void* wrapper_superlu_malloc(size_t a)
+      {
+      return superlu_malloc(a);
+      }
+    
+    void wrapper_superlu_free(void* a)
+      {
+      superlu_free(a);
+      }
+    
   #endif
   
   

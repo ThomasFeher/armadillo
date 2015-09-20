@@ -1,7 +1,7 @@
 
 # Copyright (C) 2008-2015 Conrad Sanderson
 # Copyright (C) 2008-2015 NICTA (www.nicta.com.au)
-# Copyright (C) 2013-2014 Ryan Curtin
+# Copyright (C) 2013-2015 Ryan Curtin
 # Copyright (C) 2011 Clement Creusot
 # 
 # This Source Code Form is subject to the terms of the Mozilla Public
@@ -12,9 +12,9 @@
 
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
-set(ARMA_MAJOR 4)
-set(ARMA_MINOR 650)
-set(ARMA_PATCH 4)
+set(ARMA_MAJOR 5)
+set(ARMA_MINOR 000)
+set(ARMA_PATCH 0)
 set(ARMADILLO_VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH})
 
 message(STATUS "Configuring Armadillo ${ARMADILLO_VERSION}")
@@ -36,7 +36,7 @@ set(ARMA_USE_ATLAS            false)
 set(ARMA_USE_HDF5_ALT         false)
 set(ARMA_USE_ARPACK           false)
 set(ARMA_USE_EXTERN_CXX11_RNG false)
-
+set(ARMA_USE_SUPERLU          false)  # Caveat: only SuperLU version 4.3 can be used!
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_aux/Modules/")
 
@@ -258,6 +258,16 @@ if(ARPACK_FOUND)
   set(ARMA_LIBS ${ARMA_LIBS} ${ARPACK_LIBRARY})
 endif()
 
+include(ARMA_FindSuperLU)
+message(STATUS "SuperLU_FOUND = ${SuperLU_FOUND}")
+
+if(SuperLU_FOUND)
+  message(STATUS "SuperLU_INCLUDE_DIR = ${SuperLU_INCLUDE_DIR}")
+  set(ARMA_USE_SUPERLU true)
+  set(ARMA_LIBS ${ARMA_LIBS} ${SuperLU_LIBRARY})
+  set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${SuperLU_INCLUDE_DIR})
+  set(ARMA_SUPERLU_INCLUDE_DIR ${SuperLU_INCLUDE_DIR})
+endif()
 
 message(STATUS "")
 message(STATUS "*** Armadillo wrapper library will use the following libraries:")

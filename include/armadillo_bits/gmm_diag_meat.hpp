@@ -1434,8 +1434,8 @@ gmm_diag<eT>::generate_initial_means(const Mat<eT>& X, const gmm_seed_mode& seed
     {
     uvec initial_indices;
     
-         if(seed_mode == static_subset)  { initial_indices = linspace<uvec>(0, X.n_cols-1, N_gaus);             }
-    else if(seed_mode == random_subset)  { initial_indices = sort_index(randu<vec>(X.n_cols)).rows(0,N_gaus-1); }
+         if(seed_mode == static_subset)  { initial_indices = linspace<uvec>(0, X.n_cols-1, N_gaus);                   }
+    else if(seed_mode == random_subset)  { initial_indices = uvec(sort_index(randu<vec>(X.n_cols))).rows(0,N_gaus-1); }
     
     // not using randi() here as on some primitive systems it produces vectors with non-unique values
     

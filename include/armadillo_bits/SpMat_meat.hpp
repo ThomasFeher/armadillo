@@ -2124,6 +2124,54 @@ SpMat<eT>::tail_cols(const uword N) const
 
 
 
+//! creation of spdiagview (diagonal)
+template<typename eT>
+inline
+spdiagview<eT>
+SpMat<eT>::diag(const sword in_id)
+  {
+  arma_extra_debug_sigprint();
+  
+  const uword row_offset = (in_id < 0) ? uword(-in_id) : 0;
+  const uword col_offset = (in_id > 0) ? uword( in_id) : 0;
+  
+  arma_debug_check
+    (
+    ((row_offset > 0) && (row_offset >= n_rows)) || ((col_offset > 0) && (col_offset >= n_cols)),
+    "SpMat::diag(): requested diagonal out of bounds"
+    );
+  
+  const uword len = (std::min)(n_rows - row_offset, n_cols - col_offset);
+  
+  return spdiagview<eT>(*this, row_offset, col_offset, len);
+  }
+
+
+
+//! creation of spdiagview (diagonal)
+template<typename eT>
+inline
+const spdiagview<eT>
+SpMat<eT>::diag(const sword in_id) const
+  {
+  arma_extra_debug_sigprint();
+  
+  const uword row_offset = (in_id < 0) ? -in_id : 0;
+  const uword col_offset = (in_id > 0) ?  in_id : 0;
+  
+  arma_debug_check
+    (
+    ((row_offset > 0) && (row_offset >= n_rows)) || ((col_offset > 0) && (col_offset >= n_cols)),
+    "SpMat::diag(): requested diagonal out of bounds"
+    );
+  
+  const uword len = (std::min)(n_rows - row_offset, n_cols - col_offset);
+  
+  return spdiagview<eT>(*this, row_offset, col_offset, len);
+  }
+
+
+
 template<typename eT>
 inline
 void
@@ -3653,15 +3701,21 @@ SpMat<eT>::init(uword in_rows, uword in_cols)
       }
     }
   
+  #if (defined(ARMA_USE_CXX11) || defined(ARMA_64BIT_WORD))
+    const char* error_message = "SpMat::init(): requested size is too large";
+  #else
+    const char* error_message = "SpMat::init(): requested size is too large; suggest to compile in C++11 mode or enable ARMA_64BIT_WORD";
+  #endif
+  
   // Ensure that n_elem can hold the result of (n_rows * n_cols)
   arma_debug_check
     (
       (
       ( (in_rows > ARMA_MAX_UHWORD) || (in_cols > ARMA_MAX_UHWORD) )
-        ? ( (float(in_rows) * float(in_cols)) > float(ARMA_MAX_UWORD) )
+        ? ( (double(in_rows) * double(in_cols)) > double(ARMA_MAX_UWORD) )
         : false
       ),
-      "SpMat::init(): requested size is too large; suggest to enable ARMA_64BIT_WORD"
+      error_message
     );
   
   // Clean out the existing memory.
