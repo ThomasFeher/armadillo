@@ -17,7 +17,7 @@ SET(CLAPACK_NAMES ${CLAPACK_NAMES} lapack_atlas)
 SET(CLAPACK_NAMES ${CLAPACK_NAMES} clapack)
 FIND_LIBRARY(CLAPACK_LIBRARY
   NAMES ${CLAPACK_NAMES}
-  PATHS /usr/lib64/atlas /usr/lib/atlas /usr/local/lib64/atlas /usr/local/lib/atlas /usr/lib64 /usr/lib /usr/local/lib64 /usr/local/lib
+  PATHS /usr/lib64/atlas-sse3 /usr/lib64/atlas /usr/lib64 /usr/local/lib64/atlas /usr/local/lib64 /usr/lib/atlas-sse3 /usr/lib/atlas-sse2 /usr/lib/atlas-sse /usr/lib/atlas-3dnow /usr/lib/atlas /usr/lib /usr/local/lib/atlas /usr/local/lib
   )
 
 IF (CLAPACK_LIBRARY AND CLAPACK_INCLUDE_DIR)

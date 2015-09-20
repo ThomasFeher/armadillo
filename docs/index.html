@@ -113,6 +113,7 @@ Technical Report, NICTA, 2010.
 <a href="#diag">diag</a>&nbsp;&middot;
 <a href="#element_access">element&nbsp;access</a>&nbsp;&middot;
 <a href="#element_initialisation">element&nbsp;initialisation</a>&nbsp;&middot;
+<a href="#eval_member">eval</a>&nbsp;&middot;
 <a href="#eye_member">eye</a>&nbsp;&middot;
 <a href="#fill">fill</a>&nbsp;&middot;
 <a href="#i_member">i (inverse)</a>&nbsp;&middot;
@@ -292,6 +293,50 @@ For convenience the following typedefs have been defined:
   <tbody>
     <tr>
       <td style="vertical-align: top;">
+      mat
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Mat&lt;double&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      fmat
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Mat&lt;float&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      cx_mat
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Mat&lt;<a href="#cx_float_double">cx_double</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      cx_fmat
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Mat&lt;<a href="#cx_float_double">cx_float</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
       umat
       </td>
       <td style="vertical-align: top;">
@@ -310,50 +355,6 @@ For convenience the following typedefs have been defined:
       </td>
       <td style="vertical-align: top;">
       Mat&lt;<a href="#uword">sword</a>&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      fmat
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Mat&lt;float&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      mat
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Mat&lt;double&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      cx_fmat
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Mat&lt;<a href="#cx_float_double">cx_float</a>&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      cx_mat
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Mat&lt;<a href="#cx_float_double">cx_double</a>&gt;
       </td>
     </tr>
   </tbody>
@@ -507,21 +508,13 @@ For mathematical correctness, scalars are treated as 1x1 matrices during initial
 As such, the code below <b>will not</b> generate a 5x5 matrix with every element equal to 123.0:
 <ul>
 <pre>
-mat A(5,5);
-A = 123.0;
+mat A(5,5);  A = 123.0;
 </pre>
 </ul>
 Use the following code instead:
 <ul>
 <pre>
-mat A(5,5);
-A.fill(123.0);
-</pre>
-</ul>
-Or:
-<ul>
-<pre>
-mat A = 123.0 * ones&lt;mat&gt;(5,5);
+mat A(5,5);  A.fill(123.0);
 </pre>
 </ul>
 <br>
@@ -536,6 +529,7 @@ See also:
 <li><a href="#save_load_mat">saving &amp; loading matrices</a></li>
 <li><a href="#print">printing matrices</a></li>
 <li><a href="#iterators_mat">STL-style element iterators</a></li>
+<li><a href="#eval_member">.eval()</a></li>
 <li><a href="#conv_to">conv_to()</a> (convert between matrix types)</li>
 <li><a href="http://www.cplusplus.com/doc/tutorial/other_data_types/">explanation of <i>typedef</i></a> (cplusplus.com)
 <li><a href="#Col">Col class</a></li>
@@ -568,6 +562,50 @@ For convenience the following typedefs have been defined:
   <tbody>
     <tr>
       <td style="vertical-align: top;">
+      vec, colvec
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Col&lt;double&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      fvec, fcolvec
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Col&lt;float&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      cx_vec, cx_colvec
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Col&lt;<a href="#cx_float_double">cx_double</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      cx_fvec, cx_fcolvec
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Col&lt;<a href="#cx_float_double">cx_float</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
       uvec, ucolvec
       </td>
       <td style="vertical-align: top;">
@@ -586,50 +624,6 @@ For convenience the following typedefs have been defined:
       </td>
       <td style="vertical-align: top;">
       Col&lt;<a href="#uword">sword</a>&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      fvec, fcolvec
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Col&lt;float&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      vec, colvec
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Col&lt;double&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      cx_fvec, cx_fcolvec
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Col&lt;<a href="#cx_float_double">cx_float</a>&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      cx_vec, cx_colvec
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Col&lt;<a href="#cx_float_double">cx_double</a>&gt;
       </td>
     </tr>
   </tbody>
@@ -747,21 +741,13 @@ For mathematical correctness, scalars are treated as 1x1 matrices during initial
 As such, the code below <b>will not</b> generate a column vector with every element equal to 123.0:
 <ul>
 <pre>
-vec q(5);
-q = 123.0;
+vec a(5);  a = 123.0;
 </pre>
 </ul>
 Use the following code instead:
 <ul>
 <pre>
-vec q(5);
-q.fill(123.0);
-</pre>
-</ul>
-Or:
-<ul>
-<pre>
-vec q = 123.0 * ones&lt;vec&gt;(5,1);
+vec a(5);  a.fill(123.0);
 </pre>
 </ul>
 </li>
@@ -795,6 +781,50 @@ For convenience the following typedefs have been defined:
   <tbody>
     <tr>
       <td style="vertical-align: top;">
+      rowvec
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Row&lt;double&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      frowvec
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Row&lt;float&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      cx_rowvec
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Row&lt;<a href="#cx_float_double">cx_double</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      cx_frowvec
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Row&lt;<a href="#cx_float_double">cx_float</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
       urowvec
       </td>
       <td style="vertical-align: top;">
@@ -813,50 +843,6 @@ For convenience the following typedefs have been defined:
       </td>
       <td style="vertical-align: top;">
       Row&lt;<a href="#uword">sword</a>&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      frowvec
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Row&lt;float&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      rowvec
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Row&lt;double&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      cx_frowvec
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Row&lt;<a href="#cx_float_double">cx_float</a>&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      cx_rowvec
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Row&lt;<a href="#cx_float_double">cx_double</a>&gt;
       </td>
     </tr>
   </tbody>
@@ -971,21 +957,13 @@ For mathematical correctness, scalars are treated as 1x1 matrices during initial
 As such, the code below <b>will not</b> generate a row vector with every element equal to 123.0:
 <ul>
 <pre>
-rowvec r(5);
-r = 123.0;
+rowvec r(5);  r = 123.0;
 </pre>
 </ul>
 Use the following code instead:
 <ul>
 <pre>
-rowvec r(5);
-r.fill(123.0);
-</pre>
-</ul>
-Or:
-<ul>
-<pre>
-rowvec r = 123.0 * ones&lt;rowvec&gt;(1,5);
+rowvec r(5);  r.fill(123.0);
 </pre>
 </ul>
 <br>
@@ -1006,7 +984,7 @@ rowvec r = 123.0 * ones&lt;rowvec&gt;(1,5);
 <br><b>cx_cube</b>
 <ul>
 <li>
-Classes for cubes, also known as "3D matrices"
+Classes for cubes, also known as "3D matrices" or 3rd order tensors
 </li>
 <br>
 <li>
@@ -1019,6 +997,50 @@ For convenience the following typedefs have been defined:
 <ul>
 <table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
   <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+      cube
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Cube&lt;double&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      fcube
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Cube&lt;float&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      cx_cube
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Cube&lt;<a href="#cx_float_double">cx_double</a>&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      cx_fcube
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;=&nbsp;
+      </td>
+      <td style="vertical-align: top;">
+      Cube&lt;<a href="#cx_float_double">cx_float</a>&gt;
+      </td>
+    </tr>
     <tr>
       <td style="vertical-align: top;">
       ucube
@@ -1039,50 +1061,6 @@ For convenience the following typedefs have been defined:
       </td>
       <td style="vertical-align: top;">
       Cube&lt;<a href="#uword">sword</a>&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      fcube
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Cube&lt;float&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      cube
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Cube&lt;double&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      cx_fcube
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Cube&lt;<a href="#cx_float_double">cx_float</a>&gt;
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      cx_cube
-      </td>
-      <td style="vertical-align: top;">
-      &nbsp;=&nbsp;
-      </td>
-      <td style="vertical-align: top;">
-      Cube&lt;<a href="#cx_float_double">cx_double</a>&gt;
       </td>
     </tr>
   </tbody>
@@ -1209,26 +1187,17 @@ For mathematical correctness, scalars are treated as 1x1x1 cubes during initiali
 As such, the code below <b>will not</b> generate a cube with every element equal to 123.0:
 <ul>
 <pre>
-cube c(5,6,7);
-c = 123.0;
+cube c(5,6,7);  c = 123.0;
 </pre>
 </ul>
 Use the following code instead:
 <ul>
 <pre>
-cube c(5,6,7);
-c.fill(123.0);
+cube c(5,6,7);  c.fill(123.0);
 </pre>
-</ul>
-Or:
-<ul>
-<pre>
-cube c = 123.0 * ones&lt;cube&gt;(5,6,7);
-</pre>
-</ul>
-</li>
 </ul>
 <br>
+</ul>
 <li>
 See also:
 <ul>
@@ -1446,7 +1415,8 @@ double* mem = A.colptr(2);
 See also:
 <ul>
 <li><a href="#memptr">.memptr()</a></li>
-<li><a href="#submat">submatrix access</a></li>
+<li><a href="#submat">submatrix views</a></li>
+<li><a href="#element_access">element access</a></li>
 <li><a href="#iterators_mat">iterators (matrices)</a></li>
 <li><a href="#adv_constructors_mat">advanced constructors (matrices)</a></li>
 </ul>
@@ -1571,7 +1541,7 @@ For <i>vec</i> and <i>rowvec</i>, access the <i>n</i>-th element.
 For <i>mat</i>, <i>cube</i> and <i>field</i>, access the <i>n</i>-th element/object under the assumption of a flat layout,
 with column-major ordering of data (ie. column by column).
 A <i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
-The bounds check can be optionally disabled at compile-time (see below) to get more speed.
+The bounds check can be <a href="#element_access_bounds_check_note">optionally disabled</a> at compile-time to get more speed.
                           </td>
                         </tr>
 <tr>
@@ -1604,7 +1574,7 @@ Not recommended for use unless your code has been thoroughly debugged.
                           <td style="vertical-align: top;">
 For <i>mat</i> and <i>field</i> classes, access the element/object stored at the <i>i</i>-th row and <i>j</i>-th column.
 A <i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
-The bounds check can be optionally disabled at compile-time (see below) to get more speed.
+The bounds check can be <a href="#element_access_bounds_check_note">optionally disabled</a> at compile-time to get more speed.
                           </td>
                         </tr>
 <tr>
@@ -1639,7 +1609,7 @@ Not recommended for use unless your code has been thoroughly debugged.
                           <td style="vertical-align: top;">
 Cube only: access the element stored at the <i>i</i>-th row, <i>j</i>-th column and <i>k</i>-th slice.
 A <i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
-The bounds check can be optionally disabled at compile-time (see below) to get more speed.
+The bounds check can be <a href="#element_access_bounds_check_note">optionally disabled</a> at compile-time to get more speed.
                           </td>
                         </tr>
 <tr>
@@ -1662,6 +1632,7 @@ Not recommended for use unless your code has been thoroughly debugged.</td>
 </ul>
 </li>
 <br>
+<a name="element_access_bounds_check_note"></a>
 <li>
 The bounds checks used by the <i>(n)</i>, <i>(i,j)</i> and <i>(i,j,k)</i> access forms
 can be disabled by defining <a href="#config_hpp_arma_no_debug"><i>ARMA_NO_DEBUG</i></a> or <i>NDEBUG</i> macros 
@@ -1689,8 +1660,12 @@ double z = p[9];
 <li>See also:
 <ul>
 <li><a href="#in_range">.in_range()</a></li>
+<li><a href="#element_initialisation">element initialisation</a></li>
+<li><a href="#submat">submatrix views</a></li>
+<li><a href="#memptr">.memptr()</a></li>
 <li><a href="#iterators_mat">iterators (matrices)</a></li>
 <li><a href="#iterators_cube">iterators (cubes)</a></li>
+<li><a href="#config_hpp">config.hpp</a></li>
 </ul>
 </li>
 <br>
@@ -1740,6 +1715,47 @@ See also:
 <li><a href="#print">.print()</a></li>
 <li><a href="#save_load_mat">saving &amp; loading matrices</a></li>
 <li><a href="#adv_constructors_mat">advanced constructors (matrices)</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="eval_member"></a>
+<b>.eval()</b>
+<br>
+<ul>
+<li>
+Member function of any matrix or vector expression
+</li>
+<br>
+<li>
+Explicitly forces the evaluation of a delayed expression and outputs a matrix
+</li>
+<br>
+<li>
+This function should be used sparingly and only in cases where it is absolutely necessary; indiscriminate use can cause slow downs
+</li>
+<br>
+<li>
+This function was added in version 3.2
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+cx_mat A( randu&lt;mat&gt;(4,4), randu&lt;mat&gt;(4,4) );
+
+real(A).eval().save("A_real.dat", raw_ascii);
+imag(A).eval().save("A_imag.dat", raw_ascii);
+</pre>
+</ul>
+</li>
+<br>
+<li>See also:
+<ul>
+<li><a href="#Mat">Mat class</a></li>
 </ul>
 </li>
 <br>
@@ -2564,6 +2580,9 @@ See also:
 <li><a href="#stl_container_fns">STL container functions</a></li>
 <li><a href="http://cplusplus.com/reference/std/iterator/">iterator at cplusplus.com</a></li>
 <li><a href="#element_access">element access</a></li>
+<li><a href="#memptr">.memptr()</a></li>
+<li><a href="#colptr">.colptr()</a></li>
+<li><a href="#submat">submatrix views</a></li>
 </ul>
 </li>
 <br>
@@ -2804,6 +2823,7 @@ const double* B_mem = B.memptr();
 See also:
 <ul>
 <li><a href="#colptr">.colptr()</a></li>
+<li><a href="#element_access">element_access</a></li>
 <li><a href="#iterators_mat">iterators (matrices)</a></li>
 <li><a href="#iterators_cube">iterators (cubes)</a></li>
 <li><a href="#adv_constructors_mat">advanced constructors (matrices)</a></li>
@@ -10269,6 +10289,7 @@ Below is a list of additions and changes since prior versions of Armadillo:
 <li>Added in 3.2:
 <ul>
 <li><a href="#unique">unique()</a>, for finding unique elements of a matrix</li>
+<li><a href="#eval_member">.eval()</a>, for forcing the evaluation of delayed expressions</li>
 <li>faster <a href="#eig_sym">eigen decomposition</a> via "divide and conquer" algorithm</li>
 <li>faster <a href="#t_st_members">transpose</a> of vectors and compound expressions</li>
 <li>faster handling of <a href="#diag">diagonal views</a></li>
