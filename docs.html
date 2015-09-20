@@ -382,7 +382,12 @@ Technical Report, NICTA, 2010.
 <ul>
 <li>
 The root matrix class is <b>Mat&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i> can be one of:
-<i>char</i>, <i>int</i>, <i>float</i>, <i>double</i>, <i>std::complex&lt;double&gt;</i>, etc.
+<ul>
+<li>
+<i>float</i>, <i>double</i>, <i>std::complex&lt;float&gt;</i>, <i>std::complex&lt;double&gt;</i>,
+<i>char</i>, <i>short</i>, <i>int</i>, and unsigned versions of <i>char</i>, <i>short</i>, <i>int</i>.
+</li>
+</ul>
 </li>
 <br>
 <li>
@@ -494,7 +499,9 @@ Constructors:
 <li>
 The string format for the constructor is elements separated by spaces, and rows denoted by semicolons.
 For example, the 2x2 identity matrix can be created using the format string <code>"1 0; 0 1"</code>.
-While string based initialisation is compact, directly setting the elements or using <a href="#element_initialisation">element initialisation</a> is considerably faster.
+While string based initialisation is compact,
+directly <a href="#element_access">setting the elements</a>
+or using <a href="#element_initialisation">element initialisation</a> is considerably faster.
 </li>
 <br>
 <a name="adv_constructors_mat"></a>
