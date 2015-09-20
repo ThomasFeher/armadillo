@@ -447,6 +447,7 @@ Contributors:
 - David Lawrence
 - Jussi Lehtola
 - Jeremy Mason
+- Nikolay Mayorov
 - Carlos Mendes
 - Artem Novikov
 - Martin Orlob
