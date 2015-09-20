@@ -25,12 +25,12 @@
     }
 #endif
 
-#if defined(ARMA_USE_HDF5)
+#if defined(ARMA_USE_HDF5_ALT)
   #include <hdf5.h>
   
   #if defined(H5_USE_16_API_DEFAULT) || defined(H5_USE_16_API)
     // #pragma message ("disabling use of HDF5 due to its incompatible configuration")
-    #undef ARMA_USE_HDF5
+    #undef ARMA_USE_HDF5_ALT
   #endif
 
 #endif
@@ -41,10 +41,10 @@ namespace arma
 #include "armadillo_bits/blas_bones.hpp"
 #include "armadillo_bits/lapack_bones.hpp"
 #include "armadillo_bits/arpack_bones.hpp"
-// no need to include hdf5_bones.hpp -- it only contains #defines for when ARMA_USE_WRAPPER is false.
+// no need to include hdf5_bones.hpp -- it only contains #defines for when ARMA_USE_HDF5_ALT is not defined.
 
 
-#if defined(ARMA_USE_HDF5)
+#if defined(ARMA_USE_HDF5_ALT)
   // Wrapper functions: arma::H5open() and arma::H5check_version(), to hijack
   // calls to H5open() and H5check_version().
   herr_t H5open()
@@ -864,7 +864,7 @@ extern "C"
   
   
   
-  #if defined(ARMA_USE_HDF5)
+  #if defined(ARMA_USE_HDF5_ALT)
   
     hid_t arma_H5Tcopy(hid_t dtype_id)
       {

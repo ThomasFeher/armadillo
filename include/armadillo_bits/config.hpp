@@ -90,6 +90,12 @@
 //// and you will need to link with the hdf5 library (eg. -lhdf5)
 #endif
 
+// #define ARMA_USE_HDF5_ALT
+#if defined(ARMA_USE_HDF5_ALT) && defined(ARMA_USE_WRAPPER)
+  #undef  ARMA_USE_HDF5
+  #define ARMA_USE_HDF5
+#endif
+
 #if !defined(ARMA_MAT_PREALLOC)
   #define ARMA_MAT_PREALLOC 16
 #endif
