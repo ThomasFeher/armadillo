@@ -110,9 +110,9 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 3.910</b></font>
+        <font size=+2><b>Reference for Armadillo 3.920</b></font>
         <br>
-        <b>(Pyrenees)</b>
+        <b>(Agencia Nacional Stasi)</b>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -274,8 +274,11 @@ Technical Report, NICTA, 2010.
 <b>Functions Individually Applied to Each Element of a Matrix/Cube</b>
 <ul>
 <a href="#abs">abs</a>&nbsp;&middot;
+<a href="#conj">conj</a>&nbsp;&middot;
+<a href="#conv_to">conv_to</a>&nbsp;&middot;
 <a href="#eps">eps</a>&nbsp;&middot;
-<a href="#misc_fns">misc functions (exp, log, pow, sqrt, ...)</a>&nbsp;&middot;
+<a href="#imag_real">imag/real</a>&nbsp;&middot;
+<a href="#misc_fns">misc functions (exp, log, pow, sqrt, round, sign, ...)</a>&nbsp;&middot;
 <a href="#trig_fns">trigonometric functions (cos, sin, ...)</a>
 </ul>
 <br>
@@ -308,8 +311,6 @@ Technical Report, NICTA, 2010.
 <a href="#all">all</a>&nbsp;&middot;
 <a href="#any">any</a>&nbsp;&middot;
 <a href="#conv">conv</a>&nbsp;&middot;
-<a href="#conv_to">conv_to</a>&nbsp;&middot;
-<a href="#conj">conj</a>&nbsp;&middot;
 <a href="#cor">cor</a>&nbsp;&middot;
 <a href="#cov">cov</a>&nbsp;&middot;
 <a href="#cross">cross</a>&nbsp;&middot;
@@ -319,7 +320,6 @@ Technical Report, NICTA, 2010.
 <a href="#flip">fliplr/flipud</a>&nbsp;&middot;
 <a href="#hist">hist</a>&nbsp;&middot;
 <a href="#histc">histc</a>&nbsp;&middot;
-<a href="#imag_real">imag/real</a>&nbsp;&middot;
 <a href="#join">join&nbsp;rows/cols/slices</a>&nbsp;&middot;
 <a href="#kron">kron</a>&nbsp;&middot;
 <a href="#reshape">reshape</a>&nbsp;&middot;
@@ -342,6 +342,7 @@ Technical Report, NICTA, 2010.
 <a href="#eig_sym">eig_sym</a>&nbsp;&middot;
 <a href="#eig_gen">eig_gen</a>&nbsp;&middot;
 <a href="#fft">fft/ifft</a>&nbsp;&middot;
+<a href="#fft2">fft2/ifft2</a>&nbsp;&middot;
 <a href="#inv">inv</a>&nbsp;&middot;
 <a href="#lu">lu</a>&nbsp;&middot;
 <a href="#pinv">pinv</a>&nbsp;&middot;
@@ -359,7 +360,7 @@ Technical Report, NICTA, 2010.
 <ul>
 <a href="#is_finite_standalone">is_finite()</a>&nbsp;&middot;
 <a href="#logging">logging of errors/warnings</a>&nbsp;&middot;
-<a href="#constants">various constants (pi, inf, speed of light, ...)</a>&nbsp;&middot;
+<a href="#constants">pre-defined constants (pi, inf, speed of light, ...)</a>&nbsp;&middot;
 <!--<a href="#log_add">log_add</a>&nbsp;&middot;-->
 <a href="#uword">uword/sword</a>&nbsp;&middot;
 <a href="#cx_float_double">cx_float/cx_double</a>&nbsp;&middot;
@@ -388,11 +389,11 @@ Technical Report, NICTA, 2010.
 <br><b>cx_mat</b>
 <ul>
 <li>
-The root matrix class is <b>Mat&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i> can be one of:
+The root matrix class is <b>Mat&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i> is one of:
 <ul>
 <li>
 <i>float</i>, <i>double</i>, <i>std::complex&lt;float&gt;</i>, <i>std::complex&lt;double&gt;</i>,
-<i>char</i>, <i>short</i>, <i>int</i>, and unsigned versions of <i>char</i>, <i>short</i>, <i>int</i>.
+<i>char</i>, <i>short</i>, <i>int</i>, <i>long</i> and unsigned versions of <i>char</i>, <i>short</i>, <i>int</i>, <i>long</i>
 </li>
 </ul>
 </li>
@@ -484,7 +485,7 @@ Functions which are wrappers for LAPACK or ATLAS functions (generally matrix dec
 </li>
 <br>
 <li>
-Elements are stored with column-major ordering (ie. column by column)
+Elements are stored with <a href="https://en.wikipedia.org/wiki/Column_major">column-major ordering</a> (ie. column by column)
 </li>
 <br>
 <a name="constructors_mat"></a>
@@ -493,6 +494,7 @@ Constructors:
 <ul>
 <li>mat()</li>
 <li>mat(n_rows, n_cols)</li>
+<li>mat(n_rows, n_cols, fill_type) &nbsp; (version 3.920+)</li>
 <li>mat(mat)</li>
 <li>mat(vec)</li>
 <li>mat(rowvec)</li>
@@ -504,11 +506,37 @@ Constructors:
 </li>
 <br>
 <li>
+When specifying the size with <i>n_rows</i> and <i>n_cols</i>, by default the memory is uninitialised;
+since version 3.920, memory can be initialised by specifying the <i>fill_type</i>,
+which is one of:
+<i>fill::zeros</i>,
+<i>fill::ones</i>,
+<i>fill::eye</i>,
+<i>fill::randu</i>,
+<i>fill::randn</i>,
+<i>fill::none</i>,
+with the following meanings:
+<ul>
+<table>
+<tbody>
+<tr><td>fill::zeros</td><td>&nbsp;=&nbsp;</td><td>set all elements to 0</td></tr>
+<tr><td>fill::ones</td><td>&nbsp;=&nbsp;</td><td>set all elements to 1</td></tr>
+<tr><td>fill::eye</td><td>&nbsp;=&nbsp;</td><td>set the elements along the main diagonal to 1 and off-diagonal elements to 0</td></tr>
+<tr><td>fill::randu</td><td>&nbsp;=&nbsp;</td><td>set each element to a random value from a uniform distribution in the [0,1] interval</td></tr>
+<tr><td>fill::randn</td><td>&nbsp;=&nbsp;</td><td>set each element to a random value from a normal/Gaussian distribution with zero mean and unit variance</td></tr>
+<tr><td>fill::none</td><td>&nbsp;=&nbsp;</td><td>do not modify the elements</td></tr>
+</tbody>
+</table>
+</ul>
+</li>
+<br>
+<li>
 The string format for the constructor is elements separated by spaces, and rows denoted by semicolons.
 For example, the 2x2 identity matrix can be created using the format string <code>"1 0; 0 1"</code>.
 While string based initialisation is compact,
-directly <a href="#element_access">setting the elements</a>
-or using <a href="#element_initialisation">element initialisation</a> is considerably faster.
+directly <a href="#element_access">setting the elements</a>,
+or using <a href="#element_initialisation">element initialisation</a>
+or using a C++11 initialiser list is considerably faster.
 </li>
 <br>
 <a name="adv_constructors_mat"></a>
@@ -594,7 +622,9 @@ cx_mat X(A,B);
 
 B.zeros();
 B.set_size(10,10);
-B.zeros(5,6);
+B.ones(5,6);
+
+mat E(4,5, fill::zeros);  // in version 3.920+
 
 //
 // fixed size matrices:
@@ -762,13 +792,21 @@ Main exceptions are functions which require square matrices
 <li>
 Constructors
 <ul>
-<li>vec(n_elem=0)</li>
+<li>vec()</li>
+<li>vec(n_elem)</li>
+<li>vec(n_elem, fill_type) &nbsp; (version 3.920+)</li>
 <li>vec(vec)</li>
 <li>vec(mat) &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one column)</li>
 <li>vec(string) &nbsp; (elements separated by spaces)</li>
 <li>vec(std::vector)</li>
 <li>vec(initialiser_list) &nbsp; (C++11 only)</li>
 </ul>
+</li>
+<br>
+<li>
+When specifying the size with <i>n_elem</i>, by default the memory is uninitialised;
+since version 3.920, memory can be initialised by specifying the <i>fill_type</i>,
+as per the <a href="#Mat">Mat class</a>
 </li>
 <br>
 <a name="adv_constructors_col"></a>
@@ -844,7 +882,7 @@ Examples:
 <ul>
 <pre>
 vec x(10);
-vec y = zeros&lt;vec&gt;(10,1);
+vec y = zeros&lt;vec&gt;(10);
 
 mat A = randu&lt;mat&gt;(10,10);
 vec z = A.col(5); // extract a column vector
@@ -979,13 +1017,21 @@ Main exceptions are functions which require square matrices
 <li>
 Constructors
 <ul>
-<li>rowvec(n_elem=0)</li>
+<li>rowvec()</li>
+<li>rowvec(n_elem)</li>
+<li>rowvec(n_elem, fill_type) &nbsp; (version 3.920+)</li>
 <li>rowvec(rowvec)</li>
 <li>rowvec(mat) &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one row)</li>
 <li>rowvec(string) &nbsp; (elements separated by spaces)</li>
 <li>rowvec(std::vector)</li>
 <li>rowvec(initialiser_list) &nbsp; (C++11 only)</li>
 </ul>
+</li>
+<br>
+<li>
+When specifying the size with <i>n_elem</i>, by default the memory is uninitialised;
+since version 3.920, memory can be initialised by specifying the <i>fill_type</i>,
+as per the <a href="#Mat">Mat class</a>
 </li>
 <br>
 <a name="adv_constructors_row"></a>
@@ -1060,9 +1106,9 @@ Examples:
 <ul>
 <pre>
 rowvec x(10);
-rowvec y = zeros&lt;mat&gt;(1,10);
+rowvec y = zeros&lt;rowvec&gt;(10);
 
-mat A = randu&lt;mat&gt;(10,10);
+mat    A = randu&lt;mat&gt;(10,10);
 rowvec z = A.row(5); // extract a row vector
 </pre>
 </ul>
@@ -1105,8 +1151,13 @@ Classes for cubes, also known as "3D matrices" or 3rd order tensors
 </li>
 <br>
 <li>
-The cube class is <b>Cube&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i> can be one of:
-<i>char</i>, <i>int</i>, <i>float</i>, <i>double</i>, <i>std::complex&lt;double&gt;</i>, etc
+The cube class is <b>Cube&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i> is one of:
+<ul>
+<li>
+<i>float</i>, <i>double</i>, <i>std::complex&lt;float&gt;</i>, <i>std::complex&lt;double&gt;</i>,
+<i>char</i>, <i>short</i>, <i>int</i>, <i>long</i> and unsigned versions of <i>char</i>, <i>short</i>, <i>int</i>, <i>long</i>
+</li>
+</ul>
 </li>
 <br>
 <li>
@@ -1203,14 +1254,20 @@ Each slice can be interpreted as a matrix, hence functions which take <i>Mat</i>
 <li>
 Constructors:
 <ul>
-cube()
-<br>cube(cube)
-<br>cube(n_rows, n_cols, n_slices)
-<br>cx_cube(cube, cube) (for constructing a complex cube out of two real cubes)
+<li>cube()</li>
+<li>cube(n_rows, n_cols, n_slices)</li>
+<li>cube(n_rows, n_cols, n_slices, fill_type) &nbsp; (version 3.920+)</li>
+<li>cube(cube)</li>
+<li>cx_cube(cube, cube) &nbsp; (for constructing a complex cube out of two real cubes)</li>
 </ul>
 </li>
 <br>
-
+<li>
+When specifying the cube size with <i>n_rows</i>, <i>n_cols</i> and <i>n_slices</i>, by default the memory is uninitialised;
+since version 3.920, memory can be initialised by specifying the <i>fill_type</i>,
+as per the <a href="#Mat">Mat class</a> (except for <i>fill::eye</i>)
+</li>
+<br>
 <a name="adv_constructors_cube"></a>
 <li>
 Advanced constructors:
@@ -1406,8 +1463,13 @@ G.save("vec_field");
 <br><b>sp_cx_mat</b>
 <ul>
 <li>
-The root sparse matrix class is <b>SpMat&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i> can be one of:
-<i>char</i>, <i>int</i>, <i>float</i>, <i>double</i>, <i>std::complex&lt;double&gt;</i>, etc.
+The root sparse matrix class is <b>SpMat&lt;</b><i>type</i><b>&gt;</b>, where <i>type</i> is one of:
+<ul>
+<li>
+<i>float</i>, <i>double</i>, <i>std::complex&lt;float&gt;</i>, <i>std::complex&lt;double&gt;</i>,
+<i>char</i>, <i>short</i>, <i>int</i>, <i>long</i> and unsigned versions of <i>char</i>, <i>short</i>, <i>int</i>, <i>long</i>
+</li>
+</ul>
 </li>
 <br>
 <li>
@@ -1858,7 +1920,7 @@ The diagonal is interpreted as a column vector within expressions
 Examples:
 <ul>
 <pre>
-mat    X = randu&lt;mat&gt;(5,5);
+mat X = randu&lt;mat&gt;(5,5);
 
 vec a = X.diag();
 vec b = X.diag(1);
@@ -1966,7 +2028,7 @@ Provide access to individual elements or objects stored in a container object
                       <tbody>
                         <tr>
                           <td style="vertical-align: top;">
-                          <pre>(n)</pre>
+                          <code>(n)</code>
                           </td>
                           <td style="vertical-align: top;">&nbsp;<br>
                           </td>
@@ -1985,7 +2047,7 @@ The bounds check can be <a href="#element_access_bounds_check_note">optionally d
 </tr>
                         <tr>
                           <td style="vertical-align: top;">
-                          <pre>.at(n) and [n]</pre>
+                          <code>.at(n)</code>&nbsp;&nbsp;or&nbsp;&nbsp;<code>[n]</code>&nbsp;
                           </td>
                           <td style="vertical-align: top;"><br>
                           </td>
@@ -2001,7 +2063,7 @@ Not recommended for use unless your code has been thoroughly debugged.
 </tr>
                         <tr>
                           <td style="vertical-align: top;">
-                          <pre>(i,j)</pre>
+                          <code>(i,j)</code>
                           </td>
                           <td style="vertical-align: top;"><br>
                           </td>
@@ -2018,7 +2080,7 @@ The bounds check can be <a href="#element_access_bounds_check_note">optionally d
 </tr>
                         <tr>
                           <td style="vertical-align: top;">
-                          <pre>.at(i,j)</pre>
+                          <code>.at(i,j)</code>
                           </td>
                           <td style="vertical-align: top;"><br>
                           </td>
@@ -2036,7 +2098,7 @@ Not recommended for use unless your code has been thoroughly debugged.
 </tr>
                         <tr>
                           <td style="vertical-align: top;">
-                          <pre>(i,j,k)</pre>
+                          <code>(i,j,k)</code>
                           </td>
                           <td style="vertical-align: top;"><br>
                           </td>
@@ -2053,7 +2115,7 @@ The bounds check can be <a href="#element_access_bounds_check_note">optionally d
 </tr>
                         <tr>
                           <td style="vertical-align: top;">
-                          <pre>.at(i,j,k)</pre>
+                          <code>.at(i,j,k)</code>
                           </td>
                           <td style="vertical-align: top;"><br>
                           </td>
@@ -2151,6 +2213,7 @@ B.reshape(2,3);
 See also:
 <ul>
 <li><a href="#element_access">element access</a></li>
+<li><a href="#reshape_member">.reshape()</a></li>
 <li><a href="#print">.print()</a></li>
 <li><a href="#save_load_mat">saving &amp; loading matrices</a></li>
 <li><a href="#adv_constructors_mat">advanced constructors (matrices)</a></li>
@@ -2207,7 +2270,7 @@ imag(A).eval().save("A_imag.dat", raw_ascii);
 <b>.eye(n_rows, n_cols)</b>
 <ul>
 <li>
-Set the elements along the main diagonal to one and off-diagonal elements set to zero,
+Set the elements along the main diagonal to one and off-diagonal elements to zero,
 optionally first resizing to specified dimensions
 </li>
 <br>
@@ -2270,6 +2333,7 @@ See also:
 <li><a href="#ones_member">.ones()</a></li>
 <li><a href="#zeros_member">.zeros()</a></li>
 <li><a href="#randu_randn_member">.randu() &amp; .randn()</a></li>
+<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
 </ul>
 </li>
 <br>
@@ -2508,8 +2572,7 @@ cout &lt;&lt; B.is_finite() &lt;&lt; endl;
 <li>
 See also:
 <ul>
-<li><a href="#constants">datum::nan</a></li>
-<li><a href="#constants">datum::inf</a></li>
+<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
 <li><a href="#is_finite_standalone">is_finite()</a> (standalone function)</li>
 </ul>
 </li>
@@ -4129,7 +4192,7 @@ Numerical data stored in portable HDF5 binary format.
 <b>Caveat</b>:
 support for HDF5 must be enabled within Armadillo's <a href="#config_hpp">configuration</a>;
 the <i>hdf5.h</i> header file must be available on your system and you will need to link with the hdf5 library (eg. -lhdf5).
-Support for saving &amp; loading of <i>Cube</i> objects was added in version 3.830.
+Support for saving &amp; loading of <i>Cube</i> objects was added in version 3.900.
 <br>
 <br>
                         </td>
@@ -4784,6 +4847,12 @@ Q.<b>subcube(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> first_slice<b>, </b>l
 Q.<b>subcube(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> last_col<b>), span(</b>first_slice<b>,</b> last_slice<b>)&nbsp;)</b><br>
 <br>
 Q<b>(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> last_col<b>), span(</b>first_slice<b>,</b> last_slice<b>)&nbsp;)</b><br>
+<br>
+Added in version 3.920:
+<br>
+Q.<b>tube(&nbsp;</b>row<b>,</b> col&nbsp;<b>)</b><br>
+Q.<b>tube(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> last_row<b>,</b> last_col&nbsp;<b>)</b><br>
+Q.<b>tube(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> last_col<b>)&nbsp;)</b><br>
 </ul>
 </li>
 <br>
@@ -4798,6 +4867,14 @@ Instances of <i>span(a,b)</i> can be replaced by:
 <li>
 An individual slice, accessed via <i>.slice()</i>, is an instance of the <i>Mat</i> class
 (a reference to a matrix is provided)
+</li>
+<br>
+<li>
+All <i>.tube()</i> forms are variants of <i>.subcube()</i>, using <i>first_slice&nbsp;=&nbsp;0</i> and <i>last_slice&nbsp;=&nbsp;Q.n_slices-1</i>; 
+</li>
+<br>
+<li>
+The <i>.tube(row,col)</i> form uses <i>first_row&nbsp;=&nbsp;last_row&nbsp;=&nbsp;row</i>, and <i>first_col&nbsp;=&nbsp;last_col&nbsp;=&nbsp;col</i>  
 </li>
 <br>
 <li>
@@ -5927,8 +6004,97 @@ mat    Y = abs(X);
 </pre>
 </ul>
 </li>
+<li>
+See also:
+<ul>
+<li><a href="#conj">conj()</a></li>
+<li><a href="#imag_real">imag() / real()</a></li>
+</ul>
+</li>
 </ul>
 <br>
+<hr class="greyline"><br>
+
+<a name="conj"></a>
+<b>conj(cx_mat)</b>
+<br><b>conj(cx_cube)</b>
+<ul>
+<li>
+Obtain the complex conjugate of each element in a complex matrix/cube
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+cx_mat X = randu&lt;cx_mat&gt;(5,5);
+cx_mat Y = conj(X);
+</pre>
+</ul>
+</li>
+<br>
+<li>See also:
+<ul>
+<li><a href="#abs">abs()</a></li>
+<li><a href="#imag_real">imag() / real()</a></li>
+<li><a href="#trans">trans()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="conv_to"></a>
+<b>
+conv_to&lt;<i>type</i>&gt;::from(X)
+</b>
+<ul>
+<li>
+A form of casting
+</li>
+<br>
+<li>
+Convert between matrix/vector types (eg. <i>mat</i> to <i>fmat</i>), as well as cube types (eg. <i>cube</i> to <i>fcube</i>)
+</li>
+<br>
+<li>
+Conversion between <i>std::vector</i> and Armadillo matrices/vectors is also possible
+</li>
+<br>
+<li>
+Conversion of a <i>mat</i> object into <i>colvec</i>, <i>rowvec</i> or <i>std::vector</i> is possible if the object can be interpreted as a vector
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat  A = randu&lt;mat&gt;(5,5);
+fmat B = conv_to&lt;fmat&gt;::from(A);
+
+typedef std::vector&lt;double&gt; stdvec;
+
+stdvec x(3);
+x[0] = 0.0; x[1] = 1.0;  x[2] = 2.0;
+
+colvec y = conv_to&lt; colvec &gt;::from(x);
+stdvec z = conv_to&lt; stdvec &gt;::from(y); 
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#as_scalar">as_scalar()</a></li>
+<li><a href="#reshape">reshape()</a></li>
+<li><a href="#resize">resize()</a></li>
+<li><a href="#adv_constructors_mat">advanced constructors (matrices)</a></li>
+<li><a href="#adv_constructors_cube">advanced constructors (cubes)</a></li>
+</ul>
+</li>
+<br>
+</ul>
 <hr class="greyline"><br>
 
 <a name="eps"></a>
@@ -5965,15 +6131,55 @@ See also:
 <br>
 <hr class="greyline"><br>
 
+<a name="imag_real"></a>
+<b>imag(cx_mat)</b>
+<br><b>imag(cx_cube)</b>
+<br>
+<br><b>real(cx_mat)</b>
+<br><b>real(cx_cube)</b>
+<ul>
+<li>
+Extract the imaginary/real part of a complex matrix/cube
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+cx_mat C = randu&lt;cx_mat&gt;(5,5);
+
+mat    A = imag(C);
+mat    B = real(C);
+</pre>
+</ul>
+</li>
+<br>
+<li><b>Caveat:</b> versions 4.4, 4.5 and 4.6 of the GCC C++ compiler have a bug when using the <i>-std=c++0x</i> compiler option (ie. experimental support for C++11);
+to work around this bug, preface Armadillo's imag() and real() with the <i>arma</i> namespace qualification, eg. arma::imag(C)
+</li>
+<br>
+<li>See also:
+<ul>
+<li><a href="#set_imag">set_imag()&nbsp;/&nbsp;set_real()</a></li>
+<li><a href="#abs">abs()</a></li>
+<li><a href="#conj">conj()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
 <a name="misc_fns"></a>
 <b>
-miscellaneous functions:
-<br>&nbsp; exp, exp2, exp10, trunc_exp, 
-<br>&nbsp; log, log2, log10, trunc_log,
-<br>&nbsp; pow, sqrt, square
-<br>&nbsp; floor, ceil, round
+miscellaneous element-wise functions:
+<ul>
+exp, exp2, exp10, trunc_exp
+<br>log, log2, log10, trunc_log
+<br>pow, sqrt, square
+<br>floor, ceil, round
+<br>sign
+</ul>
 </b>
-<br>
 <ul>
 <li>
 Apply a function to each element
@@ -5983,16 +6189,16 @@ Apply a function to each element
 Usage:
 <ul>
 <li>
-<i>matrix_type</i> B = misc_fn(A)
+<i>matrix_type</i> B = fn(A)
 </li>
 <li>
-<i>cube_type</i> B = misc_fn(A)
+<i>cube_type</i> B = fn(A)
 </li>
 <li>
 A and B must have the same <i>matrix_type/cube_type</i>
 </li>
 <li>
-misc_fn(A) is one of:
+fn(A) is one of:
 <ul>
 
 <table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
@@ -6157,6 +6363,26 @@ misc_fn(A) is one of:
       round to nearest integer, away from zero
     </td>
   </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      sign(A)
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      signum function (added in version 3.920);
+      <br>for each element <i>a</i> in <i>A</i>, the corresponding element <i>b</i> in <i>B</i> is:
+      <table>
+      <tbody>
+      <tr><td style="text-align: right;">&minus;1</td><td>&nbsp;if <i>a</i> &lt; 0</td></tr>
+      <tr><td style="text-align: right;">0</td><td>&nbsp;if <i>a</i> = 0</td></tr>
+      <tr><td style="text-align: right;">+1</td><td>&nbsp;if <i>a</i> &gt; 0</td></tr>
+      </tbody>
+      </table>
+      if <i>a</i> is complex and non-zero, then <i>b</i> = <i>a</i> / abs(<i>a</i>)
+    </td>
+  </tr>
 </tbody>
 </table>
 
@@ -6176,12 +6402,22 @@ mat B = exp(A);
 </pre>
 </ul>
 </li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#abs">abs()</a></li>
+<li><a href="#conj">conj()</a></li>
+<li><a href="#imag_real">imag() / real()</a></li>
+<li><a href="#constants">pre-defined constants</a></li>
+</ul>
+</li>
 </ul>
 <br>
 <hr class="greyline"><br>
 
 <a name="trig_fns"></a>
-<b>trigonometric functions (cos, sin, tan, ...)</b>
+<b>trigonometric element-wise functions (cos, sin, tan, ...)</b>
 <ul>
 <li>
 Apply a trigonometric function to each element
@@ -7102,86 +7338,6 @@ See also:
 <br>
 <hr class="greyline"><br>
 
-<a name="conv_to"></a>
-<b>
-conv_to&lt;<i>type</i>&gt;::from(X)
-</b>
-<ul>
-<li>
-A form of casting
-</li>
-<br>
-<li>
-Convert between matrix/vector types (eg. <i>mat</i> to <i>fmat</i>), as well as cube types (eg. <i>cube</i> to <i>fcube</i>)
-</li>
-<br>
-<li>
-Conversion between <i>std::vector</i> and Armadillo matrices/vectors is also possible
-</li>
-<br>
-<li>
-Conversion of a <i>mat</i> object into <i>colvec</i>, <i>rowvec</i> or <i>std::vector</i> is possible if the object can be interpreted as a vector
-</li>
-<br>
-<li>
-Examples:
-<ul>
-<pre>
-mat  A = randu&lt;mat&gt;(5,5);
-fmat B = conv_to&lt;fmat&gt;::from(A);
-
-typedef std::vector&lt;double&gt; stdvec;
-
-stdvec x(3);
-x[0] = 0.0; x[1] = 1.0;  x[2] = 2.0;
-
-colvec y = conv_to&lt; colvec &gt;::from(x);
-stdvec z = conv_to&lt; stdvec &gt;::from(y); 
-</pre>
-</ul>
-</li>
-<br>
-<li>
-See also:
-<ul>
-<li><a href="#as_scalar">as_scalar()</a></li>
-<li><a href="#reshape">reshape()</a></li>
-<li><a href="#resize">resize()</a></li>
-<li><a href="#adv_constructors_mat">advanced constructors (matrices)</a></li>
-<li><a href="#adv_constructors_cube">advanced constructors (cubes)</a></li>
-</ul>
-</li>
-<br>
-</ul>
-<hr class="greyline"><br>
-
-<a name="conj"></a>
-<b>conj(cx_mat)</b>
-<br><b>conj(cx_cube)</b>
-<ul>
-<li>
-Obtain the complex conjugate of each element in a complex matrix/cube
-</li>
-<br>
-<li>
-Examples:
-<ul>
-<pre>
-cx_mat X = randu&lt;cx_mat&gt;(5,5);
-cx_mat Y = conj(X);
-</pre>
-</ul>
-</li>
-<br>
-<li>See also:
-<ul>
-<li><a href="#trans">trans()</a></li>
-</ul>
-</li>
-<br>
-</ul>
-<hr class="greyline"><br>
-
 <a name="cor"></a>
 <b>cor(X, Y, norm_type=0)</b>
 <br><b>cor(X, norm_type=0)</b>
@@ -7603,63 +7759,35 @@ uvec h = histc(v, linspace&lt;vec&gt;(-2,2,11));
 </ul>
 <hr class="greyline"><br>
 
-<a name="imag_real"></a>
-<b>imag(cx_mat)</b>
-<br><b>imag(cx_cube)</b>
-<br>
-<br><b>real(cx_mat)</b>
-<br><b>real(cx_cube)</b>
-<ul>
-<li>
-Extract the imaginary/real part of a complex matrix/cube
-</li>
-<br>
-<li>
-Examples:
-<ul>
-<pre>
-cx_mat C = randu&lt;cx_mat&gt;(5,5);
-
-mat    A = imag(C);
-mat    B = real(C);
-</pre>
-</ul>
-</li>
-<br>
-<li><b>Caveat:</b> versions 4.4, 4.5 and 4.6 of the GCC C++ compiler have a bug when using the <i>-std=c++0x</i> compiler option (ie. experimental support for C++11);
-to work around this bug, preface Armadillo's imag() and real() with the <i>arma</i> namespace qualification, eg. arma::imag(C)
-</li>
-<br>
-<li>See also:
-<ul>
-<li><a href="#set_imag">set_imag()&nbsp;/&nbsp;set_real()</a></li>
-</ul>
-</li>
-<br>
-</ul>
-<hr class="greyline"><br>
-
 <a name="join"></a>
 <b>join_rows(mat A, mat B)</b>
 <br><b>join_cols(mat A, mat B)</b>
+<br>
+<br><b>join_horiz(mat A, mat B)</b>
+<br><b>join_vert(mat A, mat B)</b>
+<br>
 <br><b>join_slices(cube A, cube B)</b>
 <ul>
 <li>
-join_rows():
-for two matrices A and B, append each row of B to its respective row of A;
+<i>join_rows()</i> and <i>join_horiz()</i>: horizontal concatenation;
+for two matrices A and B, join each row of A with the corresponding row of B;
 matrices A and B must have the same number of rows
 </li>
 <br>
 <li>
-join_cols():
-for two matrices A and B, append each column of B to its respective column of A;
+<i>join_cols()</i> and <i>join_vert()</i>: vertical concatenation;
+for two matrices A and B, join each column of A with the corresponding column of B;
 matrices A and B must have the same number of columns
 </li>
 <br>
 <li>
-join_slices():
-for two cubes A and B, append the slices of B to the slices of A;
+<i>join_slices()</i>:
+for two cubes A and B, join the slices of A with the slices of B;
 cubes A and B have the same number of rows and columns (ie. all slices must have the same size)
+</li>
+<br>
+<li>
+The <i>join_horiz()</i> and <i>join_vert()</i> forms were added in version 3.920
 </li>
 <br>
 <li>
@@ -8398,6 +8526,54 @@ cx_vec Y = fft(X, 128);
 <li>
 See also:
 <ul>
+<li><a href="#fft2">fft2()</a></li>
+<li><a href="#conv">conv()</a></li>
+<li><a href="#imag_real">real()</a></li>
+<li><a href="http://mathworld.wolfram.com/FastFourierTransform.html">fast Fourier transform in MathWorld</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Fast_Fourier_transform">fast Fourier transform in Wikipedia</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="fft2"></a>
+<b>cx_mat Y = &nbsp;fft2(X)</b><br>
+<b>cx_mat Y = &nbsp;fft2(X, n_rows, n_cols)</b><br>
+<br>
+<b>cx_mat Z = ifft2(cx_mat Y)</b><br>
+<b>cx_mat Z = ifft2(cx_mat Y, n_rows, n_cols)</b><br>
+<ul>
+<li>fft2(): 2D fast Fourier transform of a matrix (real or complex)</li>
+<br>
+<li>ifft2(): 2D inverse fast Fourier transform of a matrix (complex only)</li>
+<br>
+<li>
+The optional arguments <i>n_rows</i> and <i>n_cols</i> specify the size of the transform;
+a truncated and/or zero-padded version of the input matrix is used
+</li>
+<br>
+<li><b>Caveat:</b> the transform is fastest when both <i>n_rows</i> and <i>n_cols</i> are a power of 2, eg. 64, 128, 256, 512, 1024, ...</li>
+<br>
+<li>The implementation of the transform in this version is preliminary; it is not yet fully optimised</li>
+<br>
+<li>This function was added in version 3.920</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+   mat A = randu&lt;mat&gt;(100,100);
+cx_mat B = fft2(A);
+cx_mat C = fft2(A, 128, 128);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#fft">fft()</a></li>
 <li><a href="#conv">conv()</a></li>
 <li><a href="#imag_real">real()</a></li>
 <li><a href="http://mathworld.wolfram.com/FastFourierTransform.html">fast Fourier transform in MathWorld</a></li>
@@ -9059,8 +9235,7 @@ cout &lt;&lt; is_finite( datum::inf  ) &lt;&lt; endl;
 <li>
 See also:
 <ul>
-<li><a href="#constants">datum::nan</a></li>
-<li><a href="#constants">datum::inf</a></li>
+<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
 <li><a href="#is_finite">.is_finite()</a> (member function of <i>Mat</i> and <i>Cube</i>)</li>
 </ul>
 </li>
@@ -9138,7 +9313,7 @@ See also:
 
 
 <a name="constants"></a>
-<b>various constants (pi, inf, speed of light, ...)</b>
+<b>pre-defined constants (pi, inf, speed of light, ...)</b>
 <br>
 <ul>
 <li>
@@ -9634,6 +9809,7 @@ cout &lt;&lt; datum::log_max &lt;&lt; endl;
 See also:
 <ul>
 <li><a href="#is_finite_standalone">is_finite()</a></li>
+<li><a href="#fill">.fill()</a></li>
 <li><a href="http://en.wikipedia.org/wiki/NaN">NaN</a> in Wikipedia</li>
 <li><a href="http://en.wikipedia.org/wiki/Physical_constant">physical constant</a> in Wikipedia</li>
 <li><a href="http://cplusplus.com/reference/std/limits/numeric_limits/">std::numeric_limits</a></li>
@@ -10877,7 +11053,7 @@ ARMA_BLAS_LONG_LONG
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-Use "long long" instead of "int" when calling BLAS and LAPACK functions
+Use "long&nbsp;long" instead of "int" when calling BLAS and LAPACK functions
     </td>
   </tr>
   <tr>
@@ -10963,7 +11139,7 @@ ARMA_64BIT_WORD
     </td>
     <td style="vertical-align: top;">
 Use 64 bit integers. Useful if you require matrices/vectors capable of holding more than 4 billion elements.
-Your machine and compiler must have support for 64 bit integers (eg. via "long" or "long long").
+Your machine and compiler must have support for 64 bit integers (eg. via "long" or "long&nbsp;long").
 This can also be enabled by adding <i>#define&nbsp;ARMA_64BIT_WORD</i> before each instance of <i>#include&nbsp;&lt;armadillo&gt;</i>.
     </td>
   </tr>
@@ -10993,7 +11169,8 @@ ARMA_USE_CXX11
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-Use C++11 features, such as <a href="#element_initialisation">initialiser lists</a>
+Use C++11 features, such as <a href="#element_initialisation">initialiser lists</a>.
+Since version 3.6, this is automatically enabled when using a compiler in C++11 mode, eg. g++&nbsp;-std=c++11
     </td>
   </tr>
   <tr>
@@ -11353,6 +11530,20 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="added_in_3920"></a>
+<li>Added in 3.920:
+<ul>
+<li>faster <a href="#zeros_member">.zeros()</a></li>
+<li>faster <a href="#misc_fns">round()</a>, <a href="#misc_fns">exp2()</a> and <a href="#misc_fns">log2()</a> when using C++11</li>
+<li>signum function: <a href="#misc_fns">sign()</a></li>
+<li>move constructors when using C++11</li>
+<li>2D fast Fourier transform: <a href="#fft2">fft2()</a></li>
+<li><a href="#subcube">.tube()</a> for easier extraction of vectors and subcubes from cubes</li>
+<li>specification of a fill type during construction of <a href="#Mat">Mat</a>, <a href="#Col">Col</a>, <a href="#Row">Row</a> and <a href="#Cube">Cube</a> classes,
+eg. <i>mat&nbsp;X(4,&nbsp;5,&nbsp;fill::zeros)</i></li>
+</ul>
+</li>
+<br>
 <a name="added_in_3910"></a>
 <li>Added in 3.910:
 <ul>

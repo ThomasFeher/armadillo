@@ -117,8 +117,4 @@ ifft(const T1& A, const uword N)
 
 
 
-// TODO: 2D FFT & 2D IFFT
-
-
-
 //! @}

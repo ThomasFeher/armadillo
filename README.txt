@@ -152,6 +152,10 @@ section 3.2, or the following CMake based automatic installation.
   If you need to re-run cmake, it's a good idea to first delete the
   "CMakeCache.txt" file (not "CMakeLists.txt").
   
+  Caveat: out-of-tree builds are currently not supported; for example,
+  creating a sub-directory called "build" and running cmake .. from 
+  within "build" is currently not supported.
+  
 * Step 4:
   If you have access to root/administrator/superuser privileges,
   first enable the privileges (eg. through "su" or "sudo")
