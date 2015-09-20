@@ -74,7 +74,7 @@ class podarray
   
   protected:
   
-  inline void init_cold(const uword new_n_elemZ);
+  inline void init_cold(const uword new_n_elem);
   inline void init_warm(const uword new_n_elem);
   
   };

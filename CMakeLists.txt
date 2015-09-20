@@ -16,7 +16,7 @@ cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
 set(ARMA_MAJOR 3)
 set(ARMA_MINOR 2)
-set(ARMA_PATCH 0)
+set(ARMA_PATCH 1)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 
@@ -280,7 +280,11 @@ set_target_properties(armadillo PROPERTIES VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.$
 # library in either /usr/lib or /usr/lib64
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  message(STATUS "*** CMAKE_INSTALL_PREFIX was initalised by cmake to the default value of ${CMAKE_INSTALL_PREFIX}")
+  message(STATUS "*** CMAKE_INSTALL_PREFIX changed to /usr")
+  unset(CMAKE_INSTALL_PREFIX)
   set(CMAKE_INSTALL_PREFIX "/usr")
+  #set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "install prefix" FORCE)
 endif()
 
 # Allow for the "lib" directory to be specified on the command line
@@ -288,11 +292,15 @@ if(NOT INSTALL_LIB_DIR)
   set(INSTALL_LIB_DIR "lib")
   if(UNIX AND NOT APPLE)   # I don't know how Mac OS handles 64 bit systems
     if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-      message(STATUS "Detected 64 bit system")
-        if(IS_DIRECTORY "${CMAKE_INSTALL_PREFIX}/lib64")
-          unset(INSTALL_LIB_DIR)
-          set(INSTALL_LIB_DIR "lib64")
-        endif()
+      message(STATUS "*** Detected 64 bit system")
+      # use "lib64" only on systems that have it (eg. Fedora, Red Hat).
+      # if installing in /usr/local/, the use of lib64 might be unreliable on systems which have /usr/local/lib64 but don't use it
+      if(IS_DIRECTORY "${CMAKE_INSTALL_PREFIX}/lib64")
+        unset(INSTALL_LIB_DIR)
+        set(INSTALL_LIB_DIR "lib64")
+        message(STATUS "*** ${CMAKE_INSTALL_PREFIX}/lib64/ exists, so destination directory for the run-time library changed to ${CMAKE_INSTALL_PREFIX}/lib64/")
+        message(STATUS "*** Your system and/or compiler must search ${CMAKE_INSTALL_PREFIX}/lib64/ during linking")
+      endif()
     endif()
   endif()
 endif()

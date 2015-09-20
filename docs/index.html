@@ -61,7 +61,7 @@ If you find any bugs or regressions, please <a href="http://arma.sourceforge.net
 </li>
 <br>
 <li>
-Notes on <a href="#api_changes">API additions</a>
+Notes on <a href="#api_additions">API additions</a>
 </li>
 </ul>
 </td>
@@ -259,7 +259,8 @@ Technical Report, NICTA, 2010.
 <a href="#syntax">Matlab/Armadillo syntax differences</a>&nbsp;&middot;
 <a href="#example_prog">example program</a>&nbsp;&middot;
 <!--<a href="#catching_exceptions">catching exceptions</a>&nbsp;&middot;-->
-<a href="#api_changes">API changes</a>
+<a href="#config_hpp">config.hpp</a>&nbsp;&middot;
+<a href="#api_additions">API additions</a>
 </ul>
 <br>
 
@@ -540,6 +541,7 @@ See also:
 <li><a href="#Col">Col class</a></li>
 <li><a href="#Row">Row class</a></li>
 <li><a href="#Cube">Cube class</a></li>
+<li><a href="#config_hpp">config.hpp</a></li>
 </ul>
 </li>
 <br>
@@ -1569,7 +1571,7 @@ For <i>vec</i> and <i>rowvec</i>, access the <i>n</i>-th element.
 For <i>mat</i>, <i>cube</i> and <i>field</i>, access the <i>n</i>-th element/object under the assumption of a flat layout,
 with column-major ordering of data (ie. column by column).
 A <i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
-The bounds check can be optionally disabled at compile-time (see below).
+The bounds check can be optionally disabled at compile-time (see below) to get more speed.
                           </td>
                         </tr>
 <tr>
@@ -1602,7 +1604,7 @@ Not recommended for use unless your code has been thoroughly debugged.
                           <td style="vertical-align: top;">
 For <i>mat</i> and <i>field</i> classes, access the element/object stored at the <i>i</i>-th row and <i>j</i>-th column.
 A <i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
-The bounds check can be optionally disabled at compile-time (see below).
+The bounds check can be optionally disabled at compile-time (see below) to get more speed.
                           </td>
                         </tr>
 <tr>
@@ -1637,7 +1639,7 @@ Not recommended for use unless your code has been thoroughly debugged.
                           <td style="vertical-align: top;">
 Cube only: access the element stored at the <i>i</i>-th row, <i>j</i>-th column and <i>k</i>-th slice.
 A <i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
-The bounds check can be optionally disabled at compile-time (see below).
+The bounds check can be optionally disabled at compile-time (see below) to get more speed.
                           </td>
                         </tr>
 <tr>
@@ -1662,7 +1664,7 @@ Not recommended for use unless your code has been thoroughly debugged.</td>
 <br>
 <li>
 The bounds checks used by the <i>(n)</i>, <i>(i,j)</i> and <i>(i,j,k)</i> access forms
-can be disabled by defining <i>ARMA_NO_DEBUG</i> or <i>NDEBUG</i> macros 
+can be disabled by defining <a href="#config_hpp_arma_no_debug"><i>ARMA_NO_DEBUG</i></a> or <i>NDEBUG</i> macros 
 before including the <i>armadillo</i> header file (eg. <i>#define ARMA_NO_DEBUG</i>).
 Disabling the bounds checks is not recommended until your code has been thoroughly debugged
 -- it's better to write correct code first, and then maximise its speed.
@@ -1713,7 +1715,7 @@ but code using &lt;&lt; is generally more readable as well as being easier to wr
 <br>
 <li>
 If you have a C++11 compiler, instances of <i>Mat</i>, <i>Col</i> and <i>Row</i> classes can be also initialised via initialiser lists;
-this requires support for the C++11 standard to be <a href="#added_in_24">explicitly enabled</a>
+this requires support for the C++11 standard to be <a href="#config_hpp_arma_use_cxx11">explicitly enabled</a>
 </li>
 <br>
 <li>
@@ -7318,7 +7320,7 @@ a "divide and conquer" algorithm can be used instead by explicitly setting <i>me
 </li>
 <br>
 <li>
-The "divide and conquer" algorithm provides slightly different results, but is notably faster for matrices of size 30x30 or greater
+The "divide and conquer" algorithm provides slightly different results, but is notably faster for large matrices
 </li>
 <br>
 <li>If the decomposition fails, the output objects are reset and:
@@ -8636,7 +8638,7 @@ log_a, log_b and log_c must have the same type
 </li>
 <br>
 <li>
-<i>ARMA_64BIT_WORD</i> can be enabled via editing <i>include/armadillo_bits/config.hpp</i>
+<a href="#config_hpp_arma_64bit_word"><i>ARMA_64BIT_WORD</i></a> can be enabled via editing <i>include/armadillo_bits/config.hpp</i>
 </li>
 <br>
 <li>See also:
@@ -9664,6 +9666,508 @@ As Armadillo is a template library, we strongly recommended to have optimisation
 <br>
 
 
+
+<a name="config_hpp"></a>
+<hr class="greyline">
+<br>
+<b>config.hpp</b>
+<br>
+<br>
+<ul>
+<li>
+Armadillo can be configured via editing the file <i>include/armadillo_bits/config.hpp</i>.
+Specific functionality can be enabled or disabled by uncommenting or commenting out a particular <i>#define</i>, listed below.
+<br>
+<br>
+<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+  <tr>
+    <td style="vertical-align: top;">
+ARMA_USE_LAPACK
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Enable the use of LAPACK, or a high-speed replacement for LAPACK (eg. Intel MKL, AMD ACML or the Accelerate framework).
+Armadillo requires LAPACK for functions such as <a href="#svd">svd()</a>, <a href="#inv">inv()</a>, <a href="#eig_sym">eig_sym()</a>, <a href="#solve">solve()</a>, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+ARMA_USE_BLAS
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Enable the use of BLAS, or a high-speed replacement for BLAS (eg. OpenBLAS, Intel MKL, AMD ACML or the Accelerate framework).
+BLAS is used for <a href="#operators">matrix multiplication</a>.
+Without BLAS, Armadillo will use a built-in matrix multiplication routine, which might be slower for large matrices.
+<!--However, if you're using  64 bit operating system with 32 bit BLAS, it's better to disable the use of BLAS.-->
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+ARMA_BLAS_CAPITALS
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Use capitalised (uppercase) BLAS and LAPACK function names (eg. DGEMM vs dgemm)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+ARMA_BLAS_UNDERSCORE
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Append an underscore to BLAS and LAPACK function names (eg. dgemm_ vs dgemm). Enabled by default.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+ARMA_BLAS_LONG
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Use "long" instead of "int" when calling BLAS and LAPACK functions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+ARMA_BLAS_LONG_LONG
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Use "long long" instead of "int" when calling BLAS and LAPACK functions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+ARMA_USE_TBB_ALLOC
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Use Intel TBB <i>scalable_malloc()</i> and <i>scalable_free()</i> instead of standard <i>new[]</i> and <i>delete[]</i> for managing matrix memory
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+ARMA_USE_MKL_ALLOC
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Use Intel MKL <i>mkl_malloc()</i> and <i>mkl_free()</i> instead of standard <i>new[]</i> and <i>delete[]</i> for managing matrix memory
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+<a name="config_hpp_arma_64bit_word"></a>
+ARMA_64BIT_WORD
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Use 64 bit integers. Useful if you require matrices/vectors capable of holding more than 4 billion elements.
+Your machine and compiler must have support for 64 bit integers (eg. via "long" or "long long").
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+<a name="config_hpp_arma_use_cxx11"></a>
+ARMA_USE_CXX11
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Use C++11 features, such as <a href="#element_initialisation">initialiser lists</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+<a name="config_hpp_arma_no_debug"></a>
+ARMA_NO_DEBUG
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Disable all run-time checks, such as <a href="#element_access">bounds checking</a>.
+This will result in faster code, but you first need to make sure that your code runs correctly!
+We strongly recommend to have the run-time checks enabled during development,
+as this greatly aids in finding mistakes in your code, and hence speeds up development.
+We recommend that run-time checks be disabled <b>only</b> for the shipped version of your program.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+ARMA_EXTRA_DEBUG
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Print out the trace of internal functions used for evaluating expressions.
+Not recommended for normal use.
+This is mainly useful for debugging the library.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+ARMA_MAT_PREALLOC
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+The number of preallocated elements used by matrices and vectors.
+Must be always enabled and set to an integer that is at least&nbsp;1.
+By default set to 16.
+If you mainly use lots of very small vectors (eg. &leq; 4 elements), change the number to the size of your vectors.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+ARMA_DEFAULT_OSTREAM
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+The default stream used for printing <a href="#logging">error messages</a> and by <a href="#print">.print()</a>.
+Must be always enabled.
+By default this is set to <i>std::cout</i>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+ARMA_DONT_USE_LAPACK
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Disable use of LAPACK. Overrides <i>ARMA_USE_LAPACK</i>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+ARMA_DONT_USE_BLAS
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Disable use of BLAS. Overrides <i>ARMA_USE_BLAS</i>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+</tbody>
+</table>
+</li>
+
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#logging">logging of warnings and errors</a></li>
+<li><a href="#element_access">element access</a></li>
+<li><a href="#element_initialisation">element initialisation</a></li>
+<li><a href="#uword">uword/sword</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<br>
+
+
+
 <!--
 <a name="catching_exceptions"></a>
 <hr class="greyline">
@@ -9718,6 +10222,7 @@ See also:
 <br>
 -->
 
+<a name="api_additions"></a>
 <a name="api_changes"></a>
 <hr class="greyline">
 <br>
