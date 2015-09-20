@@ -192,9 +192,9 @@ section 2.1, or the following CMake based automatic installation.
 There is currently no automatic installation for Windows.
 Please use the manual installation process described in section 2.1.
 
-Pre-compiled BLAS and LAPACK libraries for Windows are provided
-in the "examples/libs_win32" folder. If the provided libraries
-don't work for you, see section 3.2.
+Pre-compiled 32 bit versions of BLAS and LAPACK libraries
+for Windows are provided in the "examples/libs_win32" folder.
+If the provided libraries don't work for you, see section 3.2.
 
 
 
@@ -240,6 +240,7 @@ for example:
 (you may also need to specify the library directory via the -L switch)
 
 Notes:
+
   * under most Linux systems, using "-llapack -lblas" should be enough;
     however, on Ubuntu and Debian you may need to add "-lgfortran"
     
@@ -254,19 +255,22 @@ Notes:
 
 As a courtesy, we've provided pre-compiled 32 bit versions of
 LAPACK and BLAS for Windows, as well as MSVC project files to
-compile example1.cpp and example2.cpp. The project files are
-stored in the following folders:
+compile example1.cpp and example2.cpp.
+The project files are stored in the following folders:
   examples/example1_win32
   examples/example2_win32
 
 The LAPACK and BLAS libraries are stored in:
   examples/lib_win32
 
+Note that on 64 bit systems (such as Windows 7), dedicated
+64 bit versions of BLAS and LAPACK are considerably faster.
+
 If you're not using MSVC, you will need to manually modify 
 "include/armadillo_bits/config.hpp" to enable the use of
 LAPACK and BLAS. Please see section 2.1 for more information.
 
-The MSCV project files were tested on Windows XP (32 bit) with
+The MSCV project files were tested on 32 bit Windows XP with
 Visual C++ 2008 (Express Edition). You may need to make adaptations
 for 64 bit systems, later versions of Windows and/or the compiler.
 For example, you may have to enable or disable the ARMA_BLAS_LONG
@@ -274,6 +278,9 @@ and ARMA_BLAS_UNDERSCORE macros in "armadillo_bits/config.hpp".
 
 To preserve our sanity, we (Armadillo developers) don't use Windows
 on a regular basis, and as such can't help you with the adaptations.
+If you are serious about doing experimentation and/or prototyping
+involving linear algebra, you shouldn't be using lower-grade operating
+systems such as Windows anyway.
 
 The pre-compiled versions of LAPACK and BLAS were downloaded from:
   http://www.fi.muni.cz/~xsvobod2/misc/lapack/
@@ -295,13 +302,13 @@ the original sources at:
 If you encounter issues with the MS Visual C++ compiler,
 the following high-quality compilers are useful alternatives:
 
-  - Intel's C++ compiler
+  * Intel's C++ compiler
     http://software.intel.com/en-us/intel-compilers/
 
-  - GCC (part MinGW)
+  * GCC (part MinGW)
     http://www.mingw.org/
 
-  - GCC (part of CygWin)
+  * GCC (part of CygWin)
     http://www.cygwin.com/
 
 If using Intel's C++ compiler, you'll need version 10.0 or better.
