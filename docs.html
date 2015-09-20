@@ -127,7 +127,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 5.400</b></font>
+        <font size=+2><b>Reference for Armadillo 5.500</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -222,13 +222,13 @@ Technical Report, NICTA, 2010.
 <ul>
 <table>
 <tbody>
-<tr><td><a href="#Mat">Mat&lt;<i>type</i>&gt;, mat and cx_mat</a></td><td>&nbsp;</td><td>dense matrix class</td></tr>
-<tr><td><a href="#Col">Col&lt;<i>type</i>&gt;, colvec and vec</a></td><td>&nbsp;</td><td>dense column vector class</td></tr>
+<tr><td><a href="#Mat">Mat&lt;<i>type</i>&gt;, mat, cx_mat</a></td><td>&nbsp;</td><td>dense matrix class</td></tr>
+<tr><td><a href="#Col">Col&lt;<i>type</i>&gt;, colvec, vec</a></td><td>&nbsp;</td><td>dense column vector class</td></tr>
 <tr><td><a href="#Row">Row&lt;<i>type</i>&gt;, rowvec</a></td><td>&nbsp;</td><td>dense row vector class</td></tr>
 <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-<tr><td><a href="#Cube">Cube&lt;<i>type</i>&gt;, cube</a></td><td>&nbsp;</td><td>dense cube class ("3D matrix")</td></tr>
+<tr><td><a href="#Cube">Cube&lt;<i>type</i>&gt;, cube, cx_cube</a></td><td>&nbsp;</td><td>dense cube class ("3D matrix")</td></tr>
 <tr><td><a href="#field">field&lt;<i>object&nbsp;type</i>&gt;</a></td><td>&nbsp;</td><td>class for storing arbitrary objects in matrix-like or cube-like layouts</td></tr>
-<tr><td><a href="#SpMat">SpMat&lt;<i>type</i>&gt;, sp_mat and sp_cx_mat</a></td><td>&nbsp;</td><td>sparse matrix class</td></tr>
+<tr><td><a href="#SpMat">SpMat&lt;<i>type</i>&gt;, sp_mat, sp_cx_mat</a></td><td>&nbsp;</td><td>sparse matrix class</td></tr>
 </tbody>
 </table>
 </ul>
@@ -346,7 +346,7 @@ Technical Report, NICTA, 2010.
 <tr style="background-color: #F5F5F5;"><td><a href="#cumsum">cumsum</a></td><td>&nbsp;</td><td>cumulative sum</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#cumprod">cumprod</a></td><td>&nbsp;</td><td>cumulative product</td></tr>
 <tr><td><a href="#det">det / log_det</a></td><td>&nbsp;</td><td>determinant</td></tr>
-<tr><td><a href="#diagmat">diagmat</a></td><td>&nbsp;</td><td>interpret matrix as diagonal</td></tr>
+<tr><td><a href="#diagmat">diagmat</a></td><td>&nbsp;</td><td>generate diagonal matrix from given matrix or vector</td></tr>
 <tr><td><a href="#diagvec">diagvec</a></td><td>&nbsp;</td><td>extract specified diagonal</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#diff">diff</a></td><td>&nbsp;</td><td>differences between adjacent elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#dot">dot/cdot/norm_dot</a></td><td>&nbsp;</td><td>dot product</td></tr>
@@ -375,18 +375,19 @@ Technical Report, NICTA, 2010.
 <tr style="background-color: #F5F5F5;"><td><a href="#reshape">reshape</a></td><td>&nbsp;</td><td>change size while keeping elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#resize">resize</a></td><td>&nbsp;</td><td>change size while keeping elements and preserving layout</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#shuffle">shuffle</a></td><td>&nbsp;</td><td>randomly shuffle elements</td></tr>
+<tr><td><a href="#size">size</a></td><td>&nbsp;</td><td>obtain dimensions of given object</td></tr>
 <tr><td><a href="#sort">sort</a></td><td>&nbsp;</td><td>sort elements</td></tr>
 <tr><td><a href="#sort_index">sort_index</a></td><td>&nbsp;</td><td>vector describing sorted order of elements</td></tr>
-<tr><td><a href="#sum">sum</a></td><td>&nbsp;</td><td>sum of elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#symmat">symmatu&nbsp;/&nbsp;symmatl</a></td><td>&nbsp;</td><td>interpret matrix as symmetric</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#sum">sum</a></td><td>&nbsp;</td><td>sum of elements</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#symmat">symmatu&nbsp;/&nbsp;symmatl</a></td><td>&nbsp;</td><td>generate symmetric matrix from given matrix</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#trace">trace</a></td><td>&nbsp;</td><td>sum of diagonal elements of square matrix</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#trans">trans</a></td><td>&nbsp;</td><td>transpose of matrix</td></tr>
-<tr><td><a href="#trimat">trimatu&nbsp;/&nbsp;trimatl</a></td><td>&nbsp;</td><td>interpret matrix as triangular</td></tr>
+<tr><td><a href="#trans">trans</a></td><td>&nbsp;</td><td>transpose of matrix</td></tr>
+<tr><td><a href="#trimat">trimatu&nbsp;/&nbsp;trimatl</a></td><td>&nbsp;</td><td>generate triangular matrix from given matrix</td></tr>
 <tr><td><a href="#unique">unique</a></td><td>&nbsp;</td><td>return unique elements</td></tr>
-<tr><td><a href="#vectorise">vectorise</a></td><td>&nbsp;</td><td>convert matrix to vector</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#vectorise">vectorise</a></td><td>&nbsp;</td><td>convert matrix to vector</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#misc_fns">misc&nbsp;functions</a></td><td>&nbsp;</td><td>miscellaneous element-wise functions:&nbsp;exp,&nbsp;log,&nbsp;pow,&nbsp;sqrt,&nbsp;round,&nbsp;sign,&nbsp;...</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#trig_fns">trig&nbsp;functions</a></td><td>&nbsp;</td><td>trigonometric element-wise functions:&nbsp;cos,&nbsp;sin,&nbsp;...</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#stats_fns">stats&nbsp;functions</a></td><td>&nbsp;</td><td>statistics functions: mean, median, standard deviation, variance</td></tr>
+<tr><td><a href="#stats_fns">stats&nbsp;functions</a></td><td>&nbsp;</td><td>statistics functions: mean, median, standard deviation, variance</td></tr>
 </tbody>
 </table>
 </ul>
@@ -578,8 +579,10 @@ Elements are stored with <a href="https://en.wikipedia.org/wiki/Column_major">co
 Constructors:
 <ul>
 <code>mat()</code>
-<br><code>mat(n_rows, n_cols)</code>
-<br><code>mat(n_rows, n_cols, fill_type)</code>
+<br><code>mat(<i>n_rows</i>, <i>n_cols</i>)</code>
+<br><code>mat(<i>n_rows</i>, <i>n_cols</i>, <i>fill_type</i>)</code>
+<br><code>mat(size(<i>X</i>))</code>
+<br><code>mat(size(<i>X</i>), <i>fill_type</i>)</code>
 <br><code>mat(mat)</code>
 <br><code>mat(sp_mat)</code>
 <br><code>mat(vec)</code>
@@ -693,7 +696,7 @@ and copying data from auxiliary memory.
 Examples:
 <ul>
 <pre>
-mat A = randu&lt;mat&gt;(5,5);
+mat A(5, 5, fill::randu);
 double x = A(1,2);
 
 mat B = A + A;
@@ -707,8 +710,6 @@ B.set_size(10,10);
 B.ones(5,6);
 
 B.print("B:");
-
-mat E(4,5, fill::zeros);
 
 mat::fixed&lt;5,6&gt; F;
 
@@ -899,13 +900,16 @@ Main exceptions are functions which require square matrices
 Constructors
 <ul>
 <code>vec()</code>
-<br><code>vec(n_elem)</code>
-<br><code>vec(n_elem, fill_type)</code>
+<br><code>vec(<i>n_elem</i>)</code>
+<br><code>vec(<i>n_elem</i>, <i>fill_type</i>)</code>
+<br><code>vec(size(<i>X</i>))</code>
+<br><code>vec(size(<i>X</i>), <i>fill_type</i>)</code>
 <br><code>vec(vec)</code>
 <br><code>vec(mat)</code> &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one column)
 <br><code>vec(string)</code> &nbsp; (elements separated by spaces)
 <br><code>vec(std::vector)</code>
 <br><code>vec(initializer_list)</code> &nbsp; (C++11 only)
+<br><code>cx_vec(vec,vec)</code> &nbsp; (for constructing a complex vector out of two real vectors)
 </ul>
 </li>
 <br>
@@ -1122,13 +1126,16 @@ Main exceptions are functions which require square matrices
 Constructors
 <ul>
 <code>rowvec()</code>
-<br><code>rowvec(n_elem)</code>
-<br><code>rowvec(n_elem, fill_type)</code>
+<br><code>rowvec(<i>n_elem</i>)</code>
+<br><code>rowvec(<i>n_elem</i>, <i>fill_type</i>)</code>
+<br><code>rowvec(size(<i>X</i>))</code>
+<br><code>rowvec(size(<i>X</i>), <i>fill_type</i>)</code>
 <br><code>rowvec(rowvec)</code>
 <br><code>rowvec(mat)</code> &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one row)
 <br><code>rowvec(string)</code> &nbsp; (elements separated by spaces)
 <br><code>rowvec(std::vector)</code>
 <br><code>rowvec(initializer_list)</code> &nbsp; (C++11 only)
+<br><code>cx_rowvec(rowvec,rowvec)</code> &nbsp; (for constructing a complex row vector out of two real row vectors)
 </ul>
 </li>
 <br>
@@ -1355,8 +1362,10 @@ Each slice can be interpreted as a matrix, hence functions which take <i>Mat</i>
 Constructors:
 <ul>
 <code>cube()</code>
-<br><code>cube(n_rows, n_cols, n_slices)</code>
-<br><code>cube(n_rows, n_cols, n_slices, fill_type)</code>
+<br><code>cube(<i>n_rows</i>, <i>n_cols</i>, <i>n_slices</i>)</code>
+<br><code>cube(<i>n_rows</i>, <i>n_cols</i>, <i>n_slices</i>, <i>fill_type</i>)</code>
+<br><code>cube(size(<i>X</i>))</code>
+<br><code>cube(size(<i>X</i>), <i>fill_type</i>)</code>
 <br><code>cube(cube)</code>
 <br><code>cx_cube(cube, cube)</code> &nbsp; (for constructing a complex cube out of two real cubes)
 </ul>
@@ -1508,9 +1517,10 @@ Each element can have an arbitrary size (eg. in a field of matrices, each matrix
 Constructors, where <i>object_type</i> is another class, eg. <i>vec</i>, <i>mat</i>, <i>std::string</i>, etc:
 <ul>
 <code>field&lt;<i>object_type</i>&gt;()</code>
-<br><code>field&lt;<i>object_type</i>&gt;(n_elem)</code>
-<br><code>field&lt;<i>object_type</i>&gt;(n_rows, n_cols)</code>
-<br><code>field&lt;<i>object_type</i>&gt;(n_rows, n_cols, n_slices)</code>
+<br><code>field&lt;<i>object_type</i>&gt;(<i>n_elem</i>)</code>
+<br><code>field&lt;<i>object_type</i>&gt;(<i>n_rows</i>, <i>n_cols</i>)</code>
+<br><code>field&lt;<i>object_type</i>&gt;(<i>n_rows</i>, <i>n_cols</i>, <i>n_slices</i>)</code>
+<br><code>field&lt;<i>object_type</i>&gt;(size(<i>X</i>))</code>
 <br><code>field&lt;<i>object_type</i>&gt;(field&lt;<i>object_type</i>&gt;)</code>
 </ul>
 </li>
@@ -1651,6 +1661,7 @@ Constructors:
 <ul>
 <code>sp_mat()</code>
 <br><code>sp_mat(<i>n_rows</i>, <i>n_cols</i>)</code>
+<br><code>sp_mat(size(<i>X</i>))</code>
 <br><code>sp_mat(sp_mat)</code>
 <br><code>sp_mat(mat)</code>
 <br><code>sp_mat(string)</code>
@@ -1868,8 +1879,10 @@ number of non-zero elements; present in <i>SpMat</i>
 </table>
 </ul>
 <ul>
+<li>The variables are of type <a href="#uword">uword</a></li>
+<br>
 <li>
-Member variables which are read-only;
+The variables are read-only;
 to change the size, use
 <a href="#set_size">.set_size()</a>,
 <a href="#copy_size">.copy_size()</a>,
@@ -1881,8 +1894,6 @@ or
 <br>
 <li>
 For the <i>Col</i> and <i>Row</i> classes, <i>n_elem</i> also indicates vector length</li>
-<br>
-<li>The variables are of type <a href="#uword">uword</a></li>
 <br>
 <li>
 Examples:
@@ -1902,6 +1913,7 @@ See also:
 <li><a href="#zeros_member">.zeros()</a></li>
 <li><a href="#ones_member">.ones()</a></li>
 <li><a href="#reset">.reset()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -2331,21 +2343,31 @@ See also:
       <td style="vertical-align: top;">(member function of <i>Cube</i>)
       </td>
     </tr>
+    <tr>
+      <td style="vertical-align: top;"><b>.zeros( size(X) )</b></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td>&nbsp;</td>
+      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>SpMat</i>)
+      </td>
+    </tr>
   </tbody>
 </table>
 <ul>
 <li>
-Set the elements of an object to zero, optionally first resizing to specified dimensions
+Set the elements of an object to zero,
+optionally first changing the size to specified dimensions
 </li>
 <br>
 <li>
 Examples:
 <ul>
 <pre>
-mat A = randu&lt;mat&gt;(5,10);
-A.zeros();      // sets all elements to zero
-A.zeros(10,20); // sets the size to 10 rows and 20 columns
-                // followed by setting all elements to zero
+mat A(5,10);  A.zeros();   // or:  mat A(5,10,fill::zeros);
+
+mat B;  B.zeros(10,20);
+
+mat C;  C.zeros( size(B) );
 </pre>
 </ul>
 </li>
@@ -2360,6 +2382,7 @@ See also:
 <li><a href="#imbue">.imbue()</a></li>
 <li><a href="#reset">.reset()</a></li>
 <li><a href="#set_size">.set_size()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -2401,21 +2424,31 @@ See also:
       <td style="vertical-align: top;">(member function of <i>Cube</i>)
       </td>
     </tr>
+    <tr>
+      <td style="vertical-align: top;"><b>.ones( size(X) )</b></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td>&nbsp;</td>
+      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>)
+      </td>
+    </tr>
   </tbody>
 </table>
 <ul>
 <li>
-Set all the elements of an object to one, optionally first resizing to specified dimensions
+Set all the elements of an object to one,
+optionally first changing the size to specified dimensions
 </li>
 <br>
 <li>
 Examples:
 <ul>
 <pre>
-mat A = randu&lt;mat&gt;(5,10);
-A.ones();      // sets all elements to one
-A.ones(10,20); // sets the size to 10 rows and 20 columns
-               // followed by setting all elements to one
+mat A(5,10);  A.ones();   // or:  mat A(5,10,fill::ones);
+
+mat B;  B.ones(10,20);
+
+mat C;  C.ones( size(B) );
 </pre>
 </ul>
 </li>
@@ -2429,6 +2462,7 @@ See also:
 <li><a href="#fill">.fill()</a></li>
 <li><a href="#imbue">.imbue()</a></li>
 <li><a href="#randu_randn_member">.randu()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -2439,6 +2473,8 @@ See also:
 <b>.eye()</b>
 <br>
 <b>.eye( n_rows, n_cols )</b>
+<br>
+<b>.eye( size(X) )</b>
 <ul>
 <li>
 Member functions of <i>Mat</i> and <i>SpMat</i>
@@ -2446,7 +2482,7 @@ Member functions of <i>Mat</i> and <i>SpMat</i>
 <br>
 <li>
 Set the elements along the main diagonal to one and off-diagonal elements to zero,
-optionally first resizing to specified dimensions
+optionally first changing the size to specified dimensions
 </li>
 <br>
 <li>
@@ -2457,11 +2493,11 @@ An identity matrix is generated when <i>n_rows</i> = <i>n_cols</i>
 Examples:
 <ul>
 <pre>
-mat A(5,5);
-A.eye();
+mat A(5,5);  A.eye();  // or:  mat A(5,5,fill::eye);
 
-mat B;
-B.eye(5,5);
+mat B;  B.eye(5,5);
+
+mat C;  C.eye( size(B) );
 </pre>
 </ul>
 </li>
@@ -2473,6 +2509,7 @@ B.eye(5,5);
 <li><a href="#diagmat">diagmat()</a></li>
 <li><a href="#diagvec">diagvec()</a></li>
 <li><a href="#eye_standalone">eye()</a> (standalone function)</li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -2514,6 +2551,14 @@ B.eye(5,5);
       <td style="vertical-align: top;">(member function of <i>Cube</i>)
       </td>
     </tr>
+    <tr>
+      <td style="vertical-align: top;"><b>.randu( size(X) )</b></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td>&nbsp;</td>
+      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>)
+      </td>
+    </tr>
   </tbody>
 </table>
 <br>
@@ -2551,11 +2596,20 @@ B.eye(5,5);
       <td style="vertical-align: top;">(member function of <i>Cube</i>)
       </td>
     </tr>
+    <tr>
+      <td style="vertical-align: top;"><b>.randn( size(X) )</b></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td>&nbsp;</td>
+      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>)
+      </td>
+    </tr>
   </tbody>
 </table>
 <ul>
 <li>
-Set all the elements to random values, optionally first resizing to specified dimensions
+Set all the elements to random values,
+optionally first changing the size to specified dimensions
 </li>
 <br>
 <li><i>.randu()</i> uses a uniform distribution in the [0,1] interval
@@ -2572,11 +2626,11 @@ To change the RNG seed, use <i>arma_rng::set_seed(value)</i> or <i>arma_rng::set
 Examples:
 <ul>
 <pre>
-mat A(4,5);
-A.randu();
+mat A(5,10);  A.randu();   // or:  mat A(5,10,fill::randu);
 
-mat B;
-B.randu(6,7);
+mat B;  B.randu(10,20);
+
+mat C;  C.randu( size(B) );
 
 arma_rng::set_seed_random();  // set the seed to a random value
 </pre>
@@ -2591,6 +2645,7 @@ See also:
 <li><a href="#imbue">.imbue()</a></li>
 <li><a href="#ones_member">.ones()</a></li>
 <li><a href="#zeros_member">.zeros()</a></li>
+<li><a href="#size">size()</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Uniform_distribution_(continuous)">uniform distribution in Wikipedia</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Normal_distribution">normal distribution in Wikipedia</a></li>
 </ul>
@@ -2769,6 +2824,14 @@ See also:
       <td style="vertical-align: top;">(member function of <i>Cube</i> and <i>field</i>)
       </td>
     </tr>
+    <tr>
+      <td style="vertical-align: top;"><b>.set_size( size(X) )</b></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td>&nbsp;</td>
+      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>SpMat</i>, <i>field</i>)
+      </td>
+    </tr>
   </tbody>
 </table>
 <ul>
@@ -2792,11 +2855,11 @@ If you need to explicitly preserve data while changing the size, use <a href="#r
 Examples:
 <ul>
 <pre>
-mat A;
-A.set_size(5,10);
+mat A;  A.set_size(5,10);       // or:  mat A(5,10);
 
-vec q;
-q.set_size(100);
+mat B;  B.set_size( size(A) );  // or:  mat B( size(A) );
+
+vec v;  v.set_size(100);        // or:  vec v(100);
 </pre>
 </ul>
 </li>
@@ -2808,6 +2871,7 @@ q.set_size(100);
 <li><a href="#reshape_member">.reshape()</a></li>
 <li><a href="#resize_member">.resize()</a></li>
 <li><a href="#zeros_member">.zeros()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -2831,6 +2895,14 @@ q.set_size(100);
       </td>
       <td>&nbsp;</td>
       <td style="vertical-align: top;">(member function of <i>Cube</i>)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><b>.reshape( size(X) )</b></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td>&nbsp;</td>
+      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>Cube</i>, <i>SpMat</i>)
       </td>
     </tr>
   </tbody>
@@ -2894,6 +2966,7 @@ A.reshape(5,4);
 <li><a href="#reset">.reset()</a></li>
 <li><a href="#reshape">reshape()</a> (standalone function)</li>
 <li><a href="#vectorise">vectorise()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -2925,6 +2998,14 @@ A.reshape(5,4);
       </td>
       <td>&nbsp;</td>
       <td style="vertical-align: top;">(member function of <i>Cube</i>)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><b>.resize( size(X) )</b></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td>&nbsp;</td>
+      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>SpMat</i>)
       </td>
     </tr>
   </tbody>
@@ -2965,6 +3046,7 @@ A.resize(7,6);
 <li><a href="#shed">.shed_rows/cols/slices</a></li>
 <li><a href="#resize">resize()</a> (standalone function)</li>
 <li><a href="#vectorise">vectorise()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -3006,6 +3088,7 @@ See also:
 <li><a href="#resize_member">.resize()</a></li>
 <li><a href="#zeros_member">.zeros()</a></li>
 <li><a href="#repmat">repmat()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -3182,9 +3265,9 @@ The aggregate set of the specified elements is treated as a column vector
 <br>
 <li>
 The function <i>.unsafe_col()</i> is provided for speed reasons and should be used only if you know what you're doing.
-The function creates a seemingly independent <i>Col</i> vector object (eg. <i>vec</i>),
+It creates a seemingly independent <i>Col</i> vector object (eg.&nbsp;<i>vec</i>),
 but uses memory from the existing matrix object.
-As such, the created <i>Col</i> vector is currently not alias safe
+As such, the created <i>Col</i> vector is not alias safe
 and does not take into account that the parent matrix object could be deleted.
 If deleted memory is accessed through the created <i>Col</i> vector,
 it will cause memory corruption and/or a crash.
@@ -3242,6 +3325,7 @@ See also:
 <li><a href="#join">join_rows/columns/slices</a></li>
 <li><a href="#shed">shed_rows/columns/slices</a></li>
 <li><a href="#insert">.insert_rows/cols/slices</a></li>
+<li><a href="#size">size()</a></li>
 <li><a href="#subcube">subcube views</a></li>
 </ul>
 </li>
@@ -3348,6 +3432,7 @@ See also:
 <li><a href="#join">join_slices()</a></li>
 <li><a href="#shed">shed_slices()</a></li>
 <li><a href="#insert">insert_slices()</a></li>
+<li><a href="#size">size()</a></li>
 <li><a href="#submat">submatrix views</a></li>
 </ul>
 </li>
@@ -3405,6 +3490,7 @@ Instances of <i>span(a,b)</i> can be replaced by:
 See also:
 <ul>
 <li><a href="#in_range">.in_range()</a></li>
+<li><a href="#size">size()</a></li>
 <li><a href="#submat">submatrix views</a></li>
 <li><a href="#subcube">subcube views</a></li>
 </ul>
@@ -3835,15 +3921,11 @@ Member function of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>Cube</i>
 </li>
 <br>
 <li>
-Obtain a raw pointer to the memory used for storing elements. Not recommended for use unless you know what you're doing!
+Obtain a raw pointer to the memory used for storing elements
 </li>
 <br>
 <li>
 The function can be used for interfacing with libraries such as <a href="http://www.fftw.org/">FFTW</a>
-</li>
-<br>
-<li>
-As soon as the size of the matrix/vector/cube is changed, the pointer is no longer valid
 </li>
 <br>
 <li>
@@ -3852,6 +3934,14 @@ Data for matrices is stored in a column-by-column order
 <br>
 <li>
 Data for cubes is stored in a slice-by-slice (matrix-by-matrix) order
+</li>
+<br>
+<li>
+<b>Caveat:</b> the pointer becomes invalid after any operation involving a size change or aliasing
+</li>
+<br>
+<li>
+<b>Caveat:</b> this function is not recommended for use unless you know what you're doing!
 </li>
 <br>
 <li>
@@ -3894,10 +3984,11 @@ Obtain a raw pointer to the memory used by the specified column
 </li>
 <br>
 <li>
-As soon as the size of the matrix is changed, the pointer is no longer valid
+<b>Caveat:</b> the pointer becomes invalid after any operation involving a size change or aliasing
 </li>
 <br>
-<li>This function is not recommended for use unless you know what you're doing
+<li>
+<b>Caveat:</b> this function is not recommended for use unless you know what you're doing
 -- you may wish to use <a href="#submat">submatrix views</a> instead
 </li>
 <br>
@@ -5724,6 +5815,8 @@ as each matrix element is copied and converted to an 8 bit representation
 
 <a name="eye_standalone"></a>
 <b>eye( n_rows, n_cols )</b>
+<br>
+<b>eye( size(X) )</b>
 <ul>
 <li>
 Generate a matrix with the elements along the main diagonal set to one
@@ -5737,9 +5830,8 @@ An identity matrix is generated when <i>n_rows</i> = <i>n_cols</i>
 <li>
 Usage:
 <ul>
-<li>
-<i>matrix_type</i> X = eye&lt;<i>matrix_type</i>&gt;(n_rows, n_cols)
-</li>
+<li><i>matrix_type</i> X = eye&lt;<i>matrix_type</i>&gt;( n_rows, n_cols )</li>
+<li><i>matrix_type</i> Y = eye&lt;<i>matrix_type</i>&gt;( size(X) )</li>
 </ul>
 </li>
 <br>
@@ -5747,8 +5839,11 @@ Usage:
 Examples:
 <ul>
 <pre>
-mat A = eye&lt;mat&gt;(5,5);
+mat A = eye&lt;mat&gt;(5,5);  // or:  mat A(5,5,fill::eye);
+
 mat B = 123.0 * eye&lt;mat&gt;(5,5);
+
+mat C = eye&lt;mat&gt;( size(B) );
 </pre>
 </ul>
 </li>
@@ -5761,6 +5856,7 @@ mat B = 123.0 * eye&lt;mat&gt;(5,5);
 <li><a href="#diagmat">diagmat()</a></li>
 <li><a href="#diagvec">diagvec()</a></li>
 <li><a href="#speye">speye()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -5818,6 +5914,7 @@ See also:
 ones( n_elem )
 <br>ones( n_rows, n_cols )
 <br>ones( n_rows, n_cols, n_slices )
+<br>ones( size(X) )
 </b>
 <ul>
 <li>
@@ -5827,9 +5924,11 @@ Generate a vector, matrix or cube with all elements set to one
 <li>
 Usage:
 <ul>
-<li><i>vector_type</i> v = ones&lt;<i>vector_type</i>&gt;(n_elem)</li>
-<li><i>matrix_type</i> X = ones&lt;<i>matrix_type</i>&gt;(n_rows, n_cols)</li>
-<li><i>cube_type</i> Q = ones&lt;<i>cube_type</i>&gt;(n_rows, n_cols, n_slices)</li>
+<li><i>vector_type</i> v = ones&lt;<i>vector_type</i>&gt;( n_elem )</li>
+<li><i>matrix_type</i> X = ones&lt;<i>matrix_type</i>&gt;( n_rows, n_cols )</li>
+<li><i>matrix_type</i> Y = ones&lt;<i>matrix_type</i>&gt;( size(X) )</li>
+<li><i>cube_type</i> Q = ones&lt;<i>cube_type</i>&gt;( n_rows, n_cols, n_slices )</li>
+<li><i>cube_type</i> R = ones&lt;<i>cube_type</i>&gt;( size(Q) )</li>
 </ul>
 </li>
 <br>
@@ -5856,6 +5955,7 @@ See also:
 <li><a href="#zeros_standalone">zeros()</a></li>
 <li><a href="#randu_randn_standalone">randu() &amp; randn()</a></li>
 <li><a href="#spones">spones()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -5871,6 +5971,9 @@ See also:
 <br>
 <br><b>randi( n_rows, n_cols, n_slices )</b>
 <br><b>randi( n_rows, n_cols, n_slices, distr_param(a,b) )</b>
+<br>
+<br><b>randi( size(X) )</b>
+<br><b>randi( size(X), distr_param(a,b) )</b>
 <ul>
 <li>
 Generate a vector, matrix or cube with the elements set to random <b>integer</b> values in the [a,b] interval
@@ -5882,14 +5985,18 @@ Generate a vector, matrix or cube with the elements set to random <b>integer</b>
 <li>
 Usage:
 <ul>
-<li><i>vector_type</i> v = randi&lt;<i>vector_type</i>&gt;(n_elem)</li>
-<li><i>vector_type</i> v = randi&lt;<i>vector_type</i>&gt;(n_elem, distr_param(a,b))</li>
+<li><i>vector_type</i> v = randi&lt;<i>vector_type</i>&gt;( n_elem)</li>
+<li><i>vector_type</i> v = randi&lt;<i>vector_type</i>&gt;( n_elem, distr_param(a,b) )</li>
 <br>
-<li><i>matrix_type</i> X = randi&lt;<i>matrix_type</i>&gt;(n_rows, n_cols)</li>
-<li><i>matrix_type</i> X = randi&lt;<i>matrix_type</i>&gt;(n_rows, n_cols, distr_param(a,b))</li>
+<li><i>matrix_type</i> X = randi&lt;<i>matrix_type</i>&gt;( n_rows, n_cols )</li>
+<li><i>matrix_type</i> X = randi&lt;<i>matrix_type</i>&gt;( n_rows, n_cols, distr_param(a,b) )</li>
+<li><i>matrix_type</i> Y = randi&lt;<i>matrix_type</i>&gt;( size(X) )</li>
+<li><i>matrix_type</i> Y = randi&lt;<i>matrix_type</i>&gt;( size(X), distr_param(a,b) )</li>
 <br>
-<li><i>cube_type</i> Q = randi&lt;<i>cube_type</i>&gt;(n_rows, n_cols, n_slices)</li>
-<li><i>cube_type</i> Q = randi&lt;<i>cube_type</i>&gt;(n_rows, n_cols, n_slices, distr_param(a,b))</li>
+<li><i>cube_type</i> Q = randi&lt;<i>cube_type</i>&gt;( n_rows, n_cols, n_slices )</li>
+<li><i>cube_type</i> Q = randi&lt;<i>cube_type</i>&gt;( n_rows, n_cols, n_slices, distr_param(a,b) )</li>
+<li><i>cube_type</i> R = randi&lt;<i>cube_type</i>&gt;( size(Q) )</li>
+<li><i>cube_type</i> R = randi&lt;<i>cube_type</i>&gt;( size(Q), distr_param(a,b) )</li>
 </ul>
 </li>
 <br>
@@ -5921,6 +6028,7 @@ arma_rng::set_seed_random();  // set the seed to a random value
 <li><a href="#ones_standalone">ones()</a></li>
 <li><a href="#zeros_standalone">zeros()</a></li>
 <li><a href="#shuffle">shuffle()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -5931,10 +6039,12 @@ arma_rng::set_seed_random();  // set the seed to a random value
 <b>randu( n_elem )</b> 
 <br><b>randu( n_rows, n_cols )</b>
 <br><b>randu( n_rows, n_cols, n_slices )</b>
+<br><b>randu( size(X) )</b>
 <br>
 <br><b>randn( n_elem )</b>
 <br><b>randn( n_rows, n_cols )</b>
 <br><b>randn( n_rows, n_cols, n_slices )</b>
+<br><b>randn( size(X) )</b>
 <ul>
 <li>
 Generate a vector, matrix or cube with the elements set to random <b>floating point</b> values
@@ -5949,9 +6059,11 @@ Generate a vector, matrix or cube with the elements set to random <b>floating po
 <li>
 Usage:
 <ul>
-<li><i>vector_type</i> v = randu&lt;<i>vector_type</i>&gt;(n_elem)</li>
-<li><i>matrix_type</i> X = randu&lt;<i>matrix_type</i>&gt;(n_rows, n_cols)</li>
-<li><i>cube_type</i> Q = randu&lt;<i>cube_type</i>&gt;(n_rows, n_cols, n_slices)</li>
+<li><i>vector_type</i> v = randu&lt;<i>vector_type</i>&gt;( n_elem )</li>
+<li><i>matrix_type</i> X = randu&lt;<i>matrix_type</i>&gt;( n_rows, n_cols )</li>
+<li><i>matrix_type</i> Y = randu&lt;<i>matrix_type</i>&gt;( size(X) )</li>
+<li><i>cube_type</i> Q = randu&lt;<i>cube_type</i>&gt;( n_rows, n_cols, n_slices )</li>
+<li><i>cube_type</i> R = randu&lt;<i>cube_type</i>&gt;( size(Q) )</li>
 </ul>
 </li>
 <br>
@@ -5986,6 +6098,7 @@ arma_rng::set_seed_random();  // set the seed to a random value
 <li><a href="#zeros_standalone">zeros()</a></li>
 <li><a href="#shuffle">shuffle()</a></li>
 <li><a href="#sprandu_sprandn">sprandu() &amp; sprandn()</a></li>
+<li><a href="#size">size()</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Uniform_distribution_(continuous)">uniform distribution in Wikipedia</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Normal_distribution">normal distribution in Wikipedia</a></li>
 </ul>
@@ -6003,6 +6116,9 @@ arma_rng::set_seed_random();  // set the seed to a random value
 <br>
 <br><b>randg( n_rows, n_cols, n_slices )</b>
 <br><b>randg( n_rows, n_cols, n_slices, distr_param(a,b) )</b>
+<br>
+<br><b>randg( size(X) )</b>
+<br><b>randg( size(X), distr_param(a,b) )</b>
 <ul>
 <li>
 Generate a vector, matrix or cube with the elements set to random values from a gamma distribution:
@@ -6029,14 +6145,18 @@ Generate a vector, matrix or cube with the elements set to random values from a 
 <li>
 Usage:
 <ul>
-<li><i>vector_type</i> v = randg&lt;<i>vector_type</i>&gt;(n_elem)</li>
-<li><i>vector_type</i> v = randg&lt;<i>vector_type</i>&gt;(n_elem, distr_param(a,b))</li>
+<li><i>vector_type</i> v = randg&lt;<i>vector_type</i>&gt;( n_elem)</li>
+<li><i>vector_type</i> v = randg&lt;<i>vector_type</i>&gt;( n_elem, distr_param(a,b) )</li>
 <br>
-<li><i>matrix_type</i> X = randg&lt;<i>matrix_type</i>&gt;(n_rows, n_cols)</li>
-<li><i>matrix_type</i> X = randg&lt;<i>matrix_type</i>&gt;(n_rows, n_cols, distr_param(a,b))</li>
+<li><i>matrix_type</i> X = randg&lt;<i>matrix_type</i>&gt;( n_rows, n_cols )</li>
+<li><i>matrix_type</i> X = randg&lt;<i>matrix_type</i>&gt;( n_rows, n_cols, distr_param(a,b) )</li>
+<li><i>matrix_type</i> Y = randg&lt;<i>matrix_type</i>&gt;( size(X) )</li>
+<li><i>matrix_type</i> Y = randg&lt;<i>matrix_type</i>&gt;( size(X), distr_param(a,b) )</li>
 <br>
-<li><i>cube_type</i> Q = randg&lt;<i>cube_type</i>&gt;(n_rows, n_cols, n_slices)</li>
-<li><i>cube_type</i> Q = randg&lt;<i>cube_type</i>&gt;(n_rows, n_cols, n_slices, distr_param(a,b))</li>
+<li><i>cube_type</i> Q = randg&lt;<i>cube_type</i>&gt;( n_rows, n_cols, n_slices )</li>
+<li><i>cube_type</i> Q = randg&lt;<i>cube_type</i>&gt;( n_rows, n_cols, n_slices, distr_param(a,b) )</li>
+<li><i>cube_type</i> R = randg&lt;<i>cube_type</i>&gt;( size(Q) )</li>
+<li><i>cube_type</i> R = randg&lt;<i>cube_type</i>&gt;( size(Q), distr_param(a,b) )</li>
 </ul>
 </li>
 <br>
@@ -6062,6 +6182,7 @@ mat X = randg&lt;mat&gt;(10, 10, distr_param(2,1));
 <ul>
 <li><a href="#randu_randn_standalone">randu() &amp; randn()</a></li>
 <li><a href="#imbue">.imbue()</a></li>
+<li><a href="#size">size()</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Gamma_distribution">gamma distribution in Wikipedia</a></li>
 </ul>
 </li>
@@ -6071,6 +6192,8 @@ mat X = randg&lt;mat&gt;(10, 10, distr_param(2,1));
 
 <a name="speye"></a>
 <b>speye( n_rows, n_cols )</b>
+<br>
+<b>speye( size(X) )</b>
 <ul>
 <li>
 Generate a sparse matrix with the elements along the main diagonal set to one
@@ -6084,9 +6207,8 @@ An identity matrix is generated when <i>n_rows</i> = <i>n_cols</i>
 <li>
 Usage:
 <ul>
-<li>
-<i>sparse_matrix_type</i> X = speye&lt;<i>sparse_matrix_type</i>&gt;(n_rows, n_cols)
-</li>
+<li><i>sparse_matrix_type</i> X = speye&lt;<i>sparse_matrix_type</i>&gt;( n_rows, n_cols )</li>
+<li><i>sparse_matrix_type</i> Y = speye&lt;<i>sparse_matrix_type</i>&gt;( size(X) )</li>
 </ul>
 </li>
 <br>
@@ -6104,6 +6226,7 @@ sp_mat A = speye&lt;sp_mat&gt;(5,5);
 <li><a href="#spones">spones()</a></li>
 <li><a href="#sprandu_sprandn">sprandu() &amp; sprandn()</a></li>
 <li><a href="#eye_standalone">eye()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -6142,6 +6265,9 @@ sp_mat B = spones(A);
 <a name="sprandu_sprandn"></a>
 <b>sprandu( n_rows, n_cols, density )</b>
 <br><b>sprandn( n_rows, n_cols, density )</b>
+<br>
+<br><b>sprandu( size(X), density )</b>
+<br><b>sprandn( size(X), density )</b>
 <ul>
 <li>
 Generate a sparse matrix with the non-zero elements set to random values
@@ -6160,7 +6286,8 @@ The <i>density</i> argument specifies the percentage of non-zero elements; it mu
 <li>
 Usage:
 <ul>
-<li><i>sparse_matrix_type</i> X = sprandu&lt;<i>sparse_matrix_type</i>&gt;(n_rows, n_cols, density)</li>
+<li><i>sparse_matrix_type</i> X = sprandu&lt;<i>sparse_matrix_type</i>&gt;( n_rows, n_cols, density )</li>
+<li><i>sparse_matrix_type</i> Y = sprandu&lt;<i>sparse_matrix_type</i>&gt;( size(X), density )</li>
 </ul>
 </li>
 <br>
@@ -6181,6 +6308,7 @@ sp_mat A = sprandu&lt;sp_mat&gt;(100, 200, 0.1);
 <li><a href="#speye">speye()</a></li>
 <li><a href="#spones">spones()</a></li>
 <li><a href="#randu_randn_standalone">randu() &amp; randn()</a></li>
+<li><a href="#size">size()</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Uniform_distribution_(continuous)">uniform distribution in Wikipedia</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Normal_distribution">normal distribution in Wikipedia</a></li>
 </ul>
@@ -6233,6 +6361,7 @@ mat Y = circ_toeplitz(A);
 <b>zeros( n_elem )</b>
 <br><b>zeros( n_rows, n_cols )</b>
 <br><b>zeros( n_rows, n_cols, n_slices )</b>
+<br><b>zeros( size(X) )</b>
 <ul>
 <li>
 Generate a vector, matrix or cube with the elements set to zero
@@ -6241,9 +6370,11 @@ Generate a vector, matrix or cube with the elements set to zero
 <li>
 Usage:
 <ul>
-<li><i>vector_type</i> v = zeros&lt;<i>vector_type</i>&gt;(n_elem)</li>
-<li><i>matrix_type</i> X = zeros&lt;<i>matrix_type</i>&gt;(n_rows, n_cols)</li>
-<li><i>cube_type</i> X = zeros&lt;<i>cube_type</i>&gt;(n_rows, n_cols, n_slices)</li>
+<li><i>vector_type</i> v = zeros&lt;<i>vector_type</i>&gt;( n_elem )</li>
+<li><i>matrix_type</i> X = zeros&lt;<i>matrix_type</i>&gt;( n_rows, n_cols )</li>
+<li><i>matrix_type</i> Y = zeros&lt;<i>matrix_type</i>&gt;( size(X) )</li>
+<li><i>cube_type</i> Q = zeros&lt;<i>cube_type</i>&gt;( n_rows, n_cols, n_slices )</li>
+<li><i>cube_type</i> R = zeros&lt;<i>cube_type</i>&gt;( size(Q) )</li>
 </ul>
 </li>
 <br>
@@ -6266,6 +6397,7 @@ See also:
 <li><a href="#ones_member">.ones()</a> (member function of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>Cube</i>)</li>
 <li><a href="#ones_standalone">ones()</a></li>
 <li><a href="#randu_randn_standalone">randu() &amp; randn()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -7044,7 +7176,7 @@ See also:
 <b>diagmat( X )</b>
 <ul>
 <li>
-Interpret a matrix or vector <i>X</i> as a diagonal matrix
+Generate a diagonal matrix from <i>X</i>
 </li>
 <br>
 <li>
@@ -8268,7 +8400,10 @@ mat B = repmat(A, 4, 5);
 
 <a name="reshape"></a>
 <b>reshape( mat, n_rows, n_cols )</b>
+<br><b>reshape( mat, size(X) )</b>
+<br>
 <br><b>reshape( cube, n_rows, n_cols, n_slices )</b>
+<br><b>reshape( cube, size(X) )</b>
 <ul>
 <li>
 Generate a matrix or cube sized according to given size specifications,
@@ -8329,6 +8464,7 @@ See also:
 <li><a href="#conv_to">conv_to()</a></li>
 <li><a href="#diagmat">diagmat()</a></li>
 <li><a href="#repmat">repmat()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -8337,7 +8473,10 @@ See also:
 
 <a name="resize"></a>
 <b>resize( mat, n_rows, n_cols )</b>
+<br><b>resize( mat, size(X) )</b>
+<br>
 <br><b>resize( cube, n_rows, n_cols, n_slices )</b>
+<br><b>resize( cube, size(X) )</b>
 <ul>
 <li>
 Generate a matrix or cube sized according to given size specifications,
@@ -8370,6 +8509,7 @@ See also:
 <li><a href="#as_scalar">as_scalar()</a></li>
 <li><a href="#conv_to">conv_to()</a></li>
 <li><a href="#repmat">repmat()</a></li>
+<li><a href="#size">size()</a></li>
 </ul>
 </li>
 <br>
@@ -8408,6 +8548,65 @@ See also:
 <ul>
 <li><a href="#randu_randn_standalone">randu() / randn()</a></li>
 <li><a href="#sort">sort()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="size"></a>
+<b>size( X )</b>
+<ul>
+<li>
+Obtain the dimensions of object <i>X</i>
+</li>
+<br>
+<li>
+The obtained dimensions can be used in conjunction with:
+<ul>
+<li><a href="#part_a">object constructors</a></li>
+<li><a href="#part_b">functions for changing size</a></li>
+<li><a href="#part_c">generator functions</a></li>
+<li><a href="#submat">submatrix views</a></li>
+<li><a href="#subcube">subcube views</a></li>
+<li><a href="#subfield">subfield views</a></li>
+</ul>
+</li>
+<br>
+<li>
+The obtained dimensions support simple arithmetic operations; they can also be printed and compared for equality/inequality
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A(5,6);
+
+mat B(size(A), fill::zeros);
+
+mat C; C.randu(size(A));
+
+mat D = ones&lt;mat&gt;(size(A));
+
+mat E(10,20, fill::ones);
+E(3,4,size(C)) = C;    // access submatrix of E
+
+mat F( size(A) + size(E) );
+
+mat G( size(A) * 2 );
+
+cout &lt;&lt; "size of A: " &lt;&lt; size(A) &lt;&lt; endl;
+
+bool is_same_size = (size(A) == size(E));
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#attributes">attributes</a></li>
 </ul>
 </li>
 <br>
@@ -8543,9 +8742,7 @@ rowvec c = sum(A,0);
 colvec d = sum(A,1);
 
 // find the overall sum
-double y = sum(sum(A));
-
-double z = accu(A);
+double y = accu(A);
 </pre>
 </ul>
 </li>
@@ -8571,11 +8768,11 @@ See also:
 <br><b>symmatl( A, do_conj )</b>
 <ul>
 <li>
-<i>symmatu(A)</i>: interpret square matrix <i>A</i> as symmetric, reflecting the upper triangle to the lower triangle
+<i>symmatu(A)</i>: generate symmetric matrix from square matrix <i>A</i>, by reflecting the upper triangle to the lower triangle 
 </li>
 <br>
 <li>
-<i>symmatl(A)</i>: interpret square matrix <i>A</i> as symmetric, reflecting the lower triangle to the upper triangle
+<i>symmatl(A)</i>: generate symmetric matrix from square matrix <i>A</i>, by reflecting the lower triangle to the upper triangle
 </li>
 <br>
 <li>
@@ -8699,15 +8896,15 @@ mat C = A.t();    // equivalent to trans(A), but more compact
 <br><b>trimatl( A )</b>
 <ul>
 <li>
-<i>trimatu(A)</i>: interpret square matrix <i>A</i> as upper triangular
+<i>trimatu(A)</i>: generate upper triangular matrix from square matrix <i>A</i>
 </li>
 <br>
 <li>
-<i>trimatl(A)</i>: interpret square matrix <i>A</i> as lower triangular
+<i>trimatl(A)</i>: generate lower triangular matrix from square matrix <i>A</i>
 </li>
 <br>
 <li>
-A <i>std::logic_error</i> exception is thrown if <i>A</i> is non-square
+If <i>A</i> is non-square, a <i>std::logic_error</i> exception is thrown
 </li>
 <br>
 <li>
@@ -14201,6 +14398,13 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="version_5500"></a>
+<li>Version 5.500:
+<ul>
+<li>expanded object constructors and generators to handle <a href="#size">size()</a> based specification of dimensions</li>
+</ul>
+</li>
+<br>
 <a name="version_5400"></a>
 <li>Version 5.400:
 <ul>
@@ -14385,7 +14589,7 @@ the form <i>inv(sympd(X))</i> no longer assumes that <i>X</i> is positive defini
 <a name="version_3930"></a>
 <li>Version 3.930:
 <ul>
-<li>added <i>size()</i> based specifications of <a href="#submat">submatrix view</a> sizes</li>
+<li>added <a href="#size">size()</a> based specifications of <a href="#submat">submatrix view</a> sizes</li>
 <li>added element-wise variants of <a href="#min_and_max">min()</a> and <a href="#min_and_max">max()</a></li>
 <li>added divide-and-conquer variant of <a href="#svd_econ">svd_econ()</a></li>
 <li>added divide-and-conquer variant of <a href="#pinv">pinv()</a></li>
