@@ -101,8 +101,10 @@ hr.greyline
 </head>
 <body>
 
+
 <a name="top"></a>
-<a style="display:scroll; position:fixed; bottom:5px; right:5px;" href="#top"><font size=-1>[top]</font></a> 
+<!--  -->
+<a style="display:scroll; position:fixed; bottom:5px; right:5px;" href="#top"><font size=-1>[top]</font></a>
 
 <center>
 <table style="text-align: left; width: 80%; margin-left: auto; margin-right: auto;" border="0" cellpadding="0" cellspacing="0">
@@ -114,7 +116,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 4.500</b></font>
+        <font size=+2><b>Reference for Armadillo 4.550</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -314,6 +316,7 @@ Technical Report, NICTA, 2010.
 <a href="#cross">cross</a>&nbsp;&middot;
 <a href="#cumsum">cumsum</a>&nbsp;&middot;
 <a href="#diagmat">diagmat</a>&nbsp;&middot;
+<a href="#expmat">expmat</a>&nbsp;&middot;
 <a href="#find">find</a>&nbsp;&middot;
 <a href="#find_finite">find_finite</a>&nbsp;&middot;
 <a href="#find_nonfinite">find_nonfinite</a>&nbsp;&middot;
@@ -6457,6 +6460,7 @@ See also:
 <li><a href="#clamp">clamp()</a></li>
 <li><a href="#conj">conj()</a></li>
 <li><a href="#imag_real">imag() / real()</a></li>
+<li><a href="#expmat">expmat()</a></li>
 <li><a href="#constants">pre-defined constants</a></li>
 </ul>
 </li>
@@ -7745,6 +7749,40 @@ See also:
 <li><a href="#symmat">symmatu() / symmatl()</a></li>
 <li><a href="#reshape">reshape()</a></li>
 <li><a href="#vectorise">vectorise()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline">
+<br>
+
+<a name="expmat"></a>
+<b>expmat( X )</b>
+<ul>
+<li>Return the matrix exponential of square matrix <i>X</i></li>
+<br>
+<li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
+<br>
+<li><b>Caveat</b>: the matrix exponential operation is <b>not</b> the same as applying the <a href="#misc_fns">exp()</a> function to each element
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(5,5);
+
+mat B = expmat(A);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#misc_fns">element-wise functions</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Matrix_exponential">matrix exponential in Wikipedia</a></li>
+<li><a href="http://mathworld.wolfram.com/MatrixExponential.html">matrix exponential in MathWorld</a></li>
 </ul>
 </li>
 <br>
@@ -13317,6 +13355,15 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="added_in_4550"></a>
+<li>Added in 4.550:
+<ul>
+<li>added matrix exponential function: <a href="#expmat">expmat()</a></li>
+<li>faster <i>.log_p()</i> and <i>.avg_log_p()</i> functions in the <a href="#gmm_diag">gmm_diag</a> class when compiling with OpenMP enabled</li>
+<li>faster handling of in-place addition/subtraction of expressions with an outer product
+</ul>
+</li>
+<br>
 <a name="added_in_4500"></a>
 <li>Added in 4.500:
 <ul>
