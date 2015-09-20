@@ -8760,14 +8760,12 @@ See also:
 <hr class="greyline"><br>
 
 <a name="eig_sym"></a>
-<b>vec eigval = eig_sym(mat X)</b>
-<br><b>vec eigval = eig_sym(cx_mat X)</b>
+<b>vec eigval = eig_sym( X )</b>
 <br>
-<br><b>eig_sym(vec eigval, mat X)</b>
-<br><b>eig_sym(vec eigval, cx_mat X)</b>
+<br><b>eig_sym( eigval,  X )</b>
 <br>
-<br><b>eig_sym(vec eigval, mat eigvec, mat X, method )</b>
-<br><b>eig_sym(vec eigval, cx_mat eigvec, cx_mat X, method )</b>
+<br><b>eig_sym( eigval, eigvec, X )</b>
+<br><b>eig_sym( eigval, eigvec, X, method )</b>
 <ul>
 <li>Eigen decomposition of symmetric/hermitian matrix <i>X</i></li>
 <br>
@@ -8785,7 +8783,7 @@ a divide-and-conquer algorithm can be used instead by explicitly setting <i>meth
 </li>
 <br>
 <li>
-The divide-and-conquer algorithm provides slightly different results, but is notably faster for large matrices
+The divide-and-conquer algorithm provides slightly different results, but is considerably faster for large matrices
 </li>
 <br>
 <li>If the decomposition fails, the output objects are reset and:
@@ -8801,6 +8799,8 @@ The divide-and-conquer algorithm provides slightly different results, but is not
 Examples:
 <ul>
 <pre>
+// for matrices with real elements
+
 mat A = randu&lt;mat&gt;(50,50);
 mat B = A.t()*A;  // generate a symmetric matrix
 
@@ -8810,6 +8810,17 @@ mat eigvec;
 eig_sym(eigval, eigvec, B);        // use standard algorithm by default
 
 eig_sym(eigval, eigvec, B, "dc");  // use "divide &amp; conquer" algorithm
+
+
+// for matrices with complex elements
+
+cx_mat C = randu&lt;cx_mat&gt;(50,50);
+cx_mat D = C.t()*C;
+
+   vec eigval2;
+cx_mat eigvec2;
+
+eig_sym(eigval2, eigvec2, D);
 </pre>
 </ul>
 </li>
@@ -8830,27 +8841,12 @@ See also:
 <hr class="greyline"><br>
 
 <a name="eig_gen"></a>
-<b>eig_gen( cx_vec eigval, cx_mat eigvec, mat X, side )</b>
-<br>
-<b>eig_gen( cx_vec eigval, cx_mat eigvec, cx_mat X, side )</b>
-<br>
-<br>
-<b>eig_gen( cx_vec eigval, mat l_eigvec, mat r_eigvec, mat X )</b>
-<br>
-<b>eig_gen( cx_vec eigval, cx_mat l_eigvec, cx_mat r_eigvec, cx_mat X )</b>
+<b>eig_gen( eigval, eigvec, X )</b>
 <ul>
 <li>
 Eigen decomposition of general (non-symmetric/non-hermitian) square matrix <i>X</i></li>
 <br>
 <li>The eigenvalues and corresponding eigenvectors are stored in <i>eigval</i> and <i>eigvec</i>, respectively</li>
-<br>
-<!-- TODO: for version 4.0, change side='r' to side="right", side='l' to side="left" -->
-<li>
-For the first two forms, <i>side='r'</i> (default) specifies that right eigenvectors are computed,
-while <i>side='l'</i> specifies that left eigenvectors are computed
-</li>
-<br>
-<li>For the last two forms, both left and right eigenvectors are computed</li>
 <br>
 <li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
 <br>

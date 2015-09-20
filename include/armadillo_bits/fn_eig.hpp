@@ -118,6 +118,7 @@ eig_sym
 
 //! Eigenvalues and eigenvectors (both left and right) of general real/complex square matrix X
 template<typename T1>
+arma_deprecated
 inline
 bool
 eig_gen
@@ -174,7 +175,7 @@ eig_gen
         Col< std::complex<eT> >& eigval, 
         Mat< std::complex<eT> >& eigvec,
   const Base<eT, T1>&            X, 
-  const char                     side,
+  const char                     side = 'r',
   const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0
   )
   {
@@ -264,7 +265,7 @@ eig_gen
          Col<std::complex<T> >&    eigval, 
          Mat<std::complex<T> >&    eigvec,
   const Base<std::complex<T>, T1>& X, 
-  const char                       side,
+  const char                       side = 'r',
   const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0
   )
   {
@@ -306,42 +307,128 @@ eig_gen
 
 
 
-template<typename eT, typename T1>
+//! Eigenvalues of general real square matrix X
+template<typename T, typename T1>
 inline
-bool
+Col< std::complex<T> >
 eig_gen
   (
-        Col< std::complex<eT> >& eigval, 
-        Mat< std::complex<eT> >& eigvec,
-  const Base<eT, T1>&            X, 
-  const char*                    side = "right",
-  const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0
+  const Base<T, T1>& X, 
+  const typename arma_blas_type_only<T>::result* junk1 = 0,
+  const typename         arma_not_cx<T>::result* junk2 = 0 
   )
   {
   arma_extra_debug_sigprint();
-  arma_ignore(junk);
+  arma_ignore(junk1);
+  arma_ignore(junk2);
   
-  return eig_gen(eigval, eigvec, X, side[0]);
+  Mat<T> l_eigvec;
+  Mat<T> r_eigvec;
+  
+  Col< std::complex<T> > eigval;
+  
+  const bool status = auxlib::eig_gen(eigval, l_eigvec, r_eigvec, X, 'n');
+  
+  if(status == false)
+    {
+    eigval.reset();
+    arma_bad("eig_gen(): failed to converge");
+    }
+  
+  return eigval;
   }
 
 
 
+//! Eigenvalues of general real square matrix X
+template<typename T, typename T1>
+inline
+Col< std::complex<T> >
+eig_gen
+  (
+  const Base< std::complex<T>, T1>& X, 
+  const typename arma_blas_type_only< std::complex<T> >::result* junk1 = 0,
+  const typename        arma_cx_only< std::complex<T> >::result* junk2 = 0 
+  )
+  {
+  arma_extra_debug_sigprint();
+  arma_ignore(junk1);
+  arma_ignore(junk2);
+  
+  Mat< std::complex<T> > l_eigvec;
+  Mat< std::complex<T> > r_eigvec;
+  
+  Col< std::complex<T> > eigval;
+  
+  const bool status = auxlib::eig_gen(eigval, l_eigvec, r_eigvec, X, 'n');
+  
+  if(status == false)
+    {
+    eigval.reset();
+    arma_bad("eig_gen(): failed to converge");
+    }
+  
+  return eigval;
+  }
+
+
+
+//! Eigenvalues of general real square matrix X
 template<typename T, typename T1>
 inline
 bool
 eig_gen
   (
-         Col<std::complex<T> >&    eigval, 
-         Mat<std::complex<T> >&    eigvec,
-  const Base<std::complex<T>, T1>& X, 
-  const char*                      side = "right",
-  const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0
+         Col< std::complex<T> >& eigval, 
+  const Base<T, T1>&             X, 
+  const typename arma_blas_type_only<T>::result* junk = 0
   )
   {
   arma_extra_debug_sigprint();
   arma_ignore(junk);
   
-  return eig_gen(eigval, eigvec, X, side[0]);
+  Mat<T> l_eigvec;
+  Mat<T> r_eigvec;
+  
+  const bool status = auxlib::eig_gen(eigval, l_eigvec, r_eigvec, X, 'n');
+  
+  if(status == false)
+    {
+    eigval.reset();
+    arma_bad("eig_gen(): failed to converge", false);
+    }
+  
+  return status;
+  }
+
+
+
+//! Eigenvalues of general complex square matrix X
+template<typename T, typename T1>
+inline
+bool
+eig_gen
+  (
+         Col< std::complex<T> >&    eigval, 
+  const Base< std::complex<T>, T1>& X, 
+  const typename arma_blas_type_only< std::complex<T> >::result* junk = 0
+  )
+  {
+  arma_extra_debug_sigprint();
+  arma_ignore(junk);
+  
+  Mat< std::complex<T> > l_eigvec;
+  Mat< std::complex<T> > r_eigvec;
+  
+  const bool status = auxlib::eig_gen(eigval, l_eigvec, r_eigvec, X, 'n');
+  
+  if(status == false)
+    {
+    eigval.reset();
+    arma_bad("eig_gen(): failed to converge", false);
+    }
+  
+  return status;
   }
 
 
