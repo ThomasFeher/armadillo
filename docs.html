@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type">
-  <title>Armadillo: API Reference</title>
+  <title>Armadillo: API Documentation</title>
   <link rel="icon" href="armadillo_icon.png" type="image/png">
   <style type="text/css">
   <!--
@@ -127,7 +127,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 5.200</b></font>
+        <font size=+2><b>Reference for Armadillo 5.300</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -286,10 +286,13 @@ Technical Report, NICTA, 2010.
 <tr><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td></tr>
 <tr><td><a href="#in_range">.in_range</a></td><td>&nbsp;</td><td>check whether given location or span is valid</td></tr>
 <tr><td><a href="#is_empty">.is_empty</a></td><td>&nbsp;</td><td>check whether object is empty</td></tr>
-<tr><td><a href="#is_finite_member">.is_finite</a></td><td>&nbsp;</td><td>check whether all elements are finite</td></tr>
 <tr><td><a href="#is_square">.is_square</a></td><td>&nbsp;</td><td>check whether matrix is square sized</td></tr>
 <tr><td><a href="#is_vec">.is_vec</a></td><td>&nbsp;</td><td>check whether matrix is a vector</td></tr>
 <tr><td><a href="#is_sorted">.is_sorted</a></td><td>&nbsp;</td><td>check whether vector or matrix is sorted</td></tr>
+<tr><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td></tr>
+<tr><td><a href="#is_finite_member">.is_finite</a></td><td>&nbsp;</td><td>check whether all elements are finite</td></tr>
+<tr><td><a href="#has_inf">.has_inf</a></td><td>&nbsp;</td><td>check whether any element is +-Inf</td></tr>
+<tr><td><a href="#has_nan">.has_nan</a></td><td>&nbsp;</td><td>check whether any element is NaN</td></tr>
 <tr><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td></tr>
 <tr><td><a href="#print">.print</a></td><td>&nbsp;</td><td>print object to <i>std::cout</i> or user specified stream</td></tr>
 <tr><td><a href="#raw_print">.raw_print</a></td><td>&nbsp;</td><td>print object without formatting</td></tr>
@@ -407,11 +410,12 @@ Technical Report, NICTA, 2010.
 <tr style="background-color: #F5F5F5;"><td><a href="#princomp">princomp</a></td><td>&nbsp;</td><td>principal component analysis</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#qr">qr&nbsp;&nbsp;</a></td><td>&nbsp;</td><td>QR decomposition</td></tr>
 <tr><td><a href="#qr_econ">qr_econ</a></td><td>&nbsp;</td><td>economical QR decomposition</td></tr>
+<tr><td><a href="#qz">qz&nbsp;&nbsp;</a></td><td>&nbsp;</td><td>generalised Schur decomposition</td></tr>
 <tr><td><a href="#solve">solve</a></td><td>&nbsp;</td><td>solve systems of linear equations</td></tr>
-<tr><td><a href="#spsolve">spsolve</a></td><td>&nbsp;</td><td>solve sparse systems of linear equations</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#spsolve">spsolve</a></td><td>&nbsp;</td><td>solve sparse systems of linear equations</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#svd">svd</a></td><td>&nbsp;</td><td>singular value decomposition</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#svd_econ">svd_econ</a></td><td>&nbsp;</td><td>economical singular value decomposition</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#svds">svds</a></td><td>&nbsp;</td><td>limited number of singular values &amp; singular vectors of sparse matrix</td></tr>
+<tr><td><a href="#svds">svds</a></td><td>&nbsp;</td><td>limited number of singular values &amp; singular vectors of sparse matrix</td></tr>
 <tr><td><a href="#syl">syl</a></td><td>&nbsp;</td><td>Sylvester equation solver</td></tr>
 </tbody>
 </table>
@@ -578,7 +582,7 @@ Constructors:
 <br><code>mat(rowvec)</code>
 <br><code>mat(string)</code>
 <br><code>mat(std::vector)</code> &nbsp; (treated as a column vector)
-<br><code>mat(initialiser_list)</code> &nbsp; (C++11 only)
+<br><code>mat(initializer_list)</code> &nbsp; (C++11 only)
 <br><code>cx_mat(mat,mat)</code> &nbsp; (for constructing a complex matrix out of two real matrices)
 </ul>
 </li>
@@ -640,7 +644,7 @@ If <i>strict</i> is set to <i>true</i>,
 the matrix will be bound to the auxiliary memory for its lifetime;
 the number of elements in the matrix can't be changed (directly or indirectly).
 If <i>strict</i> is set to <i>false</i>, the matrix will not be bound to the auxiliary memory for its lifetime,
-ie., the size of the matrix can be changed.
+ie. the size of the matrix can be changed.
 If the requested number of elements is different to the size of the auxiliary memory,
 new memory will be allocated and the auxiliary memory will no longer be used.
 </ul>
@@ -897,7 +901,7 @@ Constructors
 <br><code>vec(mat)</code> &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one column)
 <br><code>vec(string)</code> &nbsp; (elements separated by spaces)
 <br><code>vec(std::vector)</code>
-<br><code>vec(initialiser_list)</code> &nbsp; (C++11 only)
+<br><code>vec(initializer_list)</code> &nbsp; (C++11 only)
 </ul>
 </li>
 <br>
@@ -930,7 +934,7 @@ If <i>strict</i> is set to <i>true</i>,
 the vector will be bound to the auxiliary memory for its lifetime;
 the number of elements in the vector can't be changed (directly or indirectly).
 If <i>strict</i> is set to <i>false</i>, the vector will not be bound to the auxiliary memory for its lifetime,
-ie., the vector's size can be changed.
+ie. the vector's size can be changed.
 If the requested number of elements is different to the size of the auxiliary memory,
 new memory will be allocated and the auxiliary memory will no longer be used.
 </ul>
@@ -1120,7 +1124,7 @@ Constructors
 <br><code>rowvec(mat)</code> &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one row)
 <br><code>rowvec(string)</code> &nbsp; (elements separated by spaces)
 <br><code>rowvec(std::vector)</code>
-<br><code>rowvec(initialiser_list)</code> &nbsp; (C++11 only)
+<br><code>rowvec(initializer_list)</code> &nbsp; (C++11 only)
 </ul>
 </li>
 <br>
@@ -1153,7 +1157,7 @@ If <i>strict</i> is set to <i>true</i>,
 the vector will be bound to the auxiliary memory for its lifetime;
 the number of elements in the vector can't be changed (directly or indirectly).
 If <i>strict</i> is set to <i>false</i>, the vector will not be bound to the auxiliary memory for its lifetime,
-ie., the vector's size can be changed.
+ie. the vector's size can be changed.
 If the requested number of elements is different to the size of the auxiliary memory,
 new memory will be allocated and the auxiliary memory will no longer be used.
 </ul>
@@ -1375,7 +1379,7 @@ Memory for the cube is allocated at compile time.
 This is generally faster than dynamic memory allocation, but the size of the cube can't be changed afterwards (directly or indirectly).
 </ul>
 <br>
-<code>cube(*aux_mem, n_rows, n_cols, n_slices, copy_aux_mem = true, strict = true)</code>
+<code>cube(*aux_mem, n_rows, n_cols, n_slices, copy_aux_mem = true, strict = true, prealloc_mat = true)</code>
 <br>
 <br>
 <ul>
@@ -1392,9 +1396,12 @@ If <i>strict</i> is set to <i>true</i>,
 the cube will be bound to the auxiliary memory for its lifetime;
 the number of elements in the cube can't be changed (directly or indirectly).
 If <i>strict</i> is set to <i>false</i>, the cube will not be bound to the auxiliary memory for its lifetime,
-ie., the size of the cube can be changed.
+ie. the size of the cube can be changed.
 If the requested number of elements is different to the size of the auxiliary memory,
 new memory will be allocated and the auxiliary memory will no longer be used.
+<br>
+<br>
+The <i>prealloc_mat</i> variable controls whether instances of Mat classes used by <a href="#subcube">.slice()</a> are pre-allocated.
 </ul>
 <br>
 <code>cube(const *aux_mem, n_rows, n_cols, n_slices)</code>
@@ -1730,10 +1737,10 @@ If <i>check_for_zeros</i> is set to <i>false</i>, the <i>values</i> vector is as
 <li><a href="#submat">submatrix views</a> (contiguous forms only)</li>
 <li><a href="#diag">diagonal views</a></li>
 <li><a href="save_load_mat">saving and loading</a> (<i>arma_binary</i> format only)</li>
-<li>element-wise functions: <a href="#abs">abs()</a>, <a href="#misc_fns">sqrt()</a>, <a href="#misc_fns">square()</a></li>
+<li>element-wise functions: <a href="#abs">abs()</a>, <a href="#imag_real">imag()</a>, <a href="#imag_real">real()</a>, <a href="#conj">conj()</a>, <a href="#misc_fns">sqrt()</a>, <a href="#misc_fns">square()</a></li>
 <li>scalar functions of matrices: <a href="#accu">accu()</a>, <a href="#as_scalar">as_scalar()</a>, <a href="#dot">dot()</a>, <a href="#norm">norm()</a>, <a href="#trace">trace()</a></li>
 <li>vector valued functions of matrices: <a href="#min_and_max">min()</a>, <a href="#min_and_max">max()</a>, <a href="#nonzeros">nonzeros()</a>, <a href="#sum">sum()</a>, <a href="#stats_fns">mean()</a>, <a href="#stats_fns">var()</a></li>
-<li>matrix valued functions of matrices: <a href="#join">join_rows()</a>, <a href="#join">join_cols()</a>, <a href="#repmat">repmat()</a>, <a href="#t_st_members">.t()</a>, <a href="#trans">trans()</a></li>
+<li>matrix valued functions of matrices: <a href="#diagmat">diagmat()</a>, <a href="#join">join_rows()</a>, <a href="#join">join_cols()</a>, <a href="#repmat">repmat()</a>, <a href="#reshape">reshape()</a>, <a href="#resize">resize()</a>, <a href="#t_st_members">.t()</a>, <a href="#trans">trans()</a></li>
 <li>generated matrices: <a href="#speye">speye()</a>, <a href="#spones">spones()</a>, <a href="#sprandu_sprandn">sprandu()/sprandn()</a></li>
 <li>eigen and svd decomposition: <a href="#eigs_sym">eigs_sym()</a>, <a href="#eigs_gen">eigs_gen()</a>, <a href="#svds">svds()</a></li>
 <li>solution of sparse linear systems: <a href="#spsolve">spsolve()</a>
@@ -2008,8 +2015,8 @@ Meanings:
 </li>
 <br>
 <li>
-<b>Caveat:</b> operators involving an equality comparison (ie., <code><b>==</b></code>, <code><b>!=</b></code>, <code><b>&gt;=</b></code>, <code><b>&lt;=</b></code>)
-may not work as expected for floating point element types (ie., <i>float</i>, <i>double</i>)
+<b>Caveat:</b> operators involving an equality comparison (ie. <code><b>==</b></code>, <code><b>!=</b></code>, <code><b>&gt;=</b></code>, <code><b>&lt;=</b></code>)
+may not work as expected for floating point element types (ie. <i>float</i>, <i>double</i>)
 due to the necessarily limited precision of these types;
 in other words, these operators are (in general) not recommended for matrices of type <i>mat</i> or <i>fmat</i>
 </li>
@@ -2074,7 +2081,7 @@ See also:
 <ul>
 <li>
 Provide access to individual elements or objects stored in a container object
-(ie., <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>field</i>)<br>
+(ie. <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>field</i>)<br>
                     <br>
 <ul>
                     <table style="text-align: left; width: 100%;"
@@ -2591,7 +2598,7 @@ See also:
 <b>.fill( value )</b>
 <ul>
 <li>
-Member function of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>Cube</i>
+Member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>
 </li>
 <br>
 <li>Sets the elements to a specified value</li>
@@ -2737,7 +2744,7 @@ See also:
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member function of <i>Col</i>, <i>Row</i>, and <i>field</i>)
+      <td style="vertical-align: top;">(member function of <i>Col</i>, <i>Row</i>, <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -2745,7 +2752,7 @@ See also:
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>SpMat</i> and <i>field</i>)
+      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>SpMat</i>, <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -2753,7 +2760,7 @@ See also:
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member function of <i>Cube</i>)
+      <td style="vertical-align: top;">(member function of <i>Cube</i> and <i>field</i>)
       </td>
     </tr>
   </tbody>
@@ -2809,7 +2816,7 @@ q.set_size(100);
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member function of <i>Mat</i>)
+      <td style="vertical-align: top;">(member function of <i>Mat</i> and <i>SpMat</i>)
       </td>
     </tr>
     <tr>
@@ -2903,7 +2910,7 @@ A.reshape(5,4);
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member function of <i>Mat</i>)
+      <td style="vertical-align: top;">(member function of <i>Mat</i> and <i>SpMat</i>)
       </td>
     </tr>
     <tr>
@@ -3161,10 +3168,10 @@ In the function <i>X.elem(vector_of_indices)</i>,
 elements specified in <i>vector_of_indices</i> are accessed.
 <i>X</i> is interpreted as one long vector,
 with column-by-column ordering of the elements of <i>X</i>.
-The <i>vector_of_indices</i> must evaluate to be a vector of type <i><a href="#Col">uvec</a></i>
-(eg., generated by <i><a href="#find">find()</a></i>).
+The <i>vector_of_indices</i> must evaluate to be a vector of type <a href="#Col">uvec</a>
+(eg. generated by the <a href="#find">find()</a> function).
 The aggregate set of the specified elements is treated as a column vector
-(ie., the output of <i>X.elem()</i> is always a column vector).
+(ie. the output of <i>X.elem()</i> is always a column vector).
 </li>
 <br>
 <li>
@@ -3301,10 +3308,10 @@ In the function <i>Q.elem(vector_of_indices)</i>,
 elements specified in <i>vector_of_indices</i> are accessed.
 <i>Q</i> is interpreted as one long vector,
 with slice-by-slice and column-by-column ordering of the elements of <i>Q</i>.
-The <i>vector_of_indices</i> must evaluate to be a vector of type <i><a href="#Col">uvec</a></i>
-(eg., generated by <i><a href="#find">find()</a></i>).
+The <i>vector_of_indices</i> must evaluate to be a vector of type <a href="#Col">uvec</a>
+(eg. generated by the <a href="#find">find()</a> function).
 The aggregate set of the specified elements is treated as a column vector
-(ie., the output of <i>Q.elem()</i> is always a column vector).
+(ie. the output of <i>Q.elem()</i> is always a column vector).
 </li>
 <br>
 <li>
@@ -3524,8 +3531,6 @@ See also:
 <b>.set_real( X )</b>
 <br>  
 <ul>
-<li>Member functions of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>Cube</i></li>
-<br>
 <li>
 Set the imaginary/real part of an object
 </li>
@@ -4799,7 +4804,7 @@ imag(A).eval().save("A_imag.dat", raw_ascii);
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i> and <i>field</i>)
+      <td style="vertical-align: top;">(member of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>SpMat</i>, <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -4807,7 +4812,7 @@ imag(A).eval().save("A_imag.dat", raw_ascii);
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i> and <i>field</i>)
+      <td style="vertical-align: top;">(member of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>SpMat</i>, <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -4820,7 +4825,7 @@ imag(A).eval().save("A_imag.dat", raw_ascii);
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>field</i>)
+      <td style="vertical-align: top;">(member of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>SpMat</i>, <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -4828,7 +4833,7 @@ imag(A).eval().save("A_imag.dat", raw_ascii);
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>field</i>)
+      <td style="vertical-align: top;">(member of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>SpMat</i>, <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -4858,11 +4863,11 @@ imag(A).eval().save("A_imag.dat", raw_ascii);
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><b>.in_range(</b> first_row<b>,</b> first_col<b>, size(</b>X<b>) )</b> &nbsp;&nbsp;<i>(X is a mat or field)</i></td>
+      <td style="vertical-align: top;"><b>.in_range(</b> first_row<b>,</b> first_col<b>, size(</b>X<b>) )</b> &nbsp;&nbsp;<i>(X is a matrix or field)</i></td>
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>field</i>)
+      <td style="vertical-align: top;">(member of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>SpMat</i>, <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -4870,7 +4875,7 @@ imag(A).eval().save("A_imag.dat", raw_ascii);
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>field</i>)
+      <td style="vertical-align: top;">(member of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>SpMat</i>, <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -4973,47 +4978,6 @@ See also:
 </ul>
 <hr class="greyline"><br>
 
-<a name="is_finite_member"></a>
-<b>.is_finite()</b>
-<ul>
-<li>
-Member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>SpMat</i>
-</li>
-<br>
-<li>Returns <i>true</i> if all elements of the object are finite
-</li>
-<br>
-<li>Returns <i>false</i> if at least one of the elements of the object is non-finite (&plusmn;infinity or NaN)
-</li>
-<br>
-<li>
-Examples:
-<ul>
-<pre>
-mat A = randu&lt;mat&gt;(5,5);
-mat B = randu&lt;mat&gt;(5,5);
-
-B(1,1) = datum::inf;
-
-cout &lt;&lt; A.is_finite() &lt;&lt; endl;
-cout &lt;&lt; B.is_finite() &lt;&lt; endl;
-</pre>
-</ul>
-</li>
-<br>
-<li>
-See also:
-<ul>
-<li><a href="#is_finite">is_finite()</a> (standalone function)</li>
-<li><a href="#find_finite">find_finite()</a></li>
-<li><a href="#find_nonfinite">find_nonfinite()</a></li>
-<li><a href="#constants">constants (pi, nan, inf, ...)</a></li>
-</ul>
-</li>
-<br>
-</ul>
-<hr class="greyline"><br>
-
 <a name="is_square"></a>
 <b>.is_square()</b>
 <ul>
@@ -5021,7 +4985,7 @@ See also:
 Member function of <i>Mat</i> and <i>SpMat</i>
 </li>
 <br>
-<li>Returns <i>true</i> if the matrix is square, ie., number of rows is equal to the number of columns
+<li>Returns <i>true</i> if the matrix is square, ie. number of rows is equal to the number of columns
 </li>
 <br>
 <li>Returns <i>false</i> if the matrix is not square
@@ -5128,6 +5092,10 @@ See also:
 <br><b>.is_sorted( sort_direction, dim )</b>
 <ul>
 <li>
+Member function of <i>Mat</i>, <i>Row</i> and <i>Col</i>
+</li>
+<br>
+<li>
 If the object is a vector, return a <i>bool</i> indicating whether the elements are sorted
 </li>
 <br>
@@ -5173,6 +5141,131 @@ cout &lt;&lt; A.is_sorted("ascend", 1) &lt;&lt; endl;
 See also:
 <ul>
 <li><a href="#sort">sort()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="is_finite_member"></a>
+<b>.is_finite()</b>
+<ul>
+<li>
+Member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>SpMat</i>
+</li>
+<br>
+<li>Returns <i>true</i> if all elements of the object are finite
+</li>
+<br>
+<li>Returns <i>false</i> if at least one of the elements of the object is non-finite (&plusmn;infinity or NaN)
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(5,5);
+mat B = randu&lt;mat&gt;(5,5);
+
+B(1,1) = datum::inf;
+
+cout &lt;&lt; A.is_finite() &lt;&lt; endl;
+cout &lt;&lt; B.is_finite() &lt;&lt; endl;
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#is_finite">is_finite()</a> (standalone function)</li>
+<li><a href="#find_finite">find_finite()</a></li>
+<li><a href="#find_nonfinite">find_nonfinite()</a></li>
+<li><a href="#constants">constants (pi, nan, inf, ...)</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="has_inf"></a>
+<b>.has_inf()</b>
+<ul>
+<li>
+Member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>SpMat</i>
+</li>
+<br>
+<li>Returns <i>true</i> if at least one of the elements of the object is &plusmn;infinity
+</li>
+<br>
+<li>Returns <i>false</i> otherwise
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(5,5);
+mat B = randu&lt;mat&gt;(5,5);
+
+B(1,1) = datum::inf;
+
+cout &lt;&lt; A.has_inf() &lt;&lt; endl;
+cout &lt;&lt; B.has_inf() &lt;&lt; endl;
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#has_nan">.has_nan()</a>
+<li><a href="#is_finite_member">.is_finite()</a>
+<li><a href="#constants">constants (pi, nan, inf, ...)</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="has_nan"></a>
+<b>.has_nan()</b>
+<ul>
+<li>
+Member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>SpMat</i>
+</li>
+<br>
+<li>Returns <i>true</i> if at least one of the elements of the object is NaN (not-a-number)
+</li>
+<br>
+<li>Returns <i>false</i> otherwise
+</li>
+<br>
+<li>
+<b>Caveat:</b>
+<code>NaN</code> is not equal to anything, even itself
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(5,5);
+mat B = randu&lt;mat&gt;(5,5);
+
+B(1,1) = datum::nan;
+
+cout &lt;&lt; A.has_nan() &lt;&lt; endl;
+cout &lt;&lt; B.has_nan() &lt;&lt; endl;
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#has_inf">.has_inf()</a>
+<li><a href="#constants">constants (pi, nan, inf, ...)</a></li>
 </ul>
 </li>
 <br>
@@ -5661,6 +5754,7 @@ mat B = 123.0 * eye&lt;mat&gt;(5,5);
 <li><a href="#ones_standalone">ones()</a></li>
 <li><a href="#diagmat">diagmat()</a></li>
 <li><a href="#diagvec">diagvec()</a></li>
+<li><a href="#speye">speye()</a></li>
 </ul>
 </li>
 <br>
@@ -5755,6 +5849,7 @@ See also:
 <li><a href="#linspace">linspace()</a></li>
 <li><a href="#zeros_standalone">zeros()</a></li>
 <li><a href="#randu_randn_standalone">randu() &amp; randn()</a></li>
+<li><a href="#spones">spones()</a></li>
 </ul>
 </li>
 <br>
@@ -5884,6 +5979,7 @@ arma_rng::set_seed_random();  // set the seed to a random value
 <li><a href="#ones_standalone">ones()</a></li>
 <li><a href="#zeros_standalone">zeros()</a></li>
 <li><a href="#shuffle">shuffle()</a></li>
+<li><a href="#sprandu_sprandn">sprandu() &amp; sprandn()</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Uniform_distribution_(continuous)">uniform distribution in Wikipedia</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Normal_distribution">normal distribution in Wikipedia</a></li>
 </ul>
@@ -6000,7 +6096,8 @@ sp_mat A = speye&lt;sp_mat&gt;(5,5);
 <li>See also:
 <ul>
 <li><a href="#spones">spones()</a></li>
-<li><a href="#sprandu_sprandn">sprandu()/sprandn()</a></li>
+<li><a href="#sprandu_sprandn">sprandu() &amp; sprandn()</a></li>
+<li><a href="#eye_standalone">eye()</a></li>
 </ul>
 </li>
 <br>
@@ -6028,7 +6125,8 @@ sp_mat B = spones(A);
 <li>See also:
 <ul>
 <li><a href="#speye">speye()</a></li>
-<li><a href="#sprandu_sprandn">sprandu()/sprandn()</a></li>
+<li><a href="#sprandu_sprandn">sprandu() &amp; sprandn()</a></li>
+<li><a href="#ones_standalone">ones()</a></li>
 </ul>
 </li>
 <br>
@@ -6076,6 +6174,9 @@ sp_mat A = sprandu&lt;sp_mat&gt;(100, 200, 0.1);
 <ul>
 <li><a href="#speye">speye()</a></li>
 <li><a href="#spones">spones()</a></li>
+<li><a href="#randu_randn_standalone">randu() &amp; randn()</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Uniform_distribution_(continuous)">uniform distribution in Wikipedia</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Normal_distribution">normal distribution in Wikipedia</a></li>
 </ul>
 </li>
 <br>
@@ -6195,9 +6296,9 @@ Usage for complex matrices and cubes:
 <ul>
 <li><i>non_complex_matrix_type</i> Y = abs(X)</li>
 <li><i>non_complex_cube_type</i> Y = abs(X)</li>
-<li>X must be a have complex matrix / cube type, eg., <i>cx_mat</i> or <i>cx_cube</i></li>
+<li>X must be a have complex matrix / cube type, eg. <i>cx_mat</i> or <i>cx_cube</i></li>
 <li>The type of Y must be related to the type of X,
-eg., if X has the type <i>cx_mat</i>, then the type of Y must be <i>mat</i>
+eg. if X has the type <i>cx_mat</i>, then the type of Y must be <i>mat</i>
 </ul>
 </li>
 <br>
@@ -7469,6 +7570,7 @@ inplace_trans(Y, "lowmem");  // use low-memory (and slow) algorithm
 <a name="interp1"></a>
 <b>interp1( X, Y, XI, YI )</b>
 <br><b>interp1( X, Y, XI, YI, method )</b>
+<br><b>interp1( X, Y, XI, YI, method, extrapolation_value )</b>
 <ul>
 <li>
 1D data interpolation
@@ -7486,13 +7588,21 @@ The <i>method</i> argument is optional; it is one of:
 <ul>
 <table>
 <tbody>
-<tr><td><li></li></td><td style="text-align: right;"><code>"nearest"</code></td><td>&nbsp;=&nbsp;</td><td>interpolate using single nearest neighbour</td></tr>
-<tr><td><li></li></td><td style="text-align: right;"><code>"*nearest"</code></td><td>&nbsp;=&nbsp;</td><td>as per <code>"nearest"</code>, but faster by assuming that <i>X</i> and <i>XI</i> are monotonically increasing</td></tr>
-<tr><td><li></li></td><td style="text-align: right;"><code>"linear"</code></td><td>&nbsp;=&nbsp;</td><td>linear interpolation between two nearest neighbours (<b>default setting</b>)</td></tr>
-<tr><td><li></li></td><td style="text-align: right;"><code>"*linear"</code></td><td>&nbsp;=&nbsp;</td><td>as per <code>"linear"</code>, but faster by assuming that <i>X</i> and <i>XI</i> are monotonically increasing</td></tr>
+<tr><td style="text-align: right;"><code>"nearest"</code></td><td>&nbsp;=&nbsp;</td><td>interpolate using single nearest neighbour</td></tr>
+<tr><td style="text-align: right;"><code>"*nearest"</code></td><td>&nbsp;=&nbsp;</td><td>as per <code>"nearest"</code>, but faster by assuming that <i>X</i> and <i>XI</i> are monotonically increasing</td></tr>
+<tr><td style="text-align: right;"><code>"linear"</code></td><td>&nbsp;=&nbsp;</td><td>linear interpolation between two nearest neighbours (<b>default setting</b>)</td></tr>
+<tr><td style="text-align: right;"><code>"*linear"</code></td><td>&nbsp;=&nbsp;</td><td>as per <code>"linear"</code>, but faster by assuming that <i>X</i> and <i>XI</i> are monotonically increasing</td></tr>
 </tbody>
 </table>
 </ul>
+</li>
+<br>
+<li>
+If a location in <i>XI</i> is outside the domain of <i>X</i>, the corresponding value in <i>YI</i> is set to <i>extrapolation_value</i>
+</li>
+<br>
+<li>
+The <i>extrapolation_value</i> argument is optional; by default it is <a href="#constants">datum::nan</a> (not-a-number)
 </li>
 <br>
 <li>
@@ -8063,8 +8173,8 @@ mat B = reshape(A, 5, 10);
 <li>
 See also:
 <ul>
-<li><a href="#reshape_member">.reshape()</a> (member function of Mat and Cube)</li>
-<li><a href="#set_size">.set_size()</a> (member function of Mat and Cube)</li>
+<li><a href="#reshape_member">.reshape()</a></li>
+<li><a href="#set_size">.set_size()</a></li>
 <li><a href="#resize">resize()</a></li>
 <li><a href="#vectorise">vectorise()</a></li>
 <li><a href="#as_scalar">as_scalar()</a></li>
@@ -9238,6 +9348,7 @@ See also:
 <ul>
 <li><a href="#eig_gen">eig_gen()</a></li>
 <li><a href="#eig_sym">eig_sym()</a></li>
+<li><a href="#qz">qz()</a></li>
 <li><a href="http://mathworld.wolfram.com/EigenDecomposition.html">eigen decomposition in MathWorld</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors">eigenvalues &amp; eigenvectors in Wikipedia</a></li>
 </ul>
@@ -9269,10 +9380,10 @@ See also:
 <ul>
 <table>
 <tbody>
-<tr><td><li><code>"lm"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest magnitude (default operation)</td></tr>
-<tr><td><li><code>"sm"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest magnitude</td></tr>
-<tr><td><li><code>"la"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest algebraic value</td></tr>
-<tr><td><li><code>"sa"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest algebraic value</td></tr>
+<tr><td><code>"lm"</code></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest magnitude (default operation)</td></tr>
+<tr><td><code>"sm"</code></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest magnitude</td></tr>
+<tr><td><code>"la"</code></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest algebraic value</td></tr>
+<tr><td><code>"sa"</code></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest algebraic value</td></tr>
 </tbody>
 </table>
 </ul>
@@ -9351,12 +9462,12 @@ Obtain a limited number of eigenvalues and eigenvectors of <b>sparse</b> general
 <ul>
 <table>
 <tbody>
-<tr><td><li><code>"lm"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest magnitude (default operation)</td></tr>
-<tr><td><li><code>"sm"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest magnitude</td></tr>
-<tr><td><li><code>"lr"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest real part</td></tr>
-<tr><td><li><code>"sr"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest real part</td></tr>
-<tr><td><li><code>"li"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest imaginary part</td></tr>
-<tr><td><li><code>"si"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest imaginary part</td></tr>
+<tr><td><code>"lm"</code></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest magnitude (default operation)</td></tr>
+<tr><td><code>"sm"</code></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest magnitude</td></tr>
+<tr><td><code>"lr"</code></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest real part</td></tr>
+<tr><td><code>"sr"</code></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest real part</td></tr>
+<tr><td><code>"li"</code></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest imaginary part</td></tr>
+<tr><td><code>"si"</code></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest imaginary part</td></tr>
 </tbody>
 </table>
 </ul>
@@ -9983,6 +10094,50 @@ See also:
 </ul>
 <hr class="greyline"><br>
 
+<a name="qz"></a>
+<b>qz( AA, BB, Q, Z, A, B )</b>
+<ul>
+<li>
+Generalised Schur decomposition for pair of general square matrices <i>A</i> and <i>B</i> of the same size,
+<br>such that <i>A&nbsp;=&nbsp;Q.t()*AA*Z.t()</i> and <i>B&nbsp;=&nbsp;Q.t()*BB*Z.t()</i>
+</li>
+<br>
+<li>The left and right Schur vectors are stored in <i>Q</i> and <i>Z</i>, respectively</li>
+<br>
+<li>In the complex-valued problem, the generalised eigenvalues are found in <i>diagvec(AA) / diagvec(BB)</i></li>
+<br>
+<li>If <i>A</i> or <i>B</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
+<br>
+<li>If the decomposition fails, <i>AA</i>, <i>BB</i>, <i>Q</i> and <i>Z</i> are reset, and the function returns a bool set to <i>false</i> (exception is not thrown)</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(10,10);
+mat B = randu&lt;mat&gt;(10,10);
+
+mat AA;
+mat BB;
+mat Q;
+mat Z; 
+
+qz(AA, BB, Q, Z, A, B);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#eig_pair">eig_pair()</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Schur_decomposition#Generalized_Schur_decomposition">generalised Schur decomposition in Wikipedia</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
 <a name="solve"></a>
 <b>X = solve( A, B )</b>
 <br><b>X = solve( A, B, method )</b>
@@ -10297,9 +10452,9 @@ The <i>side</i> argument is optional; <i>side</i> is one of:
 <ul>
 <table>
 <tbody>
-<tr><td><li></li></td><td style="text-align: left;"><code>"both"</code></td><td>&nbsp;=&nbsp;</td><td>compute both left and right singular vectors (default operation)</td></tr>
-<tr><td><li></li></td><td style="text-align: left;"><code>"left"</code></td><td>&nbsp;=&nbsp;</td><td>compute only left singular vectors</td></tr>
-<tr><td><li></li></td><td style="text-align: left;"><code>"right"</code></td><td>&nbsp;=&nbsp;</td><td>compute only right singular vectors</td></tr>
+<tr><td></td><td style="text-align: left;"><code>"both"</code></td><td>&nbsp;=&nbsp;</td><td>compute both left and right singular vectors (default operation)</td></tr>
+<tr><td></td><td style="text-align: left;"><code>"left"</code></td><td>&nbsp;=&nbsp;</td><td>compute only left singular vectors</td></tr>
+<tr><td></td><td style="text-align: left;"><code>"right"</code></td><td>&nbsp;=&nbsp;</td><td>compute only right singular vectors</td></tr>
 </tbody>
 </table>
 </ul>
@@ -10444,7 +10599,7 @@ See also:
 <b>X = syl( A, B, C )</b>
 <br><b>syl( X, A, B, C )</b>
 <ul>
-<li>Solve the Sylvester equation, ie., <i>AX + XB + C = 0</i>, where <i>X</i> is unknown</li>
+<li>Solve the Sylvester equation, ie. <i>AX + XB + C = 0</i>, where <i>X</i> is unknown</li>
 <br>
 <li>Matrices <i>A</i>, <i>B</i> and <i>C</i> must be square sized</li>
 <br>
@@ -11983,9 +12138,9 @@ while
 <br>
 <li>
 The physical constants were mainly taken from
-<a href="http://physics.nist.gov/cuu/Constants">NIST 2010 CODATA values</a>,
+<a href="http://physics.nist.gov/cuu/Constants">NIST 2014 CODATA values</a>,
 and some from
-<a href="http://www.wolframalpha.com">WolframAlpha</a> (values provided as of 2009-06-23)
+<a href="http://www.wolframalpha.com">WolframAlpha</a> (as of 2009-06-23)
 </li>
 <br>
 <li>
@@ -13610,7 +13765,7 @@ This is mainly useful for debugging the library.
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-The number of preallocated elements used by matrices and vectors.
+The number of pre-allocated elements used by matrices and vectors.
 Must be always enabled and set to an integer that is at least&nbsp;1.
 By default set to 16.
 If you mainly use lots of very small vectors (eg.&nbsp;&le;&nbsp;4&nbsp;elements), change the number to the size of your vectors.
@@ -13829,6 +13984,21 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="version_5300"></a>
+<li>Version 5.300:
+<ul>
+<li>added generalised Schur decomposition: <a href="#qz">qz()</a></li>
+<li>added <a href="#has_inf">.has_inf()</a> and <a href="#has_nan">.has_nan()</a></li>
+<li>added <a href="#set_imag">.set_imag()</a> and <a href="#set_imag">.set_real()</a> to <a href="#SpMat">sparse matrix</a> class</li>
+<li>expanded <a href="#interp1">interp1()</a> to handle out-of-domain locations</li>
+<li>expanded <a href="#imag_real">imag()</a>, <a href="#imag_real">real()</a> and <a href="#conj">conj()</a> to handle sparse matrices</li>
+<li>expanded <a href="#diagmat">diagmat()</a>, <a href="#reshape">reshape()</a> and <a href="#resize">resize()</a> to handle sparse matrices</li>
+<li>faster sparse <a href="#sum">sum()</a></li>
+<li>faster row-wise <a href="#sum">sum()</a>, <a href="#stats_fns">mean()</a>, <a href="#min_and_max">min()</a>, <a href="#min_and_max">max()</a></li>
+<li>updated <a href="#constants">physical constants</a> to NIST 2014 CODATA values</li>
+</ul>
+</li>
+<br>
 <a name="version_5200"></a>
 <li>Version 5.200:
 <ul>

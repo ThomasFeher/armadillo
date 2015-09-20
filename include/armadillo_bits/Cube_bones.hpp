@@ -1,5 +1,5 @@
-// Copyright (C) 2008-2013 Conrad Sanderson
-// Copyright (C) 2008-2013 NICTA (www.nicta.com.au)
+// Copyright (C) 2008-2015 Conrad Sanderson
+// Copyright (C) 2008-2015 NICTA (www.nicta.com.au)
 // 
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -65,7 +65,7 @@ class Cube : public BaseCube< eT, Cube<eT> >
   inline const Cube& operator=(Cube&& m);
   #endif
   
-  inline Cube(      eT* aux_mem, const uword aux_n_rows, const uword aux_n_cols, const uword aux_n_slices, const bool copy_aux_mem = true, const bool strict = true);
+  inline Cube(      eT* aux_mem, const uword aux_n_rows, const uword aux_n_cols, const uword aux_n_slices, const bool copy_aux_mem = true, const bool strict = true, const bool prealloc_mat = true);
   inline Cube(const eT* aux_mem, const uword aux_n_rows, const uword aux_n_cols, const uword aux_n_slices);
   
   arma_inline const Cube&  operator=(const eT val);
@@ -217,6 +217,9 @@ class Cube : public BaseCube< eT, Cube<eT> >
   arma_inline arma_warn_unused bool is_finite() const;
   arma_inline arma_warn_unused bool is_empty()  const;
   
+  inline arma_warn_unused bool has_inf() const;
+  inline arma_warn_unused bool has_nan() const;
+  
   arma_inline arma_warn_unused bool in_range(const uword i) const;
   arma_inline arma_warn_unused bool in_range(const span& x) const;
   
@@ -333,14 +336,14 @@ class Cube : public BaseCube< eT, Cube<eT> >
   
   protected:
   
-  inline void init_cold();
+  inline void init_cold(const bool prealloc_mat = true);
   inline void init_warm(const uword in_rows, const uword in_cols, const uword in_slices);
   
   template<typename T1, typename T2>
   inline void init(const BaseCube<pod_type,T1>& A, const BaseCube<pod_type,T2>& B);
   
   inline void delete_mat();
-  inline void create_mat();
+  inline void create_mat(const bool prealloc_mat = true);
   
   friend class glue_join;
   friend class op_reshape;
