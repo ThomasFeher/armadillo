@@ -1,11 +1,30 @@
+#include <climits>
+#include <limits>
+#include <complex>
+
 #include "armadillo_bits/config.hpp"
-#include "armadillo_bits/typedef_blas_int.hpp"
-
 #undef ARMA_USE_WRAPPER
-#include "armadillo_bits/compiler_setup.hpp"
 
+#include "armadillo_bits/compiler_setup.hpp"
 #include "armadillo_bits/undefine_conflicts.hpp"
+#include "armadillo_bits/typedef_elem.hpp"
 #include "armadillo_bits/include_atlas.hpp"
+
+
+#if defined(ARMA_USE_CXX11)
+  #include <random>
+  #include <ctime>
+  
+  #if defined(ARMA_HAVE_GETTIMEOFDAY)
+    #include <sys/time.h>
+  #endif
+  
+  namespace arma
+    {
+    #include "armadillo_bits/arma_rng_cxx11.hpp"
+    thread_local arma_rng_cxx11 arma_rng_cxx11_instance;
+    }
+#endif
 
 
 namespace arma

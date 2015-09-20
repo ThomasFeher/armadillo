@@ -12,8 +12,8 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
 set(ARMA_MAJOR 3)
-set(ARMA_MINOR 920)
-set(ARMA_PATCH 4)
+set(ARMA_MINOR 930)
+set(ARMA_PATCH 0)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 
@@ -34,14 +34,16 @@ set(ARMA_USE_BOOST   false)
 set(ARMA_USE_HDF5    false)
 set(ARMA_USE_WRAPPER true )
 
-# NOTE:
-# Set ARMA_USE_WRAPPER to false if you're getting linking errors when compiling your programs,
-# or if you prefer to directly link with BLAS and/or LAPACK.
-# You will then need to link your programs with -lblas -llapack instead of -larmadillo
-# If you're using OpenBLAS, link your programs with -lopenblas -llapack instead of -larmadillo
+## NOTE:
+## Set ARMA_USE_WRAPPER to false if you're getting linking errors when compiling your programs,
+## or if you prefer to directly link with BLAS and/or LAPACK.
+## You will then need to link your programs with -lblas -llapack instead of -larmadillo
+## If you're using OpenBLAS, link your programs with -lopenblas -llapack instead of -larmadillo
 
 
-message(STATUS "CMAKE_SYSTEM_NAME = ${CMAKE_SYSTEM_NAME}")
+message(STATUS "CMAKE_SYSTEM_NAME          = ${CMAKE_SYSTEM_NAME}"         )
+message(STATUS "CMAKE_CXX_COMPILER_ID      = ${CMAKE_CXX_COMPILER_ID}"     )
+message(STATUS "CMAKE_CXX_COMPILER_VERSION = ${CMAKE_CXX_COMPILER_VERSION}")
 
 
 if(WIN32)
@@ -56,9 +58,9 @@ endif()
 
 
 
-#
-# Find LAPACK and BLAS libraries, or their optimised versions
-#
+##
+## Find LAPACK and BLAS libraries, or their optimised versions
+##
 
 if(APPLE)
   set(ARMA_OS macos)
@@ -66,9 +68,9 @@ if(APPLE)
   set(ARMA_USE_LAPACK true)
   set(ARMA_USE_BLAS   true)
   
-  # Under MacOS, the current version of ARMA_FindCLAPACK can get confused between
-  # two incompatible versions of "clapack.h" (one provided by the system and one
-  # provided by ATLAS).  As such, use of ATLAS under MacOS is disabled for now.
+  ## Under MacOS, the current version of ARMA_FindCLAPACK can get confused between two incompatible
+  ## versions of "clapack.h" (one provided by the system and one provided by ATLAS).
+  ## As such, use of ATLAS under MacOS is disabled for now.
   
 else()
   set(ARMA_OS unix)
@@ -231,7 +233,7 @@ endif()
 
 
 message(STATUS "")
-message(STATUS "*** The run-time library component of Armadillo will be an alias for the following libraries:")
+message(STATUS "*** The run-time library component of Armadillo will use the following libraries:")
 message(STATUS "*** ARMA_LIBS = ${ARMA_LIBS}")
 message(STATUS "")
 
@@ -258,7 +260,8 @@ if(ARMA_USE_BOOST STREQUAL false)
 endif()
 
 
-# If Boost libraries were found, explicitly check if Boost's date_time library is also present.
+## if Boost libraries were found, explicitly check if the Boost date_time library is also present
+## TODO: remove use of Boost date_time library in Armadillo 4.0
 
 if(ARMA_USE_BOOST STREQUAL true)
   set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${Boost_INCLUDE_DIR})
@@ -302,7 +305,7 @@ endif()
 #set(CMAKE_INSTALL_RPATH_USE_LINK_PATH  TRUE)
 
 
-# work around a silly limitation in Mac OS X
+## work around a silly limitation in Mac OS X
 if(APPLE)
   if(${ARMA_MINOR} GREATER 99)
     math(EXPR ARMA_MINOR_ALT "${ARMA_MINOR} / 10")
@@ -314,13 +317,30 @@ else()
 endif()
 
 
-# necessary when linking with Intel MKL on Linux systems
+## necessary when linking with Intel MKL on Linux systems
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-as-needed")
-  message(STATUS "CMAKE_SHARED_LINKER_FLAGS = ${CMAKE_SHARED_LINKER_FLAGS}")
 endif()
 
-add_library( armadillo SHARED src/wrap_libs )
+
+## enable C++11 mode if available (TODO: replace with native Cmake handling of C++11)
+## NOTE: as of gcc 4.8.2, thread_local is broken (link errors)
+## NOTE: as of clang 3.3, thread_local is only partially supported (no support in clang libc++ runtime library)
+# if(
+#   (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 4.9)
+#   OR
+#   (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 3.4)
+#   )
+#   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+#   message(STATUS "Detected C++11 compiler. Added '-std=c++11' to compiler flags")
+# endif()
+
+
+message(STATUS "CMAKE_CXX_FLAGS           = ${CMAKE_CXX_FLAGS}"          )
+message(STATUS "CMAKE_SHARED_LINKER_FLAGS = ${CMAKE_SHARED_LINKER_FLAGS}")
+
+
+add_library( armadillo SHARED src/wrapper )
 target_link_libraries( armadillo ${ARMA_LIBS} )
 set_target_properties(armadillo PROPERTIES VERSION ${ARMA_MAJOR}.${ARMA_MINOR_ALT}.${ARMA_PATCH} SOVERSION ${ARMA_MAJOR})
 

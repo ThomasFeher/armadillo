@@ -40,12 +40,12 @@ op_shuffle::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_shuffle>& in)
   
   for(uword i=0; i<N; ++i)
     {
-    packet_vec[i].val   = std::rand();
+    packet_vec[i].val   = int(arma_rng::randi<int>());
     packet_vec[i].index = i;
     }
   
   arma_sort_index_helper_ascend comparator;
-
+  
   std::sort( packet_vec.begin(), packet_vec.end(), comparator );
   
   const bool is_alias = (&out == &X);
