@@ -361,7 +361,7 @@ op_median::apply(Mat< std::complex<T> >& out, const Op<T1,op_median>& in)
       for(uword col=0; col<X_n_cols; ++col)
         {
         tmp_vec[col].val   = std::abs(X.at(row,col));
-        tmp_vec[row].index = col;
+        tmp_vec[col].index = col;
         }
       
       uword index1;

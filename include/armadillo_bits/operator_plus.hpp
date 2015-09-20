@@ -19,13 +19,13 @@
 //! unary plus operation (does nothing, but is required for completeness)
 template<typename T1>
 arma_inline
-const Base<typename T1::elem_type,T1>&
+const T1&
 operator+
 (const Base<typename T1::elem_type,T1>& X)
   {
   arma_extra_debug_sigprint();
   
-  return X;
+  return X.get_ref();
   }
 
 
