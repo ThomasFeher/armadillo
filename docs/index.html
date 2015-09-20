@@ -17,9 +17,9 @@
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 3.0</b></font>
+        <font size=+2><b>Reference for Armadillo 3.2</b></font>
         <br>
-        <font size=-1><b>&#8220;Antarctic Chilli Ranch&#8221;</b></font>
+        <font size=-1><b>&#8220;Creamfields&#8221;</b></font>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -226,11 +226,12 @@ Technical Report, NICTA, 2010.
 <a href="#symmat">symmatu/symmatl</a>&nbsp;&middot;
 <a href="#strans">strans</a>&nbsp;&middot;
 <a href="#trans">trans</a>&nbsp;&middot;
-<a href="#trimat">trimatu/trimatl</a>
+<a href="#trimat">trimatu/trimatl</a>&nbsp;&middot;
+<a href="#unique">unique</a>
 </ul>
 <br>
 
-<b>Decompositions, Inverses and Equation Solvers</b>
+<b>Decompositions, Factorisations, Inverses and Equation Solvers</b>
 <ul>
 <a href="#chol">chol</a>&nbsp;&middot;
 <a href="#eig_sym">eig_sym</a>&nbsp;&middot;
@@ -534,6 +535,7 @@ See also:
 <li><a href="#save_load_mat">saving &amp; loading matrices</a></li>
 <li><a href="#print">printing matrices</a></li>
 <li><a href="#iterators_mat">STL-style element iterators</a></li>
+<li><a href="#conv_to">conv_to()</a> (convert between matrix types)</li>
 <li><a href="http://www.cplusplus.com/doc/tutorial/other_data_types/">explanation of <i>typedef</i></a> (cplusplus.com)
 <li><a href="#Col">Col class</a></li>
 <li><a href="#Row">Row class</a></li>
@@ -693,6 +695,7 @@ new memory will be allocated and the auxiliary memory will no longer be used.
 Create a column vector by copying data from read-only auxiliary memory.
 </ul>
 </li>
+<a name="adv_constructors_col_fixed"></a>
 <br>
 <li>vec::fixed&lt;number_of_elements&gt;
 <br>
@@ -1479,15 +1482,26 @@ cout &lt;&lt; B.n_cols &lt;&lt; endl;
 </pre>
 </ul>
 </li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#reset">.reset()</a></li>
+<li><a href="#set_size">.set_size()</a></li>
+<li><a href="#reshape_member">.reshape()</a></li>
+<li><a href="#resize_member">.resize()</a></li>
+<li><a href="#zeros_member">.zeros()</a></li>
+</ul>
+</li>
 </ul>
 <br>
 <hr class="greyline"><br>
 
 <a name="diag"></a>
-<b>.diag(k=0)</b>
+<b>.diag(</b><i>k=0</i><b>)</b>
 <ul>
 <li>
-Member function of <i>Mat</i>.
+Member function of <i>Mat</i>
 </li>
 <br>
 <li>
@@ -1523,7 +1537,9 @@ X.diag() += 6;
 <li>
 See also:
 <ul>
+<li><a href="#eye_member">.eye()</a></li>
 <li><a href="#diagvec">diagvec()</a></li>
+<li><a href="#diagmat">diagmat()</a></li>
 <li><a href="#submat">submatrix views</a></li>
 </ul>
 </li>
@@ -1757,10 +1773,11 @@ B.eye(5,5);
 <br>
 <li>See also:
 <ul>
-<li><a href="#eye_standalone">eye()</a> (standalone function)</li>
+<li><a href="#ones_member">.ones()</a></li>
+<li><a href="#diag">.diag()</a></li>
 <li><a href="#diagmat">diagmat()</a></li>
 <li><a href="#diagvec">diagvec()</a></li>
-<li><a href="#ones_member">.ones()</a></li>
+<li><a href="#eye_standalone">eye()</a> (standalone function)</li>
 </ul>
 </li>
 <br>
@@ -1811,6 +1828,8 @@ Member function of any matrix expression
 <li>
 Provides an inverse of the matrix expression
 </li>
+<br>
+<li>the <i>slow</i> argument is optional</li>
 <br>
 <li>
 If the matrix expression is not square, a <i>std::logic_error</i> exception is thrown
@@ -2965,8 +2984,10 @@ A.ones(10,20); // sets the size to 10 rows and 20 columns
 See also:
 <ul>
 <li><a href="#ones_standalone">ones()</a> (standalone function)</li>
+<li><a href="#eye_member">.eye()</a></li>
 <li><a href="#zeros_member">.zeros()</a></li>
 <li><a href="#fill">.fill()</a></li>
+<li><a href="#randu_randn_member">.randu()</a></li>
 </ul>
 </li>
 <br>
@@ -3375,6 +3396,8 @@ A.reshape(A.n_elem, 1);
 <ul>
 <li><a href="#resize_member">.resize()</a></li>
 <li><a href="#set_size">.set_size()</a></li>
+<li><a href="#copy_size">.copy_size()</a></li>
+<li><a href="#zeros_member">.zeros()</a></li>
 <li><a href="#reset">.reset()</a></li>
 <li><a href="#reshape">reshape()</a> (standalone function)</li>
 </ul>
@@ -3442,6 +3465,8 @@ This function was added in version 2.4
 <ul>
 <li><a href="#reshape_member">.reshape()</a></li>
 <li><a href="#set_size">.set_size()</a></li>
+<li><a href="#copy_size">.copy_size()</a></li>
+<li><a href="#zeros_member">.zeros()</a></li>
 <li><a href="#reset">.reset()</a></li>
 <li><a href="#insert">insert rows/cols/slices</a></li>
 <li><a href="#shed">shed rows/cols/slices</a></li>
@@ -3869,7 +3894,12 @@ If the requested number of elements is equal to the old number of elements, exis
 </li>
 <br>
 <li>
-If the requested number of elements is not equal to the old number of elements, new memory is used
+If the requested number of elements is not equal to the old number of elements, new memory is used;
+the memory is uninitilised
+</li>
+<br>
+<li>
+If you need to initialise the memory, use <a href="#zeros_member">.zeros()</a> instead
 </li>
 <br>
 <li>
@@ -3892,8 +3922,10 @@ q.set_size(100);
 <li>See also:
 <ul>
 <li><a href="#reset">.reset()</a></li>
+<li><a href="#copy_size">.copy_size()</a></li>
 <li><a href="#reshape_member">.reshape()</a></li>
 <li><a href="#resize_member">.resize()</a></li>
+<li><a href="#zeros_member">.zeros()</a></li>
 </ul>
 </li>
 </ul>
@@ -4099,6 +4131,7 @@ X<b>(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> l
 X.<b>unsafe_col(&nbsp;</b>col_number<b>&nbsp;)</b><br>
 <br>
 V.<b>subvec(&nbsp;</b>first_index<b>,</b> last_index<b>&nbsp;)</b> &nbsp;&nbsp;&nbsp; <i>(for vectors only)</i><br>
+V<b>(&nbsp;span(</b>first_index<b>,</b> last_index<b>)&nbsp;)</b> &nbsp;&nbsp;&nbsp;&nbsp; <i>(for vectors only)</i><br>
 </ul>
 </li>
 <br>
@@ -4184,7 +4217,7 @@ X.elem(indices) = ones&lt;vec&gt;(4);
 <li>
 See also:
 <ul>
-<li><a href="#diag">.diag()</a></li>
+<li><a href="#diag">.diag()</a> &nbsp;&nbsp; (read/write access to diagonals)</li>
 <li><a href="#colptr">.colptr()</a></li>
 <li><a href="#in_range">.in_range()</a></li>
 <li><a href="#find">find()</a></li>
@@ -4421,8 +4454,10 @@ See also:
 <ul>
 <li><a href="#zeros_standalone">zeros()</a> (standalone function)</li>
 <li><a href="#ones_member">.ones()</a></li>
+<li><a href="#randu_randn_member">.randu()</a></li>
 <li><a href="#fill">.fill()</a></li>
 <li><a href="#reset">.reset()</a></li>
+<li><a href="#set_size">.set_size()</a></li>
 </ul>
 </li>
 <br>
@@ -4849,6 +4884,7 @@ mat B = 123.0 * eye&lt;mat&gt;(5,5);
 <li>See also:
 <ul>
 <li><a href="#eye_member">.eye()</a> (member function of Mat)</li>
+<li><a href="#diag">.diag()</a></li>
 <li><a href="#ones_standalone">ones()</a></li>
 <li><a href="#diagmat">diagmat()</a></li>
 <li><a href="#diagvec">diagvec()</a></li>
@@ -4888,9 +4924,18 @@ mat X = linspace&lt;mat&gt;(10, 20, 5);
 </pre>
 </ul>
 </li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#ones_standalone">ones()</a></li>
+</ul>
+</li>
 </ul>
 <br>
 <hr class="greyline"><br>
+
+
 
 <a name="ones_standalone"></a>
 <b>
@@ -4930,6 +4975,7 @@ See also:
 <ul>
 <li><a href="#ones_member">.ones()</a> (member function of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>Cube</i>)</li>
 <li><a href="#eye_standalone">eye()</a></li>
+<li><a href="#linspace">linspace()</a></li>
 </ul>
 </li>
 </ul>
@@ -4985,7 +5031,6 @@ cube Q = randu&lt;cube&gt;(5,6,7);
 <li><a href="#zeros_standalone">zeros()</a></li>
 <li><a href="#shuffle">shuffle()</a></li>
 <li><a href="http://cplusplus.com/reference/clibrary/cstdlib/srand/">std::srand()</a></li>
-<li><a href="#api_changes">API changes</a></li>
 </ul>
 </li>
 <br>
@@ -5694,7 +5739,7 @@ For vectors, <i>p</i> is an integer &ge;1, or one of: "-inf", "inf", "fro"
 </li>
 <br>
 <li>
-For matrices, <i>p</i> is one of: 1, 2, "inf", "fro"
+For matrices, <i>p</i> is one of: 1, 2, "inf", "fro"; the calculated norm is the <i>induced norm</i> (not entrywise norm)
 </li>
 <br>
 <li>
@@ -6436,20 +6481,18 @@ See also:
 <hr class="greyline"><br>
 
 <a name="diagmat"></a>
-<b>diagmat(mat)</b>
-<br><b>diagmat(rowvec)</b>
-<br><b>diagmat(colvec)</b>
+<b>diagmat(X)</b>
 <ul>
 <li>
-Interpret a matrix or vector as a diagonal matrix
+Interpret a matrix or vector <i>X</i> as a diagonal matrix
 </li>
 <br>
 <li>
-For <i>mat</i>, given matrix must be square; the main diagonal is copied and all other elements in the generated matrix are set to zero
+If <i>X</i> is a matrix, the matrix must be square; the main diagonal is copied and all other elements in the generated matrix are set to zero
 </li>
 <br>
 <li>
-For <i>colvec</i> and <i>rowvec</i>, elements of the vector are placed on the main diagonal in the generated matrix and all other elements are set to zero
+If <i>X</i> is a vector, elements of the vector are placed on the main diagonal in the generated matrix and all other elements are set to zero
 </li>
 <br>
 <li>
@@ -6471,6 +6514,7 @@ mat    X = diagmat(q)*diagmat(r);
 See also:
 <ul>
 <li><a href="#diagvec">diagvec()</a></li>
+<li><a href="#diag">.diag()</a></li>
 <li><a href="#trimat">trimatu() / trimatl()</a></li>
 <li><a href="#symmat">symmatu() / symmatl()</a></li>
 <li><a href="#reshape">reshape()</a></li>
@@ -6522,6 +6566,7 @@ uvec q3 = find(A &gt; 0.5, 3, "last");
 <li>
 See also:
 <ul>
+<li><a href="#unique">unique()</a></li>
 <li><a href="#conv_to">conv_to()</a> (convert between matrix/vector types)</li>
 <li><a href="#submat">submatrix views</a></li>
 <li><a href="#sort_index">sort_index()</a></li>
@@ -7084,8 +7129,8 @@ If a given object has complex elements, a Hermitian transpose is done (ie. the c
 <li>
 <b>Caveat:</b> for complex matrices, the functionality of trans() has changed in version 2.0:
 <ul>
-<li>in version 1.2.x and earlier, trans() does not take the conjugate of complex elements</li>
-<li>in version 1.2.x and earlier, the deprecated htrans() function is used for the Hermitian transpose</li>
+<li>in version 1.2 and earlier, <i>trans()</i> does not take the conjugate of complex elements</li>
+<li>in version 1.2 and earlier, the <i>htrans()</i> function is used for the Hermitian transpose</li>
 </ul>
 </li>
 <br>
@@ -7114,15 +7159,15 @@ mat B = trans(A);
 <br><b>trimatl(A)</b>
 <ul>
 <li>
-trimatu(A): interpret square matrix A as upper triangular
+<i>trimatu(A)</i>: interpret square matrix <i>A</i> as upper triangular
 </li>
 <br>
 <li>
-trimatl(A): interpret square matrix A as lower triangular
+<i>trimatl(A)</i>: interpret square matrix <i>A</i> as lower triangular
 </li>
 <br>
 <li>
-A <i>std::logic_error</i> exception is thrown if A is non-square
+A <i>std::logic_error</i> exception is thrown if <i>A</i> is non-square
 </li>
 <br>
 <li>
@@ -7152,12 +7197,54 @@ mat X = inv( trimatu(U) );
 </ul>
 <br>
 <hr class="greyline">
+<br>
+
+
+<a name="unique"></a>
+<b>unique(A)</b>
+<br>
+<ul>
+<li>
+Return the unique elements of <i>A</i>, sorted in ascending order
+</li>
+<br>
+<li>
+If <i>A</i> is a vector, the output is also a vector with the same orientation (row or column) as <i>A</i>;
+if <i>A</i> is a matrix, the output is always a column vector
+</li>
+<br>
+<li>
+This function was added in version 3.2
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat X;
+X &lt;&lt; 1 &lt;&lt; 2 &lt;&lt; endr
+  &lt;&lt; 2 &lt;&lt; 3 &lt;&lt; endr;
+
+mat Y = unique(X);
+</pre>
+</ul>
+</li>
+<br>
+<li>See also:
+<ul>
+<li><a href="#find">find()</a></li>
+<li><a href="#sort">sort()</a></li>
+</ul>
+</li>
+</ul>
+<br>
+<hr class="greyline">
 
 
 <hr class="greyline">
 <br>
 <br>
-<font size=+1><b>Decompositions, Inverses and Equation Solvers</b></font>
+<font size=+1><b>Decompositions, Factorisations, Inverses and Equation Solvers</b></font>
 <br>
 <br>
 <hr class="greyline">
@@ -7198,6 +7285,7 @@ mat R = chol(Y);
 See also:
 <ul>
 <li><a href="http://mathworld.wolfram.com/CholeskyDecomposition.html">Cholesky decomposition in MathWorld</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Cholesky_decomposition">Cholesky decomposition in Wikipedia</a></li>
 </ul>
 </li>
 </ul>
@@ -7211,19 +7299,27 @@ See also:
 <br><b>eig_sym(vec eigval, mat X)</b>
 <br><b>eig_sym(vec eigval, cx_mat X)</b>
 <br>
-<br><b>eig_sym(vec eigval, mat eigvec, mat X)</b>
-<br><b>eig_sym(vec eigval, cx_mat eigvec, cx_mat X)</b>
+<br><b>eig_sym(vec eigval, mat eigvec, mat X, method = "standard")</b>
+<br><b>eig_sym(vec eigval, cx_mat eigvec, cx_mat X, method = "standard")</b>
 <ul>
-<li>
-Eigen decomposition of symmetric/hermitian matrix <i>X</i></li>
+<li>Eigen decomposition of symmetric/hermitian matrix <i>X</i></li>
 <br>
 <li>The eigenvalues and corresponding eigenvectors are stored in <i>eigval</i> and <i>eigvec</i>, respectively</li>
 <br>
-<li>
-The eigenvalues are in ascending order
-</li>
+<li>The eigenvalues are in ascending order</li>
 <br>
 <li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
+<br>
+<li>The <i>method</i> argument is optional</li>
+<br>
+<li>
+By default, a standard eigen decomposition algorithm is used;
+a "divide and conquer" algorithm can be used instead by explicitly setting <i>method</i> to <i>"dc"</i>
+</li>
+<br>
+<li>
+The "divide and conquer" algorithm provides slightly different results, but is notably faster for matrices of size 30x30 or greater
+</li>
 <br>
 <li>If the decomposition fails, the output objects are reset and:
 <ul>
@@ -7238,13 +7334,17 @@ The eigenvalues are in ascending order
 Examples:
 <ul>
 <pre>
-mat A = randu&lt;mat&gt;(10,10);
+mat A = randu&lt;mat&gt;(50,50);
 mat B = trans(A)*A;  // generate a symmetric matrix
 
 vec eigval;
 mat eigvec;
 
+// use standard algorithm by default
 eig_sym(eigval, eigvec, B);
+
+// use divide &amp; conquer algorithm
+eig_sym(eigval, eigvec, B, "dc");
 </pre>
 </ul>
 </li>
@@ -7256,6 +7356,8 @@ See also:
 <li><a href="#svd">svd()</a></li>
 <li><a href="#svd_econ">svd_econ()</a></li>
 <li><a href="http://mathworld.wolfram.com/EigenDecomposition.html">eigen decomposition in MathWorld</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors">eigenvalues &amp; eigenvectors in Wikipedia</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Divide-and-conquer_eigenvalue_algorithm">divide &amp; conquer eigenvalue algorithm in Wikipedia</a></li>
 </ul>
 </li>
 <br>
@@ -7313,6 +7415,7 @@ See also:
 <li><a href="#svd">svd()</a></li>
 <li><a href="#svd_econ">svd_econ()</a></li>
 <li><a href="http://mathworld.wolfram.com/EigenDecomposition.html">eigen decomposition in MathWorld</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors">eigenvalues &amp; eigenvectors in Wikipedia</a></li>
 </ul>
 </li>
 </ul>
@@ -7327,6 +7430,8 @@ See also:
 <li>
 Inverse of square matrix <i>A</i>
 </li>
+<br>
+<li>the <i>slow</i> argument is optional</li>
 <br>
 <li>
 If <i>A</i> is known to be a triangular matrix,
@@ -7467,6 +7572,8 @@ See also:
 <ul>
 <li>Moore-Penrose pseudo-inverse of matrix <i>A</i></li>
 <br>
+<li>The <i>tolerance</i> argument is optional</li>
+<br>
 <li>The computation is based on singular value decomposition;
 if the decomposition fails, <i>B</i> is reset and:
 <ul>
@@ -7474,7 +7581,7 @@ if the decomposition fails, <i>B</i> is reset and:
 <li><i>pinv(B,A)</i> returns a bool set to <i>false</i></li>
 </ul>
 <br>
-<li>Any singular values less than <i>tol</i> are treated as zero</li>
+<li>Any singular values less than <i>tolerance</i> are treated as zero</li>
 <br>
 <li>For matrix <i>A</i> with <i>m</i> rows and <i>n</i> columns,
 the default tolerance is <i>max(m,n)*norm(A)*datum::eps</i>,
@@ -7596,6 +7703,7 @@ qr(Q,R,X);
 See also:
 <ul>
 <li><a href="http://mathworld.wolfram.com/QRDecomposition.html">QR decomposition in MathWorld</a></li>
+<li><a href="http://en.wikipedia.org/wiki/QR_decomposition">QR decomposition in Wikipedia</a></li>
 <li><a href="http://octave.sourceforge.net/octave/function/qr.html">QR decomposition in Octave</a></li>
 </ul>
 </li>
@@ -7608,6 +7716,8 @@ See also:
 <br><b>solve(X, A, B, </b><i>slow=false</i><b>)</b>
 <ul>
 <li>Solve a system of linear equations, ie., <i>A*X = B</i>, where <i>X</i> is unknown</li>
+<br>
+<li>The <i>slow</i> argument is optional</li>
 <br>
 <li>For a square matrix <i>A</i>, this function is conceptually the same as <i>X = inv(A)*B</i>, but is more efficient</li>
 <br>
@@ -8455,7 +8565,7 @@ Meaning of the constants:
 <br>
 <li>
 <b>Caveat:</b>
-nan is not equal to anything, even itself;
+datum::nan is not equal to anything, even itself;
 if you wish to check whether a given number <i>x</i> is finite,
 use <a href="#is_finite_standalone">is_finite</a>(<i>x</i>).
 </li>
@@ -9650,6 +9760,17 @@ Below is a list of deprecated functionality; this functionality will be <b>remov
 Below is a list of additions and changes since prior versions of Armadillo:
 <br>
 <br>
+<a name="added_in_32"></a>
+<li>Added in 3.2:
+<ul>
+<li><a href="#unique">unique()</a>, for finding unique elements of a matrix</li>
+<li>faster <a href="#eig_sym">eigen decomposition</a> via "divide and conquer" algorithm</li>
+<li>faster <a href="#t_st_members">transpose</a> of vectors and compound expressions</li>
+<li>faster handling of <a href="#diag">diagonal views</a></li>
+<li>faster handling of tiny <a href="#adv_constructors_col_fixed">fixed size</a> vectors (&le; 4 elements)</li>
+</ul>
+<br>
+</li>
 <a name="added_in_30"></a>
 <li>Added in 3.0:
 <ul>
@@ -9657,6 +9778,9 @@ Below is a list of additions and changes since prior versions of Armadillo:
 <li><a href="#constants">datum</a> class</li>
 <li><a href="#hist">hist()</a> and <a href="#histc">histc()</a></li>
 <li>non-contiguous <a href="#submat">submatrix views</a></li>
+<li>faster handling of <a href="#submat">submatrix views</a> with a single row or column</li>
+<li>faster element access in <a href="#adv_constructors_mat_fixed">fixed size matrices</a></li>
+<li>faster <a href="#repmat">repmat()</a></li>
 </ul>
 <br>
 </li>
@@ -9664,13 +9788,10 @@ Below is a list of additions and changes since prior versions of Armadillo:
 <ul>
 <li>expressions <i>X=<a href="#inv">inv</a>(A)*B</i> and <i>X=A<a href="#i_member">.i()</a>*B</i> are automatically converted to <i>X=<a href="#solve">solve</a>(A,B)</i>
 <li>better detection of vector expressions by <a href="#sum">sum()</a>, <a href="#cumsum">cumsum()</a>, <a href="#prod">prod()</a>, <a href="#min_and_max">min()</a>, <a href="#min_and_max">max()</a>, <a href="#stats_fns">mean()</a>, <a href="#stats_fns">median()</a>, <a href="#stats_fns">stddev()</a>, <a href="#stats_fns">var()</a>
-<li>faster handling of <a href="#submat">submatrix views</a> with a single row or column</li>
 <li>faster generation of random numbers
 (eg. <a href="#randu_randn_standalone">randu()</a> and <a href="#randu_randn_standalone">randn()</a>),
 via an algorithm that produces slightly different numbers than in 2.x
 </li>
-<li>faster element access in <a href="#adv_constructors_mat_fixed">fixed size matrices</a></li>
-<li>faster <a href="#repmat">repmat()</a></li>
 <li>
 support for tying writeable auxiliary (external) memory to fixed size matrices has been removed;
 instead, you can use standard matrices with <a href="#adv_constructors_mat">writeable auxiliary memory</a>,
@@ -9713,19 +9834,6 @@ the <i>uword</i> type then has a minimum width of 64 bits
 <li><a href="#is_vec">.is_colvec()</a> and <a href="#is_vec">.is_rowvec()</a></li>
 </ul>
 <br>
-<li>Changed in 2.0:
-<ul>
-<li><a href="#trans">trans()</a> now takes the complex conjugate when transposing a complex matrix</li>
-<li>Forms of
-<a href="#chol">chol()</a>, <a href="#eig_sym">eig_sym()</a>, <a href="#eig_gen">eig_gen()</a>,
-<a href="#inv">inv()</a>, <a href="#lu">lu()</a>, <a href="#pinv">pinv()</a>, <a href="#princomp">princomp()</a>,
-<a href="#qr">qr()</a>, <a href="#solve">solve()</a>, <a href="#svd">svd()</a>, <a href="#syl">syl()</a>
-that do not return a bool indicating success now throw <i>std::runtime_error</i> exceptions when failures are detected</li>
-<li>princomp_cov() has been removed; <a href="#eig_sym">eig_sym()</a> in conjunction with <a href="#cov">cov()</a> can be used instead</li>
-<li><a href="#is_vec">.is_vec()</a> now outputs <i>true</i> for empty vectors (eg. 0x1)</li>
-<li>set_log_stream() &amp; get_log_stream() have been replaced by <a href="#logging">set_stream_err1()</a> &amp; <a href="#logging">get_stream_err1()</a></li>
-</ul>
-<br>
 <li>Added in 2.0:
 <ul>
 <li><a href="#det">det()</a>, <a href="#inv">inv()</a> and <a href="#solve">solve()</a> can be forced to use more precise algorithms for tiny matrices (&le;&nbsp;4x4)</li>
@@ -9740,6 +9848,19 @@ that do not return a bool indicating success now throw <i>std::runtime_error</i>
 <li>handling of arbitrarily sized empty matrices (eg. 5x0)</li>
 <li>.count() member function in <a href="#running_stat">running_stat</a> and <a href="#running_stat_vec">running_stat_vec</a></li>
 <li><a href="#save_load_mat">loading &amp; saving</a> of matrices as CSV text files</li>
+</ul>
+<br>
+<li>Changed in 2.0:
+<ul>
+<li><a href="#trans">trans()</a> now takes the complex conjugate when transposing a complex matrix</li>
+<li>Forms of
+<a href="#chol">chol()</a>, <a href="#eig_sym">eig_sym()</a>, <a href="#eig_gen">eig_gen()</a>,
+<a href="#inv">inv()</a>, <a href="#lu">lu()</a>, <a href="#pinv">pinv()</a>, <a href="#princomp">princomp()</a>,
+<a href="#qr">qr()</a>, <a href="#solve">solve()</a>, <a href="#svd">svd()</a>, <a href="#syl">syl()</a>
+that do not return a bool indicating success now throw <i>std::runtime_error</i> exceptions when failures are detected</li>
+<li>princomp_cov() has been removed; <a href="#eig_sym">eig_sym()</a> in conjunction with <a href="#cov">cov()</a> can be used instead</li>
+<li><a href="#is_vec">.is_vec()</a> now outputs <i>true</i> for empty vectors (eg. 0x1)</li>
+<li>set_log_stream() &amp; get_log_stream() have been replaced by <a href="#logging">set_stream_err1()</a> &amp; <a href="#logging">get_stream_err1()</a></li>
 </ul>
 <br>
 <li>Added in 1.2:

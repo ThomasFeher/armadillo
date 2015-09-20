@@ -5,18 +5,17 @@
 
 2: Installation
    2.0: Preliminaries
-   2.1: Manual Installation
-   2.2: Installation on Linux and Mac OS X
-   2.3: Installation on MS Windows
+   2.1: Installation on Linux and Mac OS X
+   2.2: Manual Installation / Installation on Windows
 
 3: Compiling Programs and Linking
    3.0: Examples
    3.1: Compiling & Linking on Linux and Mac OS X
-   3.2: Compiling & Linking on MS Windows
+   3.2: Compiling & Linking on Windows
 
-4: Caveats
-   4.0: Support for ATLAS
-   4.1: Support for ACML and Intel MKL
+4: Support for high-speed BLAS & LAPACK replacements
+   4.0: Support for Intel MKL and AMD ACML
+   4.1: Support for ATLAS
 
 5: Documentation / Reference Manual
 
@@ -37,7 +36,7 @@ Integer, floating point and complex numbers are supported,
 as well as a subset of trigonometric and statistics functions.
 Various matrix decompositions are provided through optional
 integration with LAPACK or high-performance LAPACK-compatible
-libraries.
+libraries (such as Intel's MKL or AMD's ACML).
 
 A delayed evaluation approach is employed (during compile time)
 to combine several operations into one and reduce (or eliminate)
@@ -78,59 +77,30 @@ As such, C++ compilers which do not fully implement the C++
 standard may not work correctly.
 
 The functionality of Armadillo is partly dependent on other
-libraries -- mainly LAPACK and BLAS. Armadillo can work without
+libraries: mainly LAPACK and BLAS. Armadillo can work without
 LAPACK or BLAS, but its functionality will be reduced.
 In particular, basic functionality will be available
 (eg. matrix addition and multiplication), but things like
-eigen decomposition or will not be. Matrix multiplication
-(mainly for big matrices) may not be as fast.
+eigen decomposition or matrix inversion will not be.
+Matrix multiplication (mainly for big matrices) may not be as fast.
 
-* For manual installation on all systems, see section 2.1.
-
-* For installation on Linux and Mac OS X systems, see section 2.2.
-  The Linux installation is also likely to work on other Unix-like
-  systems, such as FreeBSD, NetBSD, OpenBSD, Solaris, CygWin, etc.
-
-* For installation on MS Windows, see section 2.3.
-
-
-
-=== 2.1: Manual Installation ===
-
-The manual installation is comprised of 3 steps:
-
-* Step 1:
-  Copy the entire "include" folder to a convenient location
-  and tell your compiler to use that location for header files
-  (in addition to the locations it uses already).
-  Alternatively, you can use the "include" folder directly.
-
-* Step 2:
-  Modify "include/armadillo_bits/config.hpp" to indicate 
-  which libraries are currently available on your system.
-  For example, if you have LAPACK and BLAS present, 
-  uncomment the following lines:
+* For automatic installation on Linux and Mac OS X systems,
+  see section 2.1. This installation is also likely to work on
+  other Unix-like systems, such as FreeBSD, NetBSD, OpenBSD,
+  Solaris, CygWin, etc.
   
-  #define ARMA_USE_LAPACK
-  #define ARMA_USE_BLAS
+* For manual installation and/or installation on Windows,
+  see section 2.2.
 
-* Step 3:
-  If you have LAPACK and/or BLAS present, configure your 
-  compiler to link with these libraries. 
-  
-  You can also link with fast replacements for LAPACK and BLAS,
-  eg. Intel's MKL or AMD's ACML.
-  Under Mac OS X, link using -framework Accelerate
+* If you have a previous version of Armadillo already installed,
+  we recommend removing it before installing a newer version.
 
 
 
-=== 2.2: Installation on Linux and Mac OS X ===
-
-If you have installed Armadillo using an RPM or DEB package,
-you don't need to do anything else. Otherwise read on.
+=== 2.1: Installation on Linux and Mac OS X ===
 
 You can use the manual installation process as described in
-section 2.1, or the following CMake based automatic installation.
+section 2.2, or the following CMake based automatic installation.
 
 * Step 1:
   If CMake is not already be present on your system, download
@@ -186,15 +156,34 @@ section 2.1, or the following CMake based automatic installation.
 
 
 
-=== 2.3: Installation on MS Windows ===
+=== 2.2: Manual Installation / Installation on Windows ===
 
-There is currently no automatic installation for Windows.
-Please use the manual installation process described in section 2.1.
+The manual installation is comprised of 3 steps:
 
-Pre-compiled 32 bit versions of BLAS and LAPACK libraries
-for Windows are provided in the "examples/libs_win32" folder.
+* Step 1:
+  Copy the entire "include" folder to a convenient location
+  and tell your compiler to use that location for header files
+  (in addition to the locations it uses already).
+  Alternatively, you can use the "include" folder directly.
 
-See section 3.2 for more information on compiling & linking on Windows.
+* Step 2:
+  Modify "include/armadillo_bits/config.hpp" to indicate 
+  which libraries are currently available on your system.
+  For example, if you have LAPACK and BLAS present, 
+  uncomment the following lines:
+  
+  #define ARMA_USE_LAPACK
+  #define ARMA_USE_BLAS
+
+* Step 3:
+  If you have LAPACK and/or BLAS present, configure your 
+  compiler to link with these libraries. 
+  
+  If using Windows, see Section 3.2.
+  If using Mac OS X, link using -framework Accelerate
+  
+  You can also link with high-speed replacements for LAPACK and BLAS,
+  eg. Intel's MKL or AMD's ACML.  See Section 4.0 for more info.
 
 
 
@@ -202,7 +191,7 @@ See section 3.2 for more information on compiling & linking on Windows.
 
 The "examples" directory contains several quick example programs
 that use the Armadillo library. If Armadillo was installed manually
-(ie. according to section 2.1), you will also need to explicitly
+(ie. according to section 2.2), you will also need to explicitly
 link your programs with the libraries that were specified in
 "include/armadillo_bits/config.hpp".
 
@@ -251,21 +240,22 @@ Notes:
 
 
 
-=== 3.2: Compiling & Linking on MS Windows ===
+=== 3.2: Compiling & Linking on Windows ===
 
 As a courtesy, we've provided pre-compiled 32 bit versions of
-LAPACK and BLAS for Windows, as well as MSVC project files to
-compile example1.cpp and example2.cpp.
+standard LAPACK and BLAS for Windows, as well as MSVC project
+files to compile example1.cpp and example2.cpp.
 The project files are stored in the following folders:
   examples/example1_win32
   examples/example2_win32
 
-The 32 bit versions of the LAPACK and BLAS libraries are stored in:
+The standard 32 bit versions of the LAPACK and BLAS libraries
+are stored in:
   examples/lib_win32
 
 If you're getting messages such as "use of LAPACK needs to be enabled",
 you will need to manually modify "include/armadillo_bits/config.hpp"
-to enable the use of LAPACK. Please see section 2.1 for more information.
+to enable the use of LAPACK. See section 2.2 for more information.
 
 Note that on 64 bit systems (such as Windows 7), dedicated
 64 bit versions of BLAS and LAPACK are considerably faster.
@@ -282,12 +272,6 @@ for 64 bit systems, later versions of Windows and/or the compiler.
 For example, you may have to enable or disable the ARMA_BLAS_LONG
 and ARMA_BLAS_UNDERSCORE macros in "armadillo_bits/config.hpp".
 
-To preserve our sanity, we (Armadillo developers) don't use Windows
-on a regular basis, and as such can't help you with the adaptations.
-For best results we recommend using an operating system that's
-more reliable and more suitable for heavy duty work,
-such as Linux or Mac OS X. 
-
 The pre-compiled versions of LAPACK and BLAS were downloaded from:
   http://www.fi.muni.cz/~xsvobod2/misc/lapack/
 
@@ -299,11 +283,11 @@ try these versions:
   http://www.stanford.edu/~vkl/code/libs.html
   http://icl.cs.utk.edu/lapack-for-windows/lapack/
 
-(the MKL and ACML libraries are generally the fastest)
+The MKL and ACML libraries are generally the fastest.
+See Section 4.0 for more info on making Armadillo use MKL or ACML.
 
 
-If you want to compile BLAS and LAPACK yourself, you can find
-the original sources at:
+You can find the original sources for standard BLAS and LAPACK at:
   http://www.netlib.org/blas/
   http://www.netlib.org/lapack/
 
@@ -322,35 +306,26 @@ We recommend the following high-quality compilers:
 For the GCC compiler, use version 4.0 or later.
 For Intel's C++ compiler, use version 10.0 or later.
 
-
-
-=== 4.0: Caveats: Support for ATLAS ===
-
-Armadillo can use the ATLAS library for faster versions of
-certain LAPACK and BLAS functions. Not all ATLAS functions are
-currently used, and as such LAPACK should still be installed.
-
-The minimum recommended version of ATLAS is 3.8.
-Old versions (eg. 3.6) can produce incorrect results
-as well as corrupting memory, leading to random crashes.
-
-Users of Ubuntu and Debian based systems should explicitly
-check that version 3.6 is not installed. It's better to
-remove the old version and use the standard LAPACK library.
+For best results we recommend using an operating system that's
+more reliable and more suitable for heavy duty work,
+such as Mac OS X or the various flavours of Linux,
+eg. Scientific Linux: http://www.scientificlinux.org/
 
 
 
-=== 4.1: Caveats: Support for ACML and Intel MKL ===
+=== 4.0: Support for Intel MKL and AMD ACML ===
 
-Armadillo can work with AMD Core Math Library and Intel's
-Math Kernel Library (MKL) as fast replacements for BLAS and LAPACK.
-However, there are several caveats.
+Armadillo can use Intel's Math Kernel Library (MKL) and the
+AMD Core Math Library (ACML) as high-speed replacements for BLAS and LAPACK.
+
+You may need to make minor modifications to "include/armadillo_bits/config.hpp"
+in order to make sure Armadillo uses the same style of function names
+as used by MKL or ACML. For example, the function names might be in capitals.
 
 On Linux systems, ACML and MKL are typically installed in a
 non-standard location, which can cause problems during linking.
-
 Before installing Armadillo, the system should know where the ACML or MKL
-libraries are located (eg., "/opt/intel/mkl/10.2.2.025/lib/em64t/").
+libraries are located (eg. "/opt/intel/mkl/10.2.2.025/lib/em64t/").
 This can be achieved by setting the LD_LIBRARY_PATH environment variable,
 or for a more permanent solution, adding the location of the libraries
 to "/etc/ld.so.conf". It may also be possible to store a text file 
@@ -375,10 +350,26 @@ the lines containing:
 
 
 
+=== 4.1: Support for ATLAS ===
+
+Armadillo can use the ATLAS library for faster versions of
+certain LAPACK and BLAS functions. Not all ATLAS functions are
+currently used, and as such LAPACK should still be installed.
+
+The minimum recommended version of ATLAS is 3.8.
+Old versions (eg. 3.6) can produce incorrect results
+as well as corrupting memory, leading to random crashes.
+
+Users of Ubuntu and Debian based systems should explicitly
+check that version 3.6 is not installed. It's better to
+remove the old version and use the standard LAPACK library.
+
+
+
 === 5: Documentation / Reference Manual ===
 
 A reference manual (user documentation) is available at
-http://arma.sourceforge.net or in the "docs" directory of
+http://arma.sourceforge.net or in the "docs" folder of
 this archive.  Use a web browser to open docs/index.html
 
 The user documentation explains how to use Armadillo's
@@ -438,6 +429,7 @@ Contributors:
 - Oka Kurniawan
 - Simen Kvaal
 - David Lawrence
+- Jussi Lehtola
 - Jeremy Mason
 - Carlos Mendes
 - Artem Novikov
@@ -453,10 +445,12 @@ Contributors:
 - Gerhard Schreiber
 - Shane Stainsby
 - Petter Strandmark
+- Eric Jon Sundstrom
 - Paul Torfs
 - Simon Urbanek
 - Arnold Wiliem
 - Yong Kang Wong
+- Buote Xu
 
 
 

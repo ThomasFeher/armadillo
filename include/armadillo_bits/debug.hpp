@@ -453,9 +453,9 @@ arma_incompat_size_string(const subview_cube<eT>& Q, const Mat<eT>& A, const cha
 
 
 
-inline
-void
+arma_inline
 arma_hot
+void
 arma_assert_same_size(const uword A_n_rows, const uword A_n_cols, const uword B_n_rows, const uword B_n_cols, const char* x)
   {
   if( (A_n_rows != B_n_rows) || (A_n_cols != B_n_cols) )
@@ -1099,7 +1099,7 @@ arma_assert_mul_size(const subview<eT1>& A, const subview<eT2>& B, const char* x
   #define arma_debug_set_error          true ? (void)0 : arma_set_error
   #define arma_debug_assert_same_size   true ? (void)0 : arma_assert_same_size
   #define arma_debug_assert_mul_size    true ? (void)0 : arma_assert_mul_size
-  #define arma_debug_assert_cube_as_mat true ? (void)0 : arma_assert_cube_as_mat
+  #define arma_debug_assert_cube_as_mat true ? (void)0 : arma_debug_assert_cube_as_mat
 
 #endif
 
