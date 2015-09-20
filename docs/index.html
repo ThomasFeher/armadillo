@@ -17,7 +17,7 @@
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 2.2.2</b></font>
+        <font size=+2><b>Reference for Armadillo 2.2.3</b></font>
         <br>
         <font size=-1><b>(Blue Skies Debauchery)</b></font>
       </td>
@@ -239,7 +239,7 @@ Technical Report, NICTA, 2010.
 <a href="#qr">qr</a>&nbsp;&middot;
 <a href="#solve">solve</a>&nbsp;&middot;
 <a href="#svd">svd</a>&nbsp;&middot;
-<a href="#svd_thin">svd_thin</a>&nbsp;&middot;
+<a href="#svd_econ">svd_econ</a>&nbsp;&middot;
 <a href="#syl">syl</a>
 </ul>
 <br>
@@ -6912,7 +6912,7 @@ See also:
 <ul>
 <li><a href="#eig_gen">eig_gen()</a></li>
 <li><a href="#svd">svd()</a></li>
-<li><a href="#svd_thin">svd_thin()</a></li>
+<li><a href="#svd_econ">svd_econ()</a></li>
 <li><a href="http://mathworld.wolfram.com/EigenDecomposition.html">eigen decomposition in MathWorld</a></li>
 </ul>
 </li>
@@ -6969,7 +6969,7 @@ See also:
 <ul>
 <li><a href="#eig_sym">eig_sym()</a></li>
 <li><a href="#svd">svd()</a></li>
-<li><a href="#svd_thin">svd_thin()</a></li>
+<li><a href="#svd_econ">svd_econ()</a></li>
 <li><a href="http://mathworld.wolfram.com/EigenDecomposition.html">eigen decomposition in MathWorld</a></li>
 </ul>
 </li>
@@ -7397,7 +7397,7 @@ svd(U,s,V,X);
 <li>
 See also:
 <ul>
-<li><a href="#svd_thin">svd_thin()</a></li>
+<li><a href="#svd_econ">svd_econ()</a></li>
 <li><a href="#eig_gen">eig_gen()</a></li>
 <li><a href="#eig_sym">eig_sym()</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Singular_value_decomposition">singular value decomposition in Wikipedia</a></li>
@@ -7409,12 +7409,12 @@ See also:
 <hr class="greyline">
 <br>
 
-<a name="svd_thin"></a>
-<b>svd_thin(mat U, vec s, mat V, mat X, mode = 'b')</b>
-<br><b>svd_thin(cx_mat U, vec s, cx_mat V, cx_mat X, mode = 'b')</b>
+<a name="svd_econ"></a>
+<b>svd_econ(mat U, vec s, mat V, mat X, mode = 'b')</b>
+<br><b>svd_econ(cx_mat U, vec s, cx_mat V, cx_mat X, mode = 'b')</b>
 <ul>
 <li>
-Thin/economical singular value decomposition of <i>X</i>
+Economical singular value decomposition of <i>X</i>
 </li>
 <br>
 <li>
@@ -7443,7 +7443,7 @@ mat X = randu&lt;mat&gt;(4,5);
 mat U;
 vec s;
 mat V;
-svd_thin(U, s, V, X, 'l');
+svd_econ(U, s, V, X, 'l');
 </pre>
 </ul>
 </li>
@@ -9325,7 +9325,7 @@ Below is a list of additions and changes since prior versions of Armadillo:
 <ul>
 <li>Added in 2.2:
 <ul>
-<li><a href="#svd_thin">svd_thin()</a></li>
+<li><a href="#svd_econ">svd_econ()</a></li>
 <li><a href="#toeplitz">circ_toeplitz()</a></li>
 <li><a href="#is_vec">.is_colvec()</a> and <a href="#is_vec">.is_rowvec()</a></li>
 </ul>
