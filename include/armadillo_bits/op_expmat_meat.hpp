@@ -51,7 +51,7 @@ op_expmat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_expmat>& expr
     
     const T log2_val = eop_aux::log2(norm_val);
     
-    const uword s = (std::max)(uword(0), uword(log2_val) + uword(1) + uword(1));
+    const uword s = uword( (std::max)(sword(0), sword(log2_val) + sword(1) + sword(1)) );
     
     const Mat<eT> AA = A / eT(eop_aux::pow(double(2), double(s)));
     
