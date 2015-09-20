@@ -127,7 +127,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 5.300</b></font>
+        <font size=+2><b>Reference for Armadillo 5.400</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -344,46 +344,49 @@ Technical Report, NICTA, 2010.
 <tr><td><a href="#cov">cov</a></td><td>&nbsp;</td><td>covariance</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#cross">cross</a></td><td>&nbsp;</td><td>cross product</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#cumsum">cumsum</a></td><td>&nbsp;</td><td>cumulative sum</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#det">det / log_det</a></td><td>&nbsp;</td><td>determinant</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#cumprod">cumprod</a></td><td>&nbsp;</td><td>cumulative product</td></tr>
+<tr><td><a href="#det">det / log_det</a></td><td>&nbsp;</td><td>determinant</td></tr>
 <tr><td><a href="#diagmat">diagmat</a></td><td>&nbsp;</td><td>interpret matrix as diagonal</td></tr>
 <tr><td><a href="#diagvec">diagvec</a></td><td>&nbsp;</td><td>extract specified diagonal</td></tr>
-<tr><td><a href="#dot">dot/cdot/norm_dot</a></td><td>&nbsp;</td><td>dot product</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#diff">diff</a></td><td>&nbsp;</td><td>differences between adjacent elements</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#dot">dot/cdot/norm_dot</a></td><td>&nbsp;</td><td>dot product</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#eps">eps</a></td><td>&nbsp;</td><td>obtain distance of each element to next largest floating point representation</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#expmat">expmat</a></td><td>&nbsp;</td><td>matrix exponential</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#find">find</a></td><td>&nbsp;</td><td>find indices of non-zero elements, or elements satisfying a relational condition</td></tr>
+<tr><td><a href="#expmat">expmat</a></td><td>&nbsp;</td><td>matrix exponential</td></tr>
+<tr><td><a href="#find">find</a></td><td>&nbsp;</td><td>find indices of non-zero elements, or elements satisfying a relational condition</td></tr>
 <tr><td><a href="#find_finite">find_finite</a></td><td>&nbsp;</td><td>find indices of finite elements</td></tr>
-<tr><td><a href="#find_nonfinite">find_nonfinite</a></td><td>&nbsp;</td><td>find indices of non-finite elements</td></tr>
-<tr><td><a href="#flip">fliplr&nbsp;/&nbsp;flipud</a></td><td>&nbsp;</td><td>reverse order of columns or rows</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#hist">hist</a></td><td>&nbsp;</td><td>histogram of counts</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#histc">histc</a></td><td>&nbsp;</td><td>histogram of counts with user specified edges</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#imag_real">imag / real</a></td><td>&nbsp;</td><td>extract imaginary/real part</td></tr>
-<tr><td><a href="#inplace_trans">inplace_trans</a></td><td>&nbsp;</td><td>in-place transpose</td></tr>
-<tr><td><a href="#interp1">interp1</a></td><td>&nbsp;</td><td>1D interpolation</td></tr>
-<tr><td><a href="#is_finite">is_finite</a></td><td>&nbsp;</td><td>check whether all elements are finite</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#join">join_rows/cols/slices</a></td><td>&nbsp;</td><td>concatenation of matrices or cubes</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#kron">kron</a></td><td>&nbsp;</td><td>Kronecker tensor product</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#min_and_max">min&nbsp;/&nbsp;max</a></td><td>&nbsp;</td><td>return extremum values</td></tr>
-<tr><td><a href="#nonzeros">nonzeros</a></td><td>&nbsp;</td><td>return non-zero values</td></tr>
-<tr><td><a href="#norm">norm</a></td><td>&nbsp;</td><td>various norms of vectors and matrices</td></tr>
-<tr><td><a href="#normalise">normalise</a></td><td>&nbsp;</td><td>normalise vectors to unit <i>p</i>-norm</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#prod">prod</a></td><td>&nbsp;</td><td>product of elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#rank">rank</a></td><td>&nbsp;</td><td>rank of matrix</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#repmat">repmat</a></td><td>&nbsp;</td><td>replicate matrix in block-like fashion</td></tr>
-<tr><td><a href="#reshape">reshape</a></td><td>&nbsp;</td><td>change size while keeping elements</td></tr>
-<tr><td><a href="#resize">resize</a></td><td>&nbsp;</td><td>change size while keeping elements and preserving layout</td></tr>
-<tr><td><a href="#shuffle">shuffle</a></td><td>&nbsp;</td><td>randomly shuffle elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#sort">sort</a></td><td>&nbsp;</td><td>sort elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#sort_index">sort_index</a></td><td>&nbsp;</td><td>vector describing sorted order of elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#sum">sum</a></td><td>&nbsp;</td><td>sum of elements</td></tr>
-<tr><td><a href="#symmat">symmatu&nbsp;/&nbsp;symmatl</a></td><td>&nbsp;</td><td>interpret matrix as symmetric</td></tr>
-<tr><td><a href="#trace">trace</a></td><td>&nbsp;</td><td>sum of diagonal elements of square matrix</td></tr>
-<tr><td><a href="#trans">trans</a></td><td>&nbsp;</td><td>transpose of matrix</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#trimat">trimatu&nbsp;/&nbsp;trimatl</a></td><td>&nbsp;</td><td>interpret matrix as triangular</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#unique">unique</a></td><td>&nbsp;</td><td>return unique elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#vectorise">vectorise</a></td><td>&nbsp;</td><td>convert matrix to vector</td></tr>
-<tr><td><a href="#misc_fns">misc&nbsp;functions</a></td><td>&nbsp;</td><td>miscellaneous element-wise functions:&nbsp;exp,&nbsp;log,&nbsp;pow,&nbsp;sqrt,&nbsp;round,&nbsp;sign,&nbsp;...</td></tr>
-<tr><td><a href="#trig_fns">trig&nbsp;functions</a></td><td>&nbsp;</td><td>trigonometric element-wise functions:&nbsp;cos,&nbsp;sin,&nbsp;...</td></tr>
-<tr><td><a href="#stats_fns">stats&nbsp;functions</a></td><td>&nbsp;</td><td>statistics functions: mean, median, standard deviation, variance</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#find_nonfinite">find_nonfinite</a></td><td>&nbsp;</td><td>find indices of non-finite elements</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#find_unique">find_unique</a></td><td>&nbsp;</td><td>find indices of unique elements</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#flip">fliplr&nbsp;/&nbsp;flipud</a></td><td>&nbsp;</td><td>reverse order of columns or rows</td></tr>
+<tr><td><a href="#hist">hist</a></td><td>&nbsp;</td><td>histogram of counts</td></tr>
+<tr><td><a href="#histc">histc</a></td><td>&nbsp;</td><td>histogram of counts with user specified edges</td></tr>
+<tr><td><a href="#imag_real">imag / real</a></td><td>&nbsp;</td><td>extract imaginary/real part</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#inplace_trans">inplace_trans</a></td><td>&nbsp;</td><td>in-place transpose</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#interp1">interp1</a></td><td>&nbsp;</td><td>1D interpolation</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#is_finite">is_finite</a></td><td>&nbsp;</td><td>check whether all elements are finite</td></tr>
+<tr><td><a href="#join">join_rows/cols/slices</a></td><td>&nbsp;</td><td>concatenation of matrices or cubes</td></tr>
+<tr><td><a href="#kron">kron</a></td><td>&nbsp;</td><td>Kronecker tensor product</td></tr>
+<tr><td><a href="#min_and_max">min&nbsp;/&nbsp;max</a></td><td>&nbsp;</td><td>return extremum values</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#nonzeros">nonzeros</a></td><td>&nbsp;</td><td>return non-zero values</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#norm">norm</a></td><td>&nbsp;</td><td>various norms of vectors and matrices</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#normalise">normalise</a></td><td>&nbsp;</td><td>normalise vectors to unit <i>p</i>-norm</td></tr>
+<tr><td><a href="#prod">prod</a></td><td>&nbsp;</td><td>product of elements</td></tr>
+<tr><td><a href="#rank">rank</a></td><td>&nbsp;</td><td>rank of matrix</td></tr>
+<tr><td><a href="#repmat">repmat</a></td><td>&nbsp;</td><td>replicate matrix in block-like fashion</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#reshape">reshape</a></td><td>&nbsp;</td><td>change size while keeping elements</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#resize">resize</a></td><td>&nbsp;</td><td>change size while keeping elements and preserving layout</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#shuffle">shuffle</a></td><td>&nbsp;</td><td>randomly shuffle elements</td></tr>
+<tr><td><a href="#sort">sort</a></td><td>&nbsp;</td><td>sort elements</td></tr>
+<tr><td><a href="#sort_index">sort_index</a></td><td>&nbsp;</td><td>vector describing sorted order of elements</td></tr>
+<tr><td><a href="#sum">sum</a></td><td>&nbsp;</td><td>sum of elements</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#symmat">symmatu&nbsp;/&nbsp;symmatl</a></td><td>&nbsp;</td><td>interpret matrix as symmetric</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#trace">trace</a></td><td>&nbsp;</td><td>sum of diagonal elements of square matrix</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#trans">trans</a></td><td>&nbsp;</td><td>transpose of matrix</td></tr>
+<tr><td><a href="#trimat">trimatu&nbsp;/&nbsp;trimatl</a></td><td>&nbsp;</td><td>interpret matrix as triangular</td></tr>
+<tr><td><a href="#unique">unique</a></td><td>&nbsp;</td><td>return unique elements</td></tr>
+<tr><td><a href="#vectorise">vectorise</a></td><td>&nbsp;</td><td>convert matrix to vector</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#misc_fns">misc&nbsp;functions</a></td><td>&nbsp;</td><td>miscellaneous element-wise functions:&nbsp;exp,&nbsp;log,&nbsp;pow,&nbsp;sqrt,&nbsp;round,&nbsp;sign,&nbsp;...</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#trig_fns">trig&nbsp;functions</a></td><td>&nbsp;</td><td>trigonometric element-wise functions:&nbsp;cos,&nbsp;sin,&nbsp;...</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#stats_fns">stats&nbsp;functions</a></td><td>&nbsp;</td><td>statistics functions: mean, median, standard deviation, variance</td></tr>
 </tbody>
 </table>
 </ul>
@@ -405,16 +408,17 @@ Technical Report, NICTA, 2010.
 <tr style="background-color: #F5F5F5;"><td><a href="#inv">inv</a></td><td>&nbsp;</td><td>inverse of general square matrix</td></tr>
 <tr><td><a href="#inv_sympd">inv_sympd</a></td><td>&nbsp;</td><td>inverse of symmetric positive definite matrix</td></tr>
 <tr><td><a href="#lu">lu&nbsp;&nbsp;</a></td><td>&nbsp;</td><td>lower-upper decomposition</td></tr>
-<tr><td><a href="#orth">orth</a></td><td>&nbsp;</td><td>orthonormal basis of range space</td></tr>
+<tr><td><a href="#null">null</a></td><td>&nbsp;</td><td>orthonormal basis of null space</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#orth">orth</a></td><td>&nbsp;</td><td>orthonormal basis of range space</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#pinv">pinv</a></td><td>&nbsp;</td><td>pseudo-inverse</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#princomp">princomp</a></td><td>&nbsp;</td><td>principal component analysis</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#qr">qr&nbsp;&nbsp;</a></td><td>&nbsp;</td><td>QR decomposition</td></tr>
+<tr><td><a href="#qr">qr&nbsp;&nbsp;</a></td><td>&nbsp;</td><td>QR decomposition</td></tr>
 <tr><td><a href="#qr_econ">qr_econ</a></td><td>&nbsp;</td><td>economical QR decomposition</td></tr>
 <tr><td><a href="#qz">qz&nbsp;&nbsp;</a></td><td>&nbsp;</td><td>generalised Schur decomposition</td></tr>
-<tr><td><a href="#solve">solve</a></td><td>&nbsp;</td><td>solve systems of linear equations</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#solve">solve</a></td><td>&nbsp;</td><td>solve systems of linear equations</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#spsolve">spsolve</a></td><td>&nbsp;</td><td>solve sparse systems of linear equations</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#svd">svd</a></td><td>&nbsp;</td><td>singular value decomposition</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#svd_econ">svd_econ</a></td><td>&nbsp;</td><td>economical singular value decomposition</td></tr>
+<tr><td><a href="#svd_econ">svd_econ</a></td><td>&nbsp;</td><td>economical singular value decomposition</td></tr>
 <tr><td><a href="#svds">svds</a></td><td>&nbsp;</td><td>limited number of singular values &amp; singular vectors of sparse matrix</td></tr>
 <tr><td><a href="#syl">syl</a></td><td>&nbsp;</td><td>Sylvester equation solver</td></tr>
 </tbody>
@@ -6928,8 +6932,52 @@ vec y = cumsum(x);
 <li>
 See also:
 <ul>
+<li><a href="#cumprod">cumprod()</a></li>
 <li><a href="#accu">accu()</a></li>
 <li><a href="#sum">sum()</a></li>
+<li><a href="#diff">diff()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="cumprod"></a>
+<b>cumprod( V )</b>
+<br><b>cumprod( X )</b>
+<br><b>cumprod( X, dim )</b>
+<ul>
+<li>
+For vector <i>V</i>, return a vector of the same orientation, containing the cumulative product of elements
+</li>
+<br>
+<li>
+For matrix <i>X</i>, return a matrix containing the cumulative product of elements in each column (<i>dim=0</i>), or each row (<i>dim=1</i>)
+</li>
+<br>
+<li>
+The <i>dim</i> argument is optional; by default <i>dim=0</i> is used
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(5,5);
+mat B = cumprod(A);
+mat C = cumprod(A, 1);
+
+vec x = randu&lt;vec&gt;(10);
+vec y = cumprod(x);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#cumsum">cumsum()</a></li>
+<li><a href="#prod">prod()</a></li>
 </ul>
 </li>
 <br>
@@ -6961,7 +7009,7 @@ For matrix sizes greater than 4x4, the standard algorithm is always used
 </li>
 <br>
 <li>
-<b>Caveat</b>: for large matrices it's typically better to use <i>log_det()</i> instead of <i>det()</i>
+<b>Caveat</b>: for large matrices <i>log_det()</i> is more precise than <i>det()</i>
 </li>
 <br>
 <li>
@@ -7072,6 +7120,55 @@ vec d = diagvec(A);
 <li><a href="#diagmat">diagmat()</a></li>
 <li><a href="#trace">trace()</a></li>
 <li><a href="#vectorise">vectorise()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="diff"></a>
+<b>diff( V )</b>
+<br><b>diff( V, k )</b>
+<br>
+<br><b>diff( X )</b>
+<br><b>diff( X, k )</b>
+<br><b>diff( X, k, dim )</b>
+<ul>
+<li>
+For vector <i>V</i>, return a vector of the same orientation, containing the differences between consecutive elements
+</li>
+<br>
+<li>
+For matrix <i>X</i>, return a matrix containing the differences between consecutive elements in each column (<i>dim=0</i>), or each row (<i>dim=1</i>)
+</li>
+<br>
+<li>
+The optional argument <i>k</i> indicates that the differences are calculated recursively <i>k</i> times; by default <i>k=1</i> is used
+</li>
+<br>
+<li>
+The resulting number of differences is <i>n - k</i>, where <i>n</i> is the number of elements; if <i>n &le; k</i>, the number of differences is zero (ie. an empty vector/matrix is returned)
+</li>
+<br>
+<li>
+The argument <i>dim</i> is optional; by default <i>dim=0</i>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+vec a = linspace&lt;vec&gt;(1,10,10);
+
+vec b = diff(a);
+</pre>
+</ul>
+</li>
+<br>
+<li>See also:
+<ul>
+<li><a href="#cumsum">cumsum()</a></li>
+<li><a href="#stats_fns">statistics functions</a></li>
 </ul>
 </li>
 <br>
@@ -7235,6 +7332,7 @@ See also:
 <li><a href="#any">any()</a></li>
 <li><a href="#find_finite">find_finite()</a></li>
 <li><a href="#find_nonfinite">find_nonfinite()</a></li>
+<li><a href="#find_unique">find_unique()</a></li>
 <li><a href="#nonzeros">nonzeros()</a></li>
 <li><a href="#unique">unique()</a></li>
 <li><a href="#sort_index">sort_index()</a></li>
@@ -7321,6 +7419,57 @@ See also:
 <li><a href="#find_finite">find_finite()</a></li>
 <li><a href="#submat">submatrix views</a></li>
 <li><a href="#constants">constants (pi, nan, inf, ...)</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="find_unique"></a>
+<b>find_unique( X )</b>
+<br><b>find_unique( X, ascending_indices )</b>
+<ul>
+<li>Return a column vector containing the indices of unique elements of <i>X</i></li>
+<br>
+<li>The output vector must have the type <a href="#Col">uvec</a>
+(ie. the indices are stored as unsigned integers of type <a href="#uword">uword</a>)
+</li>
+<br>
+<li>
+<i>X</i> is interpreted as a vector, with column-by-column ordering of the elements of <i>X</i>
+</li>
+<br>
+<li>The <i>ascending_indices</i> argument is optional; it is one of:
+<ul>
+<table>
+<tbody>
+<tr><td style="text-align: right;"><code>true</code></td><td>&nbsp;=&nbsp;</td><td>the returned indices are sorted to be ascending (<b>default setting</b>)</td></tr>
+<tr><td style="text-align: right;"><code>false</code></td><td>&nbsp;=&nbsp;</td><td>the returned indices are in arbitrary order (faster operation)</td></tr>
+</tbody>
+</table>
+</ul>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A;
+
+A &lt;&lt; 2 &lt;&lt; 2 &lt;&lt; 4 &lt;&lt; endr
+  &lt;&lt; 4 &lt;&lt; 6 &lt;&lt; 6 &lt;&lt; endr;
+
+uvec indices = find_unique(A);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#find">find()</a></li>
+<li><a href="#unique">unique()</a></li>
+<li><a href="#submat">submatrix views</a></li>
 </ul>
 </li>
 <br>
@@ -8026,6 +8175,7 @@ double y = prod(prod(A));
 <li>
 See also:
 <ul>
+<li><a href="#cumprod">cumprod()</a></li>
 <li><a href="#schur_product">Schur product</a></li>
 </ul>
 </li>
@@ -8615,6 +8765,7 @@ mat Y = unique(X);
 <li>See also:
 <ul>
 <li><a href="#find">find()</a></li>
+<li><a href="#find_unique">find_unique()</a></li>
 <li><a href="#sort">sort()</a></li>
 <li><a href="#nonzeros">nonzeros()</a></li>
 </ul>
@@ -9088,6 +9239,7 @@ See also:
 <ul>
 <li><a href="#cov">cov()</a></li>
 <li><a href="#cor">cor()</a></li>
+<li><a href="#diff">diff()</a></li>
 <li><a href="#hist">hist()</a></li>
 <li><a href="#histc">histc()</a></li>
 <li><a href="#running_stat">running_stat</a>: class for running statistics of scalars</li>
@@ -9810,6 +9962,67 @@ See also:
 </ul>
 <hr class="greyline"><br>
 
+<a name="null"></a>
+<b>B = null( A )</b>
+<br><b>B = null( A, tolerance )</b>
+<br>
+<br><b>null( B, A )</b>
+<br><b>null( B, A, tolerance )</b>
+<ul>
+<li>
+Find the orthonormal basis of the null space of matrix <i>A</i>
+</li>
+<br>
+<li>
+The dimension of the range space is the number of singular values of <i>A</i> not greater than <i>tolerance</i>
+</li>
+<br>
+<li>
+The <i>tolerance</i> argument is optional; by default <i>tolerance</i> is <i>max(m,n)*max_sv*datum::eps</i>, where:
+<ul>
+<li><i>m</i> = number of rows and <i>n</i> = number of columns in <i>A</i></li>
+<li><i>max_sv</i> = maximal singular value of <i>A</i></li>
+<li><i>datum::eps</i> = difference between 1 and the least value greater than 1 that is representable</li>
+</ul>
+</li>
+<br>
+<li>
+The computation is based on singular value decomposition; if the decomposition fails:
+<ul>
+<li><i>B = null(A)</i> resets <i>B</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>null(B,A)</i> resets <i>B</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
+</ul>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(5,6);
+
+A.row(0).zeros();
+A.col(0).zeros();
+
+mat B = null(A);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#orth">orth()</a></li>
+<li><a href="#qr">qr()</a></li>
+<li><a href="#svd">svd()</a></li>
+<li><a href="#rank">rank()</a></li>
+<li><a href="#constants">datum::eps</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Orthonormal_basis">Orthonormal basis in Wikipedia</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
 <a name="orth"></a>
 <b>B = orth( A )</b>
 <br><b>B = orth( A, tolerance )</b>
@@ -9857,6 +10070,7 @@ mat B = orth(A);
 <li>
 See also:
 <ul>
+<li><a href="#null">null()</a></li>
 <li><a href="#qr">qr()</a></li>
 <li><a href="#svd">svd()</a></li>
 <li><a href="#rank">rank()</a></li>
@@ -10676,21 +10890,25 @@ Data is modelled as:
     </tr>
     <tr>
       <td style="vertical-align: top;"><i>p<font size=+1>(</font>x<font size=+1>)</font></i></td><td style="vertical-align: top;">&nbsp;<font size=+1>=</font>&nbsp;</td><td style="vertical-align: top;"><i><font size=+1><b>&sum;</b></font></i></td>
-      <td style="vertical-align: top;"><i>h<sub>g</sub>&nbsp;&nbsp;<font size=+1>N(</font>x<small>&nbsp;</small>|<small>&nbsp;</small>m<sub>g</sub>, C<sub>g</sub><font size=+1>)</font></i></td>
+      <td style="vertical-align: top;"><i>h<sub>g</sub></i>&nbsp;&nbsp;<font size=+1>N(</font><small>&nbsp;</small><i>x</i><small>&nbsp;</small>|<small>&nbsp;</small><i>m<sub>g</sub></i><small>&nbsp;</small>,&nbsp;<i>C<sub>g</sub></i><small>&nbsp;</small><font size=+1>)</font></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">&nbsp;</td><td style="vertical-align: top;">&nbsp;</td><td style="vertical-align: top;"><i><sup>g=0</sup></i></td><td style="vertical-align: top;">&nbsp;</td>
     </tr>
   </tbody>
 </table>
-where
-<i>n_gaus</i> is the number of Gaussians
-and <i>N(x|m<sub>g</sub>,&nbsp;C<sub>g</sub>)</i> represents a Gaussian (normal) distribution;
-for each Gaussian <i>g</i>, 
-the parameter <i>h<sub>g</sub></i> is the heft (weight), with <i>h<sub>g</sub></i> &ge; 0 and &sum;<i>h<sub>g</sub></i> = 1,
-the parameter <i>m<sub>g</sub></i> is the mean (centroid) vector with dimensionality <i>n_dims</i>,
-and
-the parameter <i>C<sub>g</sub></i> is the diagonal covariance matrix
+where:
+<ul>
+<li><i>n_gaus</i> is the number of Gaussians</li>
+<li>N(<small>&nbsp;</small><i>x</i><small>&nbsp;</small>|<small>&nbsp;</small><i>m<sub>g</sub></i><small>&nbsp;</small>,&nbsp;<i>C<sub>g</sub></i><small>&nbsp;</small>) represents a Gaussian (normal) distribution</li>
+<li>for each Gaussian <i>g</i>:
+<ul>
+<li><i>h<sub>g</sub></i> is the heft (weight), with <i>h<sub>g</sub></i> &ge; 0 and &sum;<i>h<sub>g</sub></i> = 1</li>
+<li><i>m<sub>g</sub></i> is the mean (centroid) vector with dimensionality <i>n_dims</i></li>
+<li><i>C<sub>g</sub></i> is the diagonal covariance matrix</li>
+</ul>
+</li>
+</ul>
 </li>
 <br>
 <li>
@@ -13984,6 +14202,20 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="version_5400"></a>
+<li>Version 5.400:
+<ul>
+<li>added <a href="#find_unique">find_unique()</a> for finding indices of unique values</li>
+<li>added <a href="#diff">diff()</a> for calculating differences between consecutive elements</li>
+<li>added <a href="#cumprod">cumprod()</a> for calculating cumulative product</li>
+<li>added <a href="#null">null()</a> for finding the orthonormal basis of null space</li>
+<li>expanded <a href="#interp1">interp1()</a> to handle repeated locations</li>
+<li>expanded <a href="#unique">unique()</a> to handle complex numbers</li>
+<li>faster <a href="#flip">flupud()</a></li>
+<li>faster row-wise <a href="#cumsum">cumsum()</a></li>
+</ul>
+</li>
+<br>
 <a name="version_5300"></a>
 <li>Version 5.300:
 <ul>

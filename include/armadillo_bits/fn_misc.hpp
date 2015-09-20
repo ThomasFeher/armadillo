@@ -327,4 +327,34 @@ orth(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& X
 
 
 
+template<typename T1>
+arma_inline
+const Op<T1, op_null>
+null(const Base<typename T1::elem_type, T1>& X, const typename T1::pod_type tol = 0.0, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
+  {
+  arma_extra_debug_sigprint();
+  arma_ignore(junk);
+  
+  typedef typename T1::elem_type eT;
+  
+  return Op<T1, op_null>(X.get_ref(), eT(tol));
+  }
+
+
+
+template<typename T1>
+inline
+bool
+null(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& X, const typename T1::pod_type tol = 0.0, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
+  {
+  arma_extra_debug_sigprint();
+  arma_ignore(junk);
+  
+  try { out = null(X,tol); } catch (std::runtime_error&) { return false; }
+  
+  return true;
+  }
+
+
+
 //! @}
