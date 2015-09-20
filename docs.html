@@ -114,7 +114,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 4.400</b></font>
+        <font size=+2><b>Reference for Armadillo 4.450</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -1692,7 +1692,7 @@ the following subset of operations currently works with sparse matrices:
 <li>element-wise functions: <a href="#abs">abs()</a>, <a href="#misc_fns">sqrt()</a>, <a href="#misc_fns">square()</a></li>
 <li>scalar functions of matrices: <a href="#accu">accu()</a>, <a href="#as_scalar">as_scalar()</a>, <a href="#dot">dot()</a>, <a href="#norm">norm()</a>, <a href="#trace">trace()</a></li>
 <li>vector valued functions of matrices: <a href="#min_and_max">min()</a>, <a href="#min_and_max">max()</a>, <a href="#sum">sum()</a>, <a href="#stats_fns">mean()</a>, <a href="#stats_fns">var()</a></li>
-<li>matrix values functions of matrices: <a href="#t_st_members">.t()</a>, <a href="#trans">trans()</a></li>
+<li>matrix valued functions of matrices: <a href="#t_st_members">.t()</a>, <a href="#trans">trans()</a></li>
 <li>generated matrices: <a href="#speye">speye()</a>, <a href="#spones">spones()</a>, <a href="#sprandu_sprandn">sprandu()/sprandn()</a></li>
 <li>eigen decomposition: <a href="#eigs_sym">eigs_sym()</a>, <a href="#eigs_gen">eigs_gen()</a></li>
 <!-- <li>solution of sparse linear systems: <a href="#solve">solve()</a> -->
@@ -8483,7 +8483,10 @@ See also:
 
 <a name="symmat"></a>
 <b>symmatu( A )</b>
+<br><b>symmatu( A, do_conj )</b>
+<br>
 <br><b>symmatl( A )</b>
+<br><b>symmatl( A, do_conj )</b>
 <ul>
 <li>
 <i>symmatu(A)</i>: interpret square matrix <i>A</i> as symmetric, reflecting the upper triangle to the lower triangle
@@ -8494,7 +8497,8 @@ See also:
 </li>
 <br>
 <li>
-If <i>A</i> is a complex matrix, the reflection uses the complex conjugate of the elements
+If <i>A</i> is a complex matrix, the reflection uses the complex conjugate of the elements;
+to disable the complex conjugate, set <i>do_conj</i> to <i>false</i>
 </li>
 <br>
 <li>
@@ -10068,6 +10072,31 @@ For an instance of <i>gmm_diag</i> named as <i>M</i>, the member functions and v
       <td style="vertical-align: top;">
       return a row vector (of type <code>rowvec</code>) containing normalised counts;
       the vector sums to one
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.generate()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return a column vector representing a random sample generated according to the model's parameters
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.generate(</b>N<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return a matrix containing <i>N</i> column vectors, with each vector representing a random sample generated according to the model's parameters
       </td>
     </tr>
     <tr>
@@ -12611,6 +12640,28 @@ Armadillo requires LAPACK for functions such as <a href="#svd">svd()</a>, <a hre
   </tr>
   <tr>
     <td style="vertical-align: top;">
+<code>ARMA_DONT_USE_LAPACK</code>
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Disable use of LAPACK. Overrides <i>ARMA_USE_LAPACK</i>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
 <code>ARMA_USE_BLAS</code>
     </td>
     <td style="vertical-align: top;">
@@ -12636,6 +12687,28 @@ Without BLAS, Armadillo will use a built-in matrix multiplication routine, which
   </tr>
   <tr>
     <td style="vertical-align: top;">
+<code>ARMA_DONT_USE_BLAS</code>
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Disable use of BLAS. Overrides <i>ARMA_USE_BLAS</i>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
 <code>ARMA_USE_ARPACK</code>
     </td>
     <td style="vertical-align: top;">
@@ -12644,6 +12717,142 @@ Without BLAS, Armadillo will use a built-in matrix multiplication routine, which
     <td style="vertical-align: top;">
 Enable the use of ARPACK, or a high-speed replacement for ARPACK.
 Armadillo requires ARPACK for the eigen decomposition of sparse matrices, ie. <a href="#eigs_gen">eigs_gen()</a> and <a href="#eigs_sym">eigs_sym()</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+<code>ARMA_DONT_USE_ARPACK</code>
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Disable use of ARPACK. Overrides <i>ARMA_USE_ARPACK</i>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+<code>ARMA_USE_HDF5</code>
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Enable the ability to <a href="#save_load_mat">save and load</a> matrices stored in the HDF5 format;
+the <i>hdf5.h</i> header file must be available on your system and you will need to link with the hdf5 library (eg. -lhdf5)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+<code>ARMA_DONT_USE_HDF5</code>
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Disable the use of the HDF5 library. Overrides <i>ARMA_USE_HDF5</i>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+<code>ARMA_DONT_USE_WRAPPER</code>
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Disable going through the run-time Armadillo wrapper library (<i>libarmadillo.so</i>) when calling LAPACK, BLAS, ARPACK and HDF5 functions.
+You will need to directly link with LAPACK, BLAS, etc (eg. <i>-llapack -lblas</i>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+<a name="config_hpp_arma_use_cxx11"></a>
+<code>ARMA_USE_CXX11</code>
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Use C++11 features, such as <a href="#element_initialisation">initialiser lists</a>;
+automatically enabled when using a compiler in C++11 mode, for example, g++&nbsp;-std=c++11
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+<code>ARMA_DONT_USE_CXX11</code>
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Disable use of C++11 features. Overrides <i>ARMA_USE_CXX11</i>
     </td>
   </tr>
   <tr>
@@ -12816,53 +13025,6 @@ This can also be enabled by adding <i>#define&nbsp;ARMA_64BIT_WORD</i> before ea
   </tr>
   <tr>
     <td style="vertical-align: top;">
-<a name="config_hpp_arma_use_cxx11"></a>
-<code>ARMA_USE_CXX11</code>
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-Use C++11 features, such as <a href="#element_initialisation">initialiser lists</a>;
-automatically enabled when using a compiler in C++11 mode, for example, g++&nbsp;-std=c++11
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-<code>ARMA_USE_HDF5</code>
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-Enable the ability to <a href="#save_load_mat">save and load</a> matrices stored in the HDF5 format;
-the <i>hdf5.h</i> header file must be available on your system and you will need to link with the hdf5 library (eg. -lhdf5)
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
 <a name="config_hpp_arma_no_debug"></a>
 <code>ARMA_NO_DEBUG</code>
     </td>
@@ -12993,72 +13155,6 @@ Print errors and warnings encountered during program execution
     </td>
     <td style="vertical-align: top;">
 Do not print errors or warnings. Overrides <i>ARMA_PRINT_ERRORS</i>
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-<code>ARMA_DONT_USE_LAPACK</code>
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-Disable use of LAPACK. Overrides <i>ARMA_USE_LAPACK</i>
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-<code>ARMA_DONT_USE_BLAS</code>
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-Disable use of BLAS. Overrides <i>ARMA_USE_BLAS</i>
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-<code>ARMA_DONT_USE_ARPACK</code>
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-Disable use of ARPACK. Overrides <i>ARMA_USE_ARPACK</i>
     </td>
   </tr>
   <tr>
@@ -13208,6 +13304,16 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="added_in_4450"></a>
+<li>Added in 4.450:
+<ul>
+<li>faster handling of matrix transposes within compound expressions</li>
+<li>expanded <a href="#symmat">symmatu()/symmatl()</a> to optionally disable taking the complex conjugate of elements</li>
+<li>expanded <a href="#sort_index">sort_index()</a> to handle complex vectors</li>
+<li>expanded the <a href="#gmm_diag">gmm_diag</a> class with functions to generate random samples</li>
+</ul>
+</li>
+<br>
 <a name="added_in_4400"></a>
 <li>Added in 4.400:
 <ul>

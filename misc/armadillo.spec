@@ -1,5 +1,5 @@
 Name:           armadillo
-Version:        4.400.0
+Version:        4.450.0
 Release:        1%{?dist}
 Summary:        Fast C++ matrix library with interfaces to LAPACK and ATLAS
 

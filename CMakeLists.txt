@@ -13,13 +13,13 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(ARMA_MAJOR 4)
-set(ARMA_MINOR 400)
-set(ARMA_PATCH 2)
+set(ARMA_MINOR 450)
+set(ARMA_PATCH 0)
 set(ARMADILLO_VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH})
 
 message(STATUS "Configuring Armadillo ${ARMADILLO_VERSION}")
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/build_aux/cmake/Modules/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_aux/Modules/")
 
 include(CheckIncludeFileCXX)
 include(CheckLibraryExists)
@@ -170,7 +170,7 @@ if(MKL_FOUND OR ACMLMP_FOUND OR ACML_FOUND)
       message(STATUS "*** Intel MKL as well as AMD ACML libraries were found.")
       message(STATUS "*** Using only the MKL library to avoid linking conflicts.")
       message(STATUS "*** If you wish to use ACML instead, please link manually with")
-      message(STATUS "*** acml or acml_mp instead of the armadillo run-time component.")
+      message(STATUS "*** acml or acml_mp instead of the armadillo wrapper library.")
       message(STATUS "*** Alternatively, remove MKL from your system and rerun")
       message(STATUS "*** Armadillo's configuration using ./configure") 
     endif()
@@ -224,6 +224,10 @@ if(APPLE)
 endif()
 
 
+## TODO: to take into account various HDF5 installations which have varying include folders,
+##       need to specify the hdf5 include folder in include/armadillo_bits/config.hpp and include/armadillo_bits/config.hpp.cmake
+##       and then include the hdf5 header file within the main armadillo header in a similar manner to including the ATLAS header
+
 # find_package(HDF5)
 # message(STATUS "HDF5_FOUND     = ${HDF5_FOUND}")
 # 
@@ -244,7 +248,7 @@ endif()
 
 
 message(STATUS "")
-message(STATUS "*** The run-time library component of Armadillo will use the following libraries:")
+message(STATUS "*** Armadillo wrapper library will use the following libraries:")
 message(STATUS "*** ARMA_LIBS = ${ARMA_LIBS}")
 message(STATUS "")
 
@@ -258,17 +262,17 @@ if(DEFINED CMAKE_CXX_COMPILER_ID AND DEFINED CMAKE_CXX_COMPILER_VERSION)
 endif()
 
 
-message(STATUS "Copying ${PROJECT_SOURCE_DIR}/include/ to ${PROJECT_BINARY_DIR}/build_tmp/include/")
-file(COPY ${PROJECT_SOURCE_DIR}/include/ DESTINATION ${PROJECT_BINARY_DIR}/build_tmp/include/)
+message(STATUS "Copying ${PROJECT_SOURCE_DIR}/include/ to ${PROJECT_BINARY_DIR}/tmp/include/")
+file(COPY ${PROJECT_SOURCE_DIR}/include/ DESTINATION ${PROJECT_BINARY_DIR}/tmp/include/)
 
-message(STATUS "Generating ${PROJECT_BINARY_DIR}/build_tmp/include/config.hpp")
-configure_file(${PROJECT_BINARY_DIR}/build_tmp/include/armadillo_bits/config.hpp.cmake ${PROJECT_BINARY_DIR}/build_tmp/include/armadillo_bits/config.hpp)
+message(STATUS "Generating ${PROJECT_BINARY_DIR}/tmp/include/config.hpp")
+configure_file(${PROJECT_BINARY_DIR}/tmp/include/armadillo_bits/config.hpp.cmake ${PROJECT_BINARY_DIR}/tmp/include/armadillo_bits/config.hpp)
 
 message(STATUS "Generating ${PROJECT_SOURCE_DIR}/examples/Makefile")
 configure_file(${PROJECT_SOURCE_DIR}/examples/Makefile.cmake ${PROJECT_SOURCE_DIR}/examples/Makefile)
 
 
-include_directories(${PROJECT_BINARY_DIR}/build_tmp/include/ ${CMAKE_REQUIRED_INCLUDES})
+include_directories(${PROJECT_BINARY_DIR}/tmp/include/ ${CMAKE_REQUIRED_INCLUDES})
 
 
 ## For any library that is not in a default location,
@@ -384,7 +388,7 @@ message(STATUS "INSTALL_BIN_DIR      = ${INSTALL_BIN_DIR}"    )
 
 # Note that the trailing / character in "include/" is critical
 
-install(DIRECTORY ${PROJECT_BINARY_DIR}/build_tmp/include/ DESTINATION ${INSTALL_INCLUDE_DIR}
+install(DIRECTORY ${PROJECT_BINARY_DIR}/tmp/include/ DESTINATION ${INSTALL_INCLUDE_DIR}
 PATTERN ".svn" EXCLUDE
 PATTERN "*.cmake" EXCLUDE
 PATTERN "*~" EXCLUDE
@@ -409,11 +413,11 @@ set(ARMADILLO_CMAKE_DIR    "${PROJECT_BINARY_DIR}")
 
 message(STATUS "Generating '${PROJECT_BINARY_DIR}/ArmadilloConfig.cmake'")
 # copy/change config and configVersion file (modify only the @xyz@ variables)
-configure_file(${PROJECT_SOURCE_DIR}/build_aux/cmake/InstallFiles/ArmadilloConfig.cmake.in
+configure_file(${PROJECT_SOURCE_DIR}/cmake_aux/InstallFiles/ArmadilloConfig.cmake.in
   "${PROJECT_BINARY_DIR}/ArmadilloConfig.cmake" @ONLY)
 
 message(STATUS "Generating '${PROJECT_BINARY_DIR}/ArmadilloConfigVersion.cmake'")
-configure_file(${PROJECT_SOURCE_DIR}/build_aux/cmake/InstallFiles/ArmadilloConfigVersion.cmake.in
+configure_file(${PROJECT_SOURCE_DIR}/cmake_aux/InstallFiles/ArmadilloConfigVersion.cmake.in
   "${PROJECT_BINARY_DIR}/ArmadilloConfigVersion.cmake" @ONLY)
 
 
@@ -433,11 +437,11 @@ set(ARMADILLO_CMAKE_DIR    "${INSTALL_DATA_DIR}/Armadillo/CMake")
 
 message(STATUS "Generating '${PROJECT_BINARY_DIR}/InstallFiles/ArmadilloConfig.cmake'")
 # copy/change config and configVersion file (modify only the @xyz@ variables)
-configure_file(${PROJECT_SOURCE_DIR}/build_aux/cmake/InstallFiles/ArmadilloConfig.cmake.in
+configure_file(${PROJECT_SOURCE_DIR}/cmake_aux/InstallFiles/ArmadilloConfig.cmake.in
   "${PROJECT_BINARY_DIR}/InstallFiles/ArmadilloConfig.cmake" @ONLY)
 
 message(STATUS "Generating '${PROJECT_BINARY_DIR}/InstallFiles/ArmadilloConfigVersion.cmake'")
-configure_file(${PROJECT_SOURCE_DIR}/build_aux/cmake/InstallFiles/ArmadilloConfigVersion.cmake.in
+configure_file(${PROJECT_SOURCE_DIR}/cmake_aux/InstallFiles/ArmadilloConfigVersion.cmake.in
   "${PROJECT_BINARY_DIR}/InstallFiles/ArmadilloConfigVersion.cmake" @ONLY)
 
 # Install files to be found by cmake users with find_package()

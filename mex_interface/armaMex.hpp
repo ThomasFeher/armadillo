@@ -1,5 +1,5 @@
 // Connector for Mex files to use Armadillo for calculation
-// Version 0.4
+// Version 0.5
 // 
 // Copyright (C) 2014 George Yammine
 // Copyright (C) 2014 Conrad Sanderson
@@ -11,6 +11,7 @@
 
 #include <armadillo>
 #include <mex.h>
+#include <mat.h>
 #include <cstring>
 
 using namespace std;
@@ -693,8 +694,6 @@ inline
 void
 armaSetSparsePr(mxArray *matlabMatrix, const SpMat<double>& armaMatrix)
   {
-  //const double *src_pointer = armaMatrix.memptr();
-  
   double  *sr  = mxGetPr(matlabMatrix);
   mwIndex *irs = mxGetIr(matlabMatrix);
   mwIndex *jcs = mxGetJc(matlabMatrix);
@@ -707,7 +706,6 @@ armaSetSparsePr(mxArray *matlabMatrix, const SpMat<double>& armaMatrix)
     sr[j]  = armaMatrix.values[j];
     irs[j] = armaMatrix.row_indices[j];
     }
-  
   for (mwIndex j = 0; j <= n_cols; j++)
     {
     jcs[j] = armaMatrix.col_ptrs[j];
@@ -720,8 +718,6 @@ inline
 void
 armaSetSparsePi(mxArray *matlabMatrix, const SpMat<double>& armaMatrix)
   {
-  //const double *src_pointer = armaMatrix.memptr();
-  
   double  *si  = mxGetPi(matlabMatrix);
   mwIndex *irs = mxGetIr(matlabMatrix);
   mwIndex *jcs = mxGetJc(matlabMatrix);
@@ -734,7 +730,6 @@ armaSetSparsePi(mxArray *matlabMatrix, const SpMat<double>& armaMatrix)
     si[j]  = armaMatrix.values[j];
     irs[j] = armaMatrix.row_indices[j];
     }
-    
   for (mwIndex j = 0; j <= n_cols; j++)
     {
     jcs[j] = armaMatrix.col_ptrs[j];
@@ -801,5 +796,223 @@ armaCreateMxSparseMatrix(const mwSize n_rows,const mwSize n_cols,const mwSize n_
   else
     {
     return temp;
+    }
+  }
+
+
+//Functions to write MAT files
+inline
+int
+armaWriteMatToFile(const char *filename, mat &armaMatrix, const char *name)
+  {
+  MATFile *file;
+  file = matOpen(filename,"wz");
+  
+  int result;
+  
+  if(file == NULL)
+    {
+    mexErrMsgTxt("Could not create MAT file.");
+    return 0;
+    }
+  else
+    {
+    mxArray *temp = mxCreateDoubleMatrix(armaMatrix.n_rows, armaMatrix.n_cols, mxREAL);
+    armaSetPr(temp, armaMatrix);
+    result = matPutVariable(file, name, temp);
+    mxDestroyArray(temp); //Cleanup after writing MAT file
+    }
+  
+  matClose(file);
+  
+  return result;
+  }
+
+
+inline
+int
+armaWriteCxMatToFile(const char *filename, cx_mat &armaMatrix, const char *name)
+  {
+  MATFile *file;
+  file = matOpen(filename,"wz");
+  
+  int result;
+  
+  if(file == NULL)
+    {
+    mexErrMsgTxt("Could not create MAT file.");
+    return 0;
+    }
+  else
+    {
+    mxArray *temp = mxCreateDoubleMatrix(armaMatrix.n_rows, armaMatrix.n_cols, mxCOMPLEX);
+    armaSetCx(temp, armaMatrix);
+    result = matPutVariable(file, name, temp);
+    mxDestroyArray(temp); //Cleanup after writing MAT file
+    }
+  
+  matClose(file);
+  
+  return result;
+  }
+
+
+inline
+int
+armaWriteCubeToFile(const char *filename, cube &armaCube, const char *name)
+  {
+  MATFile *file;
+  file = matOpen(filename,"wz");
+  
+  int result;
+  
+  if(file == NULL)
+    {
+    mexErrMsgTxt("Could not create MAT file.");
+    return 0;
+    }
+  else
+    {
+    mxArray *temp = armaCreateMxMatrix(armaCube.n_rows, armaCube.n_cols, armaCube.n_slices, mxDOUBLE_CLASS, mxREAL);
+    armaSetCubePr(temp, armaCube);
+    result = matPutVariable(file, name, temp);
+    mxDestroyArray(temp); //Cleanup after writing MAT file
+    }
+  
+  matClose(file);
+  
+  return result;
+  }
+
+
+inline
+int
+armaWriteCxCubeToFile(const char *filename, cx_cube &armaCube, const char *name)
+  {
+  MATFile *file;
+  file = matOpen(filename,"wz");
+  
+  int result;
+  
+  if(file == NULL)
+    {
+    mexErrMsgTxt("Could not create MAT file.");
+    return 0;
+    }
+  else
+    {
+    mxArray *temp = armaCreateMxMatrix(armaCube.n_rows, armaCube.n_cols, armaCube.n_slices, mxDOUBLE_CLASS, mxCOMPLEX);
+    armaSetCubeCx(temp, armaCube);
+    result = matPutVariable(file, name, temp);
+    mxDestroyArray(temp); //Cleanup after writing MAT file
+    }
+  
+  matClose(file);
+  
+  return result;
+  }
+
+
+//Functions to read and write matrices and cubes in MAT file format
+inline
+mat
+armaReadMatFromFile(const char *filename)
+  {
+  MATFile *file;
+  file = matOpen(filename,"r");
+  
+  char buffer[64];
+  const char *name;
+  name = buffer;
+  
+  if(file == NULL)
+    {
+    mexErrMsgTxt("Could not open MAT file.");
+    return mat();
+    }
+  else
+    {
+    mat tmp = armaGetPr(matGetNextVariable(file,&name));
+    matClose(file);
+    
+    return tmp;
+    }
+  }
+
+
+inline
+cx_mat
+armaReadCxMatFromFile(const char *filename)
+  {
+  MATFile *file;
+  file = matOpen(filename,"r");
+  
+  char buffer[64];
+  const char *name;
+  name = buffer;
+  
+  if(file == NULL)
+    {
+    mexErrMsgTxt("Could not open MAT file.");
+    return cx_mat();
+    }
+  else
+    {
+    cx_mat tmp = armaGetCx(matGetNextVariable(file, &name));
+    matClose(file);
+    
+    return tmp;
+    }
+  }
+
+
+inline
+cube
+armaReadCubeFromFile(const char *filename)
+  {
+  MATFile *file;
+  file = matOpen(filename,"r");
+  
+  char buffer[64];
+  const char *name;
+  name = buffer;
+  
+  if(file == NULL)
+    {
+    mexErrMsgTxt("Could not open MAT file.");
+    return cube();
+    }
+  else
+    {
+    cube tmp = armaGetCubePr(matGetNextVariable(file,&name));
+    matClose(file);
+    
+    return tmp;
+    }
+  }
+
+
+inline
+cx_cube
+armaReadCxCubeFromFile(const char *filename)
+  {
+  MATFile *file;
+  file = matOpen(filename,"r");
+  
+  char buffer[64];
+  const char *name;
+  name = buffer;
+  
+  if(file == NULL)
+    {
+    mexErrMsgTxt("Could not open MAT file.");
+    return cx_cube();
+    }
+  else
+    {
+    cx_cube tmp = armaGetCubeCx(matGetNextVariable(file,&name));
+    matClose(file);
+    
+    return tmp;
     }
   }

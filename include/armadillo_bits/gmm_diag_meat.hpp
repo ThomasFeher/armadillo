@@ -283,6 +283,85 @@ gmm_diag<eT>::save(const std::string name) const
 
 
 template<typename eT>
+inline
+Col<eT>
+gmm_diag<eT>::generate() const
+  {
+  arma_extra_debug_sigprint();
+  
+  const uword n_dims = means.n_rows;
+  const uword n_gaus = means.n_cols;
+  
+  Col<eT> out( (n_gaus > 0) ? n_dims : uword(0) );
+  
+  if(n_gaus > 0)
+    {
+    const double val = randu<double>();
+    
+    double csum    = double(0);
+    uword  gaus_id = 0;
+    
+    for(uword j=0; j < n_gaus; ++j)
+      {
+      csum += hefts[j];
+      
+      if(val <= csum)  { gaus_id = j; break; }
+      }
+    
+    out =  randn< Col<eT> >(n_dims);    
+    out %= sqrt(dcovs.col(gaus_id));
+    out += means.col(gaus_id);
+    }
+  
+  return out;
+  }
+
+
+
+template<typename eT>
+inline
+Mat<eT>
+gmm_diag<eT>::generate(const uword N) const
+  {
+  arma_extra_debug_sigprint();
+  
+  const uword n_dims = means.n_rows;
+  const uword n_gaus = means.n_cols;
+  
+  Mat<eT> out( ( (n_gaus > 0) ? n_dims : uword(0) ), N );
+  
+  if(n_gaus > 0)
+    {
+    const eT* hefts_mem = hefts.memptr();
+    
+    for(uword i=0; i < N; ++i)
+      {
+      const double val = randu<double>();
+      
+      double csum    = double(0);
+      uword  gaus_id = 0;
+      
+      for(uword j=0; j < n_gaus; ++j)
+        {
+        csum += hefts_mem[j];
+        
+        if(val <= csum)  { gaus_id = j; break; }
+        }
+      
+      subview_col<eT> out_col = out.col(i);
+      
+      out_col =  randn< Col<eT> >(n_dims);    
+      out_col %= sqrt(dcovs.col(gaus_id));
+      out_col += means.col(gaus_id);
+      }
+    }
+  
+  return out;
+  }
+
+
+
+template<typename eT>
 template<typename T1>
 inline
 eT

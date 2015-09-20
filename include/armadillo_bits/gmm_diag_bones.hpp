@@ -92,6 +92,9 @@ class gmm_diag
   inline bool load(const std::string name);
   inline bool save(const std::string name) const;
   
+  inline Col<eT> generate()              const;
+  inline Mat<eT> generate(const uword N) const;
+  
   template<typename T1> inline eT      log_p(const T1& expr, const gmm_empty_arg& junk1 = gmm_empty_arg(), typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == true ))>::result* junk2 = 0) const;
   template<typename T1> inline eT      log_p(const T1& expr, const uword gaus_id,                          typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == true ))>::result* junk2 = 0) const;
   
