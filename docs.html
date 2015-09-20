@@ -110,9 +110,9 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 3.820</b></font>
+        <font size=+2><b>Reference for Armadillo 3.900</b></font>
         <br>
-        <b>(Mt Cootha)</b>
+        <b>(Bavarian Sunflower)</b>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -4063,9 +4063,9 @@ This is the default operation.
 Numerical data stored in raw ASCII format, without a header.
 The numbers are separated by whitespace.
 The number of columns must be the same in each row.
-Data which was saved in Matlab/Octave using the <i>-ascii</i> option can be read in Armadillo, except for complex numbers.
-Complex numbers are stored in standard C++ notation (a tuple surrounded by brackets: eg. (1.23,4.56) indicates 1.24&nbsp;+&nbsp;4.56i).
 Cubes are loaded as one slice.
+Data which was saved in Matlab/Octave using the <i>-ascii</i> option can be read in Armadillo, except for complex numbers.
+Complex numbers are stored in standard C++ notation, which is a tuple surrounded by brackets: eg. (1.23,4.56) indicates 1.24&nbsp;+&nbsp;4.56i.
 <br>
 <br>
                         </td>
@@ -4124,11 +4124,11 @@ Applicable to <i>Mat</i> only.
                         </td>
                         <td style="vertical-align: top;">
 Numerical data stored in portable HDF5 binary format.
-Applicable to <i>Mat</i> only.
 <br>
-<b>Caveat</b>: this currently works only with Linux and Mac OS X;
+<b>Caveat</b>:
 support for HDF5 must be enabled within Armadillo's <a href="#config_hpp">configuration</a>;
-the <i>hdf5.h</i> header file must be available on your system and you will need to link with the hdf5 library (eg. -lhdf5)
+the <i>hdf5.h</i> header file must be available on your system and you will need to link with the hdf5 library (eg. -lhdf5).
+Support for saving &amp; loading of <i>Cube</i> objects was added in version 3.830.
 <br>
 <br>
                         </td>
@@ -10929,7 +10929,7 @@ ARMA_MAT_PREALLOC
 The number of preallocated elements used by matrices and vectors.
 Must be always enabled and set to an integer that is at least&nbsp;1.
 By default set to 16.
-If you mainly use lots of very small vectors (eg. &leq; 4 elements), change the number to the size of your vectors.
+If you mainly use lots of very small vectors (eg. &le; 4 elements), change the number to the size of your vectors.
     </td>
   </tr>
   <tr>
@@ -11165,11 +11165,22 @@ List of additions and changes for each version:
 <br>
 <br>
 <ul>
+<a name="added_in_3900"></a>
+<li>Added in 3.900:
+<ul>
+<li>automatic SSE2 vectorisation of elementary expressions (eg. matrix addition) when using GCC 4.7+ with -O3 optimisation</li>
+<li>faster <a href="#stats_fns">median()</a></li>
+<li>faster handling of compound expressions with transposes of <a href="#submat">submatrix</a> rows</li>
+<li>faster handling of compound expressions with transposes of complex vectors</li>
+<li>added support for <a href="#save_load_mat">saving &amp; loading</a> of <a href="#Cube">cubes</a> in HDF5 format</li>
+</ul>
+</li>
+<br>
 <a name="added_in_3820"></a>
 <li>Added in 3.820:
 <ul>
 <li>faster <a href="#as_scalar">as_scalar()</a> for compound expressions</li>
-<li>faster transpose of small vectors</a></li>
+<li>faster transpose of small vectors</li>
 <li>faster matrix-vector product for small vectors</li>
 <li>faster multiplication of small <a href="#adv_constructors_mat_fixed">fixed size matrices</a></li>
 </ul>

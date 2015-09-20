@@ -453,6 +453,7 @@ Contributors:
 - Charles Gretton
 - Benjamin Herzog
 - Edmund Highcock
+- Szabolcs Horvat
 - Friedrich Hust
 - Kshitij Kulshreshtha
 - Oka Kurniawan
@@ -473,6 +474,7 @@ Contributors:
 - James Sanders
 - Alexander Scherbatey
 - Gerhard Schreiber
+- Ruslan Shestopalyuk
 - Shane Stainsby
 - Petter Strandmark
 - Eric Jon Sundstrom
