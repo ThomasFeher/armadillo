@@ -3993,7 +3993,7 @@ SpMat<eT>::init_batch_std(const Mat<uword>& locs, const Mat<eT>& vals, const boo
     }
   
   // Now fix the column pointers.
-  for (uword i = 0; i <= n_cols; ++i)
+  for (uword i = 0; i < n_cols; ++i)
     {
     access::rw(col_ptrs[i + 1]) += col_ptrs[i];
     }
@@ -4166,7 +4166,7 @@ SpMat<eT>::init_batch_add(const Mat<uword>& locs, const Mat<eT>& vals, const boo
     }
   
   // Now fix the column pointers.
-  for (uword i = 0; i <= n_cols; ++i)
+  for (uword i = 0; i < n_cols; ++i)
     {
     access::rw(col_ptrs[i + 1]) += col_ptrs[i];
     }
