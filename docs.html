@@ -3952,6 +3952,21 @@ Applicable to <i>Mat</i> only.
                         </td>
                       </tr>
                       <tr>
+                        <td style="vertical-align: top;"><b>hdf5_binary</b></td>
+                        <td style="vertical-align: top;"><br>
+                        </td>
+                        <td style="vertical-align: top;">
+Numerical data stored in portable HDF5 binary format.
+Applicable to <i>Mat</i> only.
+<br>
+<b>Caveat</b>: this currently works only with Linux and Mac OS X;
+support for HDF5 must be enabled within Armadillo's <a href="#config_hpp">configuration</a>;
+the <i>hdf5.h</i> header file must be available on your system and you will need to link with the hdf5 library (eg. -lhdf5)
+<br>
+<br>
+                        </td>
+                      </tr>
+                      <tr>
                         <td style="vertical-align: top;"><b>pgm_binary</b></td>
                         <td style="vertical-align: top;"><br>
                         </td>
@@ -6093,11 +6108,11 @@ See also:
 <br><b>norm_dot(A, B)</b>
 <ul>
 <li>
-<i>dot(A,B)</i>: dot product of A and B, under the assumption that A and B are vectors with the same number of elements
+<i>dot(A,B)</i>: dot product of <i>A</i> and <i>B</i>, under the assumption that <i>A</i> and <i>B</i> are vectors with the same number of elements
 </li>
 <br>
 <li>
-<i>cdot(A,B)</i>: as per <i>dot(A,B)</i>, but the complex conjugate of A is used
+<i>cdot(A,B)</i>: as per <i>dot(A,B)</i>, but the complex conjugate of <i>A</i> is used
 </li>
 <br>
 <li>
@@ -10468,6 +10483,35 @@ Use C++11 features, such as <a href="#element_initialisation">initialiser lists<
   </tr>
   <tr>
     <td style="vertical-align: top;">
+ARMA_USE_HDF5
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Enable the the ability to <a href="#save_load_mat">save and load</a> matrices stored in the HDF5 format;
+the <i>hdf5.h</i> header file must be available on your system and you will need to link with the hdf5 library (eg. -lhdf5)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
 <a name="config_hpp_arma_no_debug"></a>
 ARMA_NO_DEBUG
     </td>
@@ -10767,10 +10811,12 @@ Below is a list of additions and changes since prior versions of Armadillo:
 <li>Added in 3.4:
 <ul>
 <li>economical QR decomposition: <a href="#qr_econ">qr_econ()</a></li>
-<li><a href="#each_colrow">.each_col() &amp; .each_row()</a> for vector operations repeated on each column or row</li>
+<li><a href="#each_colrow">.each_col() &amp; .each_row()</a> for vector operations repeated on each column or row of a matrix</li>
 <li>preliminary support for <a href="#SpMat">sparse matrices</a></li>
+<li>ability to <a href="#save_load_mat">save and load</a> matrices in HDF5 format</li>
 <li>faster <a href="#svd">singular value decomposition</a> via optional use of divide-and-conquer algorithm</li>
 <li>faster <a href="#randu_randn_member">.randn()</a></li>
+<li>faster <a href="#dot">dot() and cdot()</a> for complex numbers</li>
 </ul>
 <br>
 </li>
