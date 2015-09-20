@@ -13,7 +13,7 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(ARMA_MAJOR 4)
-set(ARMA_MINOR 200)
+set(ARMA_MINOR 300)
 set(ARMA_PATCH 0)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
@@ -222,14 +222,14 @@ if(APPLE)
 endif()
 
 
-# find_package(HDF5)
-# message(STATUS "HDF5_FOUND     = ${HDF5_FOUND}")
+find_package(HDF5)
+message(STATUS "HDF5_FOUND     = ${HDF5_FOUND}")
 # 
-# if(HDF5_FOUND)
-#   set(ARMA_USE_HDF5 true)
-#   set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${HDF5_INCLUDE_DIRS})
-#   set(ARMA_LIBS ${ARMA_LIBS} ${HDF5_LIBRARIES})
-# endif()
+if(HDF5_FOUND)
+  set(ARMA_USE_HDF5 true)
+  set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${HDF5_INCLUDE_DIRS})
+  set(ARMA_LIBS ${ARMA_LIBS} ${HDF5_LIBRARIES})
+endif()
 
 
 include(ARMA_FindARPACK)
@@ -245,6 +245,13 @@ message(STATUS "")
 message(STATUS "*** The run-time library component of Armadillo will use the following libraries:")
 message(STATUS "*** ARMA_LIBS = ${ARMA_LIBS}")
 message(STATUS "")
+
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 4.9)
+  set(ARMA_USE_CXX11_RNG true)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+  message(STATUS "Detected gcc 4.9 or later. Added '-std=c++11' to compiler flags")
+endif()
 
 
 message(STATUS "Copying ${PROJECT_SOURCE_DIR}/include/ to ${PROJECT_BINARY_DIR}/build_tmp/include/")
@@ -292,22 +299,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif()
 
 
-## enable C++11 mode if available (TODO: replace with native Cmake handling of C++11)
-## NOTE: as of gcc 4.8.2, thread_local is broken (link errors)
-## NOTE: as of clang 3.3, thread_local is only partially supported (no support in clang libc++ runtime library)
-# if(
-#   (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 4.9)
-#   OR
-#   (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 3.4)
-#   )
-#   set(ARMA_USE_CXX11_RNG true)
-#   add_definitions(-std=c++11)
-#   message(STATUS "Detected C++11 compiler. Using -std=c++11")
-# endif()
-
-
 if(CMAKE_COMPILER_IS_GNUCXX)
-  add_definitions(-O2)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 endif()
 
 message(STATUS "CMAKE_CXX_FLAGS           = ${CMAKE_CXX_FLAGS}"          )

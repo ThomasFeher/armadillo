@@ -114,7 +114,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 4.200</b></font>
+        <font size=+2><b>Reference for Armadillo 4.300</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -321,6 +321,8 @@ Technical Report, NICTA, 2010.
 <a href="#cumsum">cumsum</a>&nbsp;&middot;
 <a href="#diagmat">diagmat</a>&nbsp;&middot;
 <a href="#find">find</a>&nbsp;&middot;
+<a href="#find_finite">find_finite</a>&nbsp;&middot;
+<a href="#find_nonfinite">find_nonfinite</a>&nbsp;&middot;
 <a href="#flip">fliplr/flipud</a>&nbsp;&middot;
 <a href="#hist">hist</a>&nbsp;&middot;
 <a href="#histc">histc</a>&nbsp;&middot;
@@ -2648,7 +2650,7 @@ Examples:
 mat A = randu&lt;mat&gt;(5,5);
 mat B = randu&lt;mat&gt;(5,5);
 
-B(1,1) = datum::nan;
+B(1,1) = datum::inf;
 
 cout &lt;&lt; A.is_finite() &lt;&lt; endl;
 cout &lt;&lt; B.is_finite() &lt;&lt; endl;
@@ -2659,8 +2661,10 @@ cout &lt;&lt; B.is_finite() &lt;&lt; endl;
 <li>
 See also:
 <ul>
-<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
 <li><a href="#is_finite_standalone">is_finite()</a> (standalone function)</li>
+<li><a href="#find_finite">find_finite()</a></li>
+<li><a href="#find_nonfinite">find_nonfinite()</a></li>
+<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
 </ul>
 </li>
 <br>
@@ -8071,11 +8075,95 @@ See also:
 <ul>
 <li><a href="#all">all()</a></li>
 <li><a href="#any">any()</a></li>
+<li><a href="#find_finite">find_finite()</a></li>
+<li><a href="#find_nonfinite">find_nonfinite()</a></li>
 <li><a href="#unique">unique()</a></li>
 <li><a href="#sort_index">sort_index()</a></li>
 <li><a href="#conv_to">conv_to()</a> (convert between matrix/vector types)</li>
 <li><a href="#submat">submatrix views</a></li>
 <li><a href="#subcube">subcube views</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline">
+<br>
+
+<a name="find_finite"></a>
+<b>find_finite( X )</b>
+<ul>
+<li>Return a column vector containing the indices of elements of <i>X</i> that are finite (ie. not &plusmn;Inf and not NaN)</li>
+<br>
+<li>The output vector must have the type <a href="#Col">uvec</a> or <a href="#Mat">umat</a>
+(ie. the indices are stored as unsigned integers of type <a href="#uword">uword</a>)
+</li>
+<br>
+<li>
+<i>X</i> is interpreted as a vector, with column-by-column ordering of the elements of <i>X</i>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(5,5);
+
+A(1,1) = datum::inf;
+
+// accumulate only finite elements
+double val = accu( A.elem( find_finite(A) ) );
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#find">find()</a></li>
+<li><a href="#find_nonfinite">find_nonfinite()</a></li>
+<li><a href="#submat">submatrix views</a></li>
+<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline">
+<br>
+
+<a name="find_nonfinite"></a>
+<b>find_nonfinite( X )</b>
+<ul>
+<li>Return a column vector containing the indices of elements of <i>X</i> that are non-finite (ie. &plusmn;Inf or NaN)</li>
+<br>
+<li>The output vector must have the type <a href="#Col">uvec</a> or <a href="#Mat">umat</a>
+(ie. the indices are stored as unsigned integers of type <a href="#uword">uword</a>)
+</li>
+<br>
+<li>
+<i>X</i> is interpreted as a vector, with column-by-column ordering of the elements of <i>X</i>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(5,5);
+
+A(1,1) = datum::inf;
+
+// change non-finite elements to zero
+A.elem( find_nonfinite(A) ).zeros();
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#find">find()</a></li>
+<li><a href="#find_finite">find_finite()</a></li>
+<li><a href="#submat">submatrix views</a></li>
+<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
 </ul>
 </li>
 <br>
@@ -10070,13 +10158,17 @@ Returns <i>false</i> if at least one element in <i>X</i> is non-finite (&plusmn;
 </li>
 <br>
 <li>
+<b>Caveat:</b> NaN is not equal to anything, even itself
+</li>
+<br>
+<li>
 Examples:
 <ul>
 <pre>
 mat A = randu&lt;mat&gt;(5,5);
 mat B = randu&lt;mat&gt;(5,5);
 
-B(1,1) = datum::nan;
+B(1,1) = datum::inf;
 
 cout &lt;&lt; is_finite(A) &lt;&lt; endl;
 cout &lt;&lt; is_finite(B) &lt;&lt; endl;
@@ -10091,8 +10183,10 @@ cout &lt;&lt; is_finite( datum::inf  ) &lt;&lt; endl;
 <li>
 See also:
 <ul>
-<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
 <li><a href="#is_finite">.is_finite()</a> (member function of <i>Mat</i> and <i>Cube</i>)</li>
+<li><a href="#find_finite">find_finite()</a></li>
+<li><a href="#find_nonfinite">find_nonfinite()</a></li>
+<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
 </ul>
 </li>
 <br>
@@ -10199,7 +10293,7 @@ See also:
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      infinity
+      &infin;, infinity
     </td>
   </tr>
   <tr>
@@ -12510,6 +12604,15 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="added_in_4300"></a>
+<li>Added in 4.300:
+<ul>
+<li>added <a href="#find_finite">find_finite()</a> and <a href="#find_nonfinite">find_nonfinite()</a></li>
+<li>expressions <i>X=<a href="#inv">inv</a>(A)*B*C</i> and <i>X=A<a href="#i_member">.i()</a>*B*C</i> are automatically converted to <i>X=<a href="#solve">solve</a>(A,B*C)</i></li>
+<li>cmake-based installer enables use of C++11 random number generator when using gcc 4.9+ in C++11 mode</li>
+</ul>
+</li>
+<br>
 <a name="added_in_4200"></a>
 <li>Added in 4.200:
 <ul>
