@@ -27,6 +27,12 @@
 
 #if defined(ARMA_USE_HDF5)
   #include <hdf5.h>
+  
+  #if defined(H5_USE_16_API_DEFAULT) || defined(H5_USE_16_API)
+    // #pragma message ("disabling use of HDF5 due to its incompatible configuration")
+    #undef ARMA_USE_HDF5
+  #endif
+
 #endif
 
 namespace arma

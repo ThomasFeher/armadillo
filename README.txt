@@ -43,13 +43,17 @@ Armadillo is a C++ linear algebra library (matrix maths)
 aiming towards a good balance between speed and ease of use.
 The syntax is deliberately similar to Matlab.
 
+The library provides efficient classes for vectors, matrices and cubes,
+as well as many functions which operate on the classes
+(eg. contiguous and non-contiguous submatrix views)
+  
 Integer, floating point and complex numbers are supported,
 as well as a subset of trigonometric and statistics functions.
 Various matrix decompositions are provided through optional
 integration with LAPACK or high-performance LAPACK-compatible
 libraries (such as Intel MKL or AMD ACML).
 
-A delayed evaluation approach is employed (during compile time)
+A delayed evaluation approach is automatically employed (at compile time)
 to combine several operations into one and reduce (or eliminate)
 the need for temporaries. This is accomplished through recursive
 templates and template meta-programming.
