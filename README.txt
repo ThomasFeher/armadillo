@@ -440,6 +440,7 @@ Contributors:
 - Charles Gretton
 - Benjamin Herzog
 - Edmund Highcock
+- Friedrich Hust
 - Kshitij Kulshreshtha
 - Oka Kurniawan
 - Simen Kvaal
