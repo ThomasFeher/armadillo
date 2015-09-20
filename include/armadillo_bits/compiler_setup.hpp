@@ -1,5 +1,5 @@
-// Copyright (C) 2008-2014 Conrad Sanderson
-// Copyright (C) 2008-2014 NICTA (www.nicta.com.au)
+// Copyright (C) 2008-2015 Conrad Sanderson
+// Copyright (C) 2008-2015 NICTA (www.nicta.com.au)
 // 
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -286,6 +286,11 @@
   #if defined(__has_builtin) && __has_builtin(__builtin_assume_aligned)
     #undef  ARMA_HAVE_GCC_ASSUME_ALIGNED
     #define ARMA_HAVE_GCC_ASSUME_ALIGNED
+  #endif
+  
+  #if defined(__apple_build_version__)
+    #undef ARMA_USE_EXTERN_CXX11_RNG
+    // because Apple engineers are too lazy to implement thread_local
   #endif
   
 #endif

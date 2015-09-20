@@ -1486,7 +1486,7 @@ class Proxy< xtrans_mat<eT, do_conj> >
   arma_inline aligned_ea_type get_aligned_ea() const { return Q;          }
   
   template<typename eT2>
-  arma_inline bool is_alias(const Mat<eT2>& X) const { return false; }
+  arma_inline bool is_alias(const Mat<eT2>&) const { return false; }
   
   arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
   };
@@ -1531,7 +1531,7 @@ class Proxy< xvec_htrans<eT> >
   arma_inline aligned_ea_type get_aligned_ea() const { return Q;          }
   
   template<typename eT2>
-  arma_inline bool is_alias(const Mat<eT2>& X) const { return false; }
+  arma_inline bool is_alias(const Mat<eT2>&) const { return false; }
   
   arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
   };

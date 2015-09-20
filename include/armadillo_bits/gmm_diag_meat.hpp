@@ -269,11 +269,14 @@ gmm_diag<eT>::save(const std::string name) const
   
   Cube<eT> Q(means.n_rows + 1, means.n_cols, 2);
   
-  Q.slice(0).row(0) = hefts;
-  Q.slice(1).row(0).zeros();  // reserved for future use
-  
-  Q.slice(0).submat(1, 0, size(means)) = means;
-  Q.slice(1).submat(1, 0, size(dcovs)) = dcovs;
+  if(Q.n_elem > 0)
+    {
+    Q.slice(0).row(0) = hefts;
+    Q.slice(1).row(0).zeros();  // reserved for future use
+    
+    Q.slice(0).submat(1, 0, size(means)) = means;
+    Q.slice(1).submat(1, 0, size(dcovs)) = dcovs;
+    }
   
   const bool status = Q.save(name, arma_binary);
   

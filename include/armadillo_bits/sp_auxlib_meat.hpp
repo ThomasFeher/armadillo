@@ -139,6 +139,9 @@ sp_auxlib::eigs_sym(Col<eT>& eigval, Mat<eT>& eigvec, const SpBase<eT, T1>& X, c
     arma_ignore(eigvec);
     arma_ignore(X);
     arma_ignore(n_eigvals);
+    arma_ignore(form_str);
+    arma_ignore(default_tol);
+    
     arma_stop("eigs_sym(): use of ARPACK needs to be enabled");
     return false;
     }
@@ -289,6 +292,9 @@ sp_auxlib::eigs_gen(Col< std::complex<T> >& eigval, Mat< std::complex<T> >& eigv
     arma_ignore(eigvec);
     arma_ignore(X);
     arma_ignore(n_eigvals);
+    arma_ignore(form_str);
+    arma_ignore(default_tol);
+    
     arma_stop("eigs_gen(): use of ARPACK needs to be enabled");
     return false;
     }
@@ -403,6 +409,9 @@ sp_auxlib::eigs_gen(Col< std::complex<T> >& eigval, Mat< std::complex<T> >& eigv
     arma_ignore(eigvec);
     arma_ignore(X);
     arma_ignore(n_eigvals);
+    arma_ignore(form_str);
+    arma_ignore(default_tol);
+    
     arma_stop("eigs_gen(): use of ARPACK needs to be enabled");
     return false;
     }
@@ -540,5 +549,23 @@ sp_auxlib::run_aupd
       return; // Parent frame can look at the value of info.
       }
     }
+  #else
+    arma_ignore(n_eigvals);
+    arma_ignore(which);
+    arma_ignore(p);
+    arma_ignore(sym);
+    arma_ignore(n);
+    arma_ignore(tol);
+    arma_ignore(resid);
+    arma_ignore(ncv);
+    arma_ignore(v);
+    arma_ignore(ldv);
+    arma_ignore(iparam);
+    arma_ignore(ipntr);
+    arma_ignore(workd);
+    arma_ignore(workl);
+    arma_ignore(lworkl);
+    arma_ignore(rwork);
+    arma_ignore(info);
   #endif
   }
