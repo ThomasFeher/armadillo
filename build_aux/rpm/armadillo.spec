@@ -87,3 +87,4 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.txt index.html docs.html
 %doc examples armadillo_icon.png
 %doc armadillo_nicta_2010.pdf rcpp_armadillo_csda_2014.pdf
+%doc mex_interface

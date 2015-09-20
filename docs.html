@@ -2231,7 +2231,7 @@ double z = p[9];
 <b>element initialisation</b>
 <ul>
 <li>
-Instances of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>field</i> classes can be initialised via repeated use of the &lt;&lt; operator
+Instances of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>field</i> classes can be initialised via the &lt;&lt; operator
 </li>
 <br>
 <li>
@@ -3248,7 +3248,7 @@ for(mat::col_iterator i=c; i!=d; ++i)
 <li>
 See also:
 <ul>
-<li><a href="#stl_container_fns">STL container functions</a></li>
+<li><a href="#stl_container_fns">STL-style container functions</a></li>
 <li><a href="http://cplusplus.com/reference/std/iterator/">iterator at cplusplus.com</a></li>
 <li><a href="#element_access">element access</a></li>
 <li><a href="#memptr">.memptr()</a></li>
@@ -4837,7 +4837,7 @@ See also:
 <hr class="greyline"><br>
 
 <a name="stl_container_fns"></a>
-<b>STL container functions</b>
+<b>STL-style container functions</b>
 <ul>
 <li>Member functions that mimic the containers in the C++ Standard Template Library:<br>
 <br>
@@ -8853,11 +8853,11 @@ See also:
 <br><b>chol( R, X )</b>
 <ul>
 <li>
-Cholesky decomposition of <i>X</i>, such that <i>R.t()*R = X</i>
+Cholesky decomposition of matrix <i>X</i>, such that <i>R.t()*R = X</i>
 </li>
 <br>
 <li>
-X must be a symmetric, positive-definite matrix
+Matrix <i>X</i> must be symmetric and positive-definite
 </li>
 <br>
 <li>If the decomposition fails, <i>R</i> is reset and:
