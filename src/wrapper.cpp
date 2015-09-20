@@ -2,11 +2,6 @@
 #include <limits>
 #include <complex>
 
-#if (__cplusplus >= 201103L)
-  #undef  ARMA_USE_CXX11
-  #define ARMA_USE_CXX11
-#endif
-
 #include "armadillo_bits/config.hpp"
 #undef ARMA_USE_WRAPPER
 
