@@ -2700,10 +2700,21 @@ const Mat<eT>&
 Mat<eT>::operator=(const eOp<T1, eop_type>& X)
   {
   arma_extra_debug_sigprint();
-
+  
   arma_type_check< is_same_type< eT, typename T1::elem_type >::value == false >::apply();
   
-  eop_type::apply(*this, X);
+  const bool bad_alias = (X.P.has_subview  &&  X.P.is_alias(*this));
+  
+  if(bad_alias == false)
+    {
+    eop_type::apply(*this, X);
+    }
+  else
+    {
+    Mat<eT> tmp(X);
+    
+    steal_mem(tmp);
+    }
   
   return *this;
   }
@@ -3113,7 +3124,18 @@ Mat<eT>::operator=(const eGlue<T1, T2, eglue_type>& X)
   arma_type_check< is_same_type< eT, typename T1::elem_type >::value == false >::apply();
   arma_type_check< is_same_type< eT, typename T2::elem_type >::value == false >::apply();
   
-  eglue_type::apply(*this, X);
+  const bool bad_alias = ( (X.P1.has_subview  &&  X.P1.is_alias(*this))  ||  ( X.P2.has_subview  &&  X.P2.is_alias(*this)) );
+  
+  if(bad_alias == false)
+    {
+    eglue_type::apply(*this, X);
+    }
+  else
+    {
+    Mat<eT> tmp(X);
+    
+    steal_mem(tmp);
+    }
   
   return *this;
   }

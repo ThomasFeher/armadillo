@@ -42,6 +42,7 @@ class Proxy< Mat<eT> >
   typedef const eT*                                ea_type;
   
   static const bool prefer_at_accessor = false;
+  static const bool has_subview        = false;
   
   arma_aligned const Mat<eT>& Q;
   
@@ -75,6 +76,7 @@ class Proxy< Col<eT> >
   typedef const eT*                                ea_type;
   
   static const bool prefer_at_accessor = false;
+  static const bool has_subview        = false;
   
   arma_aligned const Col<eT>& Q;
   
@@ -108,6 +110,7 @@ class Proxy< Row<eT> >
   typedef const eT*                                ea_type;
   
   static const bool prefer_at_accessor = false;
+  static const bool has_subview        = false;
   
   arma_aligned const Row<eT>& Q;
   
@@ -141,6 +144,7 @@ class Proxy< Op<T1, op_type> >
   typedef const elem_type*                         ea_type;
   
   static const bool prefer_at_accessor = false;
+  static const bool has_subview        = false;
   
   arma_aligned const Mat<elem_type> Q;
   
@@ -174,6 +178,7 @@ class Proxy< Glue<T1, T2, glue_type> >
   typedef const elem_type*                         ea_type;
   
   static const bool prefer_at_accessor = false;
+  static const bool has_subview        = false;
   
   arma_aligned const Mat<elem_type> Q;
   
@@ -207,6 +212,7 @@ class Proxy< subview<eT> >
   typedef const subview<eT>&                       ea_type;
   
   static const bool prefer_at_accessor = true;
+  static const bool has_subview        = true;
   
   arma_aligned const subview<eT>& Q;
   
@@ -240,6 +246,7 @@ class Proxy< subview_elem1<eT,T1> >
   typedef const eT*                                ea_type;
   
   static const bool prefer_at_accessor = false;
+  static const bool has_subview        = false;
   
   arma_aligned const Mat<eT> Q;
   
@@ -273,6 +280,7 @@ class Proxy< diagview<eT> >
   typedef const diagview<eT>&                      ea_type;
   
   static const bool prefer_at_accessor = false;
+  static const bool has_subview        = true;
   
   arma_aligned const diagview<eT>& Q;
   
@@ -307,6 +315,7 @@ class Proxy< eOp<T1, eop_type > >
   typedef const eOp<T1, eop_type>&                 ea_type;
   
   static const bool prefer_at_accessor = eOp<T1, eop_type>::prefer_at_accessor;
+  static const bool has_subview        = eOp<T1, eop_type>::has_subview;
   
   arma_aligned const eOp<T1, eop_type>& Q;
   
@@ -340,6 +349,7 @@ class Proxy< eGlue<T1, T2, eglue_type > >
   typedef const eGlue<T1, T2, eglue_type>&         ea_type;
   
   static const bool prefer_at_accessor = eGlue<T1, T2, eglue_type>::prefer_at_accessor;
+  static const bool has_subview        = eGlue<T1, T2, eglue_type>::has_subview;
   
   arma_aligned const eGlue<T1, T2, eglue_type>& Q;
   
@@ -373,6 +383,7 @@ class Proxy< mtOp<out_eT, T1, op_type> >
   typedef          const elem_type*             ea_type;
   
   static const bool prefer_at_accessor = false;
+  static const bool has_subview        = false;
   
   arma_aligned const Mat<out_eT> Q;
   
@@ -406,6 +417,7 @@ class Proxy< mtGlue<out_eT, T1, T2, glue_type > >
   typedef          const elem_type*             ea_type;
   
   static const bool prefer_at_accessor = false;
+  static const bool has_subview        = false;
   
   arma_aligned const Mat<out_eT> Q;
   

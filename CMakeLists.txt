@@ -15,7 +15,7 @@ cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
 set(ARMA_MAJOR 2)
 set(ARMA_MINOR 2)
-set(ARMA_PATCH 4)
+set(ARMA_PATCH 5)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 
