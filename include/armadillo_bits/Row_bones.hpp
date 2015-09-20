@@ -170,12 +170,17 @@ class Row<eT>::fixed : public Row<eT>
   inline const Row& operator=(const std::string& text);
   inline const Row& operator=(const subview_cube<eT>& X);
   
-  using Row<eT>::operator();
+  
+  #if !defined(ARMA_GCC47_BUG)
+    using Row<eT>::operator();
+  #endif
+  
   
   #if defined(ARMA_USE_CXX11)
-  inline                fixed(const std::initializer_list<eT>& list);
-  inline const Row& operator=(const std::initializer_list<eT>& list);
+    inline                fixed(const std::initializer_list<eT>& list);
+    inline const Row& operator=(const std::initializer_list<eT>& list);
   #endif
+  
   
   arma_inline arma_warn_unused eT& operator[] (const uword i);
   arma_inline arma_warn_unused eT  operator[] (const uword i) const;

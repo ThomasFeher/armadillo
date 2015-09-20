@@ -526,7 +526,7 @@ class Mat<eT>::fixed : public Mat<eT>
   
   static const bool is_col = (fixed_n_cols == 1) ? true : false;
   static const bool is_row = (fixed_n_rows == 1) ? true : false;
-
+  
   static const uword n_rows = fixed_n_rows;
   static const uword n_cols = fixed_n_cols;
   static const uword n_elem = fixed_n_elem;
@@ -542,12 +542,23 @@ class Mat<eT>::fixed : public Mat<eT>
   inline fixed(const char*        text);
   inline fixed(const std::string& text);
   
-  using Mat<eT>::operator=;
-  using Mat<eT>::operator();
+  
+  #if !defined(ARMA_GCC47_BUG)
+    using Mat<eT>::operator=;
+    using Mat<eT>::operator();
+  #else
+    template<typename T1> inline const Mat& operator=(const Base<eT,T1>& A);
+    
+    inline const Mat& operator=(const eT val);
+    
+    inline const Mat& operator=(const char*        text);
+    inline const Mat& operator=(const std::string& text);
+  #endif
+  
   
   #if defined(ARMA_USE_CXX11)
-  inline                fixed(const std::initializer_list<eT>& list);
-  inline const Mat& operator=(const std::initializer_list<eT>& list);
+    inline                fixed(const std::initializer_list<eT>& list);
+    inline const Mat& operator=(const std::initializer_list<eT>& list);
   #endif
   
   

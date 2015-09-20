@@ -172,12 +172,17 @@ class Col<eT>::fixed : public Col<eT>
   inline const Col& operator=(const std::string& text);
   inline const Col& operator=(const subview_cube<eT>& X);
   
-  using Col<eT>::operator();
+  
+  #if !defined(ARMA_GCC47_BUG)
+    using Col<eT>::operator();
+  #endif
+  
   
   #if defined(ARMA_USE_CXX11)
-  inline                fixed(const std::initializer_list<eT>& list);
-  inline const Col& operator=(const std::initializer_list<eT>& list);
+    inline                fixed(const std::initializer_list<eT>& list);
+    inline const Col& operator=(const std::initializer_list<eT>& list);
   #endif
+  
   
   arma_inline arma_warn_unused eT& operator[] (const uword i);
   arma_inline arma_warn_unused eT  operator[] (const uword i) const;
