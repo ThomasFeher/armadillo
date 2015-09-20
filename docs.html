@@ -127,7 +127,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 5.000</b></font>
+        <font size=+2><b>Reference for Armadillo 5.100</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -289,6 +289,7 @@ Technical Report, NICTA, 2010.
 <tr><td><a href="#is_finite_member">.is_finite</a></td><td>&nbsp;</td><td>check whether all elements are finite</td></tr>
 <tr><td><a href="#is_square">.is_square</a></td><td>&nbsp;</td><td>check whether matrix is square sized</td></tr>
 <tr><td><a href="#is_vec">.is_vec</a></td><td>&nbsp;</td><td>check whether matrix is a vector</td></tr>
+<tr><td><a href="#is_sorted">.is_sorted</a></td><td>&nbsp;</td><td>check whether vector or matrix is sorted</td></tr>
 <tr><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td></tr>
 <tr><td><a href="#print">.print</a></td><td>&nbsp;</td><td>print object to <i>std::cout</i> or user specified stream</td></tr>
 <tr><td><a href="#raw_print">.raw_print</a></td><td>&nbsp;</td><td>print object without formatting</td></tr>
@@ -354,29 +355,30 @@ Technical Report, NICTA, 2010.
 <tr style="background-color: #F5F5F5;"><td><a href="#histc">histc</a></td><td>&nbsp;</td><td>histogram of counts with user specified edges</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#imag_real">imag / real</a></td><td>&nbsp;</td><td>extract imaginary/real part</td></tr>
 <tr><td><a href="#inplace_trans">inplace_trans</a></td><td>&nbsp;</td><td>in-place transpose</td></tr>
+<tr><td><a href="#interp1">interp1</a></td><td>&nbsp;</td><td>1D interpolation</td></tr>
 <tr><td><a href="#is_finite">is_finite</a></td><td>&nbsp;</td><td>check whether all elements are finite</td></tr>
-<tr><td><a href="#join">join_rows/cols/slices</a></td><td>&nbsp;</td><td>concatenation of matrices or cubes</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#join">join_rows/cols/slices</a></td><td>&nbsp;</td><td>concatenation of matrices or cubes</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#kron">kron</a></td><td>&nbsp;</td><td>Kronecker tensor product</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#min_and_max">min&nbsp;/&nbsp;max</a></td><td>&nbsp;</td><td>return extremum values</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#nonzeros">nonzeros</a></td><td>&nbsp;</td><td>return non-zero values</td></tr>
+<tr><td><a href="#nonzeros">nonzeros</a></td><td>&nbsp;</td><td>return non-zero values</td></tr>
 <tr><td><a href="#norm">norm</a></td><td>&nbsp;</td><td>various norms of vectors and matrices</td></tr>
 <tr><td><a href="#normalise">normalise</a></td><td>&nbsp;</td><td>normalise vectors to unit <i>p</i>-norm</td></tr>
-<tr><td><a href="#prod">prod</a></td><td>&nbsp;</td><td>product of elements</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#prod">prod</a></td><td>&nbsp;</td><td>product of elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#rank">rank</a></td><td>&nbsp;</td><td>rank of matrix</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#repmat">repmat</a></td><td>&nbsp;</td><td>replicate matrix in block-like fashion</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#reshape">reshape</a></td><td>&nbsp;</td><td>change size while keeping elements</td></tr>
+<tr><td><a href="#reshape">reshape</a></td><td>&nbsp;</td><td>change size while keeping elements</td></tr>
 <tr><td><a href="#resize">resize</a></td><td>&nbsp;</td><td>change size while keeping elements and preserving layout</td></tr>
 <tr><td><a href="#shuffle">shuffle</a></td><td>&nbsp;</td><td>randomly shuffle elements</td></tr>
-<tr><td><a href="#sort">sort</a></td><td>&nbsp;</td><td>sort elements</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#sort">sort</a></td><td>&nbsp;</td><td>sort elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#sort_index">sort_index</a></td><td>&nbsp;</td><td>vector describing sorted order of elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#sum">sum</a></td><td>&nbsp;</td><td>sum of elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#symmat">symmatu&nbsp;/&nbsp;symmatl</a></td><td>&nbsp;</td><td>interpret matrix as symmetric</td></tr>
+<tr><td><a href="#symmat">symmatu&nbsp;/&nbsp;symmatl</a></td><td>&nbsp;</td><td>interpret matrix as symmetric</td></tr>
 <tr><td><a href="#trace">trace</a></td><td>&nbsp;</td><td>sum of diagonal elements of square matrix</td></tr>
 <tr><td><a href="#trans">trans</a></td><td>&nbsp;</td><td>transpose of matrix</td></tr>
-<tr><td><a href="#trimat">trimatu&nbsp;/&nbsp;trimatl</a></td><td>&nbsp;</td><td>interpret matrix as triangular</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#trimat">trimatu&nbsp;/&nbsp;trimatl</a></td><td>&nbsp;</td><td>interpret matrix as triangular</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#unique">unique</a></td><td>&nbsp;</td><td>return unique elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#vectorise">vectorise</a></td><td>&nbsp;</td><td>convert matrix to vector</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#misc_fns">misc&nbsp;functions</a></td><td>&nbsp;</td><td>miscellaneous element-wise functions:&nbsp;exp,&nbsp;log,&nbsp;pow,&nbsp;sqrt,&nbsp;round,&nbsp;sign,&nbsp;...</td></tr>
+<tr><td><a href="#misc_fns">misc&nbsp;functions</a></td><td>&nbsp;</td><td>miscellaneous element-wise functions:&nbsp;exp,&nbsp;log,&nbsp;pow,&nbsp;sqrt,&nbsp;round,&nbsp;sign,&nbsp;...</td></tr>
 <tr><td><a href="#trig_fns">trig&nbsp;functions</a></td><td>&nbsp;</td><td>trigonometric element-wise functions:&nbsp;cos,&nbsp;sin,&nbsp;...</td></tr>
 <tr><td><a href="#stats_fns">stats&nbsp;functions</a></td><td>&nbsp;</td><td>statistics functions: mean, median, standard deviation, variance</td></tr>
 </tbody>
@@ -2234,7 +2236,7 @@ double z = p[9];
 <b>element initialisation</b>
 <ul>
 <li>
-Instances of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>field</i> classes can be initialised via the &lt;&lt; operator
+Instances of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>field</i> classes can be initialised via the <code>&lt;&lt;</code> operator
 </li>
 <br>
 <li>
@@ -2243,11 +2245,11 @@ Special element <i>endr</i> indicates "end of row" (conceptually similar to <i>s
 <br>
 <li>
 Setting elements via &lt;&lt; is a bit slower than directly <a href="#element_access">accessing</a> the elements,
-but code using &lt;&lt; is generally more readable and easier to write
+but code using <code>&lt;&lt;</code> is generally more readable and easier to write
 </li>
 <br>
 <li>
-When using a C++11 compiler, matrices and vectors can use initialiser lists instead; for example: { 1, 2, 3, 4 }
+When using a C++11 compiler, matrices and vectors can use initialiser lists; for example: <code>{&nbsp;1,&nbsp;2,&nbsp;3,&nbsp;4&nbsp;}</code>
 </li>
 <br>
 <li>
@@ -2256,8 +2258,8 @@ Examples:
 <pre>
 mat A;
 
-A &lt;&lt; 1 &lt;&lt; 2 &lt;&lt; 3 &lt;&lt; endr
-  &lt;&lt; 4 &lt;&lt; 5 &lt;&lt; 6 &lt;&lt; endr;
+A &lt;&lt; 1 &lt;&lt; 3 &lt;&lt; 5 &lt;&lt; endr
+  &lt;&lt; 2 &lt;&lt; 4 &lt;&lt; 6 &lt;&lt; endr;
 
 mat B = { 1, 2, 3, 4, 5, 6 };  // C++11 only
 B.reshape(2,3);
@@ -4560,7 +4562,7 @@ If the matrix expression appears to be singular, the output matrix is reset and 
 <li>The <i>method</i> argument is optional.
 For matrix sizes &le; 4x4, a fast algorithm is used.
 In rare instances, the fast algorithm might be less precise than the standard algorithm.
-To force the use of the standard algorithm, set the <i>method</i> argument to "std".
+To force the use of the standard algorithm, set the <i>method</i> argument to <code>"std"</code>.
 For matrix sizes greater than 4x4, the standard algorithm is always used
 </li>
 <br>
@@ -5117,6 +5119,63 @@ See also:
 </ul>
 <hr class="greyline"><br>
 
+<a name="is_sorted"></a>
+<b>.is_sorted()</b>
+<br><b>.is_sorted( sort_direction )</b>
+<br><b>.is_sorted( sort_direction, dim )</b>
+<ul>
+<li>
+If the object is a vector, return a <i>bool</i> indicating whether the elements are sorted
+</li>
+<br>
+<li>
+If the object is a matrix, return a <i>bool</i> indicating whether the elements in each column (<i>dim=0</i>) or each row (<i>dim=1</i>) are sorted
+</li>
+<br>
+<li>
+The <i>sort_direction</i> argument is optional; <i>sort_direction</i> is either <code>"ascend"</code> or <code>"descend"</code>; by default <code>"ascend"</code> is used
+</li>
+<br>
+<li>
+The <i>dim</i> argument is optional; by default <i>dim=0</i> is used
+</li>
+<br>
+<li>
+For matrices and vectors with complex numbers, order is checked via absolute values
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+vec a = randu&lt;vec&gt;(10);
+vec b = sort(a);
+
+bool check1 = a.is_sorted();
+bool check2 = b.is_sorted();
+
+
+mat A = randu&lt;mat&gt;(10,10);
+
+// check whether each column is sorted in descending manner
+cout &lt;&lt; A.is_sorted("descend") &lt;&lt; endl;
+
+// check whether each row is sorted in ascending manner
+cout &lt;&lt; A.is_sorted("ascend", 1) &lt;&lt; endl;
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#sort">sort()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
 <a name="print"></a>
 <b>.print()</b>
 <br><b>.print( header )</b>
@@ -5644,6 +5703,7 @@ mat X = linspace&lt;mat&gt;(10, 20, 5);
 See also:
 <ul>
 <li><a href="#ones_standalone">ones()</a></li>
+<li><a href="#interp1">interp1()</a></li>
 </ul>
 </li>
 <br>
@@ -5840,10 +5900,6 @@ arma_rng::set_seed_random();  // set the seed to a random value
 <br><b>randg( n_rows, n_cols, n_slices, distr_param(a,b) )</b>
 <ul>
 <li>
-Available only when using a C++11 compiler
-</li>
-<br>
-<li>
 Generate a vector, matrix or cube with the elements set to random values from a gamma distribution:
 <ul>
 <table style="text-align: left;" border="0" cellpadding="0" cellspacing="0">
@@ -5877,6 +5933,10 @@ Usage:
 <li><i>cube_type</i> Q = randg&lt;<i>cube_type</i>&gt;(n_rows, n_cols, n_slices)</li>
 <li><i>cube_type</i> Q = randg&lt;<i>cube_type</i>&gt;(n_rows, n_cols, n_slices, distr_param(a,b))</li>
 </ul>
+</li>
+<br>
+<li>
+<b>Caveat:</b> <i>randg()</i> is available only when using a C++11 compiler
 </li>
 <br>
 <li>
@@ -6513,6 +6573,7 @@ See also:
 <ul>
 <li><a href="#fft">fft()</a></li>
 <li><a href="#cor">cor()</a></li>
+<li><a href="#interp1">interp1()</a></li>
 <li><a href="http://mathworld.wolfram.com/Convolution.html">Convolution in MathWorld</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Convolution">Convolution in Wikipedia</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Finite_impulse_response">FIR filter in Wikipedia</a></li>
@@ -6783,7 +6844,7 @@ If <i>A</i> is not square, a <i>std::logic_error</i> exception is thrown
 <li><i>det():</i> the <i>method</i> argument is optional.
 For matrix sizes &le; 4x4, a fast algorithm is used.
 In rare instances, the fast algorithm might be less precise than the standard algorithm.
-To force the use of the standard algorithm, set the <i>method</i> argument to "std".
+To force the use of the standard algorithm, set the <i>method</i> argument to <code>"std"</code>.
 For matrix sizes greater than 4x4, the standard algorithm is always used
 </li>
 <br>
@@ -7365,7 +7426,7 @@ The argument <i>method</i> is optional
 </li>
 <br>
 <li>
-By default, a greedy transposition algorithm is used; a low-memory algorithm can be used instead by explicitly setting <i>method</i> to "lowmem"
+By default, a greedy transposition algorithm is used; a low-memory algorithm can be used instead by explicitly setting <i>method</i> to <code>"lowmem"</code>
 </li>
 <br>
 <li>
@@ -7392,6 +7453,70 @@ inplace_trans(Y, "lowmem");  // use low-memory (and slow) algorithm
 <li><a href="#t_st_members">.t()</a></li>
 <li><a href="#trans">trans()</a></li>
 <li><a href="https://en.wikipedia.org/wiki/In-place_matrix_transposition">inplace matrix transpose in Wikipedia</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="interp1"></a>
+<b>interp1( X, Y, XI, YI )</b>
+<br><b>interp1( X, Y, XI, YI, method )</b>
+<ul>
+<li>
+1D data interpolation
+</li>
+<br>
+<li>
+Given a 1D function specified in vectors <i>X</i> and <i>Y</i>
+(where <i>X</i> specifies locations and <i>Y</i> specifies the corresponding values),
+<br>
+generate vector <i>YI</i> which contains interpolated values at locations <i>XI</i>
+</li>
+<br>
+<li>
+The <i>method</i> argument is optional; it is one of:
+<ul>
+<table>
+<tbody>
+<tr><td><li></li></td><td style="text-align: right;"><code>"nearest"</code></td><td>&nbsp;=&nbsp;</td><td>interpolate using single nearest neighbour</td></tr>
+<tr><td><li></li></td><td style="text-align: right;"><code>"*nearest"</code></td><td>&nbsp;=&nbsp;</td><td>as per <code>"nearest"</code>, but faster by assuming that <i>X</i> and <i>XI</i> are monotonically increasing</td></tr>
+<tr><td><li></li></td><td style="text-align: right;"><code>"linear"</code></td><td>&nbsp;=&nbsp;</td><td>linear interpolation between two nearest neighbours (<b>default setting</b>)</td></tr>
+<tr><td><li></li></td><td style="text-align: right;"><code>"*linear"</code></td><td>&nbsp;=&nbsp;</td><td>as per <code>"linear"</code>, but faster by assuming that <i>X</i> and <i>XI</i> are monotonically increasing</td></tr>
+</tbody>
+</table>
+</ul>
+</li>
+<br>
+<li>
+<b>Caveat:</b> the elements in <i>X</i> must be unique
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+vec x = linspace&lt;vec&gt;(0, 3, 20);
+vec y = square(x);
+
+vec xx = linspace&lt;vec&gt;(0, 3, 100);
+
+vec yy;
+
+interp1(x, y, xx, yy);  // use linear interpolation by default
+
+interp1(x, y, xx, yy, "*linear");  // faster than "linear"
+
+interp1(x, y, xx, yy, "nearest");
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#linspace">linspace()</a></li>
+<li><a href="#conv">conv()</a></li>
 </ul>
 </li>
 <br>
@@ -7643,20 +7768,20 @@ Compute the <i>p</i>-norm of <i>X</i>, where <i>X</i> can be a vector or matrix
 </li>
 <br>
 <li>
-For vectors, <i>p</i> is an integer &ge;1, or one of: "-inf", "inf", "fro"
+For vectors, <i>p</i> is an integer &ge;1, or one of: <code>"-inf"</code>, <code>"inf"</code>, <code>"fro"</code>
 </li>
 <br>
 <li>
-For matrices, <i>p</i> is one of: 1, 2, "inf", "fro"; the calculated norm is the <i>induced norm</i> (not entrywise norm)
+For matrices, <i>p</i> is one of: 1, 2, <code>"inf"</code>, <code>"fro"</code>; the calculated norm is the <i>induced norm</i> (not entrywise norm)
 </li>
 <br>
 <li>
-"-inf" is the minimum norm, "inf" is the maximum norm, while "fro" is the Frobenius norm
+<code>"-inf"</code> is the minimum norm, <code>"inf"</code> is the maximum norm, while <code>"fro"</code> is the Frobenius norm
 </li>
 <br>
 <li>
 To obtain the zero norm or Hamming norm (ie. the number of non-zero elements),
-use this expression: <a href="#accu">accu</a>(X&nbsp;!=&nbsp;0)
+use this expression: <code><a href="#accu">accu</a>(X&nbsp;!=&nbsp;0)</code>
 </li>
 <br>
 <li>
@@ -8035,7 +8160,7 @@ See also:
 The <i>dim</i> argument is optional; by default <i>dim=0</i> is used
 </li>
 <br>
-<li>The <i>sort_direction</i> argument is optional; <i>sort_direction</i> is either "ascend" or "descend"; by default "ascend" is used</li>
+<li>The <i>sort_direction</i> argument is optional; <i>sort_direction</i> is either <code>"ascend"</code> or <code>"descend"</code>; by default <code>"ascend"</code> is used</li>
 <br>
 <li>For matrices and vectors with complex numbers, sorting is via absolute values</li>
 <br>
@@ -8052,6 +8177,7 @@ mat B = sort(A);
 See also:
 <ul>
 <li><a href="#sort_index">sort_index()</a></li>
+<li><a href="#is_sorted">.is_sorted()</a></li>
 <li><a href="#shuffle">shuffle()</a></li>
 <li><a href="#randu_randn_standalone">randu() / randn()</a></li>
 </ul>
@@ -8079,7 +8205,7 @@ See also:
 <i>X</i> is interpreted as a vector, with column-by-column ordering of the elements of <i>X</i>
 </li>
 <br>
-<li>The <i>sort_direction</i> argument is optional; <i>sort_direction</i> is either "ascend" or "descend"; by default "ascend" is used</li>
+<li>The <i>sort_direction</i> argument is optional; <i>sort_direction</i> is either <code>"ascend"</code> or <code>"descend"</code>; by default <code>"ascend"</code> is used</li>
 <br>
 <li>The <i>stable_sort_index()</i> variant preserves the relative order of elements with equivalent values</li>
 <br>
@@ -8879,7 +9005,7 @@ By default, <i>R</i> is upper triangular, such that <i>R.t()*R = X</i>
 </li>
 <br>
 <li>
-The argument <i>layout</i> is optional; <i>layout</i> is either "upper" or "lower", which specifies whether <i>R</i> is upper or lower triangular
+The argument <i>layout</i> is optional; <i>layout</i> is either <code>"upper"</code> or <code>"lower"</code>, which specifies whether <i>R</i> is upper or lower triangular
 </li>
 <br>
 <li>If the decomposition fails:
@@ -8929,13 +9055,15 @@ See also:
 <br>
 <li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
 <br>
-<li>The <i>method</i> argument is optional; <i>method</i> is either "dc" or "std", with "dc" indicating divide-and-conquer and "std" indicating standard
+<li>
+The <i>method</i> argument is optional; <i>method</i> is either <code>"dc"</code> or <code>"std"</code>,
+with <code>"dc"</code> indicating divide-and-conquer and <code>"std"</code> indicating standard
 <ul>
 <li>
-In version 4.000 and later, the default method is "dc"
+In version 4.000 and later, the default method is <code>"dc"</code>
 </li>
 <li>
-In version 3.930, the default method is "std"
+In version 3.930, the default method is <code>"std"</code>
 </li>
 </ul>
 </li>
@@ -9122,14 +9250,14 @@ See also:
 <i>k</i> specifies the number of eigenvalues and eigenvectors
 </li>
 <br>
-<li>The argument <i>form</i> is optional; <i>form</i> is either "lm", "sm", "la", or "sa":
+<li>The argument <i>form</i> is optional; <i>form</i> is one of:
 <ul>
 <table>
 <tbody>
-<tr><td><li>"lm":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with largest magnitude (default operation)</td></tr>
-<tr><td><li>"sm":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with smallest magnitude</td></tr>
-<tr><td><li>"la":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with largest algebraic value</td></tr>
-<tr><td><li>"sa":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with smallest algebraic value</td></tr>
+<tr><td><li><code>"lm"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest magnitude (default operation)</td></tr>
+<tr><td><li><code>"sm"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest magnitude</td></tr>
+<tr><td><li><code>"la"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest algebraic value</td></tr>
+<tr><td><li><code>"sa"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest algebraic value</td></tr>
 </tbody>
 </table>
 </ul>
@@ -9208,12 +9336,12 @@ Obtain a limited number of eigenvalues and eigenvectors of <b>sparse</b> general
 <ul>
 <table>
 <tbody>
-<tr><td><li>"lm":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with largest magnitude (default operation)</td></tr>
-<tr><td><li>"sm":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with smallest magnitude</td></tr>
-<tr><td><li>"lr":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with largest real part</td></tr>
-<tr><td><li>"sr":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with smallest real part</td></tr>
-<tr><td><li>"li":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with largest imaginary part</td></tr>
-<tr><td><li>"si":</li> </td><td>&nbsp;</td><td>obtain eigenvalues with smallest imaginary part</td></tr>
+<tr><td><li><code>"lm"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest magnitude (default operation)</td></tr>
+<tr><td><li><code>"sm"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest magnitude</td></tr>
+<tr><td><li><code>"lr"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest real part</td></tr>
+<tr><td><li><code>"sr"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest real part</td></tr>
+<tr><td><li><code>"li"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with largest imaginary part</td></tr>
+<tr><td><li><code>"si"</code></li></td><td>&nbsp;=&nbsp;</td><td>obtain eigenvalues with smallest imaginary part</td></tr>
 </tbody>
 </table>
 </ul>
@@ -9275,9 +9403,9 @@ See also:
 <b>cx_mat Z = ifft( cx_mat Y )</b><br>
 <b>cx_mat Z = ifft( cx_mat Y, n )</b><br>
 <ul>
-<li>fft(): fast Fourier transform of a vector or matrix (real or complex)</li>
+<li><i>fft():</i> fast Fourier transform of a vector or matrix (real or complex)</li>
 <br>
-<li>ifft(): inverse fast Fourier transform of a vector or matrix (complex only)</li>
+<li><i>ifft():</i> inverse fast Fourier transform of a vector or matrix (complex only)</li>
 <br>
 <li>If given a matrix, the transform is done on each column vector of the matrix</li>
 <br>
@@ -9328,9 +9456,9 @@ See also:
 <b>cx_mat Z = ifft2( cx_mat Y )</b><br>
 <b>cx_mat Z = ifft2( cx_mat Y, n_rows, n_cols )</b><br>
 <ul>
-<li>fft2(): 2D fast Fourier transform of a matrix (real or complex)</li>
+<li><i>fft2():</i> 2D fast Fourier transform of a matrix (real or complex)</li>
 <br>
-<li>ifft2(): 2D inverse fast Fourier transform of a matrix (complex only)</li>
+<li><i>ifft2():</i> 2D inverse fast Fourier transform of a matrix (complex only)</li>
 <br>
 <li>
 The optional arguments <i>n_rows</i> and <i>n_cols</i> specify the size of the transform;
@@ -9380,7 +9508,7 @@ Inverse of square matrix <i>A</i>
 <li>The <i>method</i> argument is optional.
 For matrix sizes &le; 4x4, a fast algorithm is used.
 In rare instances, the fast algorithm might be less precise than the standard algorithm.
-To force the use of the standard algorithm, set the <i>method</i> argument to "std".
+To force the use of the standard algorithm, set the <i>method</i> argument to <code>"std"</code>.
 For matrix sizes greater than 4x4, the standard algorithm is always used
 </li>
 <br>
@@ -9582,13 +9710,15 @@ The computation is based on singular value decomposition
 <br>
 <li>Any singular values less than <i>tolerance</i> are treated as zero</li>
 <br>
-<li>The <i>method</i> argument is optional; <i>method</i> is either "dc" or "std", with "dc" indicating divide-and-conquer and "std" indicating standard
+<li>
+The <i>method</i> argument is optional; <i>method</i> is either <code>"dc"</code> or <code>"std"</code>,
+with <code>"dc"</code> indicating divide-and-conquer and <code>"std"</code> indicating standard
 <ul>
 <li>
-In version 4.000 and later, the default method is "dc"
+In version 4.000 and later, the default method is <code>"dc"</code>
 </li>
 <li>
-In version 3.930, the default method is "std"
+In version 3.930, the default method is <code>"std"</code>
 </li>
 </ul>
 </li>
@@ -9807,7 +9937,7 @@ The number of rows in <i>A</i> and <i>B</i> must be the same
 For matrix sizes &le; 4x4, a fast algorithm is used.
 In rare instances, the fast algorithm might be less precise than the standard algorithm.
 To force the use of the standard algorithm,
-set the <i>method</i> argument to "std".
+set the <i>method</i> argument to <code>"std"</code>.
 For matrix sizes greater than 4x4, the standard algorithm is always used
 </li>
 <br>
@@ -9885,13 +10015,13 @@ If no solution is found:
 </li>
 <br>
 <li>
-The <i>solver</i> argument is optional; <i>solver</i> is either "superlu" or "lapack"; by default "superlu" is used
+The <i>solver</i> argument is optional; <i>solver</i> is either <code>"superlu"</code> or <code>"lapack"</code>; by default <code>"superlu"</code> is used
 <ul>
 <li>
-For "superlu", <i>ARMA_USE_SUPERLU</i> must be enabled in <a href="#config_hpp">config.hpp</a>
+For <code>"superlu"</code>, <i>ARMA_USE_SUPERLU</i> must be enabled in <a href="#config_hpp">config.hpp</a>
 </li>
 <li>
-For "lapack", sparse matrix <i>A</i> is converted to a dense matrix before using the LAPACK solver; this considerably increases memory usage
+For <code>"lapack"</code>, sparse matrix <i>A</i> is converted to a dense matrix before using the LAPACK solver; this considerably increases memory usage
 </li>
 </ul>
 </li>
@@ -10014,13 +10144,15 @@ Singular value decomposition of <b>dense</b> matrix <i>X</i>
 The singular values are in descending order
 </li>
 <br>
-<li>The <i>method</i> argument is optional; <i>method</i> is either "dc" or "std", with "dc" indicating divide-and-conquer and "std" indicating standard
+<li>
+The <i>method</i> argument is optional; <i>method</i> is either <code>"dc"</code> or <code>"std"</code>,
+with <code>"dc"</code> indicating divide-and-conquer and "std" indicating standard
 <ul>
 <li>
-In version 4.000 and later, the default method is "dc"
+In version 4.000 and later, the default method is <code>"dc"</code>
 </li>
 <li>
-In version 3.930, the default method is "std"
+In version 3.930, the default method is <code>"std"</code>
 </li>
 </ul>
 </li>
@@ -10088,19 +10220,25 @@ The singular values are in descending order
 <li>
 The <i>side</i> argument is optional; <i>side</i> is one of:
 <ul>
-<li>"both": compute both left and right singular vectors (default operation)</li>
-<li>"left": compute only left singular vectors</li>
-<li>"right": compute only right singular vectors</li>
+<table>
+<tbody>
+<tr><td><li></li></td><td style="text-align: left;"><code>"both"</code></td><td>&nbsp;=&nbsp;</td><td>compute both left and right singular vectors (default operation)</td></tr>
+<tr><td><li></li></td><td style="text-align: left;"><code>"left"</code></td><td>&nbsp;=&nbsp;</td><td>compute only left singular vectors</td></tr>
+<tr><td><li></li></td><td style="text-align: left;"><code>"right"</code></td><td>&nbsp;=&nbsp;</td><td>compute only right singular vectors</td></tr>
+</tbody>
+</table>
 </ul>
 </li>
 <br>
-<li>The <i>method</i> argument is optional; <i>method</i> is either "dc" or "std", with "dc" indicating divide-and-conquer and "std" indicating standard
+<li>
+The <i>method</i> argument is optional; <i>method</i> is either <code>"dc"</code> or <code>"std"</code>,
+with <code>"dc"</code> indicating divide-and-conquer and <code>"std"</code> indicating standard
 <ul>
 <li>
-In version 4.000 and later, the default method is "dc"
+In version 4.000 and later, the default method is <code>"dc"</code>
 </li>
 <li>
-In version 3.930, the default method is "std"
+In version 3.930, the default method is <code>"std"</code>
 </li>
 </ul>
 </li>
@@ -11770,11 +11908,9 @@ while
 <br>
 <li>
 The physical constants were mainly taken from
-<a href="http://physics.nist.gov/cuu/Constants">NIST</a>
+<a href="http://physics.nist.gov/cuu/Constants">NIST 2010 CODATA values</a>,
 and some from
-<a href="http://www.wolframalpha.com">WolframAlpha</a>
-on 2009-06-23;
-constants from NIST are in turn sourced from the <a href="http://physics.nist.gov/cuu/Constants/papers.html">2006 CODATA values</a>
+<a href="http://www.wolframalpha.com">WolframAlpha</a> (values provided as of 2009-06-23)
 </li>
 <br>
 <li>
@@ -11953,7 +12089,7 @@ log_a, log_b and log_c must have the same type
 <li>The minimum width of both <i>uword</i> and <i>sword</i> is either 32 or 64 bits:
 <ul>
 <li>when using the old C++98 / C++03 standards, the default width is 32 bits</li>
-<li>when using the new C++11 / C++14 standards, the default width is 64 bits (as of Armadillo 5.000)</li>
+<li>when using the new C++11 / C++14 standards, the default width is 64 bits on 64-bit platforms (as of Armadillo 5.000)</li>
 </ul>
 </li>
 <br>
@@ -13618,6 +13754,15 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="version_5100"></a>
+<li>Version 5.100:
+<ul>
+<li>added <a href="#interp1">interp1()</a> for 1D interpolation</li>
+<li>added <a href="#is_sorted">.is_sorted()</a> for checking whether a vector or matrix has sorted elements</li>
+<li>updated <a href="#constants">physical constants</a> to NIST 2010 CODATA values</li>
+</ul>
+</li>
+<br>
 <a name="version_5000"></a>
 <li>Version 5.000:
 <ul>
