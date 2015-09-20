@@ -1558,22 +1558,14 @@ it is possible to use other types instead, eg. <i>sp_fmat</i>
 Constructors:
 <ul>
 <li>sp_mat()</li>
-<li>sp_mat(n_rows, n_cols)</li>
+<li>sp_mat(<i>n_rows</i>, <i>n_cols</i>)</li>
 <li>sp_mat(sp_mat)</li>
 <li>sp_mat(string)</li>
 <li>sp_cx_mat(sp_mat,sp_mat) &nbsp; (for constructing a complex matrix out of two real matrices)</li>
 </ul>
 <br>
 <li>
-<a name="batch_constructors_sp_mat"></a>
-Batch insertion constructors:
-<ul>
-<li>sp_mat(locations, values, n_rows, n_cols, sort_locations = true)</li>
-<li>sp_mat(locations, values, sort_locations = true)</li>
-</ul>
-<br>
-<li>
-Elements are stored in the <i>compressed sparse column</i> (CSC) format
+Elements are stored in the  <a href="http://en.wikipedia.org/wiki/Sparse_matrix">compressed sparse column (CSC) format</a>
 </li>
 <br>
 <li>
@@ -1586,34 +1578,49 @@ however, member functions which set all elements to non-zero values (and hence d
 examples of omitted functions: <a href="#fill">.fill()</a>, <a href="#ones_member">.ones()</a>, +=&nbsp;scalar, etc.
 </li>
 <br>
-
-<li>Batch insertion of values:
+<li>
+<a name="batch_constructors_sp_mat"></a>
+Batch insertion constructors:
+<ul>
+<li>form&nbsp;1: sp_mat(<i>locations</i>, <i>values</i>, <i>sort_locations = true</i>)</li>
+<li>form&nbsp;2: sp_mat(<i>locations</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>, <i>sort_locations = true</i>)</li>
+<li>form&nbsp;3: sp_mat(<i>rowind</i>, <i>colptr</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>) &nbsp;&nbsp;&nbsp; (added in version 3.920)</li>
+<br>
 <ul>
 <li>
 Using batch insertion constructors is generally much faster than consecutively inserting values using <a href="#element_access">element access operators</a>
 </li>
 <br>
 <li>
-<i>locations</i> is a dense matrix of type <i>umat</i>, with a size of <i>2</i>&nbsp;x&nbsp;<i>N</i>, where <i>N</i> is the number of values to be inserted.
-The row and column of the <i>i</i>-th element are specified as <i>locations(0,i)</i> and <i>locations(1,i)</i>, respectively.
+For forms&nbsp;1 and&nbsp;2, <i>locations</i> is a dense matrix of type <i>umat</i>, with a size of <i>2</i>&nbsp;x&nbsp;<i>N</i>, where <i>N</i> is the number of values to be inserted;
+the location of the <i>i</i>-th element is specified by the contents of the <i>i</i>-th column of the <i>locations</i> matrix,
+where the row is in <i>locations(0,i)</i>, and the column is in <i>locations(1,i)</i>
 </li>
 <br>
 <li>
-<i>values</i> is a dense column vector containing the values to be inserted.
-It must have the same element type as the sparse matrix.
-The value in <i>values[i]</i> will be inserted at the location specified by the <i>i</i>-th column of the <i>locations</i> matrix.
+For all forms, <i>values</i> is a dense column vector containing the values to be inserted;
+it must have the same element type as the sparse matrix.
+For forms&nbsp;1 and&nbsp;2, the value in <i>values[i]</i> will be inserted at the location specified by the <i>i</i>-th column of the <i>locations</i> matrix.
 </li>
 <br>
 <li>
-The size of the constructed matrix is either manually specified via <i>n_rows</i> and <i>n_cols</i>,
-or automatically determined from the maximal locations in the <i>locations</i> matrix.
+For form&nbsp;3,
+<i>rowind</i> is a dense column vector of type <i>umat</i> or <i>uvec</i> containing the row indices of the values to be inserted,
+and
+<i>colptr</i> is a dense column vector of type <i>umat</i> or <i>uvec</i> containing indices of <i>values</i> corresponding to the start of new columns;
+the vectors correspond to the arrays used by the <a href="http://en.wikipedia.org/wiki/Sparse_matrix">compressed sparse column format</a>
+</li>
+<br>
+<li>
+The size of the constructed matrix is either automatically determined from the maximal locations in the <i>locations</i> matrix (form&nbsp;1),
+or manually specified via <i>n_rows</i> and <i>n_cols</i> (forms&nbsp;2 and&nbsp;3)
 </li>
 <br>
 <li>
 If <i>sort_locations</i> is set to <i>false</i>, the <i>locations</i> matrix is assumed to contain locations that are already sorted according to column-major ordering.
 </li>
 </ul>
-</li>
+</ul>
 <br>
 
 <li>
@@ -1695,6 +1702,9 @@ See also:
 </li>
 <br>
 </ul>
+
+
+
 <hr class="greyline">
 <hr class="greyline">
 <br>
@@ -6996,16 +7006,16 @@ mat    A = randu&lt;mat&gt;(10,10);
 rowvec b = sum(A);
 
 // same result as sum(A)
-// the 0 explicitly indicates
-// "traverse across rows"
+// the 0 explicitly indicates "traverse across rows"
 rowvec c = sum(A,0);
 
-// the 1 explicitly indicates
-// "traverse across columns"
+// the 1 explicitly indicates "traverse across columns"
 colvec d = sum(A,1);
 
 // find the overall sum
 double y = sum(sum(A));
+
+double z = accu(A);
 </pre>
 </ul>
 </li>
