@@ -457,10 +457,13 @@ namespace arma
   
   #include "armadillo_bits/hdf5_misc.hpp"
   #include "armadillo_bits/fft_engine.hpp"
-  #include "armadillo_bits/gmm_misc_bones.hpp"
-  #include "armadillo_bits/gmm_misc_meat.hpp"
-  #include "armadillo_bits/gmm_diag_bones.hpp"
-  #include "armadillo_bits/gmm_diag_meat.hpp"
+  
+  #if !defined(ARMA_BAD_COMPILER)
+    #include "armadillo_bits/gmm_misc_bones.hpp"
+    #include "armadillo_bits/gmm_misc_meat.hpp"
+    #include "armadillo_bits/gmm_diag_bones.hpp"
+    #include "armadillo_bits/gmm_diag_meat.hpp"
+  #endif
   
   //
   // classes implementing various forms of dense matrix multiplication

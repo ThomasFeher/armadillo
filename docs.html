@@ -1677,9 +1677,9 @@ where the row is in <i>locations(0,i)</i>, and the column is in <i>locations(1,i
 <br>
 <li>
 For form&nbsp;4,
-<i>rowind</i> is a dense column vector of type <i>umat</i> or <i>uvec</i> containing the row indices of the values to be inserted,
+<i>rowind</i> is a dense column vector of type <i>uvec</i> containing the row indices of the values to be inserted,
 and
-<i>colptr</i> is a dense column vector of type <i>umat</i> or <i>uvec</i> containing indices of <i>values</i> corresponding to the start of new columns;
+<i>colptr</i> is a dense column vector of type <i>uvec</i> (with length <i>n_cols&nbsp;+&nbsp;1</i>) containing indices of <i>values</i> corresponding to the start of new columns;
 the vectors correspond to the arrays used by the <a href="http://en.wikipedia.org/wiki/Sparse_matrix">compressed sparse column format</a>;
 this form is useful for copying data from other CSC sparse matrix containers
 </li>
@@ -3044,39 +3044,20 @@ X<b>(&nbsp;span(</b>first_row<b>,</b>&nbsp;last_row<b>),&nbsp;span(</b>first_col
 X<b>(&nbsp;</b>first_row<b>,</b>&nbsp;first_col<b>,&nbsp;size(</b>n_rows<b>,&nbsp;</b>n_cols<b>)&nbsp;)</b><br>
 X<b>(&nbsp;</b>first_row<b>,</b>&nbsp;first_col<b>,&nbsp;size(</b>Y<b>)&nbsp;)</b>&nbsp;&nbsp;&nbsp;&nbsp;<i>(Y&nbsp;is&nbsp;a&nbsp;mat)</i><br>
 <br>
-X<b>(</b>&nbsp;<b>span::all,</b>&nbsp;col_number&nbsp;<b>)</b><br>
 X<b>(</b>&nbsp;<b>span(</b>first_row<b>,</b>&nbsp;last_row<b>),</b>&nbsp;col_number&nbsp;<b>)</b><br>
-<br>
-X<b>(</b>&nbsp;row_number<b>,</b>&nbsp;<b>span::all</b>&nbsp;<b>)</b><br>
 X<b>(</b>&nbsp;row_number<b>,</b>&nbsp;<b>span(</b>first_col<b>,</b>&nbsp;last_col<b>)&nbsp;)</b><br>
 <br>
 X.<b>head_cols(&nbsp;</b>number_of_cols<b>&nbsp;)</b><br>
-X.<b>tail_cols(&nbsp;</b>number_of_cols<b>&nbsp;)</b><br>
-<br>
 X.<b>head_rows(&nbsp;</b>number_of_rows<b>&nbsp;)</b><br>
+<br>
+X.<b>tail_cols(&nbsp;</b>number_of_cols<b>&nbsp;)</b><br>
 X.<b>tail_rows(&nbsp;</b>number_of_rows<b>&nbsp;)</b><br>
 <br>
 X.<b>unsafe_col(&nbsp;</b>col_number<b>&nbsp;)</b><br>
 </ul>
 </li>
 
-</td>
-</tr>
-</tbody>
-</table>
-
-</td>
-
-<td>&nbsp;&nbsp;&nbsp;</td>
-<td class="line" style="vertical-align: top;">&nbsp;</td>
-<td>&nbsp;&nbsp;&nbsp;</td>
-
-<td style="vertical-align: top;">
-
-<table>
-<tbody>
-<tr>
-<td>
+<br>
 
 <li>
 contiguous views for vector V:
@@ -3090,8 +3071,25 @@ V.<b>head(&nbsp;</b>number_of_elements<b>&nbsp;)</b><br>
 V.<b>tail(&nbsp;</b>number_of_elements<b>&nbsp;)</b>
 </ul>
 </li>
-<br>
-<br>
+
+
+</td>
+</tr>
+</tbody>
+</table>
+
+</td>
+
+<td>&nbsp;&nbsp;&nbsp;</td>
+<td class="line" style="vertical-align: top;">&nbsp;</td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+<td style="vertical-align: top;">
+
+<table>
+<tbody>
+<tr>
+<td>
 
 <li>non-contiguous views for matrix or vector X:
 <ul>
@@ -3132,12 +3130,12 @@ X.<a href="#each_colrow">each_col()</a><br>
 
 <br>
 <li>
-Instances of <i>span::all</i>, to indicate an entire range, can be replaced by <i>span()</i>, where no number is specified
+Instances of <i>span(start,end)</i> can be replaced by <i>span::all</i> to indicate the entire range
 </li>
 <br>
 <li>
 For functions requiring one or more vector of indices,
-eg. <i>X.submat(vector_of_row_indices,vector_of_column_indices)</i>,
+eg. <i>X.submat(vector_of_row_indices,&nbsp;vector_of_column_indices)</i>,
 each vector of indices must be of type <i><a href="#Col">uvec</a></i>
 </li>
 <br>
@@ -3155,7 +3153,7 @@ The aggregate set of the specified elements is treated as a column vector
 <li>
 The function <i>.unsafe_col()</i> is provided for speed reasons and should be used only if you know what you're doing.
 The function creates a seemingly independent <i>Col</i> vector object (eg. <i>vec</i>),
-but it actually uses memory from the existing matrix object.
+but uses memory from the existing matrix object.
 As such, the created <i>Col</i> vector is currently not alias safe
 and does not take into account that the parent matrix object could be deleted.
 If deleted memory is accessed through the created <i>Col</i> vector,

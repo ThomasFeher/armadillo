@@ -319,6 +319,7 @@
   #if (_MSC_VER < 1700)
     #pragma message ("WARNING: this compiler is outdated and has incomplete support for the C++ standard;")
     #pragma message ("WARNING: if something breaks, you get to keep all the pieces")
+    #define ARMA_BAD_COMPILER
   #endif
   
   #if defined(ARMA_USE_CXX11)
