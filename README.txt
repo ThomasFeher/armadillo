@@ -316,8 +316,10 @@ For the Intel compiler, use version 10.0 or later.
 
 For best results we also recommend using an operating system
 that's more reliable and more suitable for heavy duty work,
-such as Mac OS X or the various flavours of Linux,
-eg. Scientific Linux: http://www.scientificlinux.org/
+such as Mac OS X or various Linux-based systems:
+Ubuntu:           http://www.ubuntu.com/
+Debian:           http://www.debian.org/
+Scientific Linux: http://www.scientificlinux.org/
 
 
 
@@ -426,7 +428,7 @@ Main sponsoring organisation:
   http://nicta.com.au
 
 Main developers:
-- Conrad Sanderson - http://itee.uq.edu.au/~conrad/
+- Conrad Sanderson - http://conradsanderson.id.au
 - Ryan Curtin
 - Ian Cullinan
 - Dimitrios Bouzas

@@ -77,6 +77,30 @@ extern "C"
       arma_fortran_noprefix(arma_zgemm)(transA, transB, m, n, k, alpha, A, ldA, B, ldB, beta, C, ldC);
       }
     
+    
+    
+    void arma_fortran_prefix(arma_ssyrk)(const char* uplo, const char* transA, const blas_int* n, const blas_int* k, const  float* alpha, const  float* A, const blas_int* ldA, const  float* beta,  float* C, const blas_int* ldC)
+      {
+      arma_fortran_noprefix(arma_ssyrk)(uplo, transA, n, k, alpha, A, ldA, beta, C, ldC);
+      }
+    
+    void arma_fortran_prefix(arma_dsyrk)(const char* uplo, const char* transA, const blas_int* n, const blas_int* k, const double* alpha, const double* A, const blas_int* ldA, const double* beta, double* C, const blas_int* ldC)
+      {
+      arma_fortran_noprefix(arma_dsyrk)(uplo, transA, n, k, alpha, A, ldA, beta, C, ldC);
+      }
+    
+    
+    
+    void arma_fortran_prefix(arma_cherk)(const char* uplo, const char* transA, const blas_int* n, const blas_int* k, const  float* alpha, const void* A, const blas_int* ldA, const  float* beta, void* C, const blas_int* ldC)
+      {
+      arma_fortran_noprefix(arma_cherk)(uplo, transA, n, k, alpha, A, ldA, beta, C, ldC);
+      }
+    
+    void arma_fortran_prefix(arma_zherk)(const char* uplo, const char* transA, const blas_int* n, const blas_int* k, const double* alpha, const void* A, const blas_int* ldA, const double* beta, void* C, const blas_int* ldC)
+      {
+      arma_fortran_noprefix(arma_zherk)(uplo, transA, n, k, alpha, A, ldA, beta, C, ldC);
+      }
+    
   #endif
   
   
@@ -597,6 +621,38 @@ extern "C"
                              const void *A, const int lda, const void *B, const int ldb, const void *beta, void *C, const int ldc)
       {
                  cblas_zgemm(Order, TransA, TransB, M, N, K, alpha, A, lda, B, ldb, beta, C, ldc);
+      }
+    
+    
+    
+    void wrapper_cblas_ssyrk(const enum CBLAS_ORDER Order, const enum CBLAS_UPLO Uplo, const enum CBLAS_TRANSPOSE Trans,
+                             const int N, const int K, const float alpha,
+                             const float *A, const int lda, const float beta, float *C, const int ldc)
+      {
+                 cblas_ssyrk(Order, Uplo, Trans, N, K, alpha, A, lda, beta, C, ldc);
+      }
+    
+    void wrapper_cblas_dsyrk(const enum CBLAS_ORDER Order, const enum CBLAS_UPLO Uplo, const enum CBLAS_TRANSPOSE Trans,
+                             const int N, const int K, const double alpha,
+                             const double *A, const int lda, const double beta, double *C, const int ldc)
+      {
+                 cblas_dsyrk(Order, Uplo, Trans, N, K, alpha, A, lda, beta, C, ldc);
+      }
+    
+    
+    
+    void wrapper_cblas_cherk(const enum CBLAS_ORDER Order, const enum CBLAS_UPLO Uplo, const enum CBLAS_TRANSPOSE Trans,
+                             const int N, const int K, const float alpha,
+                             const void *A, const int lda, const float beta, void *C, const int ldc)
+      {
+                 cblas_cherk(Order, Uplo, Trans, N, K, alpha, A, lda, beta, C, ldc);
+      }
+    
+    void wrapper_cblas_zherk(const enum CBLAS_ORDER Order, const enum CBLAS_UPLO Uplo, const enum CBLAS_TRANSPOSE Trans,
+                             const int N, const int K, const double alpha,
+                             const void *A, const int lda, const double beta, void *C, const int ldc)
+      {
+                 cblas_zherk(Order, Uplo, Trans, N, K, alpha, A, lda, beta, C, ldc);
       }
     
     

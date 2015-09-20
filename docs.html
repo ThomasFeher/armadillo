@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
   <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type">
@@ -110,9 +110,9 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 3.900</b></font>
+        <font size=+2><b>Reference for Armadillo 3.910</b></font>
         <br>
-        <b>(Bavarian Sunflower)</b>
+        <b>(development version)</b>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -151,7 +151,7 @@ First time users may want to have a look at a short <a href="#example_prog">exam
 </li>
 <br>
 <li>
-If you find any bugs or regressions, please <a href="http://arma.sourceforge.net/faq.html">report them</a>
+If you discover any bugs or regressions, please <a href="http://arma.sourceforge.net/faq.html">report them</a>
 </li>
 <br>
 <li>
@@ -305,6 +305,8 @@ Technical Report, NICTA, 2010.
 
 <b>Vector/Matrix/Cube Valued Functions of Vectors/Matrices/Cubes</b>
 <ul>
+<a href="#all">all</a>&nbsp;&middot;
+<a href="#any">any</a>&nbsp;&middot;
 <a href="#conv">conv</a>&nbsp;&middot;
 <a href="#conv_to">conv_to</a>&nbsp;&middot;
 <a href="#conj">conj</a>&nbsp;&middot;
@@ -329,7 +331,8 @@ Technical Report, NICTA, 2010.
 <a href="#strans">strans</a>&nbsp;&middot;
 <a href="#trans">trans</a>&nbsp;&middot;
 <a href="#trimat">trimatu/trimatl</a>&nbsp;&middot;
-<a href="#unique">unique</a>
+<a href="#unique">unique</a>&nbsp;&middot;
+<a href="#vectorise">vectorise</a>
 </ul>
 <br>
 
@@ -3890,7 +3893,8 @@ only a subset of the elements is taken
 <br>
 <li>
 <b>Caveat:</b>
-.reshape() is slower than <a href="#set_size">.set_size()</a>, which doesn't preserve data
+do not use .reshape() if you simply want to change the size without preserving data;
+use <a href="#set_size">.set_size()</a> instead, which is much faster
 </li>
 <br>
 <li>
@@ -3904,10 +3908,8 @@ Examples:
 <ul>
 <pre>
 mat A = randu&lt;mat&gt;(4,5);
-A.reshape(5,4);
 
-// vectorise A into a column vector:
-A.reshape(A.n_elem, 1);
+A.reshape(5,4);
 </pre>
 </ul>
 </li>
@@ -3920,6 +3922,7 @@ A.reshape(A.n_elem, 1);
 <li><a href="#zeros_member">.zeros()</a></li>
 <li><a href="#reset">.reset()</a></li>
 <li><a href="#reshape">reshape()</a> (standalone function)</li>
+<li><a href="#vectorise">vectorise()</a></li>
 </ul>
 </li>
 </ul>
@@ -3964,7 +3967,8 @@ Can be used for growing or shrinking an object (ie. adding/removing rows, and/or
 <br>
 <li>
 <b>Caveat:</b>
-.resize() is slower than <a href="#set_size">.set_size()</a>, which doesn't preserve data
+do not use .resize() if you simply want to change the size without preserving data;
+use <a href="#set_size">.set_size()</a> instead, which is much faster
 </li>
 <br>
 <li>
@@ -3977,10 +3981,6 @@ A.resize(7,6);
 </ul>
 </li>
 <br>
-<li>
-This function was added in version 2.4
-</li>
-<br>
 <li>See also:
 <ul>
 <li><a href="#reshape_member">.reshape()</a></li>
@@ -3991,6 +3991,7 @@ This function was added in version 2.4
 <li><a href="#insert">insert rows/cols/slices</a></li>
 <li><a href="#shed">shed rows/cols/slices</a></li>
 <li><a href="#resize">resize()</a> (standalone function)</li>
+<li><a href="#vectorise">vectorise()</a></li>
 </ul>
 </li>
 </ul>
@@ -6313,12 +6314,13 @@ double d = as_scalar(r*inv(diagmat(X))*q);
 See also:
 <ul>
 <li><a href="#accu">accu()</a></li>
-<li><a href="#conv_to">conv_to()</a></li>
+<li><a href="#trace">trace()</a></li>
 <li><a href="#dot">dot()</a></li>
 <li><a href="#norm">norm()</a></li>
+<li><a href="#conv_to">conv_to()</a></li>
 <li><a href="#reshape">reshape()</a></li>
 <li><a href="#resize">resize()</a></li>
-<li><a href="#trace">trace()</a></li>
+<li><a href="#vectorise">vectorise()</a></li>
 </ul>
 </li>
 <br>
@@ -6618,6 +6620,7 @@ vec d = diagvec(A);
 <li><a href="#diag">.diag()</a></li>
 <li><a href="#diagmat">diagmat()</a></li>
 <li><a href="#trace">trace()</a></li>
+<li><a href="#vectorise">vectorise()</a></li>
 </ul>
 </li>
 <br>
@@ -6906,6 +6909,151 @@ See also:
 <br>
 <hr class="greyline">
 <br>
+
+
+<a name="all"></a>
+<b>all(V)</b>
+<br>
+<b>all(X, dim=0)</b>
+<ul>
+<li>For vector <i>V</i>, return <i>true</i> if all elements of the vector are non-zero or satisfy a relational condition</li>
+<br>
+<li>
+For matrix <i>X</i> and
+<ul>
+<li>
+<i>dim=0</i>, return a row vector (of type <a href="#Row">urowvec</a> or <a href="#Mat">umat</a>),
+with each element (0 or 1) indicating whether the corresponding column of <i>X</i> has all non-zero elements</li>
+<br>
+<li>
+<i>dim=1</i>, return a column vector (of type <a href="#Col">ucolvec</a> or <a href="#Mat">umat</a>),
+with each element (0 or 1) indicating whether the corresponding row of <i>X</i> has all non-zero elements</li>
+</ul>
+</li>
+<br>
+<li>
+The <i>dim</i> argument is optional; by default <i>dim=0</i> is used
+</li>
+<br>
+<li>
+Relational operators can be used instead of <i>V</i> or <i>X</i>, eg.&nbsp;<i>A&nbsp;&gt;&nbsp;0.5</i>
+</li>
+<br>
+<li>
+This function was added in version 3.910
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+vec V = randu&lt;vec&gt;(10);
+mat X = randu&lt;mat&gt;(5,5);
+
+
+// status1 will be set to true if vector V has all non-zero elements
+bool status1 = all(V);
+
+// status2 will be set to true if vector V has all elements greater than 0.5
+bool status2 = all(V > 0.5);
+
+// status3 will be set to true if matrix X has all elements greater than 0.6;
+// note the use of vectorise()
+bool status3 = all(vectorise(X) > 0.6);
+
+// generate a row vector indicating which columns of X have all elements greater than 0.7
+umat A = all(X > 0.7);
+
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#any">any()</a></li>
+<li><a href="#find">find()</a></li>
+<li><a href="#conv_to">conv_to()</a> (convert between matrix/vector types)</li>
+<li><a href="#vectorise">vectorise()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline">
+<br>
+
+
+<a name="any"></a>
+<b>any(V)</b>
+<br>
+<b>any(X, dim=0)</b>
+<ul>
+<li>For vector <i>V</i>, return <i>true</i> if any element of the vector is non-zero or satisfies a relational condition</li>
+<br>
+<li>
+For matrix <i>X</i> and
+<ul>
+<li>
+<i>dim=0</i>, return a row vector (of type <a href="#Row">urowvec</a> or <a href="#Mat">umat</a>),
+with each element (0 or 1) indicating whether the corresponding column of <i>X</i> has any non-zero elements</li>
+<br>
+<li>
+<i>dim=1</i>, return a column vector (of type <a href="#Col">ucolvec</a> or <a href="#Mat">umat</a>),
+with each element (0 or 1) indicating whether the corresponding row of <i>X</i> has any non-zero elements</li>
+</ul>
+</li>
+<br>
+<li>
+The <i>dim</i> argument is optional; by default <i>dim=0</i> is used
+</li>
+<br>
+<li>
+Relational operators can be used instead of <i>V</i> or <i>X</i>, eg.&nbsp;<i>A&nbsp;&gt;&nbsp;0.9</i>
+</li>
+<br>
+<li>
+This function was added in version 3.910
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+vec V = randu&lt;vec&gt;(10);
+mat X = randu&lt;mat&gt;(5,5);
+
+
+// status1 will be set to true if vector V has any non-zero elements
+bool status1 = any(V);
+
+// status2 will be set to true if vector V has any elements greater than 0.5
+bool status2 = any(V > 0.5);
+
+// status3 will be set to true if matrix X has any elements greater than 0.6;
+// note the use of vectorise()
+bool status3 = any(vectorise(X) > 0.6);
+
+// generate a row vector indicating which columns of X have elements greater than 0.7
+umat A = any(X > 0.7);
+
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#all">all()</a></li>
+<li><a href="#find">find()</a></li>
+<li><a href="#conv_to">conv_to()</a> (convert between matrix/vector types)</li>
+<li><a href="#vectorise">vectorise()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline">
+<br>
+
 
 <a name="conv"></a>
 <b>
@@ -7253,6 +7401,7 @@ See also:
 <li><a href="#trimat">trimatu() / trimatl()</a></li>
 <li><a href="#symmat">symmatu() / symmatl()</a></li>
 <li><a href="#reshape">reshape()</a></li>
+<li><a href="#vectorise">vectorise()</a></li>
 </ul>
 </li>
 <br>
@@ -7263,7 +7412,7 @@ See also:
 <a name="find"></a>
 <b>find(X, k=0, s="first")</b>
 <ul>
-<li>Return a column vector of the indices of non-zero elements of <i>X</i></li>
+<li>Return a column vector containing the indices of elements of <i>X</i> that are non-zero or satisfy a relational condition</li>
 <br>
 <li>The output vector must have the type <a href="#Col">uvec</a> or <a href="#Mat">umat</a>
 (ie. the indices are stored as unsigned integers of type <a href="#uword">uword</a>)
@@ -7301,6 +7450,8 @@ uvec q3 = find(A &gt; 0.5, 3, "last");
 <li>
 See also:
 <ul>
+<li><a href="#all">all()</a></li>
+<li><a href="#any">any()</a></li>
 <li><a href="#unique">unique()</a></li>
 <li><a href="#conv_to">conv_to()</a> (convert between matrix/vector types)</li>
 <li><a href="#submat">submatrix views</a></li>
@@ -7604,7 +7755,8 @@ only a subset of elements is taken from the given matrix/cube
 <br>
 <li>
 <b>Caveat:</b>
-reshape() is slower than <a href="#set_size">.set_size()</a>, which doesn't preserve data
+do not use reshape() if you simply want to change the size without preserving data;
+use <a href="#set_size">.set_size()</a> instead, which is much faster
 </li>
 <br>
 <li>
@@ -7629,6 +7781,7 @@ See also:
 <li><a href="#reshape_member">.reshape()</a> (member function of Mat and Cube)</li>
 <li><a href="#set_size">.set_size()</a> (member function of Mat and Cube)</li>
 <li><a href="#resize">resize()</a></li>
+<li><a href="#vectorise">vectorise()</a></li>
 <li><a href="#as_scalar">as_scalar()</a></li>
 <li><a href="#conv_to">conv_to()</a></li>
 <li><a href="#diagmat">diagmat()</a></li>
@@ -7649,7 +7802,8 @@ whose elements as well as the layout of the elements are taken from the given ma
 <br>
 <li>
 <b>Caveat:</b>
-resize() is slower than <a href="#set_size">.set_size()</a>, which doesn't preserve data
+do not use resize() if you simply want to change the size without preserving data;
+use <a href="#set_size">.set_size()</a> instead, which is much faster
 </li>
 <br>
 <li>
@@ -7663,15 +7817,12 @@ mat B = resize(A, 7, 6);
 </li>
 <br>
 <li>
-This function was added in version 2.4
-</li>
-<br>
-<li>
 See also:
 <ul>
 <li><a href="#resize_member">.resize()</a> (member function of Mat and Cube)</li>
 <li><a href="#set_size">.set_size()</a> (member function of Mat and Cube)</li>
 <li><a href="#reshape">reshape()</a></li>
+<li><a href="#vectorise">vectorise()</a></li>
 <li><a href="#as_scalar">as_scalar()</a></li>
 <li><a href="#conv_to">conv_to()</a></li>
 </ul>
@@ -7980,6 +8131,56 @@ mat Y = unique(X);
 </li>
 </ul>
 <br>
+<hr class="greyline">
+
+
+<a name="vectorise"></a>
+<b>vectorise(X, dim=0)</b>
+<ul>
+<li>
+Generate a column vector (<i>dim=0</i>) or row vector (<i>dim=1</i>) from matrix <i>X</i>
+</li>
+<br>
+<li>
+The argument <i>dim</i> is optional; by default <i>dim=0</i> is used
+</li>
+<br>
+<li>
+For <i>dim=0</i>, the elements are copied from <i>X</i> column-wise; equivalent to concatenating all the columns of <i>X</i>
+</li>
+<br>
+<li>
+For <i>dim=1</i>, the elements are copied from <i>X</i> row-wise; equivalent to concatenating all the rows of <i>X</i>
+</li>
+<br>
+<li>
+Concatenating columns is faster than concatenating rows
+</li>
+<br>
+<li>This function was added in version 3.910</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(4, 5);
+
+vec v = vectorise(A);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#reshape">reshape()</a></li>
+<li><a href="#resize">resize()</a></li>
+<li><a href="#as_scalar">as_scalar()</a></li>
+<li><a href="#diagvec">diagvec()</a></li>
+</ul>
+</li>
+<br>
+</ul>
 <hr class="greyline">
 
 
@@ -11165,6 +11366,16 @@ List of additions and changes for each version:
 <br>
 <br>
 <ul>
+
+<a name="added_in_3910"></a>
+<li>Added in 3.910:
+<ul>
+<li>faster multiplication of a matrix with a transpose of itself, ie. <i>X*X.t()</i> and <i>X.t()*X</i></li>
+<li><a href="#vectorise">vectorise()</a> for reshaping matrices into vectors</li>
+<li><a href="#all">all()</a> and <a href="#any">any()</a> for indicating presence of elements satisfying a relational condtion</li>
+</ul>
+</li>
+<br>
 <a name="added_in_3900"></a>
 <li>Added in 3.900:
 <ul>
@@ -11172,7 +11383,7 @@ List of additions and changes for each version:
 <li>faster <a href="#stats_fns">median()</a></li>
 <li>faster handling of compound expressions with transposes of <a href="#submat">submatrix</a> rows</li>
 <li>faster handling of compound expressions with transposes of complex vectors</li>
-<li>added support for <a href="#save_load_mat">saving &amp; loading</a> of <a href="#Cube">cubes</a> in HDF5 format</li>
+<li>support for <a href="#save_load_mat">saving &amp; loading</a> of <a href="#Cube">cubes</a> in HDF5 format</li>
 </ul>
 </li>
 <br>

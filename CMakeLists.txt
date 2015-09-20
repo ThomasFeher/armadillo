@@ -1,6 +1,6 @@
 
-# Copyright (C) 2008-2013 NICTA (www.nicta.com.au)
 # Copyright (C) 2008-2013 Conrad Sanderson
+# Copyright (C) 2008-2013 NICTA (www.nicta.com.au)
 # Copyright (C) 2011 Clement Creusot
 # 
 # This Source Code Form is subject to the terms of the Mozilla Public
@@ -12,8 +12,8 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
 set(ARMA_MAJOR 3)
-set(ARMA_MINOR 900)
-set(ARMA_PATCH 7)
+set(ARMA_MINOR 910)
+set(ARMA_PATCH 0)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 
