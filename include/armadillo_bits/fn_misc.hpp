@@ -36,7 +36,7 @@ linspace
   typedef typename vec_type::pod_type   T;
   
   vec_type x;
-    
+  
   if(num >= 2)
     {
     x.set_size(num);
@@ -67,8 +67,6 @@ linspace
       
       x_mem[num_m1] = eT(end);
       }
-    
-    return x;
     }
   else
     {

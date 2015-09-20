@@ -831,24 +831,42 @@ subview<eT>::operator%=(const SpBase<eT, T1>& x)
   {
   arma_extra_debug_sigprint();
   
-  // Temporary sparse matrix to hold the values we need.
-  SpMat<eT> tmp = x.get_ref();
+  const uword s_n_rows = (*this).n_rows;
+  const uword s_n_cols = (*this).n_cols;
   
-  arma_debug_assert_same_size(n_rows, n_cols, tmp.n_rows, tmp.n_cols, "element-wise multiplication");
+  const SpProxy<T1> p(x.get_ref());
+  
+  arma_debug_assert_same_size(s_n_rows, s_n_cols, p.get_n_rows(), p.get_n_cols(), "element-wise multiplication");
+  
+  if(n_elem == 0)  { return; }
+  
+  if(p.get_n_nonzero() == 0)  { (*this).zeros(); return; }
   
   // Iterate over nonzero values.
   // Any zero values in the sparse expression will result in a zero in our subview.
-  typename SpMat<eT>::const_iterator cit = tmp.begin();
+  typename SpProxy<T1>::const_iterator_type cit     = p.begin();
+  typename SpProxy<T1>::const_iterator_type cit_end = p.end();
   
-  while (cit != tmp.end())
+  uword row = 0;
+  uword col = 0;
+  
+  while(cit != cit_end)
     {
-    // Set elements before this one to zero.
-    tmp.at(cit.row(), cit.col()) *= at(cit.row(), cit.col());
+    const uword cit_row = cit.row();
+    const uword cit_col = cit.col();
+    
+    while( ((row == cit_row) && (col == cit_col)) == false )
+      {
+      at(row,col) = eT(0);
+      
+      row++;  if(row >= s_n_rows)  { row = 0; col++; }
+      }
+    
+    at(row, col) *= (*cit); 
+    
     ++cit;
+    row++;  if(row >= s_n_rows)  { row = 0; col++; }
     }
-  
-  // Now set the subview equal to that.
-  *this = tmp;
   }
 
 

@@ -2074,6 +2074,7 @@ See also:
 <li><a href="#as_scalar">as_scalar()</a></li>
 <li><a href="#find">find()</a></li>
 <li><a href="#transform">.transform()</a></li>
+<li><a href="#misc_fns">miscellaneous element-wise functions</a> &nbsp; (exp, log, pow, sqrt, square, round, ...)</li>
 </ul>
 </li>
 <br>
@@ -2727,9 +2728,10 @@ A.transform( [](double val) { return (val + 123.0); } );
 <li>
 See also:
 <ul>
-<li><a href="#operators">overloaded operators</a></li>
 <li><a href="#imbue">.imbue()</a></li>
 <li><a href="#fill">.fill()</a></li>
+<li><a href="#operators">overloaded operators</a></li>
+<li><a href="#misc_fns">miscellaneous element-wise functions</a> &nbsp; (exp, log, pow, sqrt, square, round, ...)</li>
 <li><a href="http://en.wikipedia.org/wiki/Function_object">function object</a> at Wikipedia</li>
 <li><a href="http://en.wikipedia.org/wiki/C%2B%2B11#Lambda_functions_and_expressions">C++11 lambda functions</a> at Wikipedia</li>
 <li><a href="http://www.cprogramming.com/c++11/c++11-lambda-closures.html">lambda function</a> at cprogramming.com</li>
@@ -7273,7 +7275,7 @@ mat B = expmat(A);
 <li>
 See also:
 <ul>
-<li><a href="#misc_fns">element-wise functions</a></li>
+<li><a href="#misc_fns">miscellaneous element-wise functions</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Matrix_exponential">matrix exponential in Wikipedia</a></li>
 <li><a href="http://mathworld.wolfram.com/MatrixExponential.html">matrix exponential in MathWorld</a></li>
 </ul>
@@ -7752,10 +7754,6 @@ If a location in <i>XI</i> is outside the domain of <i>X</i>, the corresponding 
 <br>
 <li>
 The <i>extrapolation_value</i> argument is optional; by default it is <a href="#constants">datum::nan</a> (not-a-number)
-</li>
-<br>
-<li>
-<b>Caveat:</b> the elements in <i>X</i> must be unique
 </li>
 <br>
 <li>
@@ -9065,8 +9063,9 @@ See also:
 <li><a href="#clamp">clamp()</a></li>
 <li><a href="#conj">conj()</a></li>
 <li><a href="#imag_real">imag() / real()</a></li>
+<li><a href="#transform">.transform()</a> &nbsp; (apply user-defined function to each element)</li>
 <li><a href="#expmat">expmat()</a></li>
-<li><a href="#constants">constants</a></li>
+<li><a href="#constants">miscellaneous constants</a></li>
 </ul>
 </li>
 <br>
@@ -14211,7 +14210,7 @@ List of additions and changes for each version:
 <li>added <a href="#null">null()</a> for finding the orthonormal basis of null space</li>
 <li>expanded <a href="#interp1">interp1()</a> to handle repeated locations</li>
 <li>expanded <a href="#unique">unique()</a> to handle complex numbers</li>
-<li>faster <a href="#flip">flupud()</a></li>
+<li>faster <a href="#flip">flipud()</a></li>
 <li>faster row-wise <a href="#cumsum">cumsum()</a></li>
 </ul>
 </li>

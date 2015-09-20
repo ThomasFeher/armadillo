@@ -3095,7 +3095,7 @@ SpMat<eT>::resize(const uword in_rows, const uword in_cols)
   {
   arma_extra_debug_sigprint();
   
-  if( (n_rows == in_rows) || (n_cols == in_cols) )
+  if( (n_rows == in_rows) && (n_cols == in_cols) )
     {
     return;
     }
@@ -3110,10 +3110,10 @@ SpMat<eT>::resize(const uword in_rows, const uword in_cols)
   
   if(tmp.n_elem > 0)
     {
-    const uword end_row = (std::min)(in_rows, n_rows) - 1;
-    const uword end_col = (std::min)(in_cols, n_cols) - 1;
+    const uword last_row = (std::min)(in_rows, n_rows) - 1;
+    const uword last_col = (std::min)(in_cols, n_cols) - 1;
     
-    tmp.submat(0, 0, end_row, end_col) = (*this).submat(0, 0, end_row, end_col);
+    tmp.submat(0, 0, last_row, last_col) = (*this).submat(0, 0, last_row, last_col);
     }
   
   steal_mem(tmp);
