@@ -17,9 +17,9 @@
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 2.0.4</b></font>
+        <font size=+2><b>Reference for Armadillo 2.2.0</b></font>
         <br>
-        <font size=-1><b>(Carnivorous Sugar Glider)</b></font>
+        <font size=-1><b>(Blue Skies Debauchery)</b></font>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -140,6 +140,7 @@ Technical Report, NICTA, 2010.
 <a href="#set_imag">set_imag/real</a>&nbsp;&middot;
 <a href="#set_size">set_size</a>&nbsp;&middot;
 <a href="#shed">shed rows/cols/slices</a>&nbsp;&middot;
+<a href="#stl_container_fns">STL container functions</a>&nbsp;&middot;
 <a href="#submat">submatrix&nbsp;views</a>&nbsp;&middot;
 <a href="#subcube">subcube&nbsp;views</a>&nbsp;&middot;
 <a href="#subfield">subfield&nbsp;views</a>&nbsp;&middot;
@@ -163,7 +164,7 @@ Technical Report, NICTA, 2010.
 <a href="#ones_standalone">ones</a>&nbsp;&middot;
 <a href="#randu_randn_standalone">randu/randn</a>&nbsp;&middot;
 <a href="#repmat">repmat</a>&nbsp;&middot;
-<a href="#toeplitz">toeplitz</a>&nbsp;&middot;
+<a href="#toeplitz">toeplitz/toeplitz_circ</a>&nbsp;&middot;
 <a href="#zeros_standalone">zeros</a>
 </ul>
 <br>
@@ -238,6 +239,7 @@ Technical Report, NICTA, 2010.
 <a href="#qr">qr</a>&nbsp;&middot;
 <a href="#solve">solve</a>&nbsp;&middot;
 <a href="#svd">svd</a>&nbsp;&middot;
+<a href="#svd_thin">svd_thin</a>&nbsp;&middot;
 <a href="#syl">syl</a>
 </ul>
 <br>
@@ -376,13 +378,19 @@ Constructors:
 <li>mat()</li>
 <li>mat(n_rows, n_cols)</li>
 <li>mat(mat)</li>
+<li>mat(vec)</li>
 <li>mat(rowvec)</li>
-<li>mat(colvec)</li>
+<li>mat(string)</li>
 <li>cx_mat(mat,mat) &nbsp; (for constructing a complex matrix out of two real matrices)</li>
 </ul>
 </li>
 <br>
-
+<li>
+The string format for the constructor is elements separated by spaces, and rows denoted by semicolons.
+For example, the 2x2 identity matrix can be created using the format string <code>"1 0; 0 1"</code>.
+While string based initialisation is compact, directly setting the elements or using <a href="#element_injection">element injection</a> is considerably faster.
+</li>
+<br>
 <a name="adv_constructors_mat"></a>
 <li>
 Advanced constructors:
@@ -656,6 +664,7 @@ Constructors
 <li>vec(n_elem=0)</li>
 <li>vec(vec)</li>
 <li>vec(mat) &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one column)</li>
+<li>vec(string) &nbsp; (elements separated by spaces)</li>
 </ul>
 </li>
 <br>
@@ -889,9 +898,10 @@ Main exceptions are functions which require square matrices
 <li>
 Constructors
 <ul>
-rowvec(n_elem=0)
-<br>rowvec(rowvec)
-<br>rowvec(mat) &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one row)
+<li>rowvec(n_elem=0)</li>
+<li>rowvec(rowvec)</li>
+<li>rowvec(mat) &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one row)</li>
+<li>rowvec(string) &nbsp; (elements separated by spaces)</li>
 </ul>
 </li>
 <br>
@@ -1405,8 +1415,8 @@ G.save("vec_field");
 <br>
 <ul>
 <li>
-Member variables which are read-only.
-To change the size, use
+Member variables which are read-only;
+to change the size, use
 <a href="#set_size">.set_size()</a>,
 <a href="#copy_size">.copy_size()</a>,
 <a href="#zeros_member">.zeros()</a>,
@@ -2048,19 +2058,45 @@ See also:
 
 <a name="is_vec"></a>
 <b>.is_vec()</b>
+<br><b>.is_colvec()</b>
+<br><b>.is_rowvec()</b>
 <ul>
 <li>
-Member function of the <i>Mat</i> class
+Member functions of the <i>Mat</i> class
 </li>
 <br>
+
+<li>.is_vec():
+<ul>
 <li>Returns <i>true</i> if the matrix can be interpreted as a vector (either column or row vector)
 </li>
-<br>
 <li>Returns <i>false</i> if the matrix does not have exactly one column or one row
 </li>
+</ul>
+</li>
 <br>
-<li><b>Caveat:</b> do not assume that the vector has elements if this function returns <i>true</i> --
-it is possible to have an empty vector (eg. 0x1)
+
+<li>.is_colvec():
+<ul>
+<li>Returns <i>true</i> if the matrix can be interpreted as a column vector
+</li>
+<li>Returns <i>false</i> if the matrix does not have exactly one column
+</li>
+</ul>
+</li>
+<br>
+
+<li>.is_rowvec():
+<ul>
+<li>Returns <i>true</i> if the matrix can be interpreted as a row vector
+</li>
+<li>Returns <i>false</i> if the matrix does not have exactly one row
+</li>
+</ul>
+</li>
+<br>
+
+<li><b>Caveat:</b> do not assume that the vector has elements if these functions return <i>true</i> -- it is possible to have an empty vector (eg. 0x1)
 </li>
 <br>
 <li>
@@ -2484,6 +2520,7 @@ for(mat::col_iterator i=c; i!=d; ++i)
 <li>
 See also:
 <ul>
+<li><a href="#stl_container_fns">STL container functions</a></li>
 <li><a href="http://cplusplus.com/reference/std/iterator/">iterator at cplusplus.com</a></li>
 <li><a href="#element_access">element access</a></li>
 </ul>
@@ -3861,6 +3898,94 @@ See also:
 </ul>
 <hr class="greyline"><br>
 
+<a name="stl_container_fns"></a>
+<b>STL container functions</b>
+<ul>
+<li><i>Mat</i>, <i>Col</i> and <i>Row</i> classes provide the following member functions that mimic the containers in the C++ Standard Template Library:<br>
+<br>
+
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>.clear()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+        causes an object to have no elements
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      &nbsp;
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>.empty()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+        returns true if the object has no elements; returns false if the object has one or more elements
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      &nbsp;
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>.size()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+        returns the total number of elements
+      </td>
+    </tr>
+  </tbody>
+</table>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(5,5);
+cout &lt;&lt; A.size() &lt;&lt; endl;
+
+A.clear();
+cout &lt;&lt; A.empty() &lt;&lt; endl;
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#iterators_mat">iterators (matrices)</a></li>
+<li><a href="#attributes">matrix and vector attributes</a></li>
+<li><a href="#is_empty">.is_empty()</a></li>
+<li><a href="#reset">.reset()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
 <a name="submat"></a>
 <b>submatrix views</b>
 <ul>
@@ -3892,9 +4017,15 @@ X.<b>elem(</b>&nbsp;vector_of_indices&nbsp;<b>)</b>
 </li>
 <br>
 <li>For a vector <i>V</i> (column or row vector), there is an additional method:</li>
+<!-- <li>For a vector <i>V</i> (column or row vector), there are three additional methods:</li> -->
 <br>
 <ul>
 V.<b>subvec(&nbsp;</b>first_index<b>,</b> last_index<b>&nbsp;)</b><br>
+<!--
+V.<b>subvec(&nbsp;span(</b>first_index<b>,</b> last_index<b>)&nbsp;)</b><br>
+<br>
+V<b>(&nbsp;span(</b>first_index<b>,</b> last_index<b>)&nbsp;)</b><br>
+-->
 </ul>
 <br>
 <li>
@@ -4746,17 +4877,20 @@ mat B = repmat(A, 4, 5);
 <br>
 
 <a name="toeplitz"></a>
-<b>toeplitz(A)
-<br>
-toeplitz(A,B)</b>
+<b>toeplitz(A)</b>
+<br><b>toeplitz(A,B)</b>
+<br><b>circ_toeplitz(A)</b>
 <ul>
 <li>
-Generate a Toeplitz matrix, with the first column specified by <i>A</i>,
-and (optionally) the first row specified by <i>B</i>
+toeplitz(): generate a Toeplitz matrix, with the first column specified by <i>A</i>, and (optionally) the first row specified by <i>B</i>
 </li>
 <br>
 <li>
-A and B must be vectors.
+circ_toeplitz(): generate a circulant Toeplitz matrix
+</li>
+<br>
+<li>
+A and B must be vectors
 </li>
 <br>
 <li>
@@ -4765,6 +4899,7 @@ Examples:
 <pre>
 vec A = randu&lt;vec&gt;(5);
 mat X = toeplitz(A);
+mat Y = circ_toeplitz(A);
 </pre>
 </ul>
 </li>
@@ -4773,6 +4908,7 @@ mat X = toeplitz(A);
 <ul>
 <li><a href="http://mathworld.wolfram.com/ToeplitzMatrix.html">Toeplitz matrix in MathWorld</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Toeplitz_matrix">Toeplitz matrix in Wikipedia</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Circulant_matrix">Circulant matrix in Wikipedia</a></li>
 </ul>
 </li>
 <br>
@@ -6742,7 +6878,7 @@ Eigen decomposition of symmetric/hermitian matrix <i>X</i></li>
 <li>The eigenvalues and corresponding eigenvectors are stored in <i>eigval</i> and <i>eigvec</i>, respectively</li>
 <br>
 <li>
-The eigenvalues are not guaranteed to be ordered
+The eigenvalues are in ascending order
 </li>
 <br>
 <li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
@@ -6776,6 +6912,7 @@ See also:
 <ul>
 <li><a href="#eig_gen">eig_gen()</a></li>
 <li><a href="#svd">svd()</a></li>
+<li><a href="#svd_thin">svd_thin()</a></li>
 <li><a href="http://mathworld.wolfram.com/EigenDecomposition.html">eigen decomposition in MathWorld</a></li>
 </ul>
 </li>
@@ -6832,6 +6969,7 @@ See also:
 <ul>
 <li><a href="#eig_sym">eig_sym()</a></li>
 <li><a href="#svd">svd()</a></li>
+<li><a href="#svd_thin">svd_thin()</a></li>
 <li><a href="http://mathworld.wolfram.com/EigenDecomposition.html">eigen decomposition in MathWorld</a></li>
 </ul>
 </li>
@@ -7157,9 +7295,8 @@ To force the use of the standard algorithm, set the <i>slow</i> argument to <i>t
 </li>
 <br>
 <li>
-<b>NOTE:</b> Old versions of the ATLAS library (eg.&nbsp;3.6) have a bug which can corrupt memory and crash your program
--- later versions of ATLAS (eg.&nbsp;3.8) should work.
-Using the standard LAPACK library works without problems
+<b>NOTE:</b> Old versions of the ATLAS library (eg.&nbsp;3.6) can corrupt memory and crash your program;
+the standard LAPACK library and later versions of ATLAS (eg.&nbsp;3.8) work without problems
 </li>
 <br>
 <li>
@@ -7220,10 +7357,14 @@ The single and two argument versions compute the singular values of <i>X</i>
 </li>
 <br>
 <li>
-The four argument version computes the singular value decomposition of <i>X</i>, such that:
-<ul>
-<li><i>X = U*diagmat(s)*trans(V)</i>
-</ul>
+The four argument version computes the full singular value decomposition of <i>X</i>
+</li>
+<br>
+<li>If <i>X</i> is square, it can be reconstructed using <i>X = U*diagmat(s)*trans(V)</i>
+</li>
+<br>
+<li>
+The singular values are in descending order
 </li>
 <br>
 <li>
@@ -7235,9 +7376,8 @@ If the decomposition fails, the output objects are reset and:
 </li>
 <br>
 <li>
-<b>NOTE:</b> Old versions of the ATLAS library (eg.&nbsp;3.6) have a bug which can corrupt memory and crash your program
--- later versions of ATLAS (eg.&nbsp;3.8) should work.
-Using the standard LAPACK library works without problems.
+<b>NOTE:</b> Old versions of the ATLAS library (eg.&nbsp;3.6) can corrupt memory and crash your program;
+the standard LAPACK library and later versions of ATLAS (eg.&nbsp;3.8) work without problems
 </li>
 <br>
 <li>
@@ -7257,6 +7397,61 @@ svd(U,s,V,X);
 <li>
 See also:
 <ul>
+<li><a href="#svd_thin">svd_thin()</a></li>
+<li><a href="#eig_gen">eig_gen()</a></li>
+<li><a href="#eig_sym">eig_sym()</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Singular_value_decomposition">singular value decomposition in Wikipedia</a></li>
+<li><a href="http://mathworld.wolfram.com/SingularValueDecomposition.html">singular value decomposition in MathWorld</a></li>
+</ul>
+</li>
+</ul>
+<br>
+<hr class="greyline">
+<br>
+
+<a name="svd_thin"></a>
+<b>svd_thin(mat U, vec s, mat V, mat X, mode = 'b')</b>
+<br><b>svd_thin(cx_mat U, vec s, cx_mat V, cx_mat X, mode = 'b')</b>
+<ul>
+<li>
+Thin/economical singular value decomposition of <i>X</i>
+</li>
+<br>
+<li>
+mode is one of:
+<ul>
+<li><i>'l'</i>: compute only left singular vectors</li>
+<li><i>'r'</i>: compute only right singular vectors</li>
+<li><i>'b'</i>: compute both left and right singular vectors (default)</li>
+</ul>
+</li>
+<br>
+<li>
+The singular values are in descending order
+</li>
+<br>
+<li>
+If the decomposition fails, the output objects are reset and bool set to <i>false</i> is returned
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat X = randu&lt;mat&gt;(4,5);
+
+mat U;
+vec s;
+mat V;
+svd_thin(U, s, V, X, 'l');
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#svd">svd()</a></li>
 <li><a href="#eig_gen">eig_gen()</a></li>
 <li><a href="#eig_sym">eig_sym()</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Singular_value_decomposition">singular value decomposition in Wikipedia</a></li>
@@ -9128,6 +9323,13 @@ Also, in a rare instance the user API may need to be altered if a bug fix absolu
 <br>
 Below is a list of additions and changes since prior versions of Armadillo:
 <ul>
+<li>Added in 2.2:
+<ul>
+<li><a href="#svd_thin">svd_thin()</a></li>
+<li><a href="#toeplitz">circ_toeplitz()</a></li>
+<li><a href="#is_vec">.is_colvec()</a> and <a href="#is_vec">.is_rowvec()</a></li>
+</ul>
+<br>
 <li>Changed in 2.0:
 <ul>
 <li><a href="#trans">trans()</a> now takes the complex conjugate when transposing a complex matrix</li>

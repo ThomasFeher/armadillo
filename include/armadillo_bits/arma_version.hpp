@@ -17,10 +17,10 @@
 
 
 #define ARMA_VERSION_MAJOR 2
-#define ARMA_VERSION_MINOR 0
-#define ARMA_VERSION_PATCH 4
-#define ARMA_VERSION_NAME  "Carnivorous Sugar Glider"
-// http://en.wikipedia.org/wiki/Sugar_glider
+#define ARMA_VERSION_MINOR 2
+#define ARMA_VERSION_PATCH 0
+#define ARMA_VERSION_NAME  "Blue Skies Debauchery"
+
 
 
 struct arma_version
