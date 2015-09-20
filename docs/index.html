@@ -17,7 +17,7 @@
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 2.4.1</b></font>
+        <font size=+2><b>Reference for Armadillo 2.4.2</b></font>
         <br>
         <font size=-1><b>(Loco Lounge Lizard)</b></font>
       </td>
@@ -500,10 +500,8 @@ mat H(aux_mem, 4, 6, false);
 </li>
 <br>
 <li><b>Caveat:</b>
-For mathematical correctness, scalars are treated as 1x1 matrices
-during initialisation.
-As such, the code below <b>will not</b> generate a 5x5 matrix with
-every element equal to 123.0:
+For mathematical correctness, scalars are treated as 1x1 matrices during initialisation.
+As such, the code below <b>will not</b> generate a 5x5 matrix with every element equal to 123.0:
 <ul>
 <pre>
 mat A(5,5);
@@ -739,10 +737,8 @@ vec z = A.col(5); // extract a column vector
 </li>
 <br>
 <li><b>Caveat:</b>
-For mathematical correctness, scalars are treated as 1x1 matrices
-during initialisation.
-As such, the code below <b>will not</b> generate a column vector with
-every element equal to 123.0:
+For mathematical correctness, scalars are treated as 1x1 matrices during initialisation.
+As such, the code below <b>will not</b> generate a column vector with every element equal to 123.0:
 <ul>
 <pre>
 vec q(5);
@@ -965,10 +961,8 @@ rowvec z = A.row(5); // extract a row vector
 <br>
 <li>
 <b>Caveat:</b>
-For mathematical correctness, scalars are treated as 1x1 matrices
-during initialisation.
-As such, the code below <b>will not</b> generate a row vector with
-every element equal to 123.0:
+For mathematical correctness, scalars are treated as 1x1 matrices during initialisation.
+As such, the code below <b>will not</b> generate a row vector with every element equal to 123.0:
 <ul>
 <pre>
 rowvec r(5);
@@ -1205,10 +1199,8 @@ c.slice(0) = randu&lt;mat&gt;(10,20); // wrong size
 </ul>
 </li>
 <li>
-For mathematical correctness, scalars are treated as 1x1x1 cubes
-during initialisation.
-As such, the code below <b>will not</b> generate a cube with
-every element equal to 123.0:
+For mathematical correctness, scalars are treated as 1x1x1 cubes during initialisation.
+As such, the code below <b>will not</b> generate a cube with every element equal to 123.0:
 <ul>
 <pre>
 cube c(5,6,7);
@@ -1521,7 +1513,8 @@ vec a = X.diag();
 vec b = X.diag(1);
 vec c = X.diag(-2);
 
-X.diag() = randu&lt;vec&gt;(5);
+X.diag()  = randu&lt;vec&gt;(5);
+X.diag() += 6;
 </pre>
 </ul>
 </li>
@@ -1530,6 +1523,7 @@ X.diag() = randu&lt;vec&gt;(5);
 See also:
 <ul>
 <li><a href="#diagvec">diagvec()</a></li>
+<li><a href="#submat">submatrix views</a></li>
 </ul>
 </li>
 </ul>
@@ -3268,11 +3262,15 @@ A.reset();
 Recreate the object according to given size specifications,
 with the elements taken from the previous version of the object,
 either column-wise (dim=0) or row-wise (dim=1);
-the elements in the recreated object are placed column-wise
+the elements in the generated object are placed column-wise (ie. the first column is filled up before filling the second column)
 </li>
 <br>
 <li>
 The layout of the elements in the recreated object will be different to the layout in the previous version of the object
+</li>
+<br>
+<li>
+This function can be used to vectorise a matrix (ie. concatenate all the columns or rows)
 </li>
 <br>
 <li>
@@ -3306,6 +3304,9 @@ Examples:
 <pre>
 mat A = randu&lt;mat&gt;(4,5);
 A.reshape(5,4);
+
+// vectorise A into a column vector:
+A.reshape(A.n_elem, 1);
 </pre>
 </ul>
 </li>
@@ -3812,7 +3813,7 @@ If the requested number of elements is not equal to the old number of elements, 
 </li>
 <br>
 <li>
-If you need to explicitly preserve data, use <a href="#reshape_member">.reshape()</a>
+If you need to explicitly preserve data, use <a href="#reshape_member">.reshape()</a> or <a href="#resize_member">.resize()</a>
 </li>
 <br>
 <li>
@@ -4110,6 +4111,7 @@ X.elem(indices) = ones&lt;vec&gt;(4);
 <li>
 See also:
 <ul>
+<li><a href="#diag">.diag()</a></li>
 <li><a href="#colptr">.colptr()</a></li>
 <li><a href="#in_range">.in_range()</a></li>
 <li><a href="#find">find()</a></li>
@@ -4908,6 +4910,7 @@ cube Q = randu&lt;cube&gt;(5,6,7);
 <li><a href="#randu_randn_member">.randu() &amp; .randn()</a> (member functions)</li>
 <li><a href="#ones_standalone">ones()</a></li>
 <li><a href="#zeros_standalone">zeros()</a></li>
+<li><a href="#shuffle">shuffle()</a></li>
 <li><a href="http://cplusplus.com/reference/clibrary/cstdlib/srand/">std::srand()</a></li>
 <li><a href="#api_changes">API changes</a></li>
 </ul>
@@ -6395,6 +6398,7 @@ See also:
 <li><a href="#diagvec">diagvec()</a></li>
 <li><a href="#trimat">trimatu() / trimatl()</a></li>
 <li><a href="#symmat">symmatu() / symmatl()</a></li>
+<li><a href="#reshape">reshape()</a></li>
 </ul>
 </li>
 <br>
@@ -6612,11 +6616,15 @@ See also:
 <li>
 Generate a matrix/cube sized according to given size specifications,
 whose elements are taken from the given matrix/cube, either column-wise (dim=0) or row-wise (dim=1);
-the elements in the generated object are placed column-wise
+the elements in the generated object are placed column-wise (ie. the first column is filled up before filling the second column)
 </li>
 <br>
 <li>
 The layout of the elements in the generated object will be different to the layout in the given object
+</li>
+<br>
+<li>
+This function can be used to create a vector representation of a matrix (ie. concatenate all the columns or rows)
 </li>
 <br>
 <li>
@@ -6662,6 +6670,7 @@ See also:
 <li><a href="#resize">resize()</a></li>
 <li><a href="#as_scalar">as_scalar()</a></li>
 <li><a href="#conv_to">conv_to()</a></li>
+<li><a href="#diagmat">diagmat()</a></li>
 </ul>
 </li>
 <br>
@@ -6715,7 +6724,6 @@ See also:
 <br><b>shuffle(rowvec, dim=0)</b>
 <br><b>shuffle(colvec, dim=0)</b>
 <ul>
-<br>
 <li>
 Shuffle the rows (dim=0) or columns (dim=1) of a matrix or vector
 </li>
@@ -6729,8 +6737,16 @@ mat B = shuffle(A);
 </pre>
 </ul>
 </li>
-</ul>
 <br>
+<li>
+See also:
+<ul>
+<li><a href="#randu_randn_standalone">randu() / randn()</a></li>
+<li><a href="#sort">sort()</a></li>
+</ul>
+</li>
+<br>
+</ul>
 <hr class="greyline"><br>
 
 <a name="sort"></a>
@@ -6755,8 +6771,16 @@ mat B = sort(A);
 </pre>
 </ul>
 </li>
+<li>
+See also:
+<ul>
+<li><a href="#sort_index">sort_index()</a></li>
+<li><a href="#shuffle">shuffle()</a></li>
+<li><a href="#randu_randn_standalone">randu() / randn()</a></li>
 </ul>
+</li>
 <br>
+</ul>
 <hr class="greyline"><br>
 
 <a name="sort_index"></a>
@@ -6789,6 +6813,7 @@ uvec indices = sort_index(q);
 See also:
 <ul>
 <li><a href="#find">find()</a></li>
+<li><a href="#sort">sort()</a></li>
 </ul>
 </li>
 <br>
@@ -9153,8 +9178,8 @@ A&nbsp;<font size=-1>&lt;&lt;</font> 1 <font size=-1>&lt;&lt;</font> 2 <font siz
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      initialisation via <a href="#element_initialisation">element initialisation</a>;
-      special element <i>endr</i> indicates <i>end of row</i>
+      <a href="#element_initialisation">element initialisation</a>,
+      with special element <i>endr</i> indicating <i>end of row</i>
     </td>
   </tr>
   <tr>
