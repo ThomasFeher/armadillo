@@ -677,7 +677,7 @@ struct is_SpGlue
   { static const bool value = false; };
  
 template<typename T1, typename T2, typename glue_type>
-struct is_SpOp< SpGlue<T1,T2,glue_type> >
+struct is_SpGlue< SpGlue<T1,T2,glue_type> >
   { static const bool value = true; };
  
 

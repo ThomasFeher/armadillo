@@ -3504,9 +3504,9 @@ SpMat<eT>::steal_mem(SpMat<eT>& x)
 
   if(this != &x)
     {
-    reset(); // Clear all existing information about this matrix.
-
-    // Even the column pointers.
+    // Release all the memory.
+    memory::release(values);
+    memory::release(row_indices);
     memory::release(col_ptrs);
 
     // We'll have to copy everything about the other matrix.
