@@ -8066,6 +8066,9 @@ mat  B  = randu&lt;mat&gt;(5,5);
 uvec q1 = find(A &gt; B);
 uvec q2 = find(A &gt; 0.5);
 uvec q3 = find(A &gt; 0.5, 3, "last");
+
+// change elements of A greater than 0.5 to 1
+A.elem( find(A > 0.5) ).ones();
 </pre>
 </ul>
 </li>

@@ -464,6 +464,7 @@ Contributors:
 - Chris Davey
 - Alexandre Drouin
 - Dirk Eddelbuettel
+- Carles Fernandez
 - Romain Francois
 - Michael McNeil Forbes
 - Piotr Gawron
