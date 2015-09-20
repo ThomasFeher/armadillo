@@ -205,8 +205,18 @@
 
 #if defined(_MSC_VER)
   
-  #if (_MSC_VER < 1700)
+  #if (_MSC_VER < 1600)
     #error "*** Need a newer compiler ***"
+  #endif
+  
+  #if (_MSC_VER < 1700)
+    #pragma message ("WARNING: your C++ compiler is outdated and has incomplete support for the C++ standard; if something breaks, you get to keep all the pieces")
+  #endif
+  
+  #if defined(ARMA_USE_CXX11)
+    #if (_MSC_VER < 1800)
+      #pragma message ("WARNING: your C++ compiler is in C++11 mode, but it has incomplete support for C++11 features; if something breaks, you get to keep all the pieces")
+    #endif
   #endif
   
   #undef  ARMA_SIMPLE_LOOPS
