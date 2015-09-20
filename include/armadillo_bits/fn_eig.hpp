@@ -340,7 +340,7 @@ eig_gen
 
 
 
-//! Eigenvalues of general real square matrix X
+//! Eigenvalues of general complex square matrix X
 template<typename T, typename T1>
 inline
 Col< std::complex<T> >

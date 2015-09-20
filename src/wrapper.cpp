@@ -11,22 +11,6 @@
 #include "armadillo_bits/include_atlas.hpp"
 
 
-#if defined(ARMA_USE_CXX11)
-  #include <random>
-  #include <ctime>
-  
-  #if defined(ARMA_HAVE_GETTIMEOFDAY)
-    #include <sys/time.h>
-  #endif
-  
-  namespace arma
-    {
-    #include "armadillo_bits/arma_rng_cxx11.hpp"
-    thread_local arma_rng_cxx11 arma_rng_cxx11_instance;
-    }
-#endif
-
-
 namespace arma
 {
 
