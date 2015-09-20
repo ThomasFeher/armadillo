@@ -11,9 +11,8 @@
 
 
 
-// TODO:  fft(real)     -> complex [to be tested thoroughly]
-// TODO:  fft(complex)  -> complex [to be tested thoroughly]
-// TODO: ifft(complex)  -> complex [to be tested thoroughly]
+// 1D FFT & 1D IFFT
+
 
 
 template<typename T1>
@@ -115,6 +114,10 @@ ifft(const T1& A, const uword N)
   
   return Op<T1, op_ifft_cx>(A, N, uword(0));
   }
+
+
+
+// TODO: 2D FFT & 2D IFFT
 
 
 

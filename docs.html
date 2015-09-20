@@ -112,7 +112,7 @@ hr.greyline
       <td style="text-align: left; vertical-align: top;">
         <font size=+2><b>Reference for Armadillo 3.910</b></font>
         <br>
-        <b>(development version)</b>
+        <b>(Pyrenees)</b>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -1851,7 +1851,7 @@ Read/write access to the <i>k</i>-th diagonal in a matrix
 <li>For <i>k &lt; 0</i>, the <i>k</i>-th sub-diagonal is accessed (bottom-left corner)</li>
 <br>
 <li>
-An extracted diagonal is interpreted as a column vector
+The diagonal is interpreted as a column vector within expressions
 </li>
 <br>
 <li>
@@ -2445,10 +2445,10 @@ See also:
 Member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i> and <i>field</i> classes
 </li>
 <br>
-<li>Returns true if the object has no elements
+<li>Returns <i>true</i> if the object has no elements
 </li>
 <br>
-<li>Returns false if the object has one or more elements
+<li>Returns <i>false</i> if the object has one or more elements
 </li>
 <br>
 <li>
@@ -4583,7 +4583,7 @@ See also:
       <td style="vertical-align: top;">&nbsp;<br>
       </td>
       <td style="vertical-align: top;">
-        returns true if the object has no elements; returns false if the object has one or more elements
+        returns <i>true</i> if the object has no elements; returns <i>false</i> if the object has one or more elements
       </td>
     </tr>
     <tr>
@@ -6476,7 +6476,7 @@ For matrices, <i>p</i> is one of: 1, 2, "inf", "fro"; the calculated norm is the
 <br>
 <li>
 To obtain the zero norm or Hamming norm (ie. the number of non-zero elements),
-you may want to use this expression: <a href="#accu">accu</a>(X&nbsp;!=&nbsp;0).
+use this expression: <a href="#accu">accu</a>(X&nbsp;!=&nbsp;0)
 </li>
 <br>
 <li>
@@ -6602,7 +6602,7 @@ The argument <i>k</i> is optional -- by default the main diagonal is extracted (
 <li>For <i>k &lt; 0</i>, the <i>k</i>-th sub-diagonal is extracted (bottom-left corner)</li>
 <br>
 <li>
-An extracted a diagonal is interpreted as a column vector
+The extracted diagonal is interpreted as a column vector
 </li>
 <br>
 <li>
@@ -7979,12 +7979,10 @@ mat C = symmatl(A);
 <hr class="greyline"><br>
 
 <a name="strans"></a>
-<b>strans(mat)</b>
-<br><b>strans(colvec)</b>
-<br><b>strans(rowvec)</b>
+<b>strans(A)</b>
 <ul>
 <li>
-Simple matrix transpose, without taking the conjugate of the elements (complex matrices)
+Simple matrix transpose of <i>A</i>, without taking the conjugate of the elements (complex matrices)
 </li>
 <br>
 <li>
@@ -8003,35 +8001,28 @@ Use <a href="#trans">trans()</a> instead, unless you explicitly need to take the
 
 
 <a name="trans"></a>
-<b>trans(mat)</b>
-<br><b>trans(colvec)</b>
-<br><b>trans(rowvec)</b>
+<b>trans(A)</b>
 <ul>
 <li>
-Matrix transpose / Hermitian transpose
+Matrix transpose / Hermitian transpose of <i>A</i>
 </li>
 <br>
 <li>
-If a given object has real elements, a normal transpose is done
+If <i>A</i> has real elements, a normal transpose is done
 </li>
 <br>
 <li>
-If a given object has complex elements, a Hermitian transpose is done (ie. the conjugate of the elements is taken during the transpose operation)
-</li>
-<br>
-<li>
-<b>Caveat:</b> for complex matrices, the functionality of trans() has changed in version 2.0:
-<ul>
-<li>in version 1.x, <i>trans()</i> does not take the conjugate of complex elements</li>
-<li>in version 1.x, the <i>htrans()</i> function is used for the Hermitian transpose</li>
-</ul>
+If <i>A</i> has complex elements, a Hermitian transpose is done (ie. the conjugate of the elements is taken during the transpose operation)
 </li>
 <br>
 <li>
 Examples:
 <ul>
-<pre>mat A = randu&lt;mat&gt;(5,10);
+<pre>
+mat A = randu&lt;mat&gt;(5,10);
+
 mat B = trans(A);
+mat C = A.t();    // equivalent to trans(A), but more compact
 </pre>
 </ul>
 </li>
@@ -8946,7 +8937,7 @@ The singular values are in descending order
 </li>
 <br>
 <li>
-If the decomposition fails, the output objects are reset and bool set to <i>false</i> is returned
+If the decomposition fails, the output objects are reset and a bool set to <i>false</i> is returned
 </li>
 <br>
 <li>
@@ -9173,11 +9164,6 @@ For convenience,
 <i>Datum&lt;double&gt;</i> has been typedefed as <i>datum</i>
 while 
 <i>Datum&lt;float&gt;</i> has been typedefed as <i>fdatum</i>
-</li>
-<br>
-<li>
-In previous versions of Armadillo (eg. 2.x), the constants are accessed via static functions in <i>math</i> and <i>phy</i> classes, eg. <i>math::pi()</i>;
-for compatibility, these classes are still available in version 3.x, but are not explicitly documented
 </li>
 <br>
 <li>
@@ -9625,7 +9611,7 @@ Meaning of the constants:
 <b>Caveat:</b>
 datum::nan is not equal to anything, even itself;
 if you wish to check whether a given number <i>x</i> is finite,
-use <a href="#is_finite_standalone">is_finite</a>(<i>x</i>).
+use <a href="#is_finite_standalone">is_finite</a>(<i>x</i>)
 </li>
 <br>
 <li>
@@ -10713,12 +10699,12 @@ int main(int argc, char** argv)
 </pre>
 </ul>
 <li>
-You may also want to have a look at the example programs that come with the Armadillo archive.
+You may also want to have a look at the example programs that come with the Armadillo archive
 </li>
 <br>
 <li>
 As Armadillo is a template library, we strongly recommended to have optimisation enabled when compiling programs
-(eg. when compiling with GCC, use the -O1 or -O2 options).
+(eg. when compiling with GCC, use the -O1 or -O2 options)
 </li>
 </ul>
 <br>
@@ -11035,7 +11021,7 @@ ARMA_USE_HDF5
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-Enable the the ability to <a href="#save_load_mat">save and load</a> matrices stored in the HDF5 format;
+Enable the ability to <a href="#save_load_mat">save and load</a> matrices stored in the HDF5 format;
 the <i>hdf5.h</i> header file must be available on your system and you will need to link with the hdf5 library (eg. -lhdf5)
     </td>
   </tr>
@@ -11372,7 +11358,7 @@ List of additions and changes for each version:
 <ul>
 <li>faster multiplication of a matrix with a transpose of itself, ie. <i>X*X.t()</i> and <i>X.t()*X</i></li>
 <li><a href="#vectorise">vectorise()</a> for reshaping matrices into vectors</li>
-<li><a href="#all">all()</a> and <a href="#any">any()</a> for indicating presence of elements satisfying a relational condtion</li>
+<li><a href="#all">all()</a> and <a href="#any">any()</a> for indicating presence of elements satisfying a relational condition</li>
 </ul>
 </li>
 <br>
