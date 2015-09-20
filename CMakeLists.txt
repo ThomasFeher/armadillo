@@ -14,9 +14,9 @@
 
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
-set(ARMA_MAJOR 2)
-set(ARMA_MINOR 4)
-set(ARMA_PATCH 6)
+set(ARMA_MAJOR 3)
+set(ARMA_MINOR 0)
+set(ARMA_PATCH 0)
 
 message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
 
@@ -256,7 +256,7 @@ endif()
 add_library( armadillo SHARED src/wrap_libs )
 target_link_libraries( armadillo ${ARMA_LIBS} )
 
-set_target_properties(armadillo PROPERTIES VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH} SOVERSION 2)
+set_target_properties(armadillo PROPERTIES VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH} SOVERSION 3)
 
 
 

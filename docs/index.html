@@ -17,9 +17,9 @@
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 2.4.6</b></font>
+        <font size=+2><b>Reference for Armadillo 3.0.0</b></font>
         <br>
-        <font size=-1><b>(Loco Lounge Lizard)</b></font>
+        <font size=-1><b>&#8220;Antarctic Chilli Ranch&#8221;</b></font>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
@@ -61,8 +61,7 @@ If you find any bugs or regressions, please <a href="http://arma.sourceforge.net
 </li>
 <br>
 <li>
-<b>Caveat:</b> the API for version 2.x has <a href="#api_changes">changes &amp; additions</a> compared to version 1.2;
-see also the list of <a href="#deprecated">deprecated</a> functionality
+Notes on <a href="#api_changes">API additions</a>
 </li>
 </ul>
 </td>
@@ -75,8 +74,8 @@ see also the list of <a href="#deprecated">deprecated</a> functionality
 <td style="text-align: left; vertical-align: top; width: 45%;">
 <ul>
 <li>
-If you use Armadillo in your research and/or software,
-we would appreciate a citation to the following tech report:
+If you use Armadillo in your research and/or software, please cite the following tech report.
+Citations are useful for the continued development and maintenance of the library.
 <br>
 <br>
 <font size=-1>
@@ -116,6 +115,7 @@ Technical Report, NICTA, 2010.
 <a href="#element_initialisation">element&nbsp;initialisation</a>&nbsp;&middot;
 <a href="#eye_member">eye</a>&nbsp;&middot;
 <a href="#fill">fill</a>&nbsp;&middot;
+<a href="#i_member">i (inverse)</a>&nbsp;&middot;
 <a href="#insert">insert rows/cols/slices</a>&nbsp;&middot;
 <a href="#in_range">in_range</a>&nbsp;&middot;
 <a href="#is_empty">is_empty</a>&nbsp;&middot;
@@ -213,6 +213,8 @@ Technical Report, NICTA, 2010.
 <a href="#diagmat">diagmat</a>&nbsp;&middot;
 <a href="#find">find</a>&nbsp;&middot;
 <a href="#flip">fliplr/flipud</a>&nbsp;&middot;
+<a href="#hist">hist</a>&nbsp;&middot;
+<a href="#histc">histc</a>&nbsp;&middot;
 <a href="#imag_real">imag/real</a>&nbsp;&middot;
 <a href="#join">join&nbsp;rows/cols/slices</a>&nbsp;&middot;
 <a href="#kron">kron</a>&nbsp;&middot;
@@ -249,8 +251,7 @@ Technical Report, NICTA, 2010.
 <ul>
 <a href="#is_finite_standalone">is_finite()</a>&nbsp;&middot;
 <a href="#logging">logging of errors/warnings</a>&nbsp;&middot;
-<a href="#math_constants">math constants (pi, ...)</a>&nbsp;&middot;
-<a href="#phys_constants">physical constants (speed of light, ...)</a>&nbsp;&middot;
+<a href="#constants">various constants (pi, inf, speed of light, ...)</a>&nbsp;&middot;
 <a href="#log_add">log_add</a>&nbsp;&middot;
 <a href="#uword">uword/sword</a>&nbsp;&middot;
 <a href="#cx_float_double">cx_float/cx_double</a>&nbsp;&middot;
@@ -1800,6 +1801,62 @@ See also:
 </ul>
 <hr class="greyline"><br>
 
+<a name="i_member"></a>
+<b>.i(</b> <i>slow=false</i> <b>)</b>
+<ul>
+<li>
+Member function of any matrix expression
+</li>
+<br>
+<li>
+Provides an inverse of the matrix expression
+</li>
+<br>
+<li>
+If the matrix expression is not square, a <i>std::logic_error</i> exception is thrown
+</li>
+<br>
+<li>
+If the matrix expression appears to be singular, the output matrix is reset and a <i>std::runtime_error</i> exception is thrown
+</li>
+<br>
+<li>
+For matrix sizes &le; 4x4, a fast inverse algorithm is used by default.
+In rare instances, the fast algorithm might be less precise than the standard algorithm.
+To force the use of the standard algorithm, set the <i>slow</i> argument to <i>true</i>
+</li>
+<br>
+<li>
+This function was added in version 3.0
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(4,4);
+
+mat X = A.i();
+mat Y = (A+A).i();
+
+mat B = randu&lt;mat&gt;(4,1);
+mat Z = A.i() * B; // automatically converted to Z=solve(A,B)
+
+</pre>
+</ul>
+</li>
+<li>
+See also:
+<ul>
+<li><a href="#inv">inv()</a></li>
+<li><a href="#pinv">pinv()</a></li>
+<li><a href="#solve">solve()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
 <a name="in_range"></a>
 <table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
   <tbody>
@@ -1931,6 +1988,7 @@ See also:
 <ul>
 <li><a href="#is_square">.is_square()</a></li>
 <li><a href="#is_vec">.is_vec()</a></li>
+<li><a href="#is_finite">.is_finite()</a></li>
 <li><a href="#reset">.reset()</a></li>
 </ul>
 </li>
@@ -1958,7 +2016,7 @@ Examples:
 mat A = randu&lt;mat&gt;(5,5);
 mat B = randu&lt;mat&gt;(5,5);
 
-B(1,1) = math::nan()
+B(1,1) = datum::nan;
 
 cout &lt;&lt; A.is_finite() &lt;&lt; endl;
 cout &lt;&lt; B.is_finite() &lt;&lt; endl;
@@ -1969,8 +2027,8 @@ cout &lt;&lt; B.is_finite() &lt;&lt; endl;
 <li>
 See also:
 <ul>
-<li><a href="#math_constants">math::nan()</a></li>
-<li><a href="#math_constants">math::inf()</a></li>
+<li><a href="#constants">datum::nan</a></li>
+<li><a href="#constants">datum::inf</a></li>
 <li><a href="#is_finite_standalone">is_finite()</a> (standalone function)</li>
 </ul>
 </li>
@@ -2009,6 +2067,7 @@ See also:
 <ul>
 <li><a href="#is_empty">.is_empty()</a></li>
 <li><a href="#is_vec">.is_vec()</a></li>
+<li><a href="#is_finite">.is_finite()</a></li>
 </ul>
 </li>
 </ul>
@@ -2078,6 +2137,7 @@ See also:
 <ul>
 <li><a href="#is_empty">.is_empty()</a></li>
 <li><a href="#is_square">.is_square()</a></li>
+<li><a href="#is_finite">.is_finite()</a></li>
 </ul>
 </li>
 </ul>
@@ -3375,7 +3435,7 @@ A.resize(7,6);
 </li>
 <br>
 <li>
-This function was added in version 2.4.1
+This function was added in version 2.4
 </li>
 <br>
 <li>See also:
@@ -4011,47 +4071,60 @@ See also:
 <a name="submat"></a>
 <b>submatrix views</b>
 <ul>
-<li>A collection of member functions of <i>Mat</i>, <i>Col</i> and <i>Row</i> classes that provide submatrix views<br>
+<li>A collection of member functions of <i>Mat</i>, <i>Col</i> and <i>Row</i> classes that provide read/write access to submatrix views<br>
 <br>
 <li>For a matrix or vector <i>X</i>, the subviews are accessed as:</li>
 <br>
 <ul>
+<li>contiguous views:
+<ul>
+<br>
 X.<b>col(&nbsp;</b>col_number<b>&nbsp;)</b><br>
-X<b>(</b>&nbsp;<b>span::all,</b> col_number&nbsp;<b>)</b><br>
-X<b>(</b>&nbsp;<b>span(</b>first_row<b>,</b> last_row<b>),</b> col_number&nbsp;<b>)</b><br>
-<br>
-X.<b>unsafe_col(&nbsp;</b>col_number<b>&nbsp;)</b><br>
-<br>
 X.<b>row(&nbsp;</b>row_number<b>&nbsp;)</b><br>
-X<b>(</b>&nbsp;row_number<b>,</b> <b>span::all</b>&nbsp;<b>)</b><br>
-X<b>(</b>&nbsp;row_number<b>,</b> <b>span(</b>first_col<b>,</b> last_col<b>)&nbsp;)</b><br>
 <br>
 X.<b>cols(&nbsp;</b>first_col<b>,</b> last_col<b>&nbsp;)</b><br>
 X.<b>rows(&nbsp;</b>first_row<b>,</b> last_row<b>&nbsp;)</b><br>
+<br>
+X<b>(</b>&nbsp;<b>span::all,</b> col_number&nbsp;<b>)</b><br>
+X<b>(</b>&nbsp;<b>span(</b>first_row<b>,</b> last_row<b>),</b> col_number&nbsp;<b>)</b><br>
+<br>
+X<b>(</b>&nbsp;row_number<b>,</b> <b>span::all</b>&nbsp;<b>)</b><br>
+X<b>(</b>&nbsp;row_number<b>,</b> <b>span(</b>first_col<b>,</b> last_col<b>)&nbsp;)</b><br>
 <br>
 X.<b>submat(&nbsp;</b>first_row<b>,</b> first_col<b>,</b> last_row<b>,</b> last_col<b>&nbsp;)</b><br>
 X.<b>submat(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> last_col<b>)&nbsp;)</b><br>
 <br>
 X<b>(&nbsp;span(</b>first_row<b>,</b> last_row<b>), span(</b>first_col<b>,</b> last_col<b>)&nbsp;)</b><br>
 <br>
-X.<b>elem(</b>&nbsp;vector_of_indices&nbsp;<b>)</b>
+X.<b>unsafe_col(&nbsp;</b>col_number<b>&nbsp;)</b><br>
+<br>
+V.<b>subvec(&nbsp;</b>first_index<b>,</b> last_index<b>&nbsp;)</b> &nbsp;&nbsp;&nbsp; <i>(for vectors only)</i><br>
 </ul>
 </li>
 <br>
-<li>For a vector <i>V</i> (column or row vector), there is an additional method:</li>
-<!-- <li>For a vector <i>V</i> (column or row vector), there are three additional methods:</li> -->
-<br>
+<li>non-contiguous views (added in version 3.0):
 <ul>
-V.<b>subvec(&nbsp;</b>first_index<b>,</b> last_index<b>&nbsp;)</b><br>
-<!--
-V.<b>subvec(&nbsp;span(</b>first_index<b>,</b> last_index<b>)&nbsp;)</b><br>
 <br>
-V<b>(&nbsp;span(</b>first_index<b>,</b> last_index<b>)&nbsp;)</b><br>
--->
+X.<b>elem(</b>&nbsp;vector_of_indices&nbsp;<b>)</b><br>
+<br>
+X.<b>cols(&nbsp;</b>vector_of_column_indices<b>&nbsp;)</b><br>
+X.<b>rows(&nbsp;</b>vector_of_row_indices<b>&nbsp;)</b><br>
+<br>
+X<b>(</b>&nbsp;vector_of_row_indices<b>,</b>&nbsp;vector_of_column_indices&nbsp;<b>)</b><br>
+X.<b>submat(</b>&nbsp;vector_of_row_indices<b>,</b>&nbsp;vector_of_column_indices&nbsp;<b>)</b><br>
+<!--X.<b>elem(</b>&nbsp;vector_of_row_indices<b>,</b>&nbsp;vector_of_column_indices&nbsp;<b>)</b><br>-->
+</ul>
+</li>
 </ul>
 <br>
 <li>
 Instances of <i>span::all</i>, to indicate an entire range, can be replaced by <i>span()</i>, where no number is specified
+</li>
+<br>
+<li>
+For functions requiring one or more vector of indices,
+eg. <i>X.submat(vector_of_row_indices,vector_of_column_indices)</i>,
+each vector of indices must be of type <i><a href="#Col">uvec</a></i>.
 </li>
 <br>
 <li>
@@ -4269,7 +4342,7 @@ See also:
 </b>
 <ul>
 <li>
-Member functions of any expression involving matrices or vectors
+Member functions of any matrix or vector expression
 </li>
 <br>
 <li>
@@ -5123,7 +5196,7 @@ mat B = eps(A);
 <li>
 See also:
 <ul>
-<li><a href="#math_constants">math::eps()</a></li>
+<li><a href="#constants">datum::eps</a></li>
 <li><a href="http://mathworld.wolfram.com/Floating-PointArithmetic.html">Floating-Point Arithmetic in MathWorld</a></li>
 <li><a href="http://en.wikipedia.org/wiki/IEEE_754-2008">IEEE Standard for Floating-Point Arithmetic in Wikipedia</a></li>
 
@@ -5482,7 +5555,7 @@ See also:
 <hr class="greyline"><br>
                   
 <a name="det"></a>
-<b>det(A, slow = <i>false</i>)</b>
+<b>det(A, </b><i>slow=false</i><b>)</b>
 <ul>
 <li>
 Determinant of square matrix <i>A</i>
@@ -6038,6 +6111,8 @@ See also:
 <li><a href="#cor">cor()</a></li>
 <li><a href="#running_stat">running_stat</a></li>
 <li><a href="#running_stat_vec">running_stat_vec</a></li>
+<li><a href="#hist">hist()</a></li>
+<li><a href="#histc">histc()</a></li>
 </ul>
 </li>
 </ul>
@@ -6485,6 +6560,112 @@ mat C = flipud(A);
 See also:
 <ul>
 <li><a href="#swap_rows">.swap_rows() &amp; .swap_cols()</a> (member functions of <i>Mat</i>, <i>Col</i> and <i>Row</i> classes)</li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="hist"></a>
+<b>hist(V, n_bins=10)</b>
+<br><b>hist(X, n_bins=10, dim=0)</b>
+<br>
+<br><b>hist(V, centers)</b>
+<br><b>hist(X, centers, dim=0)</b>
+<ul>
+<li>
+For vector <i>V</i>,
+produce an unsigned vector of the same orientation as <i>V</i> (ie. either <a href="#Col">uvec</a> or <a href="#Row">urowvec</a>)
+that represents a histogram of counts
+</li>
+<br>
+<li>
+For matrix <i>X</i>,
+produce a <a href="#Mat">umat</a> matrix containing either
+column histogram counts (for <i>dim=0</i>, default),
+or
+row histogram counts (for <i>dim=1</i>)
+</li>
+<br>
+<li>
+The bin centers can be automatically determined from the data, with the number of bins specified via <i>n_bins</i> (default is 10);
+the range of the bins is determined by the range of the data
+</li>
+<br>
+<li>
+The bin centers can also be explicitly specified via the <i>centers</i> vector;
+the vector must contain monotonically increasing values (eg. 0.1, 0.2, 0.3, ...)
+</li>
+<br>
+<li>
+This function was added in version 3.0
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+vec  v  = randn&lt;vec&gt;(1000); // Gaussian distribution
+
+uvec h1 = hist(v, 11);
+uvec h2 = hist(v, linspace&lt;vec&gt;(-2,2,11));
+</pre>
+</ul>
+</li>
+<br>
+<li>See also:
+<ul>
+<li><a href="#histc">histc()</a></li>
+<li><a href="#stats_fns">statistics functions</a></li>
+<li><a href="#conv_to">conv_to()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="histc"></a>
+<b>histc(V, edges)</b>
+<br><b>histc(X, edges, dim=0)</b>
+<ul>
+<li>
+For vector <i>V</i>,
+produce an unsigned vector of the same orientation as <i>V</i> (ie. either <a href="#Col">uvec</a> or <a href="#Row">urowvec</a>)
+that contains the counts of the number of values that fall between the elements in the <i>edges</i> vector
+</li>
+<br>
+<li>
+For matrix <i>X</i>,
+produce a <i>umat</i> matrix containing either
+column histogram counts (for <i>dim=0</i>, default),
+or
+row histogram counts (for <i>dim=1</i>)
+</li>
+<br>
+<li>
+The <i>edges</i> vector must contain monotonically increasing values (eg. 0.1, 0.2, 0.3, ...)
+</li>
+<br>
+<li>
+This function was added in version 3.0
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+vec  v = randn&lt;vec&gt;(1000);  // Gaussian distribution
+
+uvec h = histc(v, linspace&lt;vec&gt;(-2,2,11));
+</pre>
+</ul>
+</li>
+<br>
+<li>See also:
+<ul>
+<li><a href="#hist">hist()</a></li>
+<li><a href="#stats_fns">statistics functions</a></li>
+<li><a href="#conv_to">conv_to()</a></li>
 </ul>
 </li>
 <br>
@@ -7139,9 +7320,9 @@ See also:
 <hr class="greyline"><br>
 
 <a name="inv"></a>
-<b>B = inv(A, slow = <i>false</i>)</b>
+<b>B = inv(A, </b><i>slow=false</i><b>)</b>
 <br>
-<b>inv(B, A, slow = <i>false</i>)</b>
+<b>inv(B, A, </b><i>slow=false</i><b>)</b>
 <ul>
 <li>
 Inverse of square matrix <i>A</i>
@@ -7214,6 +7395,7 @@ mat H = inv(F, true); // use slow algorithm
 <li>
 See also: 
 <ul>
+<li><a href="#i_member">.i()</a>
 <li><a href="#pinv">pinv()</a>
 <li><a href="#solve">solve()</a></li>
 <li><a href="#trimat">trimatu() / trimatl()</a></li>
@@ -7295,8 +7477,8 @@ if the decomposition fails, <i>B</i> is reset and:
 <li>Any singular values less than <i>tol</i> are treated as zero</li>
 <br>
 <li>For matrix <i>A</i> with <i>m</i> rows and <i>n</i> columns,
-the default tolerance is <i>max(m,n)*norm(A)*math::eps()</i>,
-where <i>math::eps()</i> denotes the difference between 1 and the least value greater than 1 that is representable</li>
+the default tolerance is <i>max(m,n)*norm(A)*datum::eps</i>,
+where <i>datum::eps</i> denotes the difference between 1 and the least value greater than 1 that is representable</li>
 <br>
 <li>
 Examples:
@@ -7311,8 +7493,10 @@ mat B = pinv(A);
 <li>
 See also:
 <ul>
+<li><a href="#i_member">.i()</a></li>
 <li><a href="#inv">inv()</a></li>
-<li><a href="#math_constants">math::eps()</a></li>
+<li><a href="#solve">solve()</a></li>
+<li><a href="#constants">datum::eps</a></li>
 <li><a href="http://mathworld.wolfram.com/Pseudoinverse.html">Pseudoinverse in MathWorld</a></li>
 <li><a href="http://mathworld.wolfram.com/Moore-PenroseMatrixInverse.html">Moore-Penrose Matrix Inverse in MathWorld</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Moore-Penrose_pseudoinverse">Moore-Penrose pseudoinverse in Wikipedia</a></li>
@@ -7420,8 +7604,8 @@ See also:
 <hr class="greyline"><br>
 
 <a name="solve"></a>
-<b>X = solve(A, B, slow = false)</b>
-<br><b>solve(X, A, B, slow = false)</b>
+<b>X = solve(A, B, </b><i>slow=false</i><b>)</b>
+<br><b>solve(X, A, B, </b><i>slow=false</i><b>)</b>
 <ul>
 <li>Solve a system of linear equations, ie., <i>A*X = B</i>, where <i>X</i> is unknown</li>
 <br>
@@ -7491,7 +7675,9 @@ mat F = solve(C, D, true); // use slow algorithm
 <li>
 See also:
 <ul>
+<li><a href="#i_member">.i()</a></li>
 <li><a href="#inv">inv()</a></li>
+<li><a href="#pinv">pinv()</a></li>
 <li><a href="#syl">syl()</a></li>
 <li><a href="#trimat">trimatu() / trimatl()</a></li>
 <li><a href="http://mathworld.wolfram.com/LinearSystemofEquations.html">linear system of equations in MathWorld</a></li>
@@ -7699,14 +7885,14 @@ Examples:
 mat A = randu&lt;mat&gt;(5,5);
 mat B = randu&lt;mat&gt;(5,5);
 
-B(1,1) = math::nan();
+B(1,1) = datum::nan;
 
 cout &lt;&lt; is_finite(A) &lt;&lt; endl;
 cout &lt;&lt; is_finite(B) &lt;&lt; endl;
 
 cout &lt;&lt; is_finite( 0.123456789 ) &lt;&lt; endl;
-cout &lt;&lt; is_finite( math::nan() ) &lt;&lt; endl;
-cout &lt;&lt; is_finite( math::inf() ) &lt;&lt; endl;
+cout &lt;&lt; is_finite( datum::nan  ) &lt;&lt; endl;
+cout &lt;&lt; is_finite( datum::inf  ) &lt;&lt; endl;
 </pre>
 </ul>
 </li>
@@ -7714,8 +7900,8 @@ cout &lt;&lt; is_finite( math::inf() ) &lt;&lt; endl;
 <li>
 See also:
 <ul>
-<li><a href="#math_constants">math::nan()</a></li>
-<li><a href="#math_constants">math::inf()</a></li>
+<li><a href="#constants">datum::nan</a></li>
+<li><a href="#constants">datum::inf</a></li>
 <li><a href="#is_finite">.is_finite()</a> (member function of <i>Mat</i> and <i>Cube</i>)</li>
 </ul>
 </li>
@@ -7788,36 +7974,54 @@ See also:
 </li>
 <br>
 </ul>
-<hr class="greyline">
+<hr class="greyline"><br>
 
 
 
-<a name="math_constants"></a>
-<b>math constants (pi, e, euler, gratio, sqrt2, eps, log_min, log_max, nan, inf)</b>
+<a name="constants"></a>
+<b>various constants (pi, inf, speed of light, ...)</b>
 <br>
 <ul>
 <li>
-Collection of constants, with their precision and/or value dependant on the numerical type and/or machine used.
+Collection of math and fundamental physical constants
 </li>
 <br>
 <li>
-The constants are stored as static functions in the <i>Math&lt;type&gt;</i> class,
-where <i>type</i> is either <i>float</i> or <i>double</i>.
+Physical constants were mainly taken from
+<a href="http://physics.nist.gov/cuu/Constants">NIST</a>
+and some from
+<a href="http://www.wolframalpha.com">WolframAlpha</a>
+on 2009-06-23;
+constants from NIST are in turn sourced from the <a href="http://physics.nist.gov/cuu/Constants/papers.html">2006 CODATA values</a>
 </li>
 <br>
 <li>
-For convenience, <i>Math&lt;float&gt;</i> has been typedefed as <i>fmath</i>,
-while <i>Math&lt;double&gt;</i> has been typedefed as <i>math</i>.
+The constants are stored in the <i>Datum&lt;type&gt;</i> class,
+where <i>type</i> is either <i>float</i> or <i>double</i>
+</li>
+<br>
+<li>
+For convenience,
+<i>Datum&lt;double&gt;</i> has been typedefed as <i>datum</i>
+while 
+<i>Datum&lt;float&gt;</i> has been typedefed as <i>fdatum</i>
+</li>
+<br>
+<li>
+In previous versions of Armadillo (eg. 2.x), the constants are accessed via static functions in <i>math</i> and <i>phy</i> classes, eg. <i>math::pi()</i>;
+for compatibility, these classes are still available in version 3.x, but are not explicitly documented
 </li>
 <br>
 <li>
 Meaning of the constants:
+<br>
+<br>
 <ul>
 <table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
 <tbody>
   <tr>
     <td style="vertical-align: top;">
-      math::pi()
+      datum::pi
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -7828,7 +8032,29 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      math::e()
+      datum::inf
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      infinity
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      datum::nan
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &ldquo;not a number&rdquo; (NaN); <b>caveat:</b> NaN is not equal to anything, even itself
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      datum::e
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -7839,29 +8065,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      math::euler()
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      Euler's constant, aka Euler-Mascheroni constant
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-      math::gratio()
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      golden ratio
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-      math::sqrt2()
+      datum::sqrt2
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -7872,133 +8076,62 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      math::eps()
+      datum::eps
     </td>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      the difference between 1 and the least value greater than 1 that is representable
+      the difference between 1 and the least value greater than 1 that is representable  (type and machine dependant)
     </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      math::log_min()
+      datum::log_min
     </td>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      log of minimum non-zero value
+      log of minimum non-zero value (type and machine dependant)
     </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      math::log_max()
+      datum::log_max
     </td>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      log of maximum value
+      log of maximum value  (type and machine dependant)
     </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      math::nan()
+      datum::euler
     </td>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      &ldquo;not a number&rdquo; (NaN)
+      Euler's constant, aka Euler-Mascheroni constant
     </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      math::inf()
+      datum::gratio
     </td>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      infinity
+      golden ratio
     </td>
   </tr>
-</tbody>
-</table>
-</ul>
-</li>
-<br>
-<li>
-<b>Caveat:</b>
-nan() is not equal to anything, even itself;
-if you wish to check whether a given number <i>x</i> is finite,
-use <a href="#is_finite_standalone">is_finite</a>(<i>x</i>).
-</li>
-<br>
-<li>
-Examples:
-<ul>
-<pre>
-cout &lt;&lt; "2.0 * pi = " &lt;&lt; 2.0 * math::pi() &lt;&lt; endl;
-
-cout &lt;&lt; "log_max for floats = ";
-cout &lt;&lt; fmath::log_max() &lt;&lt; endl;
-
-cout &lt;&lt; "log_max for doubles = ";
-cout &lt;&lt; math::log_max() &lt;&lt; endl;
-</pre>
-</ul>
-</li>
-<li>
-See also:
-<ul>
-<li><a href="#phys_constants">physical constants</a></li>
-<li><a href="#is_finite_standalone">is_finite()</a></li>
-<li><a href="http://en.wikipedia.org/wiki/NaN">Wikipedia entry for NaN</a></li>
-<li><a href="http://cplusplus.com/reference/std/limits/numeric_limits/">std::numeric_limits</a></li>
-</ul>
-</li>
-</ul>
-<br>
-<hr class="greyline"><br>
-
-<a name="phys_constants"></a>
-<b>physical constants (speed of light, etc)</b>
-<br>
-<ul>
-<li>
-Collection of fundamental physical constants,
-mainly taken from
-<a href="http://physics.nist.gov/cuu/Constants">NIST</a>
-and some from
-<a href="http://www.wolframalpha.com">WolframAlpha</a>
-on 2009-06-23.
-</li>
-<br>
-<li>
-Constants from NIST are in turn sourced from the <a href="http://physics.nist.gov/cuu/Constants/papers.html">2006 CODATA values</a>.
-</li>
-<br>
-<li>
-The constants are stored as static functions in the <i>Phy&lt;type&gt;</i> class,
-where <i>type</i> is either <i>float</i> or <i>double</i>.
-</li>
-<br>
-<li>
-For convenience, <i>Phy&lt;float&gt;</i> has been typedefed as <i>fphy</i>,
-while <i>Phy&lt;double&gt;</i> has been typedefed as <i>phy</i>.
-</li>
-<br>
-<li>
-Meaning of the constants:
-<ul>
-<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
-<tbody>
   <tr>
     <td style="vertical-align: top;">
-      phy::m_u()
+      datum::m_u
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8009,7 +8142,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::N_A()
+      datum::N_A
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8020,7 +8153,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::k()
+      datum::k
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8031,7 +8164,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::k_evk()
+      datum::k_evk
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8042,7 +8175,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::a_0()
+      datum::a_0
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8053,7 +8186,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::mu_B()
+      datum::mu_B
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8064,7 +8197,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::Z_0()
+      datum::Z_0
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8075,7 +8208,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::G_0()
+      datum::G_0
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8086,7 +8219,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::k_e()
+      datum::k_e
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8097,7 +8230,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::eps_0()
+      datum::eps_0
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8108,7 +8241,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::m_e()
+      datum::m_e
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8119,7 +8252,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::eV()
+      datum::eV
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8130,7 +8263,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::e()
+      datum::ec
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8141,7 +8274,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::F()
+      datum::F
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8152,7 +8285,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::alpha()
+      datum::alpha
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8163,7 +8296,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::alpha_inv()
+      datum::alpha_inv
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8174,7 +8307,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::K_J()
+      datum::K_J
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8185,7 +8318,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::mu_0()
+      datum::mu_0
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8196,7 +8329,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::phi_0() 
+      datum::phi_0
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8207,7 +8340,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::R()
+      datum::R
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8218,7 +8351,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::G()
+      datum::G
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8229,7 +8362,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::h() 
+      datum::h
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8240,7 +8373,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::h_bar()
+      datum::h_bar
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8251,7 +8384,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::m_p()
+      datum::m_p
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8262,7 +8395,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::R_inf()
+      datum::R_inf
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8273,7 +8406,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::c_0()
+      datum::c_0
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8284,7 +8417,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::sigma()
+      datum::sigma
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8295,7 +8428,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::R_k()
+      datum::R_k
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8306,7 +8439,7 @@ Meaning of the constants:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      phy::b()
+      datum::b
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -8321,19 +8454,35 @@ Meaning of the constants:
 </li>
 <br>
 <li>
-Examples:
-<ul>
-<pre>
-cout &lt;&lt; "speed of light = " &lt;&lt; phy::c_0() &lt;&lt; endl;
-</pre>
-</ul>
+<b>Caveat:</b>
+nan is not equal to anything, even itself;
+if you wish to check whether a given number <i>x</i> is finite,
+use <a href="#is_finite_standalone">is_finite</a>(<i>x</i>).
 </li>
 <br>
 <li>
+Examples:
+<ul>
+<pre>
+cout &lt;&lt; "2.0 * pi = " &lt;&lt; 2.0 * datum::pi &lt;&lt; endl;
+
+cout &lt;&lt; "speed of light = " &lt;&lt; datum::c_0 &lt;&lt; endl;
+
+cout &lt;&lt; "log_max for floats = ";
+cout &lt;&lt; fdatum::log_max &lt;&lt; endl;
+
+cout &lt;&lt; "log_max for doubles = ";
+cout &lt;&lt; datum::log_max &lt;&lt; endl;
+</pre>
+</ul>
+</li>
+<li>
 See also:
 <ul>
-<li><a href="http://en.wikipedia.org/wiki/Physical_constant">physical constant</a> entry in Wikipedia</li>
-<li><a href="#math_constants">math constants</a></li>
+<li><a href="#is_finite_standalone">is_finite()</a></li>
+<li><a href="http://en.wikipedia.org/wiki/NaN">NaN</a> in Wikipedia</li>
+<li><a href="http://en.wikipedia.org/wiki/Physical_constant">physical constant</a> in Wikipedia</li>
+<li><a href="http://cplusplus.com/reference/std/limits/numeric_limits/">std::numeric_limits</a></li>
 </ul>
 </li>
 </ul>
@@ -9387,7 +9536,7 @@ int main(int argc, char** argv)
   mat A = randu&lt;mat&gt;(4,5);
   mat B = randu&lt;mat&gt;(4,5);
   
-  cout &lt;&lt; A*trans(B) &lt;&lt; endl;
+  cout &lt;&lt; A*B.t() &lt;&lt; endl;
   
   return 0;
   }
@@ -9462,19 +9611,19 @@ See also:
 <a name="api_changes"></a>
 <hr class="greyline">
 <br>
-<b>API Changes, Additions and Deprecations</b>
+<b>API Additions, Changes and Deprecations</b>
 <br>
 <br>
 Armadillo's version number is X.Y.Z, where X is a major version, Y is a minor version, and Z is the patch level (indicating bug fixes).
 <br>
 <br>
-Within each major version (eg. 2.x), minor versions with an even number (eg. 2.2) are backwards compatible with earlier even minor versions (eg. 2.0).
-For example, code written for version 2.0 will work with version 2.2.
+Within each major version (eg. 3.x), minor versions with an even number (eg. 3.2) are backwards compatible with earlier even minor versions (eg. 3.0).
+For example, code written for version 3.0 will work with version 3.2.
 However, as each minor version may have more features (ie. API extensions) than earlier versions,
-code written for version 2.2 doesn't necessarily work with 2.0.
+code specifically written for version 3.2 doesn't necessarily work with 3.0.
 <br>
 <br>
-An odd minor version number (eg. 2.3) indicates an experimental version.
+An odd minor version number (eg. 3.3) indicates an experimental version.
 Experimental versions are generally faster and have more functionality,
 but their APIs have not been finalised yet.
 <br>
@@ -9482,39 +9631,68 @@ but their APIs have not been finalised yet.
 In general, we don't like changes to existing APIs and prefer not to break any user software.
 However, to allow evolution and help code maintenance, we reserve the right to change the APIs in future major versions of Armadillo,
 while remaining backwards compatible wherever possible
-(eg. 3.0 may have slightly different APIs than 2.x).
+(eg. 4.0 may have slightly different APIs than 3.x).
 Also, in a rare instance the user API may need to be altered if a bug fix absolutely requires it.
+<!--
 <br>
 <br>
 <br>
 <a name="deprecated"></a>
-Below is a list of deprecated functionality; this functionality will be <b>removed</b> in version 3.0:
+Below is a list of deprecated functionality; this functionality will be <b>removed</b> in version 4.0:
 <ul>
 <li>
-<i>.print_trans()</i> and <i>.raw_print_trans()</i> are deprecated;
-<br>instead, you can chain <i>.t()</i> and <i>.print()</i> to achieve a similar result: <i>.t().print()</i>
-<br>&nbsp;
-</li>
-<li>
-support for tying writeable auxiliary (external) memory to fixed size matrices is deprecated;
-<br>instead, you can use standard matrices with <a href="#adv_constructors_mat">writeable auxiliary memory</a>,
-or initialise fixed size matrices by <a href="#adv_constructors_mat">copying the memory</a>.
-Using auxiliary memory with standard matrices is unaffected.
-<br>&nbsp;
+...
 </li>
 </ul>
+-->
 <br>
 <br>
 Below is a list of additions and changes since prior versions of Armadillo:
+<br>
+<br>
+<a name="added_in_30"></a>
+<li>Added in 3.0:
 <ul>
+<li><a href="#i_member">.i()</a></li>
+<li><a href="#constants">datum</a> class</li>
+<li><a href="#hist">hist()</a> and <a href="#histc">histc()</a></li>
+<li>non-contiguous <a href="#submat">submatrix views</a></li>
+</ul>
+<br>
+</li>
+<li>Changed in 3.0:
+<ul>
+<li>expressions <i>X=<a href="#inv">inv</a>(A)*B</i> and <i>X=A<a href="#i_member">.i()</a>*B</i> are automatically converted to <i>X=<a href="#solve">solve</a>(A,B)</i>
+<li>better detection of vector expressions by <a href="#sum">sum()</a>, <a href="#cumsum">cumsum()</a>, <a href="#prod">prod()</a>, <a href="#min_and_max">min()</a>, <a href="#min_and_max">max()</a>, <a href="#stats_fns">mean()</a>, <a href="#stats_fns">median()</a>, <a href="#stats_fns">stddev()</a>, <a href="#stats_fns">var()</a>
+<li>faster handling of <a href="#submat">submatrix views</a> with a single row or column</li>
+<li>faster generation of random numbers
+(eg. <a href="#randu_randn_standalone">randu()</a> and <a href="#randu_randn_standalone">randn()</a>),
+via an algorithm that produces slightly different numbers than in 2.x
+</li>
+<li>faster element access in <a href="#adv_constructors_mat_fixed">fixed size matrices</a></li>
+<li>faster <a href="#repmat">repmat()</a></li>
+<li>
+support for tying writeable auxiliary (external) memory to fixed size matrices has been removed;
+instead, you can use standard matrices with <a href="#adv_constructors_mat">writeable auxiliary memory</a>,
+or initialise fixed size matrices by <a href="#adv_constructors_mat">copying the memory</a>.
+Using auxiliary memory with standard matrices is unaffected.
+</li>
+<li>
+<i>.print_trans()</i> and <i>.raw_print_trans()</i> have been removed;
+instead, you can chain <i><a href="#t_st_members">.t()</a></i> and <i><a href="#print">.print()</a></i> to achieve a similar result: <i>X.t().print()</i>
+</li>
+</ul>
+<br>
+</li>
 <a name="added_in_24"></a>
 <li>Added in 2.4:
 <ul>
 <li>shorter forms of transposes: <a href="#t_st_members">.t()</a> and <a href="#t_st_members">.st()</a></li>
-<li><a href="#resize_member">.resize()</a> and <a href="#resize">resize()</a> (added in 2.4.1)</li>
+<li><a href="#resize_member">.resize()</a> and <a href="#resize">resize()</a></li>
 <li>optional use of 64 bit indices (allowing matrices to have more than 4 billion elements),
 <br>enabled via ARMA_64BIT_WORD in <i>include/armadillo_bits/config.hpp</i></li>
-<li>experimental support for C++11 initialiser lists, enabled via ARMA_USE_CXX11 in <i>include/armadillo_bits/config.hpp</i></li>
+<li>experimental support for C++11 initialiser lists,
+<br>enabled via ARMA_USE_CXX11 in <i>include/armadillo_bits/config.hpp</i></li>
 </ul>
 <br>
 <li>Changed in 2.4:
@@ -9568,8 +9746,8 @@ that do not return a bool indicating success now throw <i>std::runtime_error</i>
 <ul>
 <li><a href="#min_and_max_member">.min() &amp; .max()</a> member functions of Mat and Cube</li>
 <li><a href="#misc_fns">floor()</a> and <a href="#misc_fns">ceil()</a></li>
-<li>representation of &ldquo;not a number&rdquo;: <a href="#math_constants">math::nan()</a></li>
-<li>representation of infinity: <a href="#math_constants">math::inf()</a></li>
+<li>representation of &ldquo;not a number&rdquo;: math::nan()</li>
+<li>representation of infinity: math::inf()</li>
 <li>standalone <a href="#is_finite_standalone">is_finite()</a></li>
 <li><a href="#in_range">.in_range()</a> can use <b>span()</b> arguments</li>
 <li><a href="#adv_constructors_mat">fixed size</a> matrices and vectors can use auxiliary (external) memory</li>
@@ -9646,7 +9824,6 @@ use <i>my_function(&nbsp;mat(A+B)&nbsp;)</i>.
 </ul>
 </li>
 <br>
-</ul>
 <br>
 <br>
 
