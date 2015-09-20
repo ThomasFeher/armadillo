@@ -143,7 +143,7 @@ hr.greyline
 <ul>
 <li>
 To aid the conversion of Matlab/Octave programs,
-there is a <a href="#syntax">syntax conversion table</a>
+see the <a href="#syntax">syntax conversion table</a>
 </li>
 <br>
 <li>
@@ -4430,7 +4430,7 @@ If the requested number of elements is equal to the old number of elements, exis
 <br>
 <li>
 If the requested number of elements is not equal to the old number of elements, new memory is used;
-the memory is uninitilised
+the memory is uninitialised
 </li>
 <br>
 <li>
@@ -11119,7 +11119,7 @@ See also:
 <li>API and Version Policy
 <ul>
 <li>
-Armadillo's version number is X.Y.Z, where X is a major version, Y is a minor version, and Z is the patch level (indicating bug fixes).
+Armadillo's version number is <i>A.B.C</i>, where <i>A</i> is a major version, <i>B</i> is a minor version, and <i>C</i> is the patch level (indicating bug fixes).
 </li>
 <br>
 <li>
@@ -11130,17 +11130,17 @@ code specifically written for version 3.2 doesn't necessarily work with 3.0.
 </li>
 <br>
 <li>
-An odd minor version number (eg. 3.3) indicates an experimental version.
+An odd minor version number (ie. when <i>B</i> is not evenly divisible by 2) indicates an experimental version.
 Experimental versions are generally faster and have more functionality,
-but their APIs have not been finalised yet.
+but their APIs have not been finalised yet (though the likelihood of APIs changes is quite low).
 </li>
 <br>
 <li>
-In general, we don't like changes to existing APIs and prefer not to break any user software.
-However, to allow evolution and help code maintenance, we reserve the right to change the APIs in future major versions of Armadillo,
+In general, we don't like changes to existing APIs and strongly prefer not to break any user software.
+However, to allow evolution, we reserve the right to alter the APIs in future major versions of Armadillo,
 while remaining backwards compatible wherever possible
-(eg. 4.0 may have slightly different APIs than 3.x).
-Also, in a rare instance the user API may need to be altered if a bug fix absolutely requires it.
+(eg. 4.x may have slightly different APIs than 3.x).
+Also, in a rare instance the user API may need to be tweaked if a bug fix absolutely requires it.
 </li>
 </ul>
 </li>
