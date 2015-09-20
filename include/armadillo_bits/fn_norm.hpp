@@ -488,7 +488,8 @@ norm
   arma_extra_debug_sigprint();
   arma_ignore(junk);
   
-  typedef typename T1::pod_type T;
+  typedef typename T1::elem_type eT;
+  typedef typename T1::pod_type   T;
   
   const Proxy<T1> P(X);
   
@@ -553,7 +554,8 @@ norm
   arma_extra_debug_sigprint();
   arma_ignore(junk);
   
-  typedef typename T1::pod_type T;
+  typedef typename T1::elem_type eT;
+  typedef typename T1::pod_type   T;
   
   const Proxy<T1> P(X);
   

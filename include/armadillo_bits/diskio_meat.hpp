@@ -2697,6 +2697,8 @@ inline
 bool
 diskio::load_coord_ascii(SpMat< std::complex<T> >& x, std::istream& f, std::string& err_msg)
   {
+  typedef std::complex<T> eT;
+  
   bool load_okay = f.good();
   
   f.clear();

@@ -1726,7 +1726,7 @@ auxlib::qr(Mat<eT>& Q, Mat<eT>& R, const Base<eT,T1>& X)
     
     blas_int m            = static_cast<blas_int>(R_n_rows);
     blas_int n            = static_cast<blas_int>(R_n_cols);
-    blas_int work_len     = 3*((std::max)(blas_int(1),n));
+    blas_int work_len     = (std::max)(blas_int(1), (std::max)(m,n));
     blas_int work_len_tmp;
     blas_int k            = (std::min)(m,n);
     blas_int info         = 0;
@@ -1844,7 +1844,7 @@ auxlib::qr_econ(Mat<eT>& Q, Mat<eT>& R, const Base<eT,T1>& X)
     
     blas_int m            = static_cast<blas_int>(Q_n_rows);
     blas_int n            = static_cast<blas_int>(Q_n_cols);
-    blas_int work_len     = 3*((std::max)(blas_int(1),n));
+    blas_int work_len     = (std::max)(blas_int(1), (std::max)(m,n));
     blas_int work_len_tmp;
     blas_int k            = (std::min)(m,n);
     blas_int info         = 0;

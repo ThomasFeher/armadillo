@@ -29,13 +29,13 @@ SpSubview<eT>::SpSubview(const SpMat<eT>& in_m, const uword in_row1, const uword
   arma_extra_debug_sigprint();
 
   // There must be a O(1) way to do this
-  uword lend     = m.col_ptrs[in_col1 + in_n_cols];
-  uword lend_row = in_row1 + in_n_rows;
+  uword end     = m.col_ptrs[in_col1 + in_n_cols];
+  uword end_row = in_row1 + in_n_rows;
   uword count   = 0;
 
-  for(uword i = m.col_ptrs[in_col1]; i < lend; ++i)
+  for(uword i = m.col_ptrs[in_col1]; i < end; ++i)
     {
-    if(m.row_indices[i] >= in_row1 && m.row_indices[i] < lend_row)
+    if(m.row_indices[i] >= in_row1 && m.row_indices[i] < end_row)
       {
       ++count;
       }
@@ -60,13 +60,13 @@ SpSubview<eT>::SpSubview(SpMat<eT>& in_m, const uword in_row1, const uword in_co
   arma_extra_debug_sigprint();
 
   // There must be a O(1) way to do this
-  uword lend     = m.col_ptrs[in_col1 + in_n_cols];
-  uword lend_row = in_row1 + in_n_rows;
-  uword count    = 0;
+  uword end     = m.col_ptrs[in_col1 + in_n_cols];
+  uword end_row = in_row1 + in_n_rows;
+  uword count   = 0;
 
-  for(uword i = m.col_ptrs[in_col1]; i < lend; ++i)
+  for(uword i = m.col_ptrs[in_col1]; i < end; ++i)
     {
-    if(m.row_indices[i] >= in_row1 && m.row_indices[i] < lend_row)
+    if(m.row_indices[i] >= in_row1 && m.row_indices[i] < end_row)
       {
       ++count;
       }
@@ -98,19 +98,20 @@ SpSubview<eT>::operator+=(const eT val)
     return *this;
     }
 
-  const uword lstart_row = aux_row1;
-  const uword lend_row   = aux_row1 + n_rows;
-  
-  const uword lstart_col = aux_col1;
-  const uword lend_col   = aux_col1 + n_cols;
+  const uword start_row = aux_row1;
+  const uword end_row   = aux_row1 + n_rows;
+  const uword start_col = aux_col1;
+  const uword end_col   = aux_col1 + n_cols;
 
   const uword old_n_nonzero = m.n_nonzero;
 
   // iterate over our part of the sparse matrix
-  for(uword lcol = lstart_col; lcol < lend_col; ++lcol)
-  for(uword lrow = lstart_row; lrow < lend_row; ++lrow)
+  for(uword col = start_col; col < end_col; ++col)
     {
-    access::rw(m).at(lrow, lcol) += val;
+    for(uword row = start_row; row < end_row; ++row)
+      {
+      access::rw(m).at(row, col) += val;
+      }
     }
 
   const uword new_n_nonzero = m.n_nonzero;
@@ -134,18 +135,19 @@ SpSubview<eT>::operator-=(const eT val)
     return *this;
     }
 
-  const uword lstart_row = aux_row1;
-  const uword lend_row   = aux_row1 + n_rows;
-  
-  const uword lstart_col = aux_col1;
-  const uword lend_col   = aux_col1 + n_cols;
+  const uword start_row = aux_row1;
+  const uword end_row   = aux_row1 + n_rows;
+  const uword start_col = aux_col1;
+  const uword end_col   = aux_col1 + n_cols;
 
   const uword old_n_nonzero = m.n_nonzero;
 
-  for(uword lcol = lstart_col; lcol < lend_col; ++lcol)
-  for(uword lrow = lstart_row; lrow < lend_row; ++lrow)
+  for(uword col = start_col; col < end_col; ++col)
     {
-    access::rw(m).at(lrow, lcol) -= val;
+    for(uword row = start_row; row < end_row; ++row)
+      {
+      access::rw(m).at(row, col) -= val;
+      }
     }
 
   const uword new_n_nonzero = m.n_nonzero;
@@ -176,17 +178,16 @@ SpSubview<eT>::operator*=(const eT val)
     return *this;
     }
 
-  const uword lstart_row = aux_row1;
-  const uword lend_row   = aux_row1 + n_rows;
-  
-  const uword lstart_col = aux_col1;
-  const uword lend_col   = aux_col1 + n_cols;
+  const uword start_row = aux_row1;
+  const uword end_row   = aux_row1 + n_rows;
+  const uword start_col = aux_col1;
+  const uword end_col   = aux_col1 + n_cols;
 
-  for(uword c = lstart_col; c < lend_col; ++c)
+  for(uword c = start_col; c < end_col; ++c)
     {
     for(uword r = m.col_ptrs[c]; r < m.col_ptrs[c + 1]; ++r)
       {
-      if(m.row_indices[r] >= lstart_row && m.row_indices[r] < lend_row)
+      if(m.row_indices[r] >= start_row && m.row_indices[r] < end_row)
         {
         access::rw(m.values[r]) *= val;
         }
@@ -205,18 +206,19 @@ SpSubview<eT>::operator/=(const eT val)
   {
   arma_extra_debug_sigprint();
 
-  const uword lstart_col = aux_col1;
-  const uword lend_col   = aux_col1 + n_cols;
-  
-  const uword lstart_row = aux_row1;
-  const uword lend_row   = aux_row1 + n_rows;
+  const uword start_col = aux_col1;
+  const uword end_col   = aux_col1 + n_cols;
+  const uword start_row = aux_row1;
+  const uword end_row   = aux_row1 + n_rows;
 
   const uword old_n_nonzero = m.n_nonzero;
 
-  for(uword c = lstart_col; c < lend_col; ++c)
-  for(uword r = lstart_row; r < lend_row; ++r)
+  for(uword c = start_col; c < end_col; ++c)
     {
-    access::rw(m).at(r, c) /= val;
+    for(uword r = start_row; r < end_row; ++r)
+      {
+      access::rw(m).at(r, c) /= val;
+      }
     }
 
   const uword new_n_nonzero = m.n_nonzero;
@@ -676,10 +678,10 @@ SpSubview<eT>::operator/=(const SpBase<eT, T1>& x)
   
   if(p.is_alias(m) == false)
     {
-    for(uword lcol = 0; lcol < n_cols; ++lcol)
-    for(uword lrow = 0; lrow < n_rows; ++lrow)
+    for(uword col = 0; col < n_cols; ++col)
+    for(uword row = 0; row < n_rows; ++row)
       {
-      at(lrow,lcol) /= p.at(lrow,lcol);
+      at(row,col) /= p.at(row,col);
       }
     }
   else
@@ -705,19 +707,18 @@ SpSubview<eT>::fill(const eT val)
     {
     // TODO: implement a faster version; the code below is slow
     
-    const uword lstart_row = aux_row1;
-    const uword lend_row   = aux_row1 + n_rows;
-    
-    const uword lstart_col = aux_col1;
-    const uword lend_col   = aux_col1 + n_cols;
+    const uword start_row = aux_row1;
+    const uword end_row   = aux_row1 + n_rows;
+    const uword start_col = aux_col1;
+    const uword end_col   = aux_col1 + n_cols;
 
     const uword orig_nonzero = m.n_nonzero;
     
     // iterate over our part of the sparse matrix
-    for(uword lcol = lstart_col; lcol < lend_col; ++lcol)
-    for(uword lrow = lstart_row; lrow < lend_row; ++lrow)
+    for(uword col = start_col; col < end_col; ++col)
+    for(uword row = start_row; row < end_row; ++row)
       {
-      access::rw(m).at(lrow, lcol) = val;
+      access::rw(m).at(row, col) = val;
       }
 
     access::rw(n_nonzero) += (m.n_nonzero - orig_nonzero);
@@ -794,10 +795,10 @@ inline
 SpValProxy<SpSubview<eT> >
 SpSubview<eT>::operator[](const uword i)
   {
-  const uword lrow = i % n_rows;
-  const uword lcol = i / n_rows;
+  const uword row = i % n_rows;
+  const uword col = i / n_rows;
 
-  return (*this).at(lrow, lcol);
+  return (*this).at(row, col);
   }
 
 
@@ -808,10 +809,10 @@ inline
 eT
 SpSubview<eT>::operator[](const uword i) const
   {
-  const uword lrow = i % n_rows;
-  const uword lcol = i / n_rows;
+  const uword row = i % n_rows;
+  const uword col = i / n_rows;
 
-  return (*this).at(lrow, lcol);
+  return (*this).at(row, col);
   }
 
 
@@ -824,10 +825,10 @@ SpSubview<eT>::operator()(const uword i)
   {
   arma_debug_check( (i >= n_elem), "SpSubview::operator(): index out of bounds");
 
-  const uword lrow = i % n_rows;
-  const uword lcol = i / n_rows;
+  const uword row = i % n_rows;
+  const uword col = i / n_rows;
 
-  return (*this).at(lrow, lcol);
+  return (*this).at(row, col);
   }
 
 
@@ -840,10 +841,10 @@ SpSubview<eT>::operator()(const uword i) const
   {
   arma_debug_check( (i >= n_elem), "SpSubview::operator(): index out of bounds");
 
-  const uword lrow = i % n_rows;
-  const uword lcol = i / n_rows;
+  const uword row = i % n_rows;
+  const uword col = i / n_rows;
 
-  return (*this).at(lrow, lcol);
+  return (*this).at(row, col);
   }
 
 
@@ -880,10 +881,10 @@ inline
 SpValProxy< SpSubview<eT> >
 SpSubview<eT>::at(const uword i)
   {
-  const uword lrow = i % n_rows;
-  const uword lcol = i / n_cols;
+  const uword row = i % n_rows;
+  const uword col = i / n_cols;
 
-  return (*this).at(lrow, lcol);
+  return (*this).at(row, col);
   }
 
 
@@ -894,10 +895,10 @@ inline
 eT
 SpSubview<eT>::at(const uword i) const
   {
-  const uword lrow = i % n_rows;
-  const uword lcol = i / n_cols;
+  const uword row = i % n_rows;
+  const uword col = i / n_cols;
 
-  return (*this).at(lrow, lcol);
+  return (*this).at(row, col);
   }
 
 
@@ -1298,10 +1299,10 @@ SpSubview<eT>::swap_rows(const uword in_row1, const uword in_row2)
 
   arma_debug_check((in_row1 >= n_rows) || (in_row2 >= n_rows), "SpSubview::swap_rows(): invalid row index");
 
-  const uword lstart_col = aux_col1;
-  const uword lend_col   = aux_col1 + n_cols;
+  const uword start_col = aux_col1;
+  const uword end_col   = aux_col1 + n_cols;
 
-  for(uword c = lstart_col; c < lend_col; ++c)
+  for(uword c = start_col; c < end_col; ++c)
     {
     eT val = m.at(in_row1 + aux_row1, c);
     access::rw(m).at(in_row2 + aux_row1, c) = m.at(in_row1 + aux_row1, c);
@@ -1320,10 +1321,10 @@ SpSubview<eT>::swap_cols(const uword in_col1, const uword in_col2)
 
   arma_debug_check((in_col1 >= n_cols) || (in_col2 >= n_cols), "SpSubview::swap_cols(): invalid column index");
 
-  const uword lstart_row = aux_row1;
-  const uword lend_row   = aux_row1 + n_rows;
+  const uword start_row = aux_row1;
+  const uword end_row   = aux_row1 + n_rows;
 
-  for(uword r = lstart_row; r < lend_row; ++r)
+  for(uword r = start_row; r < end_row; ++r)
     {
     eT val = m.at(r, in_col1 + aux_col1);
     access::rw(m).at(r, in_col1 + aux_col1) = m.at(r, in_col2 + aux_col1);
