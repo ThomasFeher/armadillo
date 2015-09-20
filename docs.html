@@ -86,6 +86,7 @@
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
         <br>
         <b><a href="http://nicta.com.au">to NICTA home page</a></b>
+        <br>
       </td>
     </tr>
   </tbody>
@@ -1782,6 +1783,7 @@ See also:
 <li><a href="#diagmat">diagmat()</a></li>
 <li><a href="#submat">submatrix views</a></li>
 <li><a href="#each_colrow">.each_col() &amp; .each_row()</a></li>
+<li><a href="#trace">trace()</a></li>
 </ul>
 </li>
 </ul>
@@ -2198,6 +2200,10 @@ If the matrix expression appears to be singular, the output matrix is reset and 
 For matrix sizes &le; 4x4, a fast inverse algorithm is used by default.
 In rare instances, the fast algorithm might be less precise than the standard algorithm.
 To force the use of the standard algorithm, set the <i>slow</i> argument to <i>true</i>
+</li>
+<br>
+<li>
+<b>NOTE:</b> in many cases it is more efficient/faster to use the <a href="#solve">solve()</a> function instead of performing a matrix inverse
 </li>
 <br>
 <li>
@@ -6009,6 +6015,7 @@ See also:
 <li><a href="#sum">sum()</a></li>
 <li><a href="#cumsum">cumsum()</a></li>
 <li><a href="#as_scalar">as_scalar()</a></li>
+<li><a href="#trace">trace()</a></li>
 </ul>
 </li>
 <br>
@@ -6057,6 +6064,7 @@ See also:
 <li><a href="#norm">norm()</a></li>
 <li><a href="#reshape">reshape()</a></li>
 <li><a href="#resize">resize()</a></li>
+<li><a href="#trace">trace()</a></li>
 </ul>
 </li>
 <br>
@@ -6274,14 +6282,19 @@ See also:
 <hr class="greyline"><br>
 
 <a name="trace"></a>
-<b>trace(mat)</b>
+<b>trace(X)</b>
 <ul>
 <li>
-Sum of the diagonal elements of a square matrix
+Sum of the diagonal elements of square matrix <i>X</i>
 </li>
 <br>
 <li>
-A <i>std::logic_error</i> exception is thrown if the given matrix is not square
+If <i>X</i> is an expression,
+the function will try to use optimised expression evaluations to calculate only the diagonal elements
+</li>
+<br>
+<li>
+A <i>std::logic_error</i> exception is thrown if <i>X</i> does not evaluate to a square matrix
 </li>
 <br>
 <li>
@@ -6297,6 +6310,8 @@ double x = trace(A);
 <li>
 See also:
 <ul>
+<li><a href="#accu">accu()</a></li>
+<li><a href="#as_scalar">as_scalar()</a></li>
 <li><a href="#diag">.diag()</a></li>
 <li><a href="#diagvec">diagvec()</a></li>
 <li><a href="#sum">sum()</a></li>
@@ -6348,6 +6363,7 @@ vec d = diagvec(A);
 <ul>
 <li><a href="#diag">.diag()</a></li>
 <li><a href="#diagmat">diagmat()</a></li>
+<li><a href="#trace">trace()</a></li>
 </ul>
 </li>
 <br>
@@ -7923,8 +7939,9 @@ If <i>A</i> is not square, a <i>std::logic_error</i> exception is thrown
 </li>
 <br>
 <li>
-If you want to solve a system of linear equations, eg., <i>X = inv(A)*B</i>,
-the <a href="#solve">solve()</a> function is generally more efficient
+<b>NOTE:</b> in many cases it is more efficient/faster to use the <a href="#solve">solve()</a> function instead of performing a matrix inverse;
+for example, if you want to solve a system of linear equations, eg., <i>X = inv(A)*B</i>,
+use <a href="#solve">solve()</a> instead
 </li>
 <br>
 <li>
@@ -10825,9 +10842,10 @@ Below is a list of additions and changes since prior versions of Armadillo:
 <li>Added in 3.6:
 <ul>
 <li>faster handling of compound expressions with submatrices and subcubes</li>
-<li>support for loading matrices as text files with NaN and Inf elements</li>
+<li>faster <a href="#trace">trace()</a></li>
+<li>support for loading matrices as text files with <i>NaN</i> and <i>Inf</i> elements</li>
 <li><a href="#sort_index">stable_sort_index()</a>, which preserves the relative order of elements with equivalent values</li>
-<li>handling of sparse matrices by <a href="#stats_fns">mean()</a>, <a href="#stats_fns">var()</a>, <a href="#norm">norm()</a>, <a href="#abs">abs()</a>, <a href="#misc_fns">square()</a>, <a href="#misc_fns">sqrt()</a></li>
+<li>handling of <a href="#SpMat">sparse matrices</a> by <a href="#stats_fns">mean()</a>, <a href="#stats_fns">var()</a>, <a href="#norm">norm()</a>, <a href="#abs">abs()</a>, <a href="#misc_fns">square()</a>, <a href="#misc_fns">sqrt()</a></li>
 <li>saving and loading of sparse matrices in <i>arma_binary</i> format</li>
 </ul>
 <br>
