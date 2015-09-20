@@ -291,11 +291,13 @@ such as Linux or Mac OS X.
 The pre-compiled versions of LAPACK and BLAS were downloaded from:
   http://www.fi.muni.cz/~xsvobod2/misc/lapack/
 
-If the provided libraries don't work for you, try these versions:
-  http://www.stanford.edu/~vkl/code/libs.html
-  http://icl.cs.utk.edu/lapack-for-windows/lapack/
+If the provided libraries don't work for you, or you want more speed,
+try these versions:
   http://software.intel.com/en-us/intel-mkl/
   http://www.amd.com/acml
+  http://xianyi.github.com/OpenBLAS/
+  http://www.stanford.edu/~vkl/code/libs.html
+  http://icl.cs.utk.edu/lapack-for-windows/lapack/
 
 (the MKL and ACML libraries are generally the fastest)
 
@@ -305,8 +307,8 @@ the original sources at:
   http://www.netlib.org/blas/
   http://www.netlib.org/lapack/
 
-If you encounter issues with the MS Visual C++ compiler,
-the following high-quality compilers are useful alternatives:
+
+We recommend the following high-quality compilers:
 
   * GCC (part MinGW)
     http://www.mingw.org/
@@ -317,8 +319,8 @@ the following high-quality compilers are useful alternatives:
   * Intel's C++ compiler
     http://software.intel.com/en-us/intel-compilers/
 
-If using GCC, you'll need version 4.0 or better.
-If using Intel's C++ compiler, you'll need version 10.0 or better.
+For the GCC compiler, use version 4.0 or later.
+For Intel's C++ compiler, use version 10.0 or later.
 
 
 
