@@ -1,5 +1,5 @@
 // Connector for Mex files to use Armadillo for calculation
-// Version 0.3
+// Version 0.4
 // 
 // Copyright (C) 2014 George Yammine
 // Copyright (C) 2014 Conrad Sanderson
@@ -704,12 +704,14 @@ armaSetSparsePr(mxArray *matlabMatrix, const SpMat<double>& armaMatrix)
 
   for (mwIndex j = 0; j < n_nonzero; j++)
     {
-    jcs[j] = armaMatrix.col_ptrs[j];
     sr[j]  = armaMatrix.values[j];
     irs[j] = armaMatrix.row_indices[j];
     }
   
-  jcs[n_nonzero] = armaMatrix.col_ptrs[n_cols];
+  for (mwIndex j = 0; j <= n_cols; j++)
+    {
+    jcs[j] = armaMatrix.col_ptrs[j];
+    }
   }
 
 
@@ -720,7 +722,7 @@ armaSetSparsePi(mxArray *matlabMatrix, const SpMat<double>& armaMatrix)
   {
   //const double *src_pointer = armaMatrix.memptr();
   
-  double *si  =  mxGetPi(matlabMatrix);
+  double  *si  = mxGetPi(matlabMatrix);
   mwIndex *irs = mxGetIr(matlabMatrix);
   mwIndex *jcs = mxGetJc(matlabMatrix);
     
@@ -729,15 +731,17 @@ armaSetSparsePi(mxArray *matlabMatrix, const SpMat<double>& armaMatrix)
 
   for (mwIndex j = 0; j < n_nonzero; j++)
     {
-    jcs[j] = armaMatrix.col_ptrs[j];
-    si[j] = armaMatrix.values[j];
+    si[j]  = armaMatrix.values[j];
     irs[j] = armaMatrix.row_indices[j];
     }
     
-  jcs[n_nonzero] = armaMatrix.col_ptrs[n_cols];
+  for (mwIndex j = 0; j <= n_cols; j++)
+    {
+    jcs[j] = armaMatrix.col_ptrs[j];
+    }
   }
-    
-  
+
+
 // Create matlab side matrices
 
 

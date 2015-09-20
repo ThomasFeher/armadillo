@@ -478,6 +478,7 @@ Contributors:
 - Edmund Highcock
 - Szabolcs Horvat
 - Friedrich Hust
+- Ping-Keng Jao
 - Yaron Keren
 - Kshitij Kulshreshtha
 - Oka Kurniawan

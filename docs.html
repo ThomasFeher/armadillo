@@ -114,7 +114,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 4.320</b></font>
+        <font size=+2><b>Reference for Armadillo 4.400</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -251,14 +251,6 @@ Technical Report, NICTA, 2010.
 </ul>
 <br>
 
-<b>Other Classes</b>
-<ul>
-<a href="#running_stat">running_stat&lt;<i>type</i>&gt;</a>&nbsp;&middot;
-<a href="#running_stat_vec">running_stat_vec&lt;<i>vec_type</i>&gt;</a>&nbsp;&middot;
-<a href="#wall_clock">wall_clock</a>
-</ul>
-<br>
-
 <b>Generated Vectors/Matrices/Cubes</b>
 <ul>
 <a href="#eye_standalone">eye</a>&nbsp;&middot;
@@ -277,6 +269,7 @@ Technical Report, NICTA, 2010.
 <b>Functions Individually Applied to Each Element of a Matrix/Cube</b>
 <ul>
 <a href="#abs">abs</a>&nbsp;&middot;
+<a href="#clamp">clamp</a>&nbsp;&middot;
 <a href="#conj">conj</a>&nbsp;&middot;
 <a href="#conv_to">conv_to</a>&nbsp;&middot;
 <a href="#eps">eps</a>&nbsp;&middot;
@@ -293,6 +286,7 @@ Technical Report, NICTA, 2010.
 <a href="#cond">cond</a>&nbsp;&middot;
 <a href="#det">det</a>&nbsp;&middot;
 <a href="#dot">dot/cdot/norm_dot</a>&nbsp;&middot;
+<a href="#is_finite_standalone">is_finite()</a>&nbsp;&middot;
 <a href="#log_det">log_det</a>&nbsp;&middot;
 <a href="#norm">norm</a>&nbsp;&middot;
 <a href="#rank">rank</a>&nbsp;&middot;
@@ -369,9 +363,17 @@ Technical Report, NICTA, 2010.
 </ul>
 <br>
 
+<b>Statistical Modelling</b>
+<ul>
+<a href="#gmm_diag">gmm_diag</a>&nbsp;&middot;
+<a href="#running_stat">running_stat</a>&nbsp;&middot;
+<a href="#running_stat_vec">running_stat_vec</a>
+</ul>
+<br>
+
 <b>Miscellaneous</b>
 <ul>
-<a href="#is_finite_standalone">is_finite()</a>&nbsp;&middot;
+<a href="#wall_clock">wall_clock</a>&nbsp;&middot;
 <a href="#logging">logging&nbsp;of&nbsp;errors/warnings</a>&nbsp;&middot;
 <a href="#constants">pre-defined&nbsp;constants&nbsp;(pi,&nbsp;inf,&nbsp;speed&nbsp;of&nbsp;light,&nbsp;...)</a>&nbsp;&middot;
 <!--<a href="#log_add">log_add</a>&nbsp;&middot;-->
@@ -418,68 +420,68 @@ For convenience the following typedefs have been defined:
   <tbody>
     <tr>
       <td style="vertical-align: top;">
-      mat
+      <code>mat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Mat&lt;double&gt;
+      <code>Mat&lt;double&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      fmat
+      <code>fmat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Mat&lt;float&gt;
+      <code>Mat&lt;float&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      cx_mat
+      <code>cx_mat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Mat&lt;<a href="#cx_double">cx_double</a>&gt;
+      <code>Mat&lt;<a href="#cx_double">cx_double</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      cx_fmat
+      <code>cx_fmat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Mat&lt;<a href="#cx_double">cx_float</a>&gt;
+      <code>Mat&lt;<a href="#cx_double">cx_float</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      umat
+      <code>umat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Mat&lt;<a href="#uword">uword</a>&gt;
+      <code>Mat&lt;<a href="#uword">uword</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      imat
+      <code>imat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Mat&lt;<a href="#uword">sword</a>&gt;
+      <code>Mat&lt;<a href="#uword">sword</a>&gt;</code>
       </td>
     </tr>
   </tbody>
@@ -505,16 +507,16 @@ Elements are stored with <a href="https://en.wikipedia.org/wiki/Column_major">co
 <li>
 Constructors:
 <ul>
-<li>mat()</li>
-<li>mat(n_rows, n_cols)</li>
-<li>mat(n_rows, n_cols, fill_type)</li>
-<li>mat(mat)</li>
-<li>mat(vec)</li>
-<li>mat(rowvec)</li>
-<li>mat(string)</li>
-<li>mat(std::vector) &nbsp; (treated as a column vector)</li>
-<li>mat(initialiser_list) &nbsp; (C++11 only)</li>
-<li>cx_mat(mat,mat) &nbsp; (for constructing a complex matrix out of two real matrices)</li>
+<code>mat()</code>
+<br><code>mat(n_rows, n_cols)</code>
+<br><code>mat(n_rows, n_cols, fill_type)</code>
+<br><code>mat(mat)</code>
+<br><code>mat(vec)</code>
+<br><code>mat(rowvec)</code>
+<br><code>mat(string)</code>
+<br><code>mat(std::vector)</code> &nbsp; (treated as a column vector)
+<br><code>mat(initialiser_list)</code> &nbsp; (C++11 only)
+<br><code>cx_mat(mat,mat)</code> &nbsp; (for constructing a complex matrix out of two real matrices)
 </ul>
 </li>
 <br>
@@ -532,12 +534,12 @@ with the following meanings:
 <ul>
 <table>
 <tbody>
-<tr><td>fill::zeros</td><td>&nbsp;=&nbsp;</td><td>set all elements to 0</td></tr>
-<tr><td>fill::ones</td><td>&nbsp;=&nbsp;</td><td>set all elements to 1</td></tr>
-<tr><td>fill::eye</td><td>&nbsp;=&nbsp;</td><td>set the elements along the main diagonal to 1 and off-diagonal elements to 0</td></tr>
-<tr><td>fill::randu</td><td>&nbsp;=&nbsp;</td><td>set each element to a random value from a uniform distribution in the [0,1] interval</td></tr>
-<tr><td>fill::randn</td><td>&nbsp;=&nbsp;</td><td>set each element to a random value from a normal/Gaussian distribution with zero mean and unit variance</td></tr>
-<tr><td>fill::none</td><td>&nbsp;=&nbsp;</td><td>do not modify the elements</td></tr>
+<tr><td><code>fill::zeros</code></td><td>&nbsp;=&nbsp;</td><td>set all elements to 0</td></tr>
+<tr><td><code>fill::ones</code></td><td>&nbsp;=&nbsp;</td><td>set all elements to 1</td></tr>
+<tr><td><code>fill::eye</code></td><td>&nbsp;=&nbsp;</td><td>set the elements along the main diagonal to 1 and off-diagonal elements to 0</td></tr>
+<tr><td><code>fill::randu</code></td><td>&nbsp;=&nbsp;</td><td>set each element to a random value from a uniform distribution in the [0,1] interval</td></tr>
+<tr><td><code>fill::randn</code></td><td>&nbsp;=&nbsp;</td><td>set each element to a random value from a normal/Gaussian distribution with zero mean and unit variance</td></tr>
+<tr><td><code>fill::none</code></td><td>&nbsp;=&nbsp;</td><td>do not modify the elements</td></tr>
 </tbody>
 </table>
 </ul>
@@ -558,7 +560,7 @@ Advanced constructors:
 <br>
 <br>
 <ul>
-<li>mat(aux_mem*, n_rows, n_cols, copy_aux_mem = true, strict = true)
+<code>mat(aux_mem*, n_rows, n_cols, copy_aux_mem = true, strict = true)</code>
 <br>
 <br>
 <ul>
@@ -579,18 +581,16 @@ ie., the size of the matrix can be changed.
 If the requested number of elements is different to the size of the auxiliary memory,
 new memory will be allocated and the auxiliary memory will no longer be used.
 </ul>
-</li>
 <br>
-<li>mat(const aux_mem*, n_rows, n_cols)
+<code>mat(const aux_mem*, n_rows, n_cols)</code>
 <br>
 <br>
 <ul>
 Create a matrix by copying data from read-only auxiliary memory.
 </ul>
-</li>
 <a name="adv_constructors_mat_fixed"></a>
 <br>
-<li>mat::fixed&lt;n_rows, n_cols&gt;
+<code>mat::fixed&lt;n_rows, n_cols&gt;</code>
 <br>
 <br>
 <ul>
@@ -606,16 +606,14 @@ The typedefs were defined by simply appending a two digit form of the size to th
 -- for example, <i>mat33</i> is equivalent to <i>mat::fixed&lt;3,3&gt;</i>,
 while <i>cx_mat44</i> is equivalent to <i>cx_mat::fixed&lt;4,4&gt;</i>.
 </ul>
-</li>
 <br>
-<li>mat::fixed&lt;n_rows, n_cols&gt;(const aux_mem*)
+<code>mat::fixed&lt;n_rows, n_cols&gt;(const aux_mem*)</code>
 <br>
 <br>
 <ul>
 Create a fixed size matrix, with the size specified via template arguments,
 and copying data from auxiliary memory.
 </ul>
-</li>
 </ul>
 </li>
 <br>
@@ -720,104 +718,104 @@ For convenience the following typedefs have been defined:
   <tbody>
     <tr>
       <td style="vertical-align: top;">
-      vec
+      <code>vec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      colvec
+      <code>colvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Col&lt;double&gt;
+      <code>Col&lt;double&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      fvec
+      <code>fvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      fcolvec
+      <code>fcolvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Col&lt;float&gt;
+      <code>Col&lt;float&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      cx_vec
+      <code>cx_vec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      cx_colvec
+      <code>cx_colvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Col&lt;<a href="#cx_double">cx_double</a>&gt;
+      <code>Col&lt;<a href="#cx_double">cx_double</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      cx_fvec
+      <code>cx_fvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      cx_fcolvec
+      <code>cx_fcolvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Col&lt;<a href="#cx_double">cx_float</a>&gt;
+      <code>Col&lt;<a href="#cx_double">cx_float</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      uvec
+      <code>uvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      ucolvec
+      <code>ucolvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Col&lt;<a href="#uword">uword</a>&gt;
+      <code>Col&lt;<a href="#uword">uword</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      ivec
+      <code>ivec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      icolvec
+      <code>icolvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Col&lt;<a href="#uword">sword</a>&gt;
+      <code>Col&lt;<a href="#uword">sword</a>&gt;</code>
       </td>
     </tr>
   </tbody>
@@ -841,14 +839,14 @@ Main exceptions are functions which require square matrices
 <li>
 Constructors
 <ul>
-<li>vec()</li>
-<li>vec(n_elem)</li>
-<li>vec(n_elem, fill_type)</li>
-<li>vec(vec)</li>
-<li>vec(mat) &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one column)</li>
-<li>vec(string) &nbsp; (elements separated by spaces)</li>
-<li>vec(std::vector)</li>
-<li>vec(initialiser_list) &nbsp; (C++11 only)</li>
+<code>vec()</code>
+<br><code>vec(n_elem)</code>
+<br><code>vec(n_elem, fill_type)</code>
+<br><code>vec(vec)</code>
+<br><code>vec(mat)</code> &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one column)
+<br><code>vec(string)</code> &nbsp; (elements separated by spaces)
+<br><code>vec(std::vector)</code>
+<br><code>vec(initialiser_list)</code> &nbsp; (C++11 only)
 </ul>
 </li>
 <br>
@@ -864,7 +862,7 @@ Advanced constructors:
 <br>
 <br>
 <ul>
-<li>vec(aux_mem*, number_of_elements, copy_aux_mem = true, strict = true)
+<code>vec(aux_mem*, number_of_elements, copy_aux_mem = true, strict = true)</code>
 <br>
 <br>
 <ul>
@@ -885,18 +883,16 @@ ie., the vector's size can be changed.
 If the requested number of elements is different to the size of the auxiliary memory,
 new memory will be allocated and the auxiliary memory will no longer be used.
 </ul>
-</li>
 <br>
-<li>vec(const aux_mem*, number_of_elements)
+<code>vec(const aux_mem*, number_of_elements)</code>
 <br>
 <br>
 <ul>
 Create a column vector by copying data from read-only auxiliary memory.
 </ul>
-</li>
 <a name="adv_constructors_col_fixed"></a>
 <br>
-<li>vec::fixed&lt;number_of_elements&gt;
+<code>vec::fixed&lt;number_of_elements&gt;</code>
 <br>
 <br>
 <ul>
@@ -912,16 +908,14 @@ The typedefs were defined by simply appending a single digit form of the size to
 -- for example, <i>vec3</i> is equivalent to <i>vec::fixed&lt;3&gt;</i>,
 while <i>cx_vec4</i> is equivalent to <i>cx_vec::fixed&lt;4&gt;</i>.
 </ul>
-</li>
 <br>
-<li>vec::fixed&lt;number_of_elements&gt;(const aux_mem*)
+<code>vec::fixed&lt;number_of_elements&gt;(const aux_mem*)</code>
 <br>
 <br>
 <ul>
 Create a fixed size column vector, with the size specified via the template argument,
 and copying data from auxiliary memory.
 </ul>
-</li>
 </ul>
 </li>
 <br>
@@ -986,68 +980,68 @@ For convenience the following typedefs have been defined:
   <tbody>
     <tr>
       <td style="vertical-align: top;">
-      rowvec
+      <code>rowvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Row&lt;double&gt;
+      <code>Row&lt;double&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      frowvec
+      <code>frowvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Row&lt;float&gt;
+      <code>Row&lt;float&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      cx_rowvec
+      <code>cx_rowvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Row&lt;<a href="#cx_double">cx_double</a>&gt;
+      <code>Row&lt;<a href="#cx_double">cx_double</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      cx_frowvec
+      <code>cx_frowvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Row&lt;<a href="#cx_double">cx_float</a>&gt;
+      <code>Row&lt;<a href="#cx_double">cx_float</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      urowvec
+      <code>urowvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Row&lt;<a href="#uword">uword</a>&gt;
+      <code>Row&lt;<a href="#uword">uword</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      irowvec
+      <code>irowvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Row&lt;<a href="#uword">sword</a>&gt;
+      <code>Row&lt;<a href="#uword">sword</a>&gt;</code>
       </td>
     </tr>
   </tbody>
@@ -1068,14 +1062,14 @@ Main exceptions are functions which require square matrices
 <li>
 Constructors
 <ul>
-<li>rowvec()</li>
-<li>rowvec(n_elem)</li>
-<li>rowvec(n_elem, fill_type)</li>
-<li>rowvec(rowvec)</li>
-<li>rowvec(mat) &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one row)</li>
-<li>rowvec(string) &nbsp; (elements separated by spaces)</li>
-<li>rowvec(std::vector)</li>
-<li>rowvec(initialiser_list) &nbsp; (C++11 only)</li>
+<code>rowvec()</code>
+<br><code>rowvec(n_elem)</code>
+<br><code>rowvec(n_elem, fill_type)</code>
+<br><code>rowvec(rowvec)</code>
+<br><code>rowvec(mat)</code> &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one row)
+<br><code>rowvec(string)</code> &nbsp; (elements separated by spaces)
+<br><code>rowvec(std::vector)</code>
+<br><code>rowvec(initialiser_list)</code> &nbsp; (C++11 only)
 </ul>
 </li>
 <br>
@@ -1091,7 +1085,7 @@ Advanced constructors:
 <br>
 <br>
 <ul>
-<li>rowvec(aux_mem*, number_of_elements, copy_aux_mem = true, strict = true)
+<code>rowvec(aux_mem*, number_of_elements, copy_aux_mem = true, strict = true)</code>
 <br>
 <br>
 <ul>
@@ -1112,17 +1106,15 @@ ie., the vector's size can be changed.
 If the requested number of elements is different to the size of the auxiliary memory,
 new memory will be allocated and the auxiliary memory will no longer be used.
 </ul>
-</li>
 <br>
-<li>rowvec(const aux_mem*, number_of_elements)
+<code>rowvec(const aux_mem*, number_of_elements)</code>
 <br>
 <br>
 <ul>
 Create a row vector by copying data from read-only auxiliary memory.
 </ul>
-</li>
 <br>
-<li>rowvec::fixed&lt;number_of_elements&gt;
+<code>rowvec::fixed&lt;number_of_elements&gt;</code>
 <br>
 <br>
 <ul>
@@ -1138,16 +1130,14 @@ The typedefs were defined by simply appending a single digit form of the size to
 -- for example, <i>rowvec3</i> is equivalent to <i>rowvec::fixed&lt;3&gt;</i>,
 while <i>cx_rowvec4</i> is equivalent to <i>cx_rowvec::fixed&lt;4&gt;</i>.
 </ul>
-</li>
 <br>
-<li>rowvec::fixed&lt;number_of_elements&gt;(const aux_mem*)
+<code>rowvec::fixed&lt;number_of_elements&gt;(const aux_mem*)</code>
 <br>
 <br>
 <ul>
 Create a fixed size row vector, with the size specified via the template argument,
 and copying data from auxiliary memory.
 </ul>
-</li>
 </ul>
 </li>
 <br>
@@ -1219,68 +1209,68 @@ For convenience the following typedefs have been defined:
   <tbody>
     <tr>
       <td style="vertical-align: top;">
-      cube
+      <code>cube</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Cube&lt;double&gt;
+      <code>Cube&lt;double&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      fcube
+      <code>fcube</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Cube&lt;float&gt;
+      <code>Cube&lt;float&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      cx_cube
+      <code>cx_cube</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Cube&lt;<a href="#cx_double">cx_double</a>&gt;
+      <code>Cube&lt;<a href="#cx_double">cx_double</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      cx_fcube
+      <code>cx_fcube</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Cube&lt;<a href="#cx_double">cx_float</a>&gt;
+      <code>Cube&lt;<a href="#cx_double">cx_float</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      ucube
+      <code>ucube</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Cube&lt;<a href="#uword">uword</a>&gt;
+      <code>Cube&lt;<a href="#uword">uword</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      icube
+      <code>icube</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      Cube&lt;<a href="#uword">sword</a>&gt;
+      <code>Cube&lt;<a href="#uword">sword</a>&gt;</code>
       </td>
     </tr>
   </tbody>
@@ -1306,11 +1296,11 @@ Each slice can be interpreted as a matrix, hence functions which take <i>Mat</i>
 <li>
 Constructors:
 <ul>
-<li>cube()</li>
-<li>cube(n_rows, n_cols, n_slices)</li>
-<li>cube(n_rows, n_cols, n_slices, fill_type)</li>
-<li>cube(cube)</li>
-<li>cx_cube(cube, cube) &nbsp; (for constructing a complex cube out of two real cubes)</li>
+<code>cube()</code>
+<br><code>cube(n_rows, n_cols, n_slices)</code>
+<br><code>cube(n_rows, n_cols, n_slices, fill_type)</code>
+<br><code>cube(cube)</code>
+<br><code>cx_cube(cube, cube)</code> &nbsp; (for constructing a complex cube out of two real cubes)
 </ul>
 </li>
 <br>
@@ -1326,8 +1316,7 @@ Advanced constructors:
 <br>
 <br>
 <ul>
-<li>
-cube::fixed&lt;n_rows, n_cols, n_slices&gt;
+<code>cube::fixed&lt;n_rows, n_cols, n_slices&gt;</code>
 <br>
 <br>
 <ul>
@@ -1335,9 +1324,8 @@ Create a fixed size cube, with the size specified via template arguments.
 Memory for the cube is allocated at compile time.
 This is generally faster than dynamic memory allocation, but the size of the cube can't be changed afterwards (directly or indirectly).
 </ul>
-</li>
 <br>
-<li>cube(aux_mem*, n_rows, n_cols, n_slices, copy_aux_mem = true, strict = true)
+<code>cube(aux_mem*, n_rows, n_cols, n_slices, copy_aux_mem = true, strict = true)</code>
 <br>
 <br>
 <ul>
@@ -1358,15 +1346,13 @@ ie., the size of the cube can be changed.
 If the requested number of elements is different to the size of the auxiliary memory,
 new memory will be allocated and the auxiliary memory will no longer be used.
 </ul>
-</li>
 <br>
-<li>cube(const aux_mem*, n_rows, n_cols, n_slices)
+<code>cube(const aux_mem*, n_rows, n_cols, n_slices)</code>
 <br>
 <br>
 <ul>
 Create a cube by copying data from read-only auxiliary memory.
 </ul>
-</li>
 </ul>
 </li>
 <br>
@@ -1443,7 +1429,7 @@ See also:
 <br>
 
 <a name="field"></a>
-<b>field&lt;</b><i>object type</i><b>&gt;</b>
+<b>field&lt;</b><i>object_type</i><b>&gt;</b>
 <ul>
 <li>
 Class for storing arbitrary objects in matrix-like or cube-like layouts
@@ -1459,13 +1445,13 @@ Each element can have an arbitrary size
 </li>
 <br>
 <li>
-Constructors (where <i>object type</i> is another class, eg. <i>vec</i>, <i>mat</i>, <i>std::string</i>, etc):
+Constructors, where <i>object_type</i> is another class, eg. <i>vec</i>, <i>mat</i>, <i>std::string</i>, etc:
 <ul>
-<li>field&lt;<i>object type</i>&gt;()</li>
-<li>field&lt;<i>object type</i>&gt;(n_elem)</li>
-<li>field&lt;<i>object type</i>&gt;(n_rows, n_cols)</li>
-<li>field&lt;<i>object type</i>&gt;(n_rows, n_cols, n_slices)</li>
-<li>field&lt;<i>object type</i>&gt;(field&lt;<i>object type</i>&gt;)</li>
+<code>field&lt;<i>object_type</i>&gt;()</code>
+<br><code>field&lt;<i>object_type</i>&gt;(n_elem)</code>
+<br><code>field&lt;<i>object_type</i>&gt;(n_rows, n_cols)</code>
+<br><code>field&lt;<i>object_type</i>&gt;(n_rows, n_cols, n_slices)</code>
+<br><code>field&lt;<i>object_type</i>&gt;(field&lt;<i>object_type</i>&gt;)</code>
 </ul>
 </li>
 <br>
@@ -1538,68 +1524,68 @@ For convenience the following typedefs have been defined:
   <tbody>
     <tr>
       <td style="vertical-align: top;">
-      sp_mat
+      <code>sp_mat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      SpMat&lt;double&gt;
+      <code>SpMat&lt;double&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      sp_fmat
+      <code>sp_fmat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      SpMat&lt;float&gt;
+      <code>SpMat&lt;float&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      sp_cx_mat
+      <code>sp_cx_mat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      SpMat&lt;<a href="#cx_double">cx_double</a>&gt;
+      <code>SpMat&lt;<a href="#cx_double">cx_double</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      sp_cx_fmat
+      <code>sp_cx_fmat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      SpMat&lt;<a href="#cx_double">cx_float</a>&gt;
+      <code>SpMat&lt;<a href="#cx_double">cx_float</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      sp_umat
+      <code>sp_umat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      SpMat&lt;<a href="#uword">uword</a>&gt;
+      <code>SpMat&lt;<a href="#uword">uword</a>&gt;</code>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      sp_imat
+      <code>sp_imat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top;">
-      SpMat&lt;<a href="#uword">sword</a>&gt;
+      <code>SpMat&lt;<a href="#uword">sword</a>&gt;</code>
       </td>
     </tr>
   </tbody>
@@ -1616,11 +1602,11 @@ it is possible to use other types instead, eg. <i>sp_fmat</i>
 <li>
 Constructors:
 <ul>
-<li>sp_mat()</li>
-<li>sp_mat(<i>n_rows</i>, <i>n_cols</i>)</li>
-<li>sp_mat(sp_mat)</li>
-<li>sp_mat(string)</li>
-<li>sp_cx_mat(sp_mat,sp_mat) &nbsp; (for constructing a complex matrix out of two real matrices)</li>
+<code>sp_mat()</code>
+<br><code>sp_mat(<i>n_rows</i>, <i>n_cols</i>)</code>
+<br><code>sp_mat(sp_mat)</code>
+<br><code>sp_mat(string)</code>
+<br><code>sp_cx_mat(sp_mat,sp_mat)</code> &nbsp; (for constructing a complex matrix out of two real matrices)
 </ul>
 <br>
 <li>
@@ -1641,9 +1627,10 @@ examples of omitted functions: <a href="#fill">.fill()</a>, <a href="#ones_membe
 <a name="batch_constructors_sp_mat"></a>
 Batch insertion constructors:
 <ul>
-<li>form&nbsp;1: sp_mat(<i>locations</i>, <i>values</i>, <i>sort_locations = true</i>)</li>
-<li>form&nbsp;2: sp_mat(<i>locations</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>, <i>sort_locations = true</i>, <i>check_for_zeros = true</i>)</li>
-<li>form&nbsp;3: sp_mat(<i>rowind</i>, <i>colptr</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>)</li>
+<li>form&nbsp;1: <code>sp_mat(<i>rowind</i>, <i>colptr</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>)</code></li>
+<li>form&nbsp;2: <code>sp_mat(<i>locations</i>, <i>values</i>, <i>sort_locations = true</i>)</code></li>
+<li>form&nbsp;3: <code>sp_mat(<i>locations</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>, <i>sort_locations&nbsp;=&nbsp;true</i>, <i>check_for_zeros&nbsp;=&nbsp;true</i>)</code></li>
+<li>form&nbsp;4: <code>sp_mat(<i>add_values</i>, <i>locations</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>, <i>sort_locations&nbsp;=&nbsp;true</i>, <i>check_for_zeros&nbsp;=&nbsp;true</i>)</code></li>
 <br>
 <ul>
 <li>
@@ -1651,19 +1638,7 @@ Using batch insertion constructors is generally much faster than consecutively i
 </li>
 <br>
 <li>
-For forms&nbsp;1 and&nbsp;2, <i>locations</i> is a dense matrix of type <i>umat</i>, with a size of <i>2</i>&nbsp;x&nbsp;<i>N</i>, where <i>N</i> is the number of values to be inserted;
-the location of the <i>i</i>-th element is specified by the contents of the <i>i</i>-th column of the <i>locations</i> matrix,
-where the row is in <i>locations(0,i)</i>, and the column is in <i>locations(1,i)</i>
-</li>
-<br>
-<li>
-For all forms, <i>values</i> is a dense column vector containing the values to be inserted;
-it must have the same element type as the sparse matrix.
-For forms&nbsp;1 and&nbsp;2, the value in <i>values[i]</i> will be inserted at the location specified by the <i>i</i>-th column of the <i>locations</i> matrix.
-</li>
-<br>
-<li>
-For form&nbsp;3,
+For form&nbsp;1,
 <i>rowind</i> is a dense column vector of type <i>umat</i> or <i>uvec</i> containing the row indices of the values to be inserted,
 and
 <i>colptr</i> is a dense column vector of type <i>umat</i> or <i>uvec</i> containing indices of <i>values</i> corresponding to the start of new columns;
@@ -1671,8 +1646,26 @@ the vectors correspond to the arrays used by the <a href="http://en.wikipedia.or
 </li>
 <br>
 <li>
-The size of the constructed matrix is either automatically determined from the maximal locations in the <i>locations</i> matrix (form&nbsp;1),
-or manually specified via <i>n_rows</i> and <i>n_cols</i> (forms&nbsp;2 and&nbsp;3)
+For forms&nbsp;2,&nbsp;3,&nbsp;4,
+<i>locations</i> is a dense matrix of type <i>umat</i>, with a size of <i>2</i>&nbsp;x&nbsp;<i>N</i>, where <i>N</i> is the number of values to be inserted;
+the location of the <i>i</i>-th element is specified by the contents of the <i>i</i>-th column of the <i>locations</i> matrix,
+where the row is in <i>locations(0,i)</i>, and the column is in <i>locations(1,i)</i>
+</li>
+<br>
+<li>
+For all forms, <i>values</i> is a dense column vector containing the values to be inserted;
+it must have the same element type as the sparse matrix.
+For forms&nbsp;2 and&nbsp;3, the value in <i>values[i]</i> will be inserted at the location specified by the <i>i</i>-th column of the <i>locations</i> matrix.
+</li>
+<br>
+<li>
+For form&nbsp;4,
+<i>add_values</i> is either <i>true</i> or <i>false</i>; when set to <i>true</i>, identical locations are allowed, and the values at identical locations are added 
+</li>
+<br>
+<li>
+The size of the constructed matrix is either manually specified via <i>n_rows</i> and <i>n_cols</i> (forms&nbsp;1,&nbsp;3,&nbsp;4),
+or automatically determined from the maximal locations in the <i>locations</i> matrix (form&nbsp;2)
 </li>
 <br>
 <li>
@@ -1775,7 +1768,7 @@ See also:
 <tbody>
 <tr>
 <td>
-<b>.n_rows</b>
+<code><b>.n_rows</b></code>
 </td>
 <td>&nbsp;&nbsp;&nbsp;</td>
 <td>
@@ -1784,7 +1777,7 @@ number of rows; present in <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>f
 </tr>
 <tr>
 <td>
-<b>.n_cols</b>
+<code><b>.n_cols</b></code>
 </td>
 <td>&nbsp;&nbsp;&nbsp;</td>
 <td>
@@ -1793,7 +1786,7 @@ number of columns; present in <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <
 </tr>
 <tr>
 <td>
-<b>.n_elem</b>
+<code><b>.n_elem</b></code>
 </td>
 <td>&nbsp;&nbsp;&nbsp;</td>
 <td>
@@ -1802,7 +1795,7 @@ total number of elements; present in <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube
 </tr>
 <tr>
 <td>
-<b>.n_slices</b>
+<code><b>.n_slices</b></code>
 </td>
 <td>&nbsp;&nbsp;&nbsp;</td>
 <td>
@@ -1811,7 +1804,7 @@ number of slices; present in <i>Cube</i>
 </tr>
 <tr>
 <td>
-<b>.n_nonzero</b>
+<code><b>.n_nonzero</b></code>
 </td>
 <td>&nbsp;&nbsp;&nbsp;</td>
 <td>
@@ -2974,7 +2967,7 @@ Member functions:
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      <b>.begin_row( row_number )</b>
+      <b>.begin_row(&nbsp;row_number&nbsp;)</b>
       </td>
       <td style="vertical-align: top;">&nbsp;<br>
       </td>
@@ -2984,7 +2977,7 @@ Member functions:
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      <b>.end_row( row_number )</b>
+      <b>.end_row(&nbsp;row_number&nbsp;)</b>
       </td>
       <td style="vertical-align: top;">&nbsp;<br>
       </td>
@@ -2999,7 +2992,7 @@ Member functions:
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      <b>.begin_col( col_number )</b>
+      <b>.begin_col(&nbsp;col_number&nbsp;)</b>
       </td>
       <td style="vertical-align: top;">&nbsp;<br>
       </td>
@@ -3009,7 +3002,7 @@ Member functions:
     </tr>
     <tr>
       <td style="vertical-align: top;">
-      <b>.end_col( col_number )</b>
+      <b>.end_col(&nbsp;col_number&nbsp;)</b>
       </td>
       <td style="vertical-align: top;">&nbsp;<br>
       </td>
@@ -3604,7 +3597,7 @@ With one or more arguments: return the extremum value of an object and store the
 </li>
 <br>
 <li>
-The provided variables must be of type <a href="#uword">uword</a>.
+The provided variables must be of type <a href="#uword">uword</a>
 </li>
 <br>
 <li>
@@ -3637,6 +3630,7 @@ cout &lt;&lt; "max value is at " &lt;&lt; row &lt;&lt; ',' &lt;&lt; col &lt;&lt;
 See also:
 <ul>
 <li><a href="#min_and_max">min() &amp; max()</a> (standalone functions)</li>
+<li><a href="#clamp">clamp()</a>
 <li><a href="#running_stat">running_stat</a></li>
 <li><a href="#running_stat_vec">running_stat_vec</a></li>
 </ul>
@@ -3715,7 +3709,7 @@ See also:
 <hr class="greyline"><br>
 
 <a name="operators"></a>
-<b>operators: &nbsp; + &nbsp; - &nbsp; * &nbsp; / &nbsp; % &nbsp; == &nbsp; != &nbsp; &lt;= &nbsp; &gt;= &nbsp; &lt; &nbsp; &gt;</b>
+<b>operators:&nbsp; <code><big>+</big>&nbsp; <big>-</big>&nbsp; <big>*</big>&nbsp; /&nbsp; %&nbsp; ==&nbsp; !=&nbsp; &lt;=&nbsp; &gt;=&nbsp; &lt;&nbsp; &gt;</code></b>
 <ul>
 <li>
 Overloaded operators for <i>mat</i>, <i>vec</i>, <i>rowvec</i> and <i>cube</i> classes
@@ -3729,70 +3723,95 @@ Meanings:
 <table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
   <tbody>
     <tr>
-      <td style="vertical-align: top;"><b>+</b></td>
+      <td style="vertical-align: top;"><code><b><big>+</big></b></code></td>
       <td style="vertical-align: top;">&nbsp;&nbsp;&nbsp;<br>
       </td>
       <td style="vertical-align: top;">Addition of two objects</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><b>-</b></td>
+      <td style="vertical-align: top;"><code><b><big>-</big></b></code></td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">Subtraction of one object from another or negation of an object</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><b>/</b></td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code><b>/</b></code></td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">Element-wise division of an object by another object or a scalar</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><b>*</b></td>
+      <td style="vertical-align: top;"><code><b><big>*</big></b></code></td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">Matrix multiplication of two objects; not applicable to the <i>cube</i> class unless multiplying a cube by a scalar</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><b>%</b></td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code><b>%</b></code></td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><a name="schur_product"></a>Schur product: element-wise multiplication of two objects</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><b>==</b></td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code><b>==</b></code></td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">Element-wise equality evaluation of two objects; generates a matrix of type <i>umat</i> with entries that indicate whether at a given position the two elements from the two objects are equal (1) or not equal (0)</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><b>!=</b></td>
+      <td style="vertical-align: top;"><code><b>!=</b></code></td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;">Element-wise non-equality evaluation of two objects</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><b>&gt;=</b></td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;">As for ==, but the check is for "greater than or equal to"</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><b>&lt;=</b></td>
+      <td style="vertical-align: top;"><code><b>&gt;=</b></code></td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">As for ==, but the check is for "less than or equal to"</td>
+      <td style="vertical-align: top;">As for <code>==</code>, but the check is for "greater than or equal to"</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><b>&gt;</b></td>
+      <td style="vertical-align: top;"><code><b>&lt;=</b></code></td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">As for ==, but the check is for "greater than"</td>
+      <td style="vertical-align: top;">As for <code>==</code>, but the check is for "less than or equal to"</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><b>&lt;</b></td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code><b>&gt;</b></code></td>
       <td style="vertical-align: top;"><br>
       </td>
-      <td style="vertical-align: top;">As for ==, but the check is for "less than"</td>
+      <td style="vertical-align: top;">As for <code>==</code>, but the check is for "greater than"</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code><b>&lt;</b></code></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">As for <code>==</code>, but the check is for "less than"</td>
     </tr>
   </tbody>
 </table>
@@ -3800,25 +3819,24 @@ Meanings:
 </li>
 <br>
 <li>
-A <i>std::logic_error</i> exception is thrown if incompatible object sizes are used
-</li>
-<br>
-<li>
-If the +, - and % operators are chained, Armadillo will try to avoid the generation of temporaries;
-no temporaries are generated if all given objects are of the same type and size
-</li>
-<br>
-<li>
-If the * operator is chained, Armadillo will try to find an efficient ordering of the matrix multiplications
-</li>
-<br>
-<li>
-<b>Caveat:</b> operators involving an equality comparison (ie., ==, !=, &gt;=, &lt;=)
+<b>Caveat:</b> operators involving an equality comparison (ie., <code><b>==</b></code>, <code><b>!=</b></code>, <code><b>&gt;=</b></code>, <code><b>&lt;=</b></code>)
 may not work as expected for floating point element types (ie., <i>float</i>, <i>double</i>)
 due to the necessarily limited precision of these types;
 in other words, these operators are (in general) not recommended for matrices of type <i>mat</i> or <i>fmat</i>
 </li>
 <br>
+<li>
+A <i>std::logic_error</i> exception is thrown if incompatible object sizes are used
+</li>
+<br>
+<li>
+If the <code><b>+</b></code>, <code><b>-</b></code> and <code><b>%</b></code> operators are chained, Armadillo will try to avoid the generation of temporaries;
+no temporaries are generated if all given objects are of the same type and size
+</li>
+<br>
+<li>
+If the <code><b>*</b></code> operator is chained, Armadillo will try to find an efficient ordering of the matrix multiplications
+</li>
 <br>
 <li>
 Examples:
@@ -4128,7 +4146,6 @@ A.reset();
     </tr>
   </tbody>
 </table>
-<br>
 <ul>
 <li>
 Recreate the object according to given size specifications,
@@ -4227,7 +4244,6 @@ A.reshape(5,4);
     </tr>
   </tbody>
 </table>
-<br>
 <ul>
 <li>
 Recreate the object according to given size specifications, while preserving the elements as well as the layout of the elements
@@ -4271,8 +4287,10 @@ A.resize(7,6);
 <hr class="greyline"><br>
 
 <a name="save_load_mat"></a>
+<b>saving/loading matrices &amp; cubes</b>
+<br>
 <b>
-.save( name )
+<br>.save( name )
 <br>.save( name, file_type )
 <br>
 <br>.save( stream )
@@ -4501,7 +4519,10 @@ else
 <hr class="greyline"><br>
 
 <a name="save_load_field"></a>
+<b>saving/loading fields</b>
+<br>
 <b>
+<br>
 .save( name,</b> file_type = arma_binary <b>)
 <br>
 .save( stream,</b> file_type = arma_binary <b>)
@@ -5133,7 +5154,7 @@ A( span(0,1), span(0,1), span(1,2) ) = randu&lt;cube&gt;(2,2,2);
 A( 0,0,1, size(2,2,2) )              = randu&lt;cube&gt;(2,2,2);
 
 // add 123 to all elements of A greater than 0.5
-A.elem( find(A &gt; 0.5) ) += 123.0;
+A.elem( find(A > 0.5) ) += 123.0;
 </pre>
 </ul>
 </li>
@@ -5443,395 +5464,6 @@ See also:
 </ul>
 <hr class="greyline">
 
-
-<hr class="greyline">
-<br>
-<br>
-<font size=+1><b>Other Classes</b></font>
-<br>
-<br>
-<hr class="greyline">
-<br>
-
-<a name="running_stat"></a>
-<b>running_stat&lt;</b><i>type</i><b>&gt;</b>
-<ul>
-<li>
-Class for keeping the running statistics of a continuously sampled one dimensional process/signal;
-useful if the storage of individual samples (scalars) is not required,
-or the number of samples is not known beforehand
-</li>
-<br>
-<li>
-<i>type</i> is one of: <i>float</i>, <i>double</i>, <i><a href="#cx_double">cx_float</a></i>, <i><a href="#cx_double">cx_double</a></i>
-</li>
-<br>
-<li>
-For an instance of <i>running_stat</i> named as <i>X</i>, the member functions are:
-<br>
-<br>
-<ul>
-<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
-  <tbody>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X(</b>scalar<b>)</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      update the statistics so far using the given scalar
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.min()</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      get the minimum value so far
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.max()</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      get the maximum value so far
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.mean()</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      get the mean or average value so far
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.var()</b> &nbsp;and&nbsp; <b>X.var(</b>norm_type<b>)</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      get the variance so far
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.stddev()</b> &nbsp;and&nbsp; <b>X.stddev(</b>norm_type<b>)</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      get the standard deviation so far
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.reset()</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      reset all statistics and set the number of samples to zero
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.count()</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      get the number of samples so far
-      </td>
-    </tr>
-  </tbody>
-</table>
-</ul>
-</li>
-<br>
-<li>
-The <i>norm_type</i> argument is optional; by default <i>norm_type=0</i> is used
-</li>
-<br>
-<li>
-For the <i>.var()</i> and <i>.stddev()</i> functions, the default <i>norm_type=0</i> performs normalisation using <i>N-1</i>
-(where <i>N</i> is the number of samples so far),
-providing the best unbiased estimator;
-using <i>norm_type=1</i> causes normalisation to be done using <i>N</i>, which provides the second moment around the mean
-</li>
-<br>
-<li>
-The return type of <i>.count()</i> depends on the underlying form of <i>type</i>: it is either <i>float</i> or <i>double</i>
-</li>
-<br>
-<li>
-Examples:
-<ul>
-<pre>
-running_stat&lt;double&gt; stats;
-
-for(uword i=0; i&lt;10000; ++i)
-  {
-  double sample = randn();
-  stats(sample);
-  }
-
-cout &lt;&lt; "mean = " &lt;&lt; stats.mean() &lt;&lt; endl;
-cout &lt;&lt; "var  = " &lt;&lt; stats.var()  &lt;&lt; endl;
-cout &lt;&lt; "min  = " &lt;&lt; stats.min()  &lt;&lt; endl;
-cout &lt;&lt; "max  = " &lt;&lt; stats.max()  &lt;&lt; endl;
-</pre>
-</ul>
-</li>
-<br>
-<li>See also:
-<ul>
-<li><a href="#stats_fns">statistics functions</a></li>
-<li><a href="#running_stat_vec">running_stat_vec</a></li>
-</ul>
-</li>
-</ul>
-<br>
-<hr class="greyline"><br>
-
-<a name="running_stat_vec"></a>
-<b>running_stat_vec&lt;</b><i>vec_type</i><b>&gt;</b>
-<br><b>running_stat_vec&lt;</b><i>vec_type</i><b>&gt;(calc_cov)</b>
-<ul>
-<li>
-Class for keeping the running statistics of a continuously sampled multi-dimensional process/signal;
-useful if the storage of individual samples (vectors) is not required,
-or if the number of samples is not known beforehand
-</li>
-<br>
-<li>
-This class is similar to <i>running_stat</i>, with the difference that vectors are processed instead of scalars
-</li>
-<br>
-<li>
-<i>vec_type</i> is the vector type of the samples; for example: <i><a href="#Col">vec</a></i>, <i><a href="#Col">cx_vec</a></i>, <i><a href="#Row">rowvec</a></i>, ...
-</li>
-<br>
-<li>
-For an instance of <i>running_stat_vec</i> named as <i>X</i>, the member functions are:
-<br>
-<br>
-<ul>
-<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
-  <tbody>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X(</b>vector<b>)</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      update the statistics so far using the given vector
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.min()</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      get the vector of minimum values so far
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.max()</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      get the vector of maximum values so far
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.mean()</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      get the mean vector so far
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.var()</b> &nbsp;and&nbsp; <b>X.var(</b>norm_type<b>)</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      get the vector of variances so far
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.stddev()</b> &nbsp;and&nbsp; <b>X.stddev(</b>norm_type<b>)</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      get the vector of standard deviations so far
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.cov()</b> &nbsp;and&nbsp; <b>X.cov(</b>norm_type<b>)</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      get the covariance matrix so far;
-      valid if <i>calc_cov=true</i> during construction of <i>running_stat_vec</i>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.reset()</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      reset all statistics and set the number of samples to zero
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-      <b>X.count()</b>
-      </td>
-      <td style="vertical-align: top;">&nbsp;<br>
-      </td>
-      <td style="vertical-align: top;">
-      get the number of samples so far
-      </td>
-    </tr>
-  </tbody>
-</table>
-</ul>
-</li>
-<br>
-<li>
-The <i>calc_cov</i> argument is optional; by default <i>calc_cov=false</i>, indicating that the covariance matrix will not be calculated;
-to enable the covariance matrix, use <i>calc_cov=true</i> during construction; for example: <i>running_stat_vec&lt;vec&gt;&nbsp;X(true);</i>
-</li>
-<br>
-<li>
-The <i>norm_type</i> argument is optional; by default <i>norm_type=0</i> is used
-</li>
-<br>
-<li>
-For the <i>.var()</i> and <i>.stddev()</i> functions, the default <i>norm_type=0</i> performs normalisation using <i>N-1</i>
-(where <i>N</i> is the number of samples so far),
-providing the best unbiased estimator;
-using <i>norm_type=1</i> causes normalisation to be done using <i>N</i>, which provides the second moment around the mean
-</li>
-<br>
-<li>
-The return type of <i>.count()</i> depends on the underlying form of <i>vec_type</i>: it is either <i>float</i> or <i>double</i>
-</li>
-<br>
-<li>
-Examples:
-<ul>
-<pre>
-running_stat_vec&lt;vec&gt; stats;
-
-vec sample;
-
-for(uword i=0; i&lt;10000; ++i)
-  {
-  sample = randu&lt;vec&gt;(5);
-  stats(sample);
-  }
-
-cout &lt;&lt; "mean = " &lt;&lt; endl &lt;&lt; stats.mean() &lt;&lt; endl;
-cout &lt;&lt; "var  = " &lt;&lt; endl &lt;&lt; stats.var()  &lt;&lt; endl;
-cout &lt;&lt; "max  = " &lt;&lt; endl &lt;&lt; stats.max()  &lt;&lt; endl;
-
-//
-//
-
-running_stat_vec&lt;rowvec&gt; more_stats(true);
-
-for(uword i=0; i&lt;20; ++i)
-  {
-  sample = randu&lt;rowvec&gt;(3);
-  
-  sample(1) -= sample(0);
-  sample(2) += sample(1);
-  
-  more_stats(sample);
-  }
-
-cout &lt;&lt; "covariance matrix = " &lt;&lt; endl;
-cout &lt;&lt; more_stats.cov() &lt;&lt; endl;
-
-rowvec sd = more_stats.stddev();
-
-cout &lt;&lt; "correlations = " &lt;&lt; endl;
-cout &lt;&lt; more_stats.cov() / (sd.t() * sd);
-</pre>
-</ul>
-</li>
-<br>
-<li>See also:
-<ul>
-<li><a href="#cov">cov()</a></li>
-<li><a href="#cor">cor()</a></li>
-<li><a href="#running_stat">running_stat</a></li>
-<li><a href="#stats_fns">statistics functions</a></li>
-</ul>
-</li>
-</ul>
-<br>
-<hr class="greyline"><br>
-
-<a name="wall_clock"></a>
-<b>wall_clock</b>
-<ul>
-<li>
-Simple wall clock timer class, for measuring the number of elapsed seconds between two intervals
-</li>
-<br>
-<li>
-Examples:
-<ul>
-<pre>
-wall_clock timer;
-
-mat A = randu&lt;mat&gt;(4,4);
-mat B = randu&lt;mat&gt;(4,4);
-mat C;
-
-timer.tic();
-
-for(uword i=0; i&lt;100000; ++i)
-  {
-  C = A + B + A + B;
-  }
-
-double n_secs = timer.toc();
-cout &lt;&lt; "took " &lt;&lt; n_secs &lt;&lt; " seconds" &lt;&lt; endl;
-</pre>
-</ul>
-</li>
-</ul>
-<br>
-<hr class="greyline">
 
 <hr class="greyline">
 <br>
@@ -6405,6 +6037,38 @@ See also:
 <br>
 <hr class="greyline"><br>
 
+<a name="clamp"></a>
+<b>clamp( X, min_val, max_val )</b>
+<ul>
+<li>
+Create a copy of <i>X</i> with each element clamped to be between <i>min_val</i> and <i>max_val</i>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(5,5);
+
+mat B = clamp(A, 0.2, 0.8); 
+
+mat C = clamp(A, A.min(), 0.8); 
+
+mat D = clamp(A, 0.2, A.max()); 
+</pre>
+</ul>
+</li>
+<li>
+See also:
+<ul>
+<li><a href="#min_and_max">min() &amp; max()</a></li>
+<li><a href="#min_and_max_member">.min() &amp; .max()</a> (member functions of Mat)</li>
+</ul>
+</li>
+</ul>
+<br>
+<hr class="greyline"><br>
+
 <a name="conj"></a>
 <b>conj( X )</b>
 <ul>
@@ -6588,7 +6252,7 @@ fn(A) is one of:
 <tbody>
   <tr>
     <td style="vertical-align: top;">
-       exp(A)<sup>&nbsp;</sup>
+       <code>exp(A)</code><sup>&nbsp;</sup>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6599,7 +6263,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-       exp2(A)<sup>&nbsp;</sup>
+       <code>exp2(A)</code><sup>&nbsp;</sup>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6610,7 +6274,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-       exp10(A)<sup>&nbsp;</sup>
+       <code>exp10(A)</code><sup>&nbsp;</sup>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6621,7 +6285,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      trunc_exp(A)
+      <code>trunc_exp(A)</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6635,7 +6299,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-       log(A)<sub>&nbsp;</sub>
+       <code>log(A)</code><sub>&nbsp;</sub>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6646,7 +6310,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-       log2(A)<sub>&nbsp;</sub>
+       <code>log2(A)</code><sub>&nbsp;</sub>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6657,7 +6321,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-       log10(A)<sub>&nbsp;</sub>
+       <code>log10(A)</code><sub>&nbsp;</sub>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6668,7 +6332,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      trunc_log(A)
+      <code>trunc_log(A)</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6682,7 +6346,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-       pow(A, p)<sup>&nbsp;</sup>
+       <code>pow(A, p)</code><sup>&nbsp;</sup>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6693,7 +6357,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-       sqrt(A)<sup>&nbsp;</sup>
+       <code>sqrt(A)</code><sup>&nbsp;</sup>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6704,7 +6368,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      square(A)<sup>&nbsp;</sup>
+      <code>square(A)</code><sup>&nbsp;</sup>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6715,7 +6379,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      floor(A)
+      <code>floor(A)</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6726,7 +6390,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      ceil(A)
+      <code>ceil(A)</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6737,7 +6401,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      round(A)
+      <code>round(A)</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6748,7 +6412,7 @@ fn(A) is one of:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      sign(A)
+      <code>sign(A)</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -6790,6 +6454,7 @@ mat B = exp(A);
 See also:
 <ul>
 <li><a href="#abs">abs()</a></li>
+<li><a href="#clamp">clamp()</a></li>
 <li><a href="#conj">conj()</a></li>
 <li><a href="#imag_real">imag() / real()</a></li>
 <li><a href="#constants">pre-defined constants</a></li>
@@ -7058,6 +6723,57 @@ double x = dot(a,b);
 <li><a href="#cross">cross()</a></li>
 <li><a href="#conj">conj()</a></li>
 <li><a href="#norm">norm()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="is_finite_standalone"></a>
+<b>is_finite( X )</b>
+<ul>
+<li>
+Returns <i>true</i> if all elements in <i>X</i> are finite
+</li>
+<br>
+<li>
+Returns <i>false</i> if at least one element in <i>X</i> is non-finite (&plusmn;infinity or NaN)
+</li>
+<br>
+<li>
+<i>X</i> can be a scalar (eg. <i>double</i>), vector, matrix or cube
+</li>
+<br>
+<li>
+<b>Caveat:</b> NaN is not equal to anything, even itself
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A = randu&lt;mat&gt;(5,5);
+mat B = randu&lt;mat&gt;(5,5);
+
+B(1,1) = datum::inf;
+
+cout &lt;&lt; is_finite(A) &lt;&lt; endl;
+cout &lt;&lt; is_finite(B) &lt;&lt; endl;
+
+cout &lt;&lt; is_finite( 0.123456789 ) &lt;&lt; endl;
+cout &lt;&lt; is_finite( datum::nan  ) &lt;&lt; endl;
+cout &lt;&lt; is_finite( datum::inf  ) &lt;&lt; endl;
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#is_finite">.is_finite()</a> (member function of <i>Mat</i> and <i>Cube</i>)</li>
+<li><a href="#find_finite">find_finite()</a></li>
+<li><a href="#find_nonfinite">find_nonfinite()</a></li>
+<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
 </ul>
 </li>
 <br>
@@ -7486,6 +7202,7 @@ mat C = arma::max(A,B);  // use arma:: prefix to distinguish from std::max()
 See also:
 <ul>
 <li><a href="#min_and_max_member">.min() &amp; .max()</a> (member functions of Mat and Cube)</li>
+<li><a href="#clamp">clamp()</a>
 <li><a href="#running_stat">running_stat</a></li>
 <li><a href="#running_stat_vec">running_stat_vec</a></li>
 </ul>
@@ -7725,10 +7442,11 @@ See also:
 <ul>
 <li><a href="#cov">cov()</a></li>
 <li><a href="#cor">cor()</a></li>
-<li><a href="#running_stat">running_stat</a>: class for running statistics of scalars</li>
-<li><a href="#running_stat_vec">running_stat_vec</a>: class for running statistics of vectors</li>
 <li><a href="#hist">hist()</a></li>
 <li><a href="#histc">histc()</a></li>
+<li><a href="#running_stat">running_stat</a>: class for running statistics of scalars</li>
+<li><a href="#running_stat_vec">running_stat_vec</a>: class for running statistics of vectors</li>
+<li><a href="#gmm_diag">gmm_diag</a>: class for modelling data as a Gaussian mixture model</li>
 </ul>
 </li>
 </ul>
@@ -8776,6 +8494,10 @@ See also:
 </li>
 <br>
 <li>
+If <i>A</i> is a complex matrix, the reflection uses the complex conjugate of the elements
+</li>
+<br>
+<li>
 If <i>A</i> is non-square, a <i>std::logic_error</i> exception is thrown
 </li>
 <br>
@@ -9280,13 +9002,14 @@ The argument <i>tol</i> is optional; it specifies the tolerance for convergence
 Examples:
 <ul>
 <pre>
+// generate sparse matrix
 sp_mat A = sprandu&lt;mat&gt;(1000, 1000, 0.1);
-sp_mat B = A.t()*A;  // generate sparse symmetric matrix
+sp_mat B = A.t()*A;
 
 vec eigval;
 mat eigvec;
 
-eigs_sym(eigval, eigvec, B);
+eigs_sym(eigval, eigvec, B, 5);  // find 5 eigenvalues/eigenvectors
 </pre>
 </ul>
 </li>
@@ -9363,12 +9086,13 @@ If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown
 Examples:
 <ul>
 <pre>
-sp_mat A = sprandu&lt;sp_mat&gt;(1000, 1000, 0.1);
+// generate sparse matrix
+sp_mat A = sprandu&lt;sp_mat&gt;(1000, 1000, 0.1);  
 
 cx_vec eigval;
 cx_mat eigvec;
 
-eigs_gen(eigval, eigvec, A);
+eigs_gen(eigval, eigvec, A, 5);  // find 5 eigenvalues/eigenvectors
 </pre>
 </ul>
 </li>
@@ -10157,61 +9881,986 @@ See also:
 <hr class="greyline">
 <br>
 <br>
-<font size=+1><b>Miscellaneous</b></font>
+<font size=+1><b>Statistical Modelling</b></font>
 <br>
 <br>
 <hr class="greyline">
 <br>
 
-<a name="is_finite_standalone"></a>
-<b>is_finite( X )</b>
+<a name="gmm_diag"></a>
+<b>gmm_diag</b>
 <ul>
 <li>
-Returns <i>true</i> if all elements in <i>X</i> are finite
+Class for modelling data as a Gaussian Mixture Model (GMM), under the assumption of diagonal covariance matrices
 </li>
 <br>
 <li>
-Returns <i>false</i> if at least one element in <i>X</i> is non-finite (&plusmn;infinity or NaN)
+Can also be used for vector quantisation (VQ)
 </li>
 <br>
 <li>
-<i>X</i> can be a scalar (eg. <i>double</i>), vector, matrix or cube
+Provides associated parameter estimation algorithms: k-means and Expectation-Maximisation (EM)
 </li>
 <br>
 <li>
-<b>Caveat:</b> NaN is not equal to anything, even itself
+The k-means and EM algorithms are parallelised (multi-threaded) when compiling with OpenMP enabled (eg. the <i>-fopenmp</i> option in gcc)
+</li>
+<br>
+<li>
+Data is modelled as:
+<table style="text-align: left;" border="0" cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;</td><td style="vertical-align: top;">&nbsp;</td><td style="vertical-align: top;"><i><sub>n_gaus-1</sub></i></td><td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><i>p<font size=+1>(</font>x<font size=+1>)</font></i></td><td style="vertical-align: top;">&nbsp;<font size=+1>=</font>&nbsp;</td><td style="vertical-align: top;"><i><font size=+1><b>&sum;</b></font></i></td>
+      <td style="vertical-align: top;"><i>h<sub>g</sub>&nbsp;&nbsp;<font size=+1>N(</font>x<small>&nbsp;</small>|<small>&nbsp;</small>m<sub>g</sub>, C<sub>g</sub><font size=+1>)</font></i></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;</td><td style="vertical-align: top;">&nbsp;</td><td style="vertical-align: top;"><i><sup>g=0</sup></i></td><td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+where
+<i>n_gaus</i> is the number of Gaussians
+and <i>N(x|m<sub>g</sub>,&nbsp;C<sub>g</sub>)</i> represents a Gaussian (normal) distribution;
+for each Gaussian <i>g</i>, 
+the parameter <i>h<sub>g</sub></i> is the heft (weight), with <i>h<sub>g</sub></i> &ge; 0 and &sum;<i>h<sub>g</sub></i> = 1,
+the parameter <i>m<sub>g</sub></i> is the mean (centroid) vector with dimensionality <i>n_dims</i>,
+and
+the parameter <i>C<sub>g</sub></i> is the diagonal covariance matrix
+</li>
+<br>
+<li>
+For an instance of <i>gmm_diag</i> named as <i>M</i>, the member functions and variables are:
+<br>
+<br>
+<ul>
+<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.log_p(</b>V<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return a scalar representing the log-likelihood of vector <i>V</i>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.log_p(</b>V, g<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return a scalar representing the log-likelihood of vector <i>V</i>, according to Gaussian <i>g</i>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.log_p(</b>X<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return a row vector (of type <code>rowvec</code>) containing log-likelihoods of each column vector in matrix <i>X</i>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.log_p(</b>X, g<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return a row vector (of type <code>rowvec</code>) containing log-likelihoods of each column vector in matrix <i>X</i>, according to Gaussian <i>g</i>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.avg_log_p(</b>X<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return a scalar representing the average log-likelihood of all column vectors in matrix <i>X</i>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.avg_log_p(</b>X, g<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return a scalar representing the average log-likelihood of all column vectors in matrix <i>X</i>, according to Gaussian <i>g</i>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.assign(</b>V,&nbsp;dist_mode<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return the index of the closest mean (or Gaussian) to vector <i>V</i>;<br>
+      <i>dist_mode</i> is one of:
+      <table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
+        <tbody>
+        <tr><td style="vertical-align: top;"><code>eucl_dist</code></td><td>&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top;">Euclidean distance (takes only means into account)</td></tr>
+        <tr><td style="vertical-align: top;"><code>prob_dist</code></td><td>&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top;">probabilistic "distance", defined as the inverse likelihood (takes into account means, covariances and hefts)</td></tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.assign(</b>X,&nbsp;dist_mode<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return a row vector containing the indices of the closest means (or Gaussians) to each column vector in matrix <i>X</i>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.raw_hist(</b>X,&nbsp;dist_mode<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return a row vector (of type <code>urowvec</code>) representing the raw histogram of counts;
+      each entry is the number of counts corresponding to a Gaussian;
+      each count is the number times the corresponding Gaussian was the closest to each column vector in matrix <i>X</i>;
+      parameter <i>dist_mode</i> is either <code>eucl_dist</code> or <code>prob_dist</code> (as per the <i>.assign()</i> function above)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.norm_hist(</b>X,&nbsp;dist_mode<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return a row vector (of type <code>rowvec</code>) containing normalised counts;
+      the vector sums to one
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.save(</b>filename<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      save the model to the given <i>filename</i>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.load(</b>filename<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      load the model from the given <i>filename</i>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.n_gaus()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return the number of means/Gaussians in the model
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.n_dims()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      return the dimensionality of the means/Gaussians in the model
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.reset(</b>n_dims, n_gaus<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      set the model to have dimensionality <i>n_dims</i>, with <i>n_gaus</i> number of Gaussians;<br>
+      all the means are set to zero, all diagonal covariances are set to one, and all the hefts (weights) are set to be uniform
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.means</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      read-only matrix containing the means, stored as column vectors
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.dcovs</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      read-only matrix containing the diagonal covariance matrices,
+      stored as column vectors
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.hefts</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      read-only row vector containing the hefts (weights)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.set_means(</b>X<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      set the means to be as specified in matrix <i>X</i>;<br>
+      the number of means and their dimensionality must match the existing model
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.set_dcovs(</b>X<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      set the diagonal covariances matrices to be as specified in matrix <i>X</i>;<br>
+      the number of diagonal covariance matrices and their dimensionality must match the existing model
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.set_hefts(</b>V<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      set the hefts (weights) of the model to be as specified in row vector <i>V</i>;<br>
+      the number of hefts must match the existing model
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>M.set_params(</b><small>means</small>,&nbsp;<small>dcovs</small>,&nbsp;<small>hefts</small><b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      set all the parameters in one hit;<br>
+      the number of Gaussians and dimensionality can be different from the existing model
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;" colspan=3>
+      <b>M.learn(</b>data,&nbsp;n_gaus,&nbsp;dist_mode,&nbsp;seed_mode,&nbsp;km_iter,&nbsp;em_iter,&nbsp;var_floor,&nbsp;print_mode<b>)</b>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">&nbsp;<br></td>
+      <td style="vertical-align: top;">
+      learn the model parameters via the k-means and/or EM algorithms
+      </td>
+    </tr>
+  </tbody>
+</table>
+</ul>
+</li>
+<br>
+<li>
+Parameters for the <code>.learn()</code> member function:
+<ul>
+<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><i>data</i></td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">
+      matrix containing training samples; each sample is stored as a column vector
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><i>n_gaus</i></td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">
+      set the number of Gaussians to <i>n_gaus</i>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><i>dist_mode</i></td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">
+      specifies the distance used during the seeding of initial means and k-means clustering:
+      <table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
+        <tbody>
+        <tr><td><code>eucl_dist</code></td><td>&nbsp;&nbsp;&nbsp;</td><td>Euclidean distance</td></tr>
+        <tr><td><code>maha_dist</code></td><td>&nbsp;&nbsp;&nbsp;</td><td>Mahalanobis distance, which uses a global diagonal covariance matrix estimated from the training samples</td></tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><i>seed_mode</i></td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">
+      specifies how the initial means are seeded prior to running k-means and/or EM algorithms:
+      <table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
+        <tbody>
+        <tr><td><code>keep_existing</code></td><td>&nbsp;&nbsp;&nbsp;</td><td>keep the existing model (do not modify the means, covariances and hefts)</td></tr>
+        <tr><td><code>static_subset</code></td><td>&nbsp;&nbsp;&nbsp;</td><td>a subset of the training samples (repeatable)</td></tr>
+        <tr><td><code>random_subset</code></td><td>&nbsp;&nbsp;&nbsp;</td><td>a subset of the training samples (random)</td></tr>
+        <tr><td><code>static_spread</code></td><td>&nbsp;&nbsp;&nbsp;</td><td>a maximally spread subset of training samples (repeatable)</td></tr>
+        <tr><td><code>random_spread</code></td><td>&nbsp;&nbsp;&nbsp;</td><td>a maximally spread subset of training samples (random start)</td></tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><i>km_iter</i></td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">
+      the number of iterations of the k-means algorithm
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><i>em_iter</i></td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">
+      the number of iterations of the EM algorithm
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><i>var_floor</i></td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">
+      the variance floor (smallest allowed value) for the diagonal covariances
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><i>print_mode</i></td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">
+      either <code>true</code> or <code>false</code>;
+      enable or disable printing of progress during the k-means and EM algorithms
+      </td>
+    </tr>
+  </tbody>
+</table>
+</ul>
+</li>
+<br>
+<br>
+<li>
+<b>Notes</b>:
+<ul>
+<li>
+for probabilistic applications,
+better model parameters are typically learned with <i>dist_mode</i> set to <code>maha_dist</code>
+</li>
+<br>
+<li>
+for vector quantisation applications, 
+model parameters should be learned with <i>dist_mode</i> set to <code>eucl_dist</code>,
+and the number of EM iterations set to zero
+</li>
+<br>
+<li>
+in general, a sufficient number of k-means and EM iterations is typically about 10
+</li>
+<br>
+<li>
+the number of training samples should be much larger than the number of Gaussians
+</li>
+<br>
+<li>
+seeding the initial means with <code>static_spread</code> and <code>random_spread</code>
+can be much more time consuming than with <code>static_subset</code> and <code>random_subset</code>
+</li>
+<br>
+<li>
+to run the k-means and EM algorithms in multi-threaded mode, enable OpenMP in your compiler (eg. <i>-fopenmp</i> in GCC)
+</li>
+</ul>
 </li>
 <br>
 <li>
 Examples:
 <ul>
 <pre>
-mat A = randu&lt;mat&gt;(5,5);
-mat B = randu&lt;mat&gt;(5,5);
+// create synthetic data with 2 Gaussians
 
-B(1,1) = datum::inf;
+uword N = 10000;
+uword d = 5;
 
-cout &lt;&lt; is_finite(A) &lt;&lt; endl;
-cout &lt;&lt; is_finite(B) &lt;&lt; endl;
+mat data(d, N, fill::zeros);
 
-cout &lt;&lt; is_finite( 0.123456789 ) &lt;&lt; endl;
-cout &lt;&lt; is_finite( datum::nan  ) &lt;&lt; endl;
-cout &lt;&lt; is_finite( datum::inf  ) &lt;&lt; endl;
+vec mean0 = linspace&lt;vec&gt;(1,d,d);
+vec mean1 = mean0 + 2;
+
+uword i = 0;
+
+while(i &lt; N)
+  {
+  if(i &lt; N)  { data.col(i) = mean0 + randn&lt;vec&gt;(d); ++i; }
+  if(i &lt; N)  { data.col(i) = mean0 + randn&lt;vec&gt;(d); ++i; }
+  if(i &lt; N)  { data.col(i) = mean1 + randn&lt;vec&gt;(d); ++i; }
+  }
+
+
+gmm_diag model;
+
+model.learn(data, 2, maha_dist, random_subset, 10, 5, 1e-10, true);
+
+model.means.print("means:");
+
+double  scalar_likelihood = model.log_p( data.col(0)    );
+rowvec     set_likelihood = model.log_p( data.cols(0,9) );
+
+double overall_likelihood = model.avg_log_p(data);
+
+uword   gaus_id  = model.assign( data.col(0),    eucl_dist );
+urowvec gaus_ids = model.assign( data.cols(0,9), prob_dist );
+
+urowvec hist1 = model.raw_hist (data, prob_dist);
+ rowvec hist2 = model.norm_hist(data, eucl_dist);
+
+model.save("my_model.gmm");
 </pre>
 </ul>
 </li>
 <br>
-<li>
-See also:
+<li>See also:
 <ul>
-<li><a href="#is_finite">.is_finite()</a> (member function of <i>Mat</i> and <i>Cube</i>)</li>
-<li><a href="#find_finite">find_finite()</a></li>
-<li><a href="#find_nonfinite">find_nonfinite()</a></li>
-<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
+<li><a href="#stats_fns">statistics functions</a></li>
+<li><a href="#running_stat_vec">running_stat_vec</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Mahalanobis_distance">Mahalanobis distance in Wikipedia</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Normal_distribution">normal distribution in Wikipedia</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Mixture_model">mixture model in Wikipedia</a></li>
+<li><a href="http://en.wikipedia.org/wiki/K-means_clustering">k-means clustering in Wikipedia</a></li>
+<li><a href="http://mathworld.wolfram.com/K-MeansClusteringAlgorithm.html">k-means clustering in MathWorld</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Expectation-maximization_algorithm">expectation maximisation algorithm in Wikipedia</a></li>
+<li><a href="http://mathworld.wolfram.com/MaximumLikelihood.html">maximum likelihood in Wolfram</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Vector_quantization">vector quantisation in Wikipedia</a></li>
+<li><a href="http://en.wikipedia.org/wiki/OpenMP">OpenMP in Wikipedia</a></li>
+</ul>
+</li>
+</ul>
+<br>
+<hr class="greyline"><br>
+
+<a name="running_stat"></a>
+<b>running_stat&lt;</b><i>type</i><b>&gt;</b>
+<ul>
+<li>
+Class for keeping the running statistics of a continuously sampled one dimensional process/signal
+</li>
+<br>
+<li>
+Useful if the storage of individual samples (scalars) is not required, or the number of samples is not known beforehand
+</li>
+<br>
+<li>
+<i>type</i> is one of: <i>float</i>, <i>double</i>, <i><a href="#cx_double">cx_float</a></i>, <i><a href="#cx_double">cx_double</a></i>
+</li>
+<br>
+<li>
+For an instance of <i>running_stat</i> named as <i>X</i>, the member functions are:
+<br>
+<br>
+<ul>
+<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X(</b>scalar<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      update the statistics so far using the given scalar
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.min()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      get the minimum value so far
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.max()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      get the maximum value so far
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.mean()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      get the mean or average value so far
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.var()</b> &nbsp;and&nbsp; <b>X.var(</b>norm_type<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      get the variance so far
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.stddev()</b> &nbsp;and&nbsp; <b>X.stddev(</b>norm_type<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      get the standard deviation so far
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.reset()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      reset all statistics and set the number of samples to zero
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.count()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      get the number of samples so far
+      </td>
+    </tr>
+  </tbody>
+</table>
 </ul>
 </li>
 <br>
+<li>
+The <i>norm_type</i> argument is optional; by default <i>norm_type=0</i> is used
+</li>
+<br>
+<li>
+For the <i>.var()</i> and <i>.stddev()</i> functions, the default <i>norm_type=0</i> performs normalisation using <i>N-1</i>
+(where <i>N</i> is the number of samples so far),
+providing the best unbiased estimator;
+using <i>norm_type=1</i> causes normalisation to be done using <i>N</i>, which provides the second moment around the mean
+</li>
+<br>
+<li>
+The return type of <i>.count()</i> depends on the underlying form of <i>type</i>: it is either <i>float</i> or <i>double</i>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+running_stat&lt;double&gt; stats;
+
+for(uword i=0; i&lt;10000; ++i)
+  {
+  double sample = randn();
+  stats(sample);
+  }
+
+cout &lt;&lt; "mean = " &lt;&lt; stats.mean() &lt;&lt; endl;
+cout &lt;&lt; "var  = " &lt;&lt; stats.var()  &lt;&lt; endl;
+cout &lt;&lt; "min  = " &lt;&lt; stats.min()  &lt;&lt; endl;
+cout &lt;&lt; "max  = " &lt;&lt; stats.max()  &lt;&lt; endl;
+</pre>
 </ul>
+</li>
+<br>
+<li>See also:
+<ul>
+<li><a href="#stats_fns">statistics functions</a></li>
+<li><a href="#running_stat_vec">running_stat_vec</a></li>
+</ul>
+</li>
+</ul>
+<br>
+<hr class="greyline"><br>
+
+<a name="running_stat_vec"></a>
+<b>running_stat_vec&lt;</b><i>vec_type</i><b>&gt;</b>
+<br><b>running_stat_vec&lt;</b><i>vec_type</i><b>&gt;(calc_cov)</b>
+<ul>
+<li>
+Class for keeping the running statistics of a continuously sampled multi-dimensional process/signal
+</li>
+<br>
+<li>
+Useful if the storage of individual samples (vectors) is not required, or if the number of samples is not known beforehand
+</li>
+<br>
+<li>
+This class is similar to <i>running_stat</i>, with the difference that vectors are processed instead of scalars
+</li>
+<br>
+<li>
+<i>vec_type</i> is the vector type of the samples; for example: <i><a href="#Col">vec</a></i>, <i><a href="#Col">cx_vec</a></i>, <i><a href="#Row">rowvec</a></i>, ...
+</li>
+<br>
+<li>
+For an instance of <i>running_stat_vec</i> named as <i>X</i>, the member functions are:
+<br>
+<br>
+<ul>
+<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X(</b>vector<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      update the statistics so far using the given vector
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.min()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      get the vector of minimum values so far
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.max()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      get the vector of maximum values so far
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.mean()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      get the mean vector so far
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.var()</b> &nbsp;and&nbsp; <b>X.var(</b>norm_type<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      get the vector of variances so far
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.stddev()</b> &nbsp;and&nbsp; <b>X.stddev(</b>norm_type<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      get the vector of standard deviations so far
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.cov()</b> &nbsp;and&nbsp; <b>X.cov(</b>norm_type<b>)</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      get the covariance matrix so far;
+      valid if <i>calc_cov=true</i> during construction of <i>running_stat_vec</i>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.reset()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      reset all statistics and set the number of samples to zero
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b>X.count()</b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      get the number of samples so far
+      </td>
+    </tr>
+  </tbody>
+</table>
+</ul>
+</li>
+<br>
+<li>
+The <i>calc_cov</i> argument is optional; by default <i>calc_cov=false</i>, indicating that the covariance matrix will not be calculated;
+to enable the covariance matrix, use <i>calc_cov=true</i> during construction; for example: <i>running_stat_vec&lt;vec&gt;&nbsp;X(true);</i>
+</li>
+<br>
+<li>
+The <i>norm_type</i> argument is optional; by default <i>norm_type=0</i> is used
+</li>
+<br>
+<li>
+For the <i>.var()</i> and <i>.stddev()</i> functions, the default <i>norm_type=0</i> performs normalisation using <i>N-1</i>
+(where <i>N</i> is the number of samples so far),
+providing the best unbiased estimator;
+using <i>norm_type=1</i> causes normalisation to be done using <i>N</i>, which provides the second moment around the mean
+</li>
+<br>
+<li>
+The return type of <i>.count()</i> depends on the underlying form of <i>vec_type</i>: it is either <i>float</i> or <i>double</i>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+running_stat_vec&lt;vec&gt; stats;
+
+vec sample;
+
+for(uword i=0; i&lt;10000; ++i)
+  {
+  sample = randu&lt;vec&gt;(5);
+  stats(sample);
+  }
+
+cout &lt;&lt; "mean = " &lt;&lt; endl &lt;&lt; stats.mean() &lt;&lt; endl;
+cout &lt;&lt; "var  = " &lt;&lt; endl &lt;&lt; stats.var()  &lt;&lt; endl;
+cout &lt;&lt; "max  = " &lt;&lt; endl &lt;&lt; stats.max()  &lt;&lt; endl;
+
+//
+//
+
+running_stat_vec&lt;rowvec&gt; more_stats(true);
+
+for(uword i=0; i&lt;20; ++i)
+  {
+  sample = randu&lt;rowvec&gt;(3);
+  
+  sample(1) -= sample(0);
+  sample(2) += sample(1);
+  
+  more_stats(sample);
+  }
+
+cout &lt;&lt; "covariance matrix = " &lt;&lt; endl;
+cout &lt;&lt; more_stats.cov() &lt;&lt; endl;
+
+rowvec sd = more_stats.stddev();
+
+cout &lt;&lt; "correlations = " &lt;&lt; endl;
+cout &lt;&lt; more_stats.cov() / (sd.t() * sd);
+</pre>
+</ul>
+</li>
+<br>
+<li>See also:
+<ul>
+<li><a href="#cov">cov()</a></li>
+<li><a href="#cor">cor()</a></li>
+<li><a href="#running_stat">running_stat</a></li>
+<li><a href="#stats_fns">statistics functions</a></li>
+<li><a href="#gmm_diag">gmm_diag</a></li>
+</ul>
+</li>
+</ul>
+<br>
+<hr class="greyline">
+
+<hr class="greyline">
+<br>
+<br>
+<font size=+1><b>Miscellaneous</b></font>
+<br>
+<br>
+<hr class="greyline">
+<br>
+
+<a name="wall_clock"></a>
+<b>wall_clock</b>
+<ul>
+<li>
+Simple wall clock timer class, for measuring the number of elapsed seconds between two intervals
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+wall_clock timer;
+
+mat A = randu&lt;mat&gt;(4,4);
+mat B = randu&lt;mat&gt;(4,4);
+mat C;
+
+timer.tic();
+
+for(uword i=0; i&lt;100000; ++i)
+  {
+  C = A + B + A + B;
+  }
+
+double n_secs = timer.toc();
+cout &lt;&lt; "took " &lt;&lt; n_secs &lt;&lt; " seconds" &lt;&lt; endl;
+</pre>
+</ul>
+</li>
+</ul>
+<br>
 <hr class="greyline"><br>
 
 <a name="logging"></a>
@@ -10293,11 +10942,11 @@ See also:
 <b>pre-defined constants (pi, inf, speed of light, ...)</b>
 <br>
 <ul>
-<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
 <tbody>
   <tr>
     <td style="vertical-align: top;">
-      datum::pi
+      <code>datum::pi</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10308,7 +10957,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::inf
+      <code>datum::inf</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10319,7 +10968,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::nan
+      <code>datum::nan</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10329,8 +10978,13 @@ See also:
     </td>
   </tr>
   <tr>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+  </tr>
+  <tr>
     <td style="vertical-align: top;">
-      datum::e
+      <code>datum::e</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10341,7 +10995,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::sqrt2
+      <code>datum::sqrt2</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10352,40 +11006,45 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::eps
+      <code>datum::eps</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      the difference between 1 and the least value greater than 1 that is representable  (type and machine dependant)
+      the difference between 1 and the least value greater than 1 that is representable  (type and machine dependent)
     </td>
   </tr>
   <tr>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+  </tr>
+  <tr>
     <td style="vertical-align: top;">
-      datum::log_min
+      <code>datum::log_min</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      log of minimum non-zero value (type and machine dependant)
+      log of minimum non-zero value (type and machine dependent)
     </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::log_max
+      <code>datum::log_max</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      log of maximum value  (type and machine dependant)
+      log of maximum value  (type and machine dependent)
     </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::euler
+      <code>datum::euler</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10395,8 +11054,13 @@ See also:
     </td>
   </tr>
   <tr>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+  </tr>
+  <tr>
     <td style="vertical-align: top;">
-      datum::gratio
+      <code>datum::gratio</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10407,7 +11071,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::m_u
+      <code>datum::m_u</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10418,7 +11082,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::N_A
+      <code>datum::N_A</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10428,8 +11092,13 @@ See also:
     </td>
   </tr>
   <tr>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+  </tr>
+  <tr>
     <td style="vertical-align: top;">
-      datum::k
+      <code>datum::k</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10440,7 +11109,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::k_evk
+      <code>datum::k_evk</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10451,7 +11120,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::a_0
+      <code>datum::a_0</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10461,8 +11130,13 @@ See also:
     </td>
   </tr>
   <tr>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+  </tr>
+  <tr>
     <td style="vertical-align: top;">
-      datum::mu_B
+      <code>datum::mu_B</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10473,7 +11147,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::Z_0
+      <code>datum::Z_0</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10484,7 +11158,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::G_0
+      <code>datum::G_0</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10494,8 +11168,13 @@ See also:
     </td>
   </tr>
   <tr>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+  </tr>
+  <tr>
     <td style="vertical-align: top;">
-      datum::k_e
+      <code>datum::k_e</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10506,7 +11185,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::eps_0
+      <code>datum::eps_0</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10517,7 +11196,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::m_e
+      <code>datum::m_e</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10527,8 +11206,13 @@ See also:
     </td>
   </tr>
   <tr>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+  </tr>
+  <tr>
     <td style="vertical-align: top;">
-      datum::eV
+      <code>datum::eV</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10539,7 +11223,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::ec
+      <code>datum::ec</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10550,7 +11234,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::F
+      <code>datum::F</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10560,8 +11244,13 @@ See also:
     </td>
   </tr>
   <tr>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+  </tr>
+  <tr>
     <td style="vertical-align: top;">
-      datum::alpha
+      <code>datum::alpha</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10572,7 +11261,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::alpha_inv
+      <code>datum::alpha_inv</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10583,7 +11272,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::K_J
+      <code>datum::K_J</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10593,8 +11282,13 @@ See also:
     </td>
   </tr>
   <tr>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+  </tr>
+  <tr>
     <td style="vertical-align: top;">
-      datum::mu_0
+      <code>datum::mu_0</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10605,7 +11299,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::phi_0
+      <code>datum::phi_0</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10616,7 +11310,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::R
+      <code>datum::R</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10626,8 +11320,13 @@ See also:
     </td>
   </tr>
   <tr>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+  </tr>
+  <tr>
     <td style="vertical-align: top;">
-      datum::G
+      <code>datum::G</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10638,7 +11337,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::h
+      <code>datum::h</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10649,7 +11348,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::h_bar
+      <code>datum::h_bar</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10659,8 +11358,13 @@ See also:
     </td>
   </tr>
   <tr>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+  </tr>
+  <tr>
     <td style="vertical-align: top;">
-      datum::m_p
+      <code>datum::m_p</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10671,7 +11375,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::R_inf
+      <code>datum::R_inf</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10682,7 +11386,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::c_0
+      <code>datum::c_0</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10692,8 +11396,13 @@ See also:
     </td>
   </tr>
   <tr>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+    <td style="vertical-align: top;">&nbsp;</td>
+  </tr>
+  <tr>
     <td style="vertical-align: top;">
-      datum::sigma
+      <code>datum::sigma</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10704,7 +11413,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::R_k
+      <code>datum::R_k</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10715,7 +11424,7 @@ See also:
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      datum::b
+      <code>datum::b</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -10729,7 +11438,7 @@ See also:
 <br>
 <li>
 <b>Caveat:</b>
-datum::nan is not equal to anything, even itself;
+<code>datum::nan</code> is not equal to anything, even itself;
 if you wish to check whether a given number <i>x</i> is finite,
 use <a href="#is_finite_standalone">is_finite</a>(<i>x</i>)
 </li>
@@ -11879,7 +12588,7 @@ Specific functionality can be enabled or disabled by uncommenting or commenting 
 <tbody>
   <tr>
     <td style="vertical-align: top;">
-ARMA_USE_LAPACK
+<code>ARMA_USE_LAPACK</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -11899,16 +12608,10 @@ Armadillo requires LAPACK for functions such as <a href="#svd">svd()</a>, <a hre
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_USE_BLAS
+<code>ARMA_USE_BLAS</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -11930,16 +12633,10 @@ Without BLAS, Armadillo will use a built-in matrix multiplication routine, which
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_USE_ARPACK
+<code>ARMA_USE_ARPACK</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -11959,16 +12656,10 @@ Armadillo requires ARPACK for the eigen decomposition of sparse matrices, ie. <a
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_BLAS_CAPITALS
+<code>ARMA_BLAS_CAPITALS</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -11987,16 +12678,10 @@ Use capitalised (uppercase) BLAS and LAPACK function names (eg. DGEMM vs dgemm)
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_BLAS_UNDERSCORE
+<code>ARMA_BLAS_UNDERSCORE</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12015,16 +12700,10 @@ Append an underscore to BLAS and LAPACK function names (eg. dgemm_ vs dgemm). En
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_BLAS_LONG
+<code>ARMA_BLAS_LONG</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12043,16 +12722,10 @@ Use "long" instead of "int" when calling BLAS and LAPACK functions
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_BLAS_LONG_LONG
+<code>ARMA_BLAS_LONG_LONG</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12071,16 +12744,10 @@ Use "long&nbsp;long" instead of "int" when calling BLAS and LAPACK functions
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_USE_TBB_ALLOC
+<code>ARMA_USE_TBB_ALLOC</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12099,16 +12766,10 @@ Use Intel TBB <i>scalable_malloc()</i> and <i>scalable_free()</i> instead of sta
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_USE_MKL_ALLOC
+<code>ARMA_USE_MKL_ALLOC</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12127,17 +12788,11 @@ Use Intel MKL <i>mkl_malloc()</i> and <i>mkl_free()</i> instead of standard <i>m
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
 <a name="config_hpp_arma_64bit_word"></a>
-ARMA_64BIT_WORD
+<code>ARMA_64BIT_WORD</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12158,17 +12813,11 @@ This can also be enabled by adding <i>#define&nbsp;ARMA_64BIT_WORD</i> before ea
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
 <a name="config_hpp_arma_use_cxx11"></a>
-ARMA_USE_CXX11
+<code>ARMA_USE_CXX11</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12188,16 +12837,10 @@ automatically enabled when using a compiler in C++11 mode, for example, g++&nbsp
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_USE_HDF5
+<code>ARMA_USE_HDF5</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12217,17 +12860,11 @@ the <i>hdf5.h</i> header file must be available on your system and you will need
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
 <a name="config_hpp_arma_no_debug"></a>
-ARMA_NO_DEBUG
+<code>ARMA_NO_DEBUG</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12251,16 +12888,10 @@ We recommend that run-time checks be disabled <b>only</b> for the shipped versio
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_EXTRA_DEBUG
+<code>ARMA_EXTRA_DEBUG</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12281,16 +12912,10 @@ This is mainly useful for debugging the library.
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_MAT_PREALLOC
+<code>ARMA_MAT_PREALLOC</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12299,7 +12924,7 @@ ARMA_MAT_PREALLOC
 The number of preallocated elements used by matrices and vectors.
 Must be always enabled and set to an integer that is at least&nbsp;1.
 By default set to 16.
-If you mainly use lots of very small vectors (eg. &le; 4 elements), change the number to the size of your vectors.
+If you mainly use lots of very small vectors (eg.&nbsp;&le;&nbsp;4&nbsp;elements), change the number to the size of your vectors.
     </td>
   </tr>
   <tr>
@@ -12312,16 +12937,10 @@ If you mainly use lots of very small vectors (eg. &le; 4 elements), change the n
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_DEFAULT_OSTREAM
+<code>ARMA_DEFAULT_OSTREAM</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12342,16 +12961,10 @@ By default defined to <i>std::cout</i>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_PRINT_ERRORS
+<code>ARMA_PRINT_ERRORS</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12370,16 +12983,10 @@ Print errors and warnings encountered during program execution
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_DONT_PRINT_ERRORS
+<code>ARMA_DONT_PRINT_ERRORS</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12398,16 +13005,10 @@ Do not print errors or warnings. Overrides <i>ARMA_PRINT_ERRORS</i>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_DONT_USE_LAPACK
+<code>ARMA_DONT_USE_LAPACK</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12426,16 +13027,10 @@ Disable use of LAPACK. Overrides <i>ARMA_USE_LAPACK</i>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_DONT_USE_BLAS
+<code>ARMA_DONT_USE_BLAS</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12454,16 +13049,10 @@ Disable use of BLAS. Overrides <i>ARMA_USE_BLAS</i>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
   </tr>
   <tr>
     <td style="vertical-align: top;">
-ARMA_DONT_USE_ARPACK
+<code>ARMA_DONT_USE_ARPACK</code>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12473,12 +13062,6 @@ Disable use of ARPACK. Overrides <i>ARMA_USE_ARPACK</i>
     </td>
   </tr>
   <tr>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
@@ -12567,7 +13150,7 @@ See also:
 <a name="api_changes"></a>
 <hr class="greyline">
 <br>
-<b>API Additions, Changes and Deprecations</b>
+<b>History of API Additions, Changes and Deprecations</b>
 <br>
 <br>
 <li>API and Version Policy
@@ -12625,6 +13208,17 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="added_in_4400"></a>
+<li>Added in 4.400:
+<ul>
+<li>faster handling of subvectors by <a href="#dot">dot()</a></li>
+<li>faster handling of aliasing by <a href="#submat">submatrix</a> views</li>
+<li>added <a href="#clamp">clamp()</a> for clamping values to be between lower and upper limits</li>
+<li>added <a href="#gmm_diag">gmm_diag</a> class for statistical modelling of data using Gaussian Mixture Models</li>
+<li>expanded <a href="#batch_constructors_sp_mat">batch insertion constructors</a> for sparse matrices to add values at repeated locations</li>
+</ul>
+</li>
+<br>
 <a name="added_in_4320"></a>
 <li>Added in 4.320:
 <ul>
