@@ -9098,8 +9098,8 @@ See also:
 <br>
 <li>If the decomposition fails, the output objects are reset and:
 <ul>
-<li><i>eigs_sym(X)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>eigs_sym(eigval, X)</i> and <i>eigs_sym(eigval, eigvec, X)</i> return a bool set to <i>false</i></li>
+<li><i>eigs_sym(X,k)</i> throws a <i>std::runtime_error</i> exception</li>
+<li><i>eigs_sym(eigval,X,k)</i> and <i>eigs_sym(eigval,eigvec,X,k)</i> return a bool set to <i>false</i></li>
 </ul>
 </li>
 <br>
@@ -9158,8 +9158,8 @@ If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown
 <br>
 <li>If the decomposition fails, the output objects are reset and:
 <ul>
-<li><i>eigs_gen(X)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>eigs_gen(eigval, X)</i> and <i>eigs_gen(eigval, eigvec, X)</i> return a bool set to <i>false</i></li>
+<li><i>eigs_gen(X,k)</i> throws a <i>std::runtime_error</i> exception</li>
+<li><i>eigs_gen(eigval,X,k)</i> and <i>eigs_gen(eigval,eigvec,X,k)</i> return a bool set to <i>false</i></li>
 </ul>
 </li>
 <br>
