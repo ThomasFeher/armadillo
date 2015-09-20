@@ -9544,18 +9544,18 @@ Economical singular value decomposition of <i>X</i>
 <li>
 <i>mode</i> is one of:
 <ul>
+<li><i>'b'</i>: compute both left and right singular vectors (default operation)</li>
 <li><i>'l'</i>: compute only left singular vectors</li>
 <li><i>'r'</i>: compute only right singular vectors</li>
-<li><i>'b'</i>: compute both left and right singular vectors (default)</li>
 </ul>
 </li>
 <br>
 <li>
 <i>side</i> is one of:
 <ul>
+<li><i>"both"</i>: compute both left and right singular vectors</li>
 <li><i>"left"</i>: compute only left singular vectors</li>
 <li><i>"right"</i>: compute only right singular vectors</li>
-<li><i>"both"</i>: compute both left and right singular vectors (default)</li>
 </ul>
 </li>
 <br>
@@ -9614,15 +9614,15 @@ See also:
 <b>X = syl( A, B, C )</b>
 <br><b>syl( X, A, B, C )</b>
 <ul>
-<li>Solve the Sylvester equation, ie., <i>AX + XB + C = 0</i>, where <i>X</i> is unknown.</li>
+<li>Solve the Sylvester equation, ie., <i>AX + XB + C = 0</i>, where <i>X</i> is unknown</li>
 <br>
-<li>Matrices <i>A</i>, <i>B</i> and <i>C</i> must be square sized.</li>
+<li>Matrices <i>A</i>, <i>B</i> and <i>C</i> must be square sized</li>
 <br>
 <li>
 If no solution is found, <i>X</i> is reset and:
 <ul>
 <li><i>syl(A,B,C)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>svd(X,A,B,C)</i> returns a bool set to <i>false</i></li>
+<li><i>syl(X,A,B,C)</i> returns a bool set to <i>false</i></li>
 </ul>
 </li>
 <br>
@@ -12003,6 +12003,7 @@ List of additions and changes for each version:
 <li>divide-and-conquer variant of <a href="#svd_econ">svd_econ()</a></li>
 <li>divide-and-conquer variant of <a href="#pinv">pinv()</a></li>
 <li><a href="#randi">randi()</a> for generating matrices with random integer values</li>
+<li><a href="#inplace_trans">inplace_trans()</a> for memory efficient in-place transposes</li>
 <li>more intuitive specification of sort direction in <a href="#sort">sort()</a> and <a href="#sort_index">sort_index()</a></li>
 <li>more intuitive specification of method in <a href="#det">det()</a>, <a href="#i_member">.i()</a>, <a href="#inv">inv()</a> and <a href="#solve">solve()</a></li>
 <li>more precise timer for the <a href="#wall_clock">wall_clock</a> class when using C++11</li>

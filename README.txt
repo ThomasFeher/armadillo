@@ -457,6 +457,7 @@ Contributors:
 - Chris Cooper
 - Clement Creusot
 - Chris Davey
+- Alexandre Drouin
 - Dirk Eddelbuettel
 - Romain Francois
 - Michael McNeil Forbes
