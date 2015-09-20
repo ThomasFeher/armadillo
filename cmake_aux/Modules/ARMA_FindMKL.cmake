@@ -3,19 +3,24 @@
 #  MKL_LIBRARIES, the libraries needed to use Intel's implementation of BLAS & LAPACK.
 #  MKL_FOUND, If false, do not try to use MKL.
 
-set(MKL_NAMES ${MKL_NAMES} mkl_lapack)
-set(MKL_NAMES ${MKL_NAMES} mkl_intel_thread)
-set(MKL_NAMES ${MKL_NAMES} mkl_core)
-set(MKL_NAMES ${MKL_NAMES} guide)
-set(MKL_NAMES ${MKL_NAMES} mkl)
-set(MKL_NAMES ${MKL_NAMES} iomp5)
+## the link below explains why we're linking only with mkl_rt
+## https://software.intel.com/en-us/articles/a-new-linking-model-single-dynamic-library-mkl_rt-since-intel-mkl-103
+
+set(MKL_NAMES ${MKL_NAMES} mkl_rt)
+#set(MKL_NAMES ${MKL_NAMES} mkl_lapack)
+#set(MKL_NAMES ${MKL_NAMES} mkl_intel_thread)
+#set(MKL_NAMES ${MKL_NAMES} mkl_core)
+#set(MKL_NAMES ${MKL_NAMES} guide)
+#set(MKL_NAMES ${MKL_NAMES} mkl)
+#set(MKL_NAMES ${MKL_NAMES} iomp5)
 #set(MKL_NAMES ${MKL_NAMES} pthread)
 
+
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-  set(MKL_NAMES ${MKL_NAMES} mkl_intel_lp64)
+  #set(MKL_NAMES ${MKL_NAMES} mkl_intel_lp64)
   set(MKL_ARCH intel64)
 else()
-  set(MKL_NAMES ${MKL_NAMES} mkl_intel)
+  #set(MKL_NAMES ${MKL_NAMES} mkl_intel)
   set(MKL_ARCH ia32)
 endif()
 

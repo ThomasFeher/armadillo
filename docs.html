@@ -96,6 +96,17 @@ hr.greyline
   padding-bottom: 0ex;
   list-style:     disc;
   }
+
+@media all
+  {
+  .page-break { display: none; }
+  }
+
+@media print
+  {
+  .page-break { display: block; page-break-before: always; }
+  .no-print { display: none !important; }
+  }
   -->
   </style>
 </head>
@@ -104,7 +115,7 @@ hr.greyline
 
 <a name="top"></a>
 <!--  -->
-<a style="display:scroll; position:fixed; bottom:5px; right:5px;" href="#top"><font size=-1>[top]</font></a>
+<a class="no-print" style="display:scroll; position:fixed; bottom:5px; right:5px;" href="#top"><font size=-1>[top]</font></a>
 
 <center>
 <table style="text-align: left; width: 80%; margin-left: auto; margin-right: auto;" border="0" cellpadding="0" cellspacing="0">
@@ -116,7 +127,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 4.550</b></font>
+        <font size=+2><b>Reference for Armadillo 4.599</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -1630,10 +1641,10 @@ examples of omitted functions: <a href="#fill">.fill()</a>, <a href="#ones_membe
 <a name="batch_constructors_sp_mat"></a>
 Batch insertion constructors:
 <ul>
-<li>form&nbsp;1: <code>sp_mat(<i>rowind</i>, <i>colptr</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>)</code></li>
-<li>form&nbsp;2: <code>sp_mat(<i>locations</i>, <i>values</i>, <i>sort_locations = true</i>)</code></li>
-<li>form&nbsp;3: <code>sp_mat(<i>locations</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>, <i>sort_locations&nbsp;=&nbsp;true</i>, <i>check_for_zeros&nbsp;=&nbsp;true</i>)</code></li>
-<li>form&nbsp;4: <code>sp_mat(<i>add_values</i>, <i>locations</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>, <i>sort_locations&nbsp;=&nbsp;true</i>, <i>check_for_zeros&nbsp;=&nbsp;true</i>)</code></li>
+<li>form&nbsp;1: <code>sp_mat(<i>locations</i>, <i>values</i>, <i>sort_locations = true</i>)</code></li>
+<li>form&nbsp;2: <code>sp_mat(<i>locations</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>, <i>sort_locations&nbsp;=&nbsp;true</i>, <i>check_for_zeros&nbsp;=&nbsp;true</i>)</code></li>
+<li>form&nbsp;3: <code>sp_mat(<i>add_values</i>, <i>locations</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>, <i>sort_locations&nbsp;=&nbsp;true</i>, <i>check_for_zeros&nbsp;=&nbsp;true</i>)</code></li>
+<li>form&nbsp;4: <code>sp_mat(<i>rowind</i>, <i>colptr</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>)</code></li>
 <br>
 <ul>
 <li>
@@ -1641,34 +1652,37 @@ Using batch insertion constructors is generally much faster than consecutively i
 </li>
 <br>
 <li>
-For form&nbsp;1,
-<i>rowind</i> is a dense column vector of type <i>umat</i> or <i>uvec</i> containing the row indices of the values to be inserted,
-and
-<i>colptr</i> is a dense column vector of type <i>umat</i> or <i>uvec</i> containing indices of <i>values</i> corresponding to the start of new columns;
-the vectors correspond to the arrays used by the <a href="http://en.wikipedia.org/wiki/Sparse_matrix">compressed sparse column format</a>
-</li>
-<br>
-<li>
-For forms&nbsp;2,&nbsp;3,&nbsp;4,
+For forms&nbsp;1,&nbsp;2,&nbsp;3,
 <i>locations</i> is a dense matrix of type <i>umat</i>, with a size of <i>2</i>&nbsp;x&nbsp;<i>N</i>, where <i>N</i> is the number of values to be inserted;
 the location of the <i>i</i>-th element is specified by the contents of the <i>i</i>-th column of the <i>locations</i> matrix,
 where the row is in <i>locations(0,i)</i>, and the column is in <i>locations(1,i)</i>
 </li>
 <br>
 <li>
-For all forms, <i>values</i> is a dense column vector containing the values to be inserted;
-it must have the same element type as the sparse matrix.
-For forms&nbsp;2 and&nbsp;3, the value in <i>values[i]</i> will be inserted at the location specified by the <i>i</i>-th column of the <i>locations</i> matrix.
+For form&nbsp;4,
+<i>rowind</i> is a dense column vector of type <i>umat</i> or <i>uvec</i> containing the row indices of the values to be inserted,
+and
+<i>colptr</i> is a dense column vector of type <i>umat</i> or <i>uvec</i> containing indices of <i>values</i> corresponding to the start of new columns;
+the vectors correspond to the arrays used by the <a href="http://en.wikipedia.org/wiki/Sparse_matrix">compressed sparse column format</a>;
+this form is useful for copying data from other CSC sparse matrix containers
 </li>
 <br>
 <li>
-For form&nbsp;4,
+For all forms, <i>values</i> is a dense column vector containing the values to be inserted;
+it must have the same element type as the sparse matrix.
+For forms&nbsp;1 and&nbsp;2, the value in <i>values[i]</i> will be inserted at the location specified by the <i>i</i>-th column of the <i>locations</i> matrix.
+</li>
+<br>
+<li>
+For form&nbsp;3,
 <i>add_values</i> is either <i>true</i> or <i>false</i>; when set to <i>true</i>, identical locations are allowed, and the values at identical locations are added 
 </li>
 <br>
 <li>
-The size of the constructed matrix is either manually specified via <i>n_rows</i> and <i>n_cols</i> (forms&nbsp;1,&nbsp;3,&nbsp;4),
-or automatically determined from the maximal locations in the <i>locations</i> matrix (form&nbsp;2)
+The size of the constructed matrix is either 
+automatically determined from the maximal locations in the <i>locations</i> matrix (form&nbsp;1),
+or
+manually specified via <i>n_rows</i> and <i>n_cols</i> (forms&nbsp;2,&nbsp;3,&nbsp;4)
 </li>
 <br>
 <li>
@@ -4957,8 +4971,14 @@ X<b>(</b>&nbsp;row_number<b>,</b> <b>span(</b>first_col<b>,</b> last_col<b>)&nbs
 <br>
 X.<b>unsafe_col(&nbsp;</b>col_number<b>&nbsp;)</b><br>
 <br>
-V<b>(&nbsp;span(</b>first_index<b>,</b> last_index<b>)&nbsp;)</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>(for vectors only)</i><br>
-V.<b>subvec(&nbsp;</b>first_index<b>,</b> last_index<b>&nbsp;)</b> &nbsp;&nbsp;&nbsp; <i>(for vectors only)</i><br>
+<table border="0" cellpadding="0" cellspacing="0">
+<tbody>
+<tr><td>V<b>(&nbsp;span(</b>first_index<b>,</b> last_index<b>)&nbsp;)</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>&#9131;</td><td>&nbsp;</td></tr>
+<tr><td>V.<b>subvec(&nbsp;</b>first_index<b>,</b> last_index<b>&nbsp;)</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>&#9130;</td><td>&nbsp;</td></tr>
+<tr><td>V.<b>head(&nbsp;</b>number_of_elements<b>&nbsp;)</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>&#9132;</td><td>&nbsp;&nbsp;<i>for vectors only</i></td></tr>
+<tr><td>V.<b>tail(&nbsp;</b>number_of_elements<b>&nbsp;)</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>&#9133;</td><td>&nbsp;</td></tr>
+</tbody>
+</table>
 </ul>
 </li>
 <br>
@@ -5048,6 +5068,16 @@ uvec indices;
 indices &lt;&lt; 2 &lt;&lt; 3 &lt;&lt; 6 &lt;&lt; 8;
 
 X.elem(indices) = ones&lt;vec&gt;(4);
+
+// add 123 to the first 3 elements of column 2 of X
+X.col(2).head(3) += 123;
+
+// obtain the first 4 elements of vector a
+vec a(10, fill::randu);
+vec b = a.head(4);
+
+// add 123 to the last 5 elements of vector a
+a.tail(5) += 123.0;
 </pre>
 </ul>
 </li>
@@ -13356,6 +13386,15 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="added_in_4600"></a>
+<li>Added in 4.600:
+<ul>
+<li>added <i>.head()</i> and <i>.tail()</i> to <a href="#submat">submatrix views</a></li>
+<li>faster matrix transposes within compound expressions</li>
+<li>faster <a href="#accu">accu()</a> and <a href="#norm">norm()</a> when compiling with <i>-O3 -ffast-math -march=native</i> (gcc and clang)
+</ul>
+</li>
+<br>
 <a name="added_in_4550"></a>
 <li>Added in 4.550:
 <ul>
