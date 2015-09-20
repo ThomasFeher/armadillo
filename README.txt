@@ -187,7 +187,7 @@ In general, programs which use Armadillo are compiled along these lines:
 If you want to use Armadillo without installation,
 or you're getting linking errors, compile along these lines:
   
-  g++ example1.cpp -o example1 -O2 -I /home/blah/armadillo-4.600.1/include -DARMA_DONT_USE_WRAPPER -lblas -llapack
+  g++ example1.cpp -o example1 -O2 -I /home/blah/armadillo-4.600.2/include -DARMA_DONT_USE_WRAPPER -lblas -llapack
   
 The above command line assumes that you have unpacked the armadillo archive into /home/blah/
 You will need to adjust this for later versions of Armadillo,
@@ -195,8 +195,8 @@ and/or if you have unpacked into a different directory.
 
 Notes:
 
-* To use the high speed OpenBLAS library instead of BLAS and LAPACK,
-  replace -lblas -llapack with -lopenblas
+* To use the high speed OpenBLAS library instead of BLAS,
+  replace -lblas -llapack with -lopenblas -llapack
   To get OpenBLAS, see http://xianyi.github.com/OpenBLAS/
   
 * On most Linux-based systems, using -lblas -llapack should be enough;

@@ -213,7 +213,7 @@ Technical Report, NICTA, 2010.
 <li><a href="#part_e">decompositions, factorisations, inverses and equation solvers</a></li>
 <br>
 <li><a href="#part_f">gaussian mixture model and running statistics</a></li>
-<li><a href="#part_g">miscellaneous (pre-defined constants, configuration)</a></li>
+<li><a href="#part_g">miscellaneous (constants, configuration)</a></li>
 </ul>
 <br>
 
@@ -247,7 +247,7 @@ Technical Report, NICTA, 2010.
 <tr><td><a href="#zeros_member">.zeros</a></td><td>&nbsp;</td><td>set all elements to zero</td></tr>
 <tr><td><a href="#ones_member">.ones</a></td><td>&nbsp;</td><td>set all elements to one</td></tr>
 <tr><td><a href="#eye_member">.eye</a></td><td>&nbsp;</td><td>set elements along main diagonal to one and off-diagonal elements to zero</td></tr>
-<tr><td><a href="#randu_randn_member">.randu/.randn</a></td><td>&nbsp;</td><td>set all elements to random values</td></tr>
+<tr><td><a href="#randu_randn_member">.randu&nbsp;/&nbsp;.randn</a></td><td>&nbsp;</td><td>set all elements to random values</td></tr>
 <tr><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td></tr>
 <tr><td><a href="#fill">.fill</a></td><td>&nbsp;</td><td>set all elements to specified value</td></tr>
 <tr><td><a href="#imbue">.imbue</a></td><td>&nbsp;</td><td>imbue (fill) with values provided by functor or lambda function</td></tr>
@@ -264,9 +264,9 @@ Technical Report, NICTA, 2010.
 <tr><td><a href="#subfield">subfield&nbsp;views</a></td><td>&nbsp;</td><td>read/write access to contiguous subfields</td></tr>
 <tr><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td></tr>
 <tr><td><a href="#diag">.diag</a></td><td>&nbsp;</td><td>read/write access to matrix diagonals</td></tr>
-<tr><td><a href="#each_colrow">.each_col/.each_row</a></td><td>&nbsp;</td><td>repeated operations on each column or row</td></tr>
+<tr><td><a href="#each_colrow">.each_col&nbsp;/&nbsp;.each_row</a></td><td>&nbsp;</td><td>repeated operations on each column or row</td></tr>
 <tr><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td></tr>
-<tr><td><a href="#set_imag">.set_imag/.set_real</a></td><td>&nbsp;</td><td>set imaginary/real part</td></tr>
+<tr><td><a href="#set_imag">.set_imag&nbsp;/&nbsp;.set_real</a></td><td>&nbsp;</td><td>set imaginary/real part</td></tr>
 <tr><td><a href="#insert">.insert_rows/cols/slices</a></td><td>&nbsp;</td><td>insert vector/matrix/cube at specified row/column/slice</td></tr>
 <tr><td><a href="#shed">.shed_rows/cols/slices</a></td><td>&nbsp;</td><td>remove specified rows/columns/slices</td></tr>
 <tr><td><a href="#swap_rows">.swap_rows/cols</a></td><td>&nbsp;</td><td>swap specified rows or columns</td></tr>
@@ -281,7 +281,7 @@ Technical Report, NICTA, 2010.
 <tr><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td></tr>
 <tr><td><a href="#t_st_members">.t&nbsp;/&nbsp;.st&nbsp;</a></td><td>&nbsp;</td><td>return matrix transpose</td></tr>
 <tr><td><a href="#i_member">.i&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td>&nbsp;</td><td>return inverse of square matrix</td></tr>
-<tr><td><a href="#min_and_max_member">.min/.max</a></td><td>&nbsp;</td><td>return extremum value, and optionally its location</td></tr>
+<tr><td><a href="#min_and_max_member">.min&nbsp;/&nbsp;.max</a></td><td>&nbsp;</td><td>return extremum value, and optionally its location</td></tr>
 <tr><td><a href="#eval_member">.eval</a></td><td>&nbsp;</td><td>force evaluation of delayed expression</td></tr>
 <tr><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td></tr>
 <tr><td><a href="#in_range">.in_range</a></td><td>&nbsp;</td><td>check whether given location or span is valid</td></tr>
@@ -312,7 +312,7 @@ Technical Report, NICTA, 2010.
 <tr><td><a href="#randu_randn_standalone">randu&nbsp;/&nbsp;randn</a></td><td>&nbsp;</td><td>generate object with random values (uniform and normal distributions)</td></tr>
 <tr><td><a href="#speye">speye</a></td><td>&nbsp;</td><td>generate sparse identity matrix</td></tr>
 <tr style="background-color: #EEEEEE;"><td><a href="#spones">spones</a></td><td>&nbsp;</td><td>generate sparse matrix with non-zero elements set to one</td></tr>
-<tr style="background-color: #EEEEEE;"><td><a href="#sprandu_sprandn">sprandu&nbsp;/&nbsp;sprandn</a></td><td>&nbsp;</td><td>generate sparse matrix with the non-zero elements set to random values</td></tr>
+<tr style="background-color: #EEEEEE;"><td><a href="#sprandu_sprandn">sprandu&nbsp;/&nbsp;sprandn</a></td><td>&nbsp;</td><td>generate sparse matrix with non-zero elements set to random values</td></tr>
 <tr style="background-color: #EEEEEE;"><td><a href="#toeplitz">toeplitz</a></td><td>&nbsp;</td><td>generate Toeplitz matrix</td></tr>
 <tr><td><a href="#zeros_standalone">zeros</a></td><td>&nbsp;</td><td>generate object filled with zeros</td></tr>
 </tbody>
@@ -429,11 +429,11 @@ Technical Report, NICTA, 2010.
 <ul>
 <table>
 <tbody>
-<tr style="background-color: #EEEEEE;"><td><a href="#constants">pre-defined&nbsp;constants</a></td><td>&nbsp;</td><td>pi, inf, NaN, speed&nbsp;of&nbsp;light,&nbsp;...</td></tr>
+<tr style="background-color: #EEEEEE;"><td><a href="#constants">constants</a></td><td>&nbsp;</td><td>pi, inf, NaN, speed&nbsp;of&nbsp;light,&nbsp;...</td></tr>
 <tr style="background-color: #EEEEEE;"><td><a href="#wall_clock">wall_clock</a></td><td>&nbsp;</td><td>timer for measuring number of elapsed seconds</td></tr>
 <tr style="background-color: #EEEEEE;"><td><a href="#logging">logging&nbsp;of&nbsp;errors/warnings</a></td><td>&nbsp;</td><td>how to change the streams for displaying warnings and errors</td></tr>
-<tr><td><a href="#uword">uword/sword</a></td><td>&nbsp;</td><td>shorthand for unsigned and signed integers</td></tr>
-<tr><td><a href="#cx_double">cx_double/cx_float</a></td><td>&nbsp;</td><td>shorthand for std::complex&lt;double&gt; and std::complex&lt;float&gt;</td></tr>
+<tr><td><a href="#uword">uword&nbsp;/&nbsp;sword</a></td><td>&nbsp;</td><td>shorthand for unsigned and signed integers</td></tr>
+<tr><td><a href="#cx_double">cx_double&nbsp;/&nbsp;cx_float</a></td><td>&nbsp;</td><td>shorthand for std::complex&lt;double&gt; and std::complex&lt;float&gt;</td></tr>
 <tr><td><a href="#syntax">Matlab/Armadillo&nbsp;syntax&nbsp;differences</a></td><td>&nbsp;</td><td>examples of Matlab syntax and conceptually corresponding Armadillo syntax</td></tr>
 <tr style="background-color: #EEEEEE;"><td><a href="#example_prog">example&nbsp;program</a></td><td>&nbsp;</td><td>short example program</td></tr>
 <tr style="background-color: #EEEEEE;"><td><a href="#config_hpp">config.hpp</a></td><td>&nbsp;</td><td>configuration options</td></tr>
@@ -615,11 +615,11 @@ Advanced constructors:
 <br>
 <br>
 <ul>
-<code>mat(aux_mem*, n_rows, n_cols, copy_aux_mem = true, strict = true)</code>
+<code>mat(*aux_mem, n_rows, n_cols, copy_aux_mem = true, strict = true)</code>
 <br>
 <br>
 <ul>
-Create a matrix using data from writable auxiliary memory.
+Create a matrix using data from writable auxiliary (external) memory.
 By default the matrix allocates its own memory and copies data from the auxiliary memory (for safety).
 However, if <i>copy_aux_mem</i> is set to <i>false</i>,
 the matrix will instead directly use the auxiliary memory (ie. no copying).
@@ -637,7 +637,7 @@ If the requested number of elements is different to the size of the auxiliary me
 new memory will be allocated and the auxiliary memory will no longer be used.
 </ul>
 <br>
-<code>mat(const aux_mem*, n_rows, n_cols)</code>
+<code>mat(const *aux_mem, n_rows, n_cols)</code>
 <br>
 <br>
 <ul>
@@ -662,7 +662,7 @@ The typedefs were defined by simply appending a two digit form of the size to th
 while <i>cx_mat44</i> is equivalent to <i>cx_mat::fixed&lt;4,4&gt;</i>.
 </ul>
 <br>
-<code>mat::fixed&lt;n_rows, n_cols&gt;(const aux_mem*)</code>
+<code>mat::fixed&lt;n_rows, n_cols&gt;(const *aux_mem)</code>
 <br>
 <br>
 <ul>
@@ -690,25 +690,14 @@ B.zeros();
 B.set_size(10,10);
 B.ones(5,6);
 
+B.print("B:");
+
 mat E(4,5, fill::zeros);
 
-//
-// fixed size matrices:
-
 mat::fixed&lt;5,6&gt; F;
-F.ones();
-
-mat44 G;
-G.randn();
-
-cout &lt;&lt; mat22().randu() &lt;&lt; endl;
-
-//
-// constructing matrices from
-// auxiliary (external) memory:
 
 double aux_mem[24];
-mat H(aux_mem, 4, 6, false);
+mat H(&amp;aux_mem[0], 4, 6, false);  // use auxiliary memory
 </pre>
 </ul>
 </li>
@@ -916,11 +905,11 @@ Advanced constructors:
 <br>
 <br>
 <ul>
-<code>vec(aux_mem*, number_of_elements, copy_aux_mem = true, strict = true)</code>
+<code>vec(*aux_mem, number_of_elements, copy_aux_mem = true, strict = true)</code>
 <br>
 <br>
 <ul>
-Create a column vector using data from writable auxiliary memory.
+Create a column vector using data from writable auxiliary (external) memory.
 By default the vector allocates its own memory and copies data from the auxiliary memory (for safety).
 However, if <i>copy_aux_mem</i> is set to <i>false</i>,
 the vector will instead directly use the auxiliary memory (ie. no copying).
@@ -938,7 +927,7 @@ If the requested number of elements is different to the size of the auxiliary me
 new memory will be allocated and the auxiliary memory will no longer be used.
 </ul>
 <br>
-<code>vec(const aux_mem*, number_of_elements)</code>
+<code>vec(const *aux_mem, number_of_elements)</code>
 <br>
 <br>
 <ul>
@@ -963,7 +952,7 @@ The typedefs were defined by simply appending a single digit form of the size to
 while <i>cx_vec4</i> is equivalent to <i>cx_vec::fixed&lt;4&gt;</i>.
 </ul>
 <br>
-<code>vec::fixed&lt;number_of_elements&gt;(const aux_mem*)</code>
+<code>vec::fixed&lt;number_of_elements&gt;(const *aux_mem)</code>
 <br>
 <br>
 <ul>
@@ -1139,11 +1128,11 @@ Advanced constructors:
 <br>
 <br>
 <ul>
-<code>rowvec(aux_mem*, number_of_elements, copy_aux_mem = true, strict = true)</code>
+<code>rowvec(*aux_mem, number_of_elements, copy_aux_mem = true, strict = true)</code>
 <br>
 <br>
 <ul>
-Create a row vector using data from writable auxiliary memory.
+Create a row vector using data from writable auxiliary (external) memory.
 By default the vector allocates its own memory and copies data from the auxiliary memory (for safety).
 However, if <i>copy_aux_mem</i> is set to <i>false</i>,
 the vector will instead directly use the auxiliary memory (ie. no copying).
@@ -1161,7 +1150,7 @@ If the requested number of elements is different to the size of the auxiliary me
 new memory will be allocated and the auxiliary memory will no longer be used.
 </ul>
 <br>
-<code>rowvec(const aux_mem*, number_of_elements)</code>
+<code>rowvec(const *aux_mem, number_of_elements)</code>
 <br>
 <br>
 <ul>
@@ -1185,7 +1174,7 @@ The typedefs were defined by simply appending a single digit form of the size to
 while <i>cx_rowvec4</i> is equivalent to <i>cx_rowvec::fixed&lt;4&gt;</i>.
 </ul>
 <br>
-<code>rowvec::fixed&lt;number_of_elements&gt;(const aux_mem*)</code>
+<code>rowvec::fixed&lt;number_of_elements&gt;(const *aux_mem)</code>
 <br>
 <br>
 <ul>
@@ -1378,11 +1367,11 @@ Memory for the cube is allocated at compile time.
 This is generally faster than dynamic memory allocation, but the size of the cube can't be changed afterwards (directly or indirectly).
 </ul>
 <br>
-<code>cube(aux_mem*, n_rows, n_cols, n_slices, copy_aux_mem = true, strict = true)</code>
+<code>cube(*aux_mem, n_rows, n_cols, n_slices, copy_aux_mem = true, strict = true)</code>
 <br>
 <br>
 <ul>
-Create a cube using data from writable auxiliary memory.
+Create a cube using data from writable auxiliary (external) memory.
 By default the cube allocates its own memory and copies data from the auxiliary memory (for safety).
 However, if <i>copy_aux_mem</i> is set to <i>false</i>,
 the cube will instead directly use the auxiliary memory (ie. no copying).
@@ -1400,7 +1389,7 @@ If the requested number of elements is different to the size of the auxiliary me
 new memory will be allocated and the auxiliary memory will no longer be used.
 </ul>
 <br>
-<code>cube(const aux_mem*, n_rows, n_cols, n_slices)</code>
+<code>cube(const *aux_mem, n_rows, n_cols, n_slices)</code>
 <br>
 <br>
 <ul>
@@ -1489,11 +1478,11 @@ Class for storing arbitrary objects in matrix-like or cube-like layouts
 <br>
 <li>
 Somewhat similar to a matrix or cube, but instead of each element being a scalar,
-each element can be a vector (resulting in a field of vectors), or matrix, or cube
+each element can be a vector, or matrix, or cube
 </li>
 <br>
 <li>
-Each element can have an arbitrary size
+Each element can have an arbitrary size (eg. for a field matrices, each matrix can have a different size)
 </li>
 <br>
 <li>
@@ -1515,28 +1504,16 @@ Constructors, where <i>object_type</i> is another class, eg. <i>vec</i>, <i>mat<
 Examples:
 <ul>
 <pre>
-// create a field containing vectors
-field&lt;vec&gt; F(3,2);
+mat A = randn(2,3);
+mat B = randn(4,5);
 
-// each vector in the field can have an arbitrary size
-F(0,0) = vec(5);
-F(1,1) = randu&lt;vec&gt;(6);
-F(2,0).set_size(7);
+field&lt;mat&gt; F(2,1);
+F(0,0) = A;
+F(1,0) = B; 
 
-// access element 1 of vector stored at 2,0
-double x = F(2,0)(1);
+F.print("F:");
 
-// copy a row of vectors
-F.row(0) = F.row(2);
-
-// extract a row of vectors from F
-field&lt;vec&gt; G = F.row(1);
-
-// print the field to the standard output
-G.print("G =");
-
-// save the field to a binary file
-G.save("vec_field");
+F.save("mat_field");
 </pre>
 </ul>
 </li>
@@ -2617,7 +2594,7 @@ See also:
 <li><a href="#ones_member">.ones()</a></li>
 <li><a href="#zeros_member">.zeros()</a></li>
 <li><a href="#randu_randn_member">.randu() &amp; .randn()</a></li>
-<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
+<li><a href="#constants">constants (pi, nan, inf, ...)</a></li>
 </ul>
 </li>
 <br>
@@ -3006,7 +2983,7 @@ See also:
 </b>
 <ul>
 <li>
-Causes an object to have no elements
+Reset the size to zero (the object will have no elements)
 </li>
 <br>
 <li>
@@ -3160,15 +3137,12 @@ indices &lt;&lt; 2 &lt;&lt; 3 &lt;&lt; 6 &lt;&lt; 8;
 
 X.elem(indices) = ones&lt;vec&gt;(4);
 
+// add 123 to the last 5 elements of vector a
+vec a(10, fill::randu);
+a.tail(5) += 123.0;
+
 // add 123 to the first 3 elements of column 2 of X
 X.col(2).head(3) += 123;
-
-// obtain the first 4 elements of vector a
-vec a(10, fill::randu);
-vec b = a.head(4);
-
-// add 123 to the last 5 elements of vector a
-a.tail(5) += 123.0;
 </pre>
 </ul>
 </li>
@@ -4960,7 +4934,7 @@ See also:
 <li><a href="#is_finite">is_finite()</a> (standalone function)</li>
 <li><a href="#find_finite">find_finite()</a></li>
 <li><a href="#find_nonfinite">find_nonfinite()</a></li>
-<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
+<li><a href="#constants">constants (pi, nan, inf, ...)</a></li>
 </ul>
 </li>
 <br>
@@ -6992,7 +6966,7 @@ See also:
 <li><a href="#find">find()</a></li>
 <li><a href="#find_nonfinite">find_nonfinite()</a></li>
 <li><a href="#submat">submatrix views</a></li>
-<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
+<li><a href="#constants">constants (pi, nan, inf, ...)</a></li>
 </ul>
 </li>
 <br>
@@ -7032,7 +7006,7 @@ See also:
 <li><a href="#find">find()</a></li>
 <li><a href="#find_finite">find_finite()</a></li>
 <li><a href="#submat">submatrix views</a></li>
-<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
+<li><a href="#constants">constants (pi, nan, inf, ...)</a></li>
 </ul>
 </li>
 <br>
@@ -7319,7 +7293,7 @@ See also:
 <li><a href="#is_finite_member">.is_finite()</a> (member function of <i>Mat</i> and <i>Cube</i>)</li>
 <li><a href="#find_finite">find_finite()</a></li>
 <li><a href="#find_nonfinite">find_nonfinite()</a></li>
-<li><a href="#constants">pre-defined constants (pi, nan, inf, ...)</a></li>
+<li><a href="#constants">constants (pi, nan, inf, ...)</a></li>
 </ul>
 </li>
 <br>
@@ -8502,7 +8476,7 @@ See also:
 <li><a href="#conj">conj()</a></li>
 <li><a href="#imag_real">imag() / real()</a></li>
 <li><a href="#expmat">expmat()</a></li>
-<li><a href="#constants">pre-defined constants</a></li>
+<li><a href="#constants">constants</a></li>
 </ul>
 </li>
 <br>
@@ -8697,9 +8671,9 @@ See also:
 
 <a name="chol"></a>
 <b>R = chol( X )</b>
-<br><b>chol( R, X )</b>
-<br>
 <br><b>R = chol( X, layout )</b>
+<br>
+<br><b>chol( R, X )</b>
 <br><b>chol( R, X, layout )</b>
 <ul>
 <li>
@@ -8718,10 +8692,10 @@ By default, <i>R</i> is upper triangular, such that <i>R.t()*R = X</i>
 The argument <i>layout</i> is optional; <i>layout</i> is either "upper" or "lower", which specifies whether <i>R</i> is upper or lower triangular
 </li>
 <br>
-<li>If the decomposition fails, <i>R</i> is reset and:
+<li>If the decomposition fails:
 <ul>
-<li><i>chol(X)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>chol(R,X)</i> returns a bool set to <i>false</i></li>
+<li><i>R = chol(X)</i> resets <i>R</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>chol(R,X)</i> resets <i>R</i> returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
@@ -8780,10 +8754,11 @@ In version 3.930, the default method is "std"
 The divide-and-conquer method provides slightly different results than the standard method, but is considerably faster for large matrices
 </li>
 <br>
-<li>If the decomposition fails, the output objects are reset and:
+<li>If the decomposition fails:
 <ul>
-<li><i>eig_sym(X)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>eig_sym(eigval, X)</i> and <i>eig_sym(eigval, eigvec, X)</i> return a bool set to <i>false</i></li>
+<li><i>eigval = eig_sym(X)</i> resets <i>eigval</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>eig_sym(eigval,X)</i> resets <i>eigval</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
+<li><i>eig_sym(eigval,eigvec,X)</i> resets <i>eigval</i> &amp; <i>eigvec</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
@@ -8848,10 +8823,11 @@ Eigen decomposition of <b>dense</b> general (non-symmetric/non-hermitian) square
 <br>
 <li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
 <br>
-<li>If the decomposition fails, the output objects are reset and:
+<li>If the decomposition fails:
 <ul>
-<li><i>eig_gen(X)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>eig_gen(eigval, X)</i> and <i>eig_gen(eigval, eigvec, X)</i> return a bool set to <i>false</i></li>
+<li><i>eigval = eig_gen(X)</i> resets <i>eigval</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>eig_gen(eigval,X)</i> resets <i>eigval</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
+<li><i>eig_gen(eigval,eigvec,X)</i> resets <i>eigval</i> &amp; <i>eigvec</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
@@ -8901,10 +8877,11 @@ such that <i>A*eigvec&nbsp;=&nbsp;B*eigvec*diagmat(eigval)</i>
 <br>
 <li>If <i>A</i> or <i>B</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
 <br>
-<li>If the decomposition fails, the output objects are reset and:
+<li>If the decomposition fails:
 <ul>
-<li><i>eig_pair(A,B)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>eig_pair(eigval, A, B)</i> and <i>eig_pair(eigval, eigvec, A, B)</i> return a bool set to <i>false</i></li>
+<li><i>eigval = eig_pair(A,B)</i> resets <i>eigval</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>eig_pair(eigval,A,B)</i> resets <i>eigval</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
+<li><i>eig_pair(eigval,eigvec,A,B)</i> resets <i>eigval</i> &amp; <i>eigvec</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
@@ -8974,10 +8951,11 @@ The argument <i>tol</i> is optional; it specifies the tolerance for convergence
 <br>
 <li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
 <br>
-<li>If the decomposition fails, the output objects are reset and:
+<li>If the decomposition fails:
 <ul>
-<li><i>eigs_sym(X,k)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>eigs_sym(eigval,X,k)</i> and <i>eigs_sym(eigval,eigvec,X,k)</i> return a bool set to <i>false</i></li>
+<li><i>eigval = eigs_sym(X,k)</i> resets <i>eigval</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>eigs_sym(eigval,X,k)</i> resets <i>eigval</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
+<li><i>eigs_sym(eigval,eigvec,X,k)</i> resets <i>eigval</i> &amp; <i>eigvec</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
@@ -9060,10 +9038,11 @@ The eigenvalues and corresponding eigenvectors are stored in <i>eigval</i> and <
 If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown
 </li>
 <br>
-<li>If the decomposition fails, the output objects are reset and:
+<li>If the decomposition fails:
 <ul>
-<li><i>eigs_gen(X,k)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>eigs_gen(eigval,X,k)</i> and <i>eigs_gen(eigval,eigvec,X,k)</i> return a bool set to <i>false</i></li>
+<li><i>eigval = eigs_gen(X,k)</i> resets <i>eigval</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>eigs_gen(eigval,X,k)</i> resets <i>eigval</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
+<li><i>eigs_gen(eigval,eigvec,X,k)</i> resets <i>eigval</i> &amp; <i>eigvec</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
@@ -9215,10 +9194,10 @@ For matrix sizes greater than 4x4, the standard algorithm is always used
 If <i>A</i> is not square, a <i>std::logic_error</i> exception is thrown
 </li>
 <br>
-<li>If <i>A</i> appears to be singular, <i>B</i> is reset and:
+<li>If <i>A</i> appears to be singular:
 <ul>
-<li><i>inv(A)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>inv(B,A)</i> returns a bool set to <i>false</i></li>
+<li><i>B = inv(A)</i> resets <i>B</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>inv(B,A)</i> resets <i>B</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
@@ -9282,10 +9261,10 @@ If <i>A</i> is not square, a <i>std::logic_error</i> exception is thrown
 There is currently no explicit check whether <i>A</i> is symmetric or positive definite
 </li>
 <br>
-<li>If <i>A</i> appears to be singular, <i>B</i> is reset and:
+<li>If <i>A</i> appears to be singular:
 <ul>
-<li><i>inv_sympd(A)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>inv_sympd(B,A)</i> returns a bool set to <i>false</i></li>
+<li><i>B = inv_sympd(A)</i> resets <i>B</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>inv_sympd(B,A)</i> resets <i>B</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
@@ -9348,7 +9327,11 @@ note that in this case <i>L</i> is generally not lower-triangular
 </li>
 <br>
 <li>
-If the decomposition fails, the output objects are reset and <i>lu()</i> returns a bool set to <i>false</i>
+If the decomposition fails:
+<ul>
+<li><i>lu(L,U,P,X)</i> resets <i>L</i>, <i>U</i>, <i>P</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
+<li><i>lu(L,U,X)</i> resets <i>L</i>, <i>U</i>  and returns a bool set to <i>false</i> (exception is not thrown)</li>
+</ul>
 </li>
 <br>
 <li>
@@ -9378,7 +9361,7 @@ See also:
 <hr class="greyline"><br>
 
 <a name="pinv"></a>
-<b>B = pinv( A)</b>
+<b>B = pinv( A )</b>
 <br><b>B = pinv( A, tolerance )</b>
 <br><b>B = pinv( A, tolerance, method )</b>
 <br>
@@ -9388,12 +9371,9 @@ See also:
 <ul>
 <li>Moore-Penrose pseudo-inverse of matrix <i>A</i></li>
 <br>
-<li>The computation is based on singular value decomposition;
-if the decomposition fails, <i>B</i> is reset and:
-<ul>
-<li><i>pinv(A)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>pinv(B,A)</i> returns a bool set to <i>false</i></li>
-</ul>
+<li>
+The computation is based on singular value decomposition
+</li>
 <br>
 <li>The <i>tolerance</i> argument is optional</li>
 <br>
@@ -9416,6 +9396,13 @@ In version 3.930, the default method is "std"
 <br>
 <li>
 The divide-and-conquer method provides slightly different results than the standard method, but is considerably faster for large matrices
+</li>
+<br>
+<li>If the decomposition fails:
+<ul>
+<li><i>B = pinv(A)</i> resets <i>B</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>pinv(B,A)</i> resets <i>B</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
+</ul>
 </li>
 <br>
 <li>
@@ -9474,11 +9461,14 @@ See also:
 </ul>
 </li>
 <br>
-<li>The computation is based on singular value decomposition;
-if the decomposition fails, the output objects are reset and:
+<li>
+The computation is based on singular value decomposition
+</li>
+<br>
+<li>If the decomposition fails:
 <ul>
-<li><i>princomp(X)</i> throws a <i>std::runtime_error</i> exception</li>
-<li>remaining forms of <i>princomp()</i> return a bool set to <i>false</i></li>
+<li><i>coeff = princomp(X)</i> resets <i>coeff</i> and throws a <i>std::runtime_error</i> exception</li>
+<li>remaining forms of <i>princomp()</i> reset all output matrices and return a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
@@ -9517,7 +9507,7 @@ Decomposition of <i>X</i> into an orthogonal matrix <i>Q</i> and a right triangu
 </li>
 <br>
 <li>
-If the decomposition fails, <i>Q</i> and <i>R</i> are reset and the function returns a bool set to <i>false</i>
+If the decomposition fails, <i>Q</i> and <i>R</i> are reset and the function returns a bool set to <i>false</i> (exception is not thrown)
 </li>
 <br>
 <li>
@@ -9559,7 +9549,7 @@ If <i>m</i> &gt; <i>n</i>, only the first <i>n</i> rows of <i>R</i> and the firs
 </li>
 <br>
 <li>
-If the decomposition fails, <i>Q</i> and <i>R</i> are reset and the function returns a bool set to <i>false</i>
+If the decomposition fails, <i>Q</i> and <i>R</i> are reset and the function returns a bool set to <i>false</i> (exception is not thrown)
 </li>
 <br>
 <li>
@@ -9628,10 +9618,10 @@ through <a href="#trimat">trimatu()</a> or <a href="#trimat">trimatl()</a>
 </li>
 <br>
 <li>
-If no solution is found, <i>X</i> is reset and:
+If no solution is found:
 <ul>
-<li><i>solve(A,B)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>solve(X,A,B)</i> returns a bool set to <i>false</i></li>
+<li><i>X = solve(A,B)</i> resets <i>X</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>solve(X,A,B)</i> resets <i>X</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
@@ -9710,8 +9700,9 @@ The divide-and-conquer method provides slightly different results than the stand
 <li>
 If the decomposition fails, the output objects are reset and:
 <ul>
-<li><i>svd(X)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>svd(s,X)</i> and <i>svd(U,s,V,X)</i> return a bool set to <i>false</i></li>
+<li><i>s = svd(X)</i> resets <i>s</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>svd(s,X)</i> resets <i>s</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
+<li><i>svd(U,s,V,X)</i> resets <i>U</i>, <i>s</i>, <i>V</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
@@ -9786,7 +9777,7 @@ The divide-and-conquer method provides slightly different results than the stand
 </li>
 <br>
 <li>
-If the decomposition fails, the output objects are reset and a bool set to <i>false</i> is returned
+If the decomposition fails, <i>U</i>, <i>s</i>, <i>V</i> are reset and a bool set to <i>false</i> is returned (exception is not thrown)
 </li>
 <br>
 <li>
@@ -9827,10 +9818,10 @@ See also:
 <li>Matrices <i>A</i>, <i>B</i> and <i>C</i> must be square sized</li>
 <br>
 <li>
-If no solution is found, <i>X</i> is reset and:
+If no solution is found:
 <ul>
-<li><i>syl(A,B,C)</i> throws a <i>std::runtime_error</i> exception</li>
-<li><i>syl(X,A,B,C)</i> returns a bool set to <i>false</i></li>
+<li><i>syl(A,B,C)</i> resets <i>X</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>syl(X,A,B,C)</i> resets <i>X</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
@@ -10843,7 +10834,7 @@ cout &lt;&lt; more_stats.cov() / (sd.t() * sd);
 <br>
 
 <a name="constants"></a>
-<b>pre-defined constants (pi, inf, speed of light, ...)</b>
+<b>constants (pi, inf, speed of light, ...)</b>
 <br>
 <ul>
 <table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
@@ -11843,80 +11834,19 @@ will require taking into account that indexing starts at 0
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
       A(p:q, r:s)
     </td>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      <font size=-1>
-      A<a href="#submat">.submat</a>(p, r, q, s)
-      </font>
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      <font size=-1>
-      A.submat(first_row, first_col, last_row, last_col)
-      </font>
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      <font size=-1>
-      or
-      </font>
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      <font size=-1>
       A(&nbsp;<a href="#submat">span</a>(p,q),&nbsp;<a href="#submat">span</a>(r,s)&nbsp;)
-      </font>
     </td>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      <font size=-1>
       A(&nbsp;span(first_row,&nbsp;last_row), span(first_col,&nbsp;last_col)&nbsp;)
-      </font>
     </td>
   </tr>
   <tr>
@@ -11972,64 +11902,7 @@ will require taking into account that indexing starts at 0
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
       Q(p:q, r:s, t:u)
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      <font size=-1>
-      Q<a href="#subcube">.subcube</a>(p,&nbsp;r,&nbsp;t,&nbsp;q,&nbsp;s,&nbsp;u)
-      </font>
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      <font size=-1>
-      .subcube(first_row, first_col, first_slice, last_row, last_col, last_slice)
-      </font>
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      <font size=-1>
-      or
-      </font>
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-    <td style="vertical-align: top;">
-      &nbsp;
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-      &nbsp;
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12101,7 +11974,7 @@ will require taking into account that indexing starts at 0
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      A = zeros(size(A))
+      A&nbsp;=&nbsp;zeros(size(A))
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12118,7 +11991,7 @@ will require taking into account that indexing starts at 0
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      A = ones(size(A))
+      A&nbsp;=&nbsp;ones(size(A))
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12358,6 +12231,23 @@ A&nbsp;<font size=-1>&lt;&lt;</font> 1 <font size=-1>&lt;&lt;</font> 2 <font siz
   </tr>
   <tr>
     <td style="vertical-align: top;">
+      X = A(:)
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      X = <a href="#vectorise">vectorise</a>(A)
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
       X = [&nbsp;A&nbsp;&nbsp;B&nbsp;]
     </td>
     <td style="vertical-align: top;">
@@ -12416,7 +12306,7 @@ A&nbsp;<font size=-1>&lt;&lt;</font> 1 <font size=-1>&lt;&lt;</font> 2 <font siz
     </td>
     <td style="vertical-align: top;">
       cout <font size=-1>&lt;&lt;</font> A <font size=-1>&lt;&lt;</font> endl;
-      <br>or
+      <br><font size=-1>or</font>
       <br>A<a href="#print">.print</a>("A =");
     </td>
     <td style="vertical-align: top;">
@@ -12445,7 +12335,7 @@ A&nbsp;<font size=-1>&lt;&lt;</font> 1 <font size=-1>&lt;&lt;</font> 2 <font siz
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      save&nbsp;-ascii&nbsp;'A.dat'&nbsp;A
+      save&nbsp;&#8209;ascii&nbsp;'A.dat'&nbsp;A
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12462,7 +12352,7 @@ A&nbsp;<font size=-1>&lt;&lt;</font> 1 <font size=-1>&lt;&lt;</font> 2 <font siz
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      load&nbsp;-ascii&nbsp;'A.dat'
+      load&nbsp;&#8209;ascii&nbsp;'A.dat'
     </td>
     <td style="vertical-align: top;">
       &nbsp;
@@ -12496,21 +12386,25 @@ A&nbsp;<font size=-1>&lt;&lt;</font> 1 <font size=-1>&lt;&lt;</font> 2 <font siz
   </tr>
   <tr>
     <td style="vertical-align: top;">
-      S&nbsp;=&nbsp;{&nbsp;'abc';&nbsp;'def'&nbsp;}
+      A&nbsp;=&nbsp;randn(2,3);
+      <br>B&nbsp;=&nbsp;randn(4,5);
+      <br>F&nbsp;=&nbsp;{&nbsp;A;&nbsp;B&nbsp;}
     </td>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-      <a href="#field">field</a>&lt;std::string&gt; S(2);
-      <br>S(0) = "abc";
-      <br>S(1) = "def";
+      mat&nbsp;A&nbsp;=&nbsp;randn(2,3);
+      <br>mat&nbsp;B&nbsp;=&nbsp;randn(4,5);
+      <br><a href="#field">field</a>&lt;mat&gt;&nbsp;F(2,1);
+      <br>F(0,0)&nbsp;=&nbsp;A;
+      <br>F(1,0)&nbsp;=&nbsp;B;
     </td>
     <td style="vertical-align: top;">
       &nbsp;
     </td>
-    <td style="vertical-align: top;">
-      <a href="#field">fields</a> can store arbitrary objects, in a 1D or 2D layout
+    <td style="vertical-align: center;">
+      <a href="#field">fields</a> store arbitrary objects, such as matrices
     </td>
   </tr>
 </tbody>
@@ -13263,6 +13157,7 @@ List of additions and changes for each version:
 <ul>
 <li>added <i>.head()</i> and <i>.tail()</i> to <a href="#submat">submatrix views</a></li>
 <li>faster matrix transposes within compound expressions</li>
+<li>faster in-place matrix multiplication</li>
 <li>faster <a href="#accu">accu()</a> and <a href="#norm">norm()</a> when compiling with <i>-O3 -ffast-math -march=native</i> (gcc and clang)
 </ul>
 </li>
