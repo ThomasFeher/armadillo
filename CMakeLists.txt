@@ -13,10 +13,11 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(ARMA_MAJOR 4)
-set(ARMA_MINOR 300)
-set(ARMA_PATCH 9)
+set(ARMA_MINOR 320)
+set(ARMA_PATCH 0)
+set(ARMADILLO_VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH})
 
-message(STATUS "Configuring Armadillo ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH}")
+message(STATUS "Configuring Armadillo ${ARMADILLO_VERSION}")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/build_aux/cmake/Modules/")
 
@@ -34,6 +35,7 @@ set(ARMA_USE_HDF5      false)
 set(ARMA_USE_ARPACK    false)
 set(ARMA_USE_CXX11_RNG false)
 set(ARMA_USE_WRAPPER   true )
+option(BUILD_SHARED_LIBS "build shared library" ON)
 
 ## NOTE:
 ## Set ARMA_USE_WRAPPER to false if you're getting linking errors when compiling your programs,
@@ -248,10 +250,10 @@ message(STATUS "")
 
 
 if(DEFINED CMAKE_CXX_COMPILER_ID AND DEFINED CMAKE_CXX_COMPILER_VERSION)
-  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 4.9)
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 4.8.3)
     set(ARMA_USE_CXX11_RNG true)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-    message(STATUS "Detected gcc 4.9 or later. Added '-std=c++11' to compiler flags")
+    message(STATUS "Detected gcc 4.8.3 or later. Added '-std=c++11' to compiler flags")
   endif()
 endif()
 
@@ -309,7 +311,7 @@ message(STATUS "CMAKE_CXX_FLAGS           = ${CMAKE_CXX_FLAGS}"          )
 message(STATUS "CMAKE_SHARED_LINKER_FLAGS = ${CMAKE_SHARED_LINKER_FLAGS}")
 message(STATUS "CMAKE_REQUIRED_INCLUDES   = ${CMAKE_REQUIRED_INCLUDES}"  )
 
-add_library( armadillo SHARED ${PROJECT_SOURCE_DIR}/src/wrapper.cpp )
+add_library( armadillo ${PROJECT_SOURCE_DIR}/src/wrapper.cpp )
 target_link_libraries( armadillo ${ARMA_LIBS} )
 set_target_properties(armadillo PROPERTIES VERSION ${ARMA_MAJOR}.${ARMA_MINOR_ALT}.${ARMA_PATCH} SOVERSION ${ARMA_MAJOR})
 
@@ -360,8 +362,13 @@ if(NOT INSTALL_DATA_DIR)
   set(INSTALL_DATA_DIR "share")
 endif()
 
+# executables destination
+if(NOT INSTALL_BIN_DIR)
+  set(INSTALL_BIN_DIR "bin")
+endif()
+
 # Make relative paths absolute so we can write them in Config.cmake files
-foreach(p LIB INCLUDE DATA)
+foreach(p LIB INCLUDE DATA BIN)
   set(var INSTALL_${p}_DIR)
   if(NOT IS_ABSOLUTE "${${var}}")
     set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
@@ -372,6 +379,7 @@ message(STATUS "CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "INSTALL_LIB_DIR      = ${INSTALL_LIB_DIR}"     )
 message(STATUS "INSTALL_INCLUDE_DIR  = ${INSTALL_INCLUDE_DIR}" )
 message(STATUS "INSTALL_DATA_DIR     = ${INSTALL_DATA_DIR}"    )
+message(STATUS "INSTALL_BIN_DIR      = ${INSTALL_BIN_DIR}"    )
 
 
 # Note that the trailing / character in "include/" is critical
@@ -383,10 +391,11 @@ PATTERN "*~" EXCLUDE
 PATTERN "*orig" EXCLUDE
 )
 
-install(TARGETS armadillo 
-  DESTINATION ${INSTALL_LIB_DIR}
-  EXPORT ArmadilloLibraryDepends)
-
+install(TARGETS armadillo EXPORT ArmadilloLibraryDepends
+  ARCHIVE DESTINATION ${INSTALL_LIB_DIR}
+  LIBRARY DESTINATION ${INSTALL_LIB_DIR}
+  RUNTIME DESTINATION ${INSTALL_BIN_DIR})
+  
 # Export the package for use from the build-tree
 # (this registers the build-tree with a global CMake-registry)
 export(PACKAGE armadillo)

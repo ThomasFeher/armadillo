@@ -114,7 +114,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 4.300</b></font>
+        <font size=+2><b>Reference for Armadillo 4.320</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -1642,7 +1642,7 @@ examples of omitted functions: <a href="#fill">.fill()</a>, <a href="#ones_membe
 Batch insertion constructors:
 <ul>
 <li>form&nbsp;1: sp_mat(<i>locations</i>, <i>values</i>, <i>sort_locations = true</i>)</li>
-<li>form&nbsp;2: sp_mat(<i>locations</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>, <i>sort_locations = true</i>)</li>
+<li>form&nbsp;2: sp_mat(<i>locations</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>, <i>sort_locations = true</i>, <i>check_for_zeros = true</i>)</li>
 <li>form&nbsp;3: sp_mat(<i>rowind</i>, <i>colptr</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>)</li>
 <br>
 <ul>
@@ -1677,6 +1677,10 @@ or manually specified via <i>n_rows</i> and <i>n_cols</i> (forms&nbsp;2 and&nbsp
 <br>
 <li>
 If <i>sort_locations</i> is set to <i>false</i>, the <i>locations</i> matrix is assumed to contain locations that are already sorted according to column-major ordering
+</li>
+<br>
+<li>
+If <i>check_for_zeros</i> is set to <i>false</i>, the <i>values</i> vector is assumed to contain no zero values
 </li>
 </ul>
 </ul>
@@ -9228,12 +9232,15 @@ See also:
 <a name="eigs_sym"></a>
 <b>vec eigval = eigs_sym( X, k )</b>
 <br><b>vec eigval = eigs_sym( X, k, form )</b>
+<br><b>vec eigval = eigs_sym( X, k, form, tol )</b>
 <br>
 <br><b>eigs_sym( eigval, X, k )</b>
 <br><b>eigs_sym( eigval, X, k, form )</b>
+<br><b>eigs_sym( eigval, X, k, form, tol )</b>
 <br>
 <br><b>eigs_sym( eigval, eigvec, X, k )</b>
 <br><b>eigs_sym( eigval, eigvec, X, k, form )</b>
+<br><b>eigs_sym( eigval, eigvec, X, k, form, tol )</b>
 <ul>
 <li>Obtain a limited number of eigenvalues and eigenvectors of <b>sparse</b> symmetric real matrix <i>X</i></li>
 <br>
@@ -9250,6 +9257,10 @@ See also:
 </tbody>
 </table>
 </ul>
+</li>
+<br>
+<li>
+The argument <i>tol</i> is optional; it specifies the tolerance for convergence
 </li>
 <br>
 <li>The eigenvalues and corresponding eigenvectors are stored in <i>eigval</i> and <i>eigvec</i>, respectively</li>
@@ -9296,12 +9307,15 @@ See also:
 <a name="eigs_gen"></a>
 <b>cx_vec eigval = eigs_gen( X, k )</b>
 <br><b>cx_vec eigval = eigs_gen( X, k, form )</b>
+<br><b>cx_vec eigval = eigs_gen( X, k, form, tol )</b>
 <br>
 <br><b>eigs_gen( eigval, X, k )</b>
 <br><b>eigs_gen( eigval, X, k, form )</b>
+<br><b>eigs_gen( eigval, X, k, form, tol )</b>
 <br>
 <br><b>eigs_gen( eigval, eigvec, X, k )</b>
 <br><b>eigs_gen( eigval, eigvec, X, k, form )</b>
+<br><b>eigs_gen( eigval, eigvec, X, k, form, tol )</b>
 <ul>
 <li>
 Obtain a limited number of eigenvalues and eigenvectors of <b>sparse</b> general (non-symmetric/non-hermitian) square matrix <i>X</i>
@@ -9324,6 +9338,10 @@ Obtain a limited number of eigenvalues and eigenvectors of <b>sparse</b> general
 </tbody>
 </table>
 </ul>
+</li>
+<br>
+<li>
+The argument <i>tol</i> is optional; it specifies the tolerance for convergence
 </li>
 <br>
 <li>
@@ -12607,12 +12625,20 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="added_in_4320"></a>
+<li>Added in 4.320:
+<ul>
+<li>expanded <a href="#eigs_sym">eigs_sym()</a> and <a href="#eigs_gen">eigs_gen()</a> to use an optional tolerance parameter</li>
+<li>expanded <a href="#eig_sym">eig_sym()</a> to automatically fall back to standard decomposition method if divide-and-conquer fails</li>
+<li>cmake-based installer enables use of C++11 random number generator when using gcc 4.8.3+ in C++11 mode</li>
+</ul>
+</li>
+<br>
 <a name="added_in_4300"></a>
 <li>Added in 4.300:
 <ul>
 <li>added <a href="#find_finite">find_finite()</a> and <a href="#find_nonfinite">find_nonfinite()</a></li>
 <li>expressions <i>X=<a href="#inv">inv</a>(A)*B*C</i> and <i>X=A<a href="#i_member">.i()</a>*B*C</i> are automatically converted to <i>X=<a href="#solve">solve</a>(A,B*C)</i></li>
-<li>cmake-based installer enables use of C++11 random number generator when using gcc 4.9+ in C++11 mode</li>
 </ul>
 </li>
 <br>

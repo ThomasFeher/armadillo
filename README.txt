@@ -25,7 +25,7 @@ http://arma.sourceforge.net
 
  6: Documentation / API Reference Manual
  
- 7: MEX Interface to Octave & Matlab
+ 7: MEX Interface to Octave
 
  8: Bug Reports and Frequently Asked Questions
 
@@ -407,10 +407,10 @@ classes and functions, with snippets of example code.
 
 
 
-=== 7: MEX Interface to Octave & Matlab ===
+=== 7: MEX Interface to Octave ===
 
 The "mex_interface" folder contains examples of how to interface
-Octave and Matlab with C++ code that uses Armadillo matrices.
+Octave with C++ code that uses Armadillo matrices.
 
 
 
@@ -451,6 +451,7 @@ Main developers:
 Contributors:
 - Matthew Amidon
 - Eric R. Anderson
+- Kipton Barros
 - Benoît Bayol
 - Salim Bcoin
 - Justin Bedo
