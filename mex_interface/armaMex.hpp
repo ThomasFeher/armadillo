@@ -1,5 +1,5 @@
 // Connector for Mex files to use Armadillo for calculation
-// Version 0.2
+// Version 0.3
 // 
 // Copyright (C) 2014 George Yammine
 // Copyright (C) 2014 Conrad Sanderson
@@ -470,8 +470,6 @@ armaGetSparseData(const mxArray *matlabMatrix, bool sort_locations = false)
     mwIndex *jc = mxGetJc(matlabMatrix);
     mwIndex *ir = mxGetIr(matlabMatrix);
 
-    mwIndex current_row_index;
-
     mwSize  m = mxGetM(matlabMatrix);
     mwSize  n = mxGetN(matlabMatrix);
     
@@ -479,10 +477,11 @@ armaGetSparseData(const mxArray *matlabMatrix, bool sort_locations = false)
 
     umat locations = zeros<umat>(2,non_zero);
     Col<Type> values = zeros< Col<Type> >(non_zero);
-
+    mwSize  row = 0;
+    
     for(mwSize col = 0; col < n ; col++) 
       {
-      mwSize  row = 0;
+
       mwIndex starting_row_index = jc[col]; 
       mwIndex stopping_row_index = jc[col+1]; 
       
@@ -493,7 +492,7 @@ armaGetSparseData(const mxArray *matlabMatrix, bool sort_locations = false)
         }
       else 
         {
-        for (current_row_index = starting_row_index; current_row_index < stopping_row_index; current_row_index++) 
+        for (mwIndex current_row_index = starting_row_index; current_row_index < stopping_row_index; current_row_index++) 
           {
           values[row]=pr[row];
           locations.at(0,row)=ir[current_row_index];
@@ -539,9 +538,11 @@ armaGetSparseMatrix(const mxArray *matlabMatrix, bool sort_locations = false)
     umat locations = zeros<umat>(2,non_zero);
     Col<double> values = zeros< Col<double> >(non_zero);
 
+    mwSize  row = 0;
+     
     for(mwSize col = 0; col < n ; col++) 
       {
-      mwSize  row = 0;
+     
       mwIndex starting_row_index = jc[col]; 
       mwIndex stopping_row_index = jc[col+1]; 
       
@@ -552,7 +553,7 @@ armaGetSparseMatrix(const mxArray *matlabMatrix, bool sort_locations = false)
         }
       else 
         {
-        for (mwIndex current_row_index = starting_row_index; current_row_index < stopping_row_index; current_row_index++) 
+        for (mwIndex current_row_index = starting_row_index; current_row_index < stopping_row_index ; current_row_index++) 
           {
           values[row]=pr[row];
           locations.at(0,row)=ir[current_row_index];
@@ -560,8 +561,8 @@ armaGetSparseMatrix(const mxArray *matlabMatrix, bool sort_locations = false)
           row++;
           }
         }
+
       }
-    
     return SpMat<double>(locations, values, m, n, sort_locations);
     }
   }
@@ -598,10 +599,10 @@ armaGetSparseImagData(const mxArray *matlabMatrix, bool sort_locations = false)
 
     umat locations = zeros<umat>(2,non_zero);
     Col<Type> values = zeros< Col<Type> >(non_zero);
-
+    mwSize row = 0;
+    
     for(mwSize col = 0; col < n ; col++) 
       {
-      mwSize row = 0;
       mwIndex starting_row_index = jc[col]; 
       mwIndex stopping_row_index = jc[col+1]; 
       
@@ -657,10 +658,11 @@ armaGetSparseImagMatrix(const mxArray *matlabMatrix, bool sort_locations = false
 
     umat locations = zeros<umat>(2,non_zero);
     Col<double> values = zeros< Col<double> >(non_zero);
-
+     
+    mwSize row = 0;
+    
     for(mwSize col = 0; col < n ; col++) 
       {
-      mwSize row = 0;
       mwIndex starting_row_index = jc[col]; 
       mwIndex stopping_row_index = jc[col+1]; 
       
