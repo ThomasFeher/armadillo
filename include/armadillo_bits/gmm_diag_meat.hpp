@@ -1717,6 +1717,8 @@ gmm_diag<eT>::km_iterate(const Mat<eT>& X, const uword max_iter, const bool verb
               if(running_means(dead_g).count() == 0)  { break; }
               }
             
+            if(dead_g == N_gaus)  { break; }
+            
             new_means.col(dead_g) = X.unsafe_col( running_means(live_g).last_index() );
             
             dead_g++;
