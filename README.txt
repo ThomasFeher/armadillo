@@ -58,9 +58,9 @@ language of choice, due to speed and/or integration capabilities.
 The library is open-source software, and is distributed under a license
 that is useful in both open-source and commercial/proprietary contexts.
 
-Armadillo is primarily developed at NICTA (Australia),
+Armadillo is primarily developed at Data61 / NICTA (Australia),
 with contributions from around the world.  More information
-about NICTA can be obtained from http://nicta.com.au
+about Data61 can be obtained from http://data61.csiro.au
 
 Main developers:
   Conrad Sanderson - http://conradsanderson.id.au
@@ -192,7 +192,7 @@ In general, programs which use Armadillo are compiled along these lines:
 If you want to use Armadillo without installation,
 or you're getting linking errors, compile along these lines:
   
-  g++ example1.cpp -o example1 -O2 -I /home/blah/armadillo-5.600.2/include -DARMA_DONT_USE_WRAPPER -lblas -llapack
+  g++ example1.cpp -o example1 -O2 -I /home/blah/armadillo-6.100.0-test/include -DARMA_DONT_USE_WRAPPER -lblas -llapack
   
 The above command line assumes that you have unpacked the armadillo archive into /home/blah/
 You will need to adjust this for later versions of Armadillo,
@@ -427,8 +427,8 @@ a 3-clause BSD license.  See the file for license details.
 ===============================
 
 Main sponsoring organisation:
-- NICTA
-  http://nicta.com.au
+- Data61 / NICTA
+  http://data61.csiro.au
 
 Main developers:
 - Conrad Sanderson - http://conradsanderson.id.au

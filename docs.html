@@ -127,13 +127,13 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 5.600</b></font>
+        <font size=+2><b>Reference for Armadillo 6.100</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
         <b><a href="http://arma.sourceforge.net">to Armadillo home page</a></b>
         <br>
-        <b><a href="http://nicta.com.au">to NICTA home page</a></b>
+        <b><a href="http://data61.csiro.au">to Data61 home page</a></b>
         <br>
       </td>
     </tr>
@@ -364,30 +364,31 @@ Technical Report, NICTA, 2010.
 <tr style="background-color: #F5F5F5;"><td><a href="#inplace_trans">inplace_trans</a></td><td>&nbsp;</td><td>in-place transpose</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#interp1">interp1</a></td><td>&nbsp;</td><td>1D interpolation</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#is_finite">is_finite</a></td><td>&nbsp;</td><td>check whether all elements are finite</td></tr>
-<tr><td><a href="#join">join_rows/cols/slices</a></td><td>&nbsp;</td><td>concatenation of matrices or cubes</td></tr>
+<tr><td><a href="#join">join_rows / join_cols</a></td><td>&nbsp;</td><td>concatenation of matrices</td></tr>
+<tr><td><a href="#join_slices">join_slices</a></td><td>&nbsp;</td><td>concatenation of cubes</td></tr>
 <tr><td><a href="#kron">kron</a></td><td>&nbsp;</td><td>Kronecker tensor product</td></tr>
-<tr><td><a href="#min_and_max">min&nbsp;/&nbsp;max</a></td><td>&nbsp;</td><td>return extremum values</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#min_and_max">min&nbsp;/&nbsp;max</a></td><td>&nbsp;</td><td>return extremum values</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#nonzeros">nonzeros</a></td><td>&nbsp;</td><td>return non-zero values</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#norm">norm</a></td><td>&nbsp;</td><td>various norms of vectors and matrices</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#normalise">normalise</a></td><td>&nbsp;</td><td>normalise vectors to unit <i>p</i>-norm</td></tr>
+<tr><td><a href="#normalise">normalise</a></td><td>&nbsp;</td><td>normalise vectors to unit <i>p</i>-norm</td></tr>
 <tr><td><a href="#prod">prod</a></td><td>&nbsp;</td><td>product of elements</td></tr>
 <tr><td><a href="#rank">rank</a></td><td>&nbsp;</td><td>rank of matrix</td></tr>
-<tr><td><a href="#repmat">repmat</a></td><td>&nbsp;</td><td>replicate matrix in block-like fashion</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#repmat">repmat</a></td><td>&nbsp;</td><td>replicate matrix in block-like fashion</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#reshape">reshape</a></td><td>&nbsp;</td><td>change size while keeping elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#resize">resize</a></td><td>&nbsp;</td><td>change size while keeping elements and preserving layout</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#shuffle">shuffle</a></td><td>&nbsp;</td><td>randomly shuffle elements</td></tr>
+<tr><td><a href="#shuffle">shuffle</a></td><td>&nbsp;</td><td>randomly shuffle elements</td></tr>
 <tr><td><a href="#size">size</a></td><td>&nbsp;</td><td>obtain dimensions of given object</td></tr>
 <tr><td><a href="#sort">sort</a></td><td>&nbsp;</td><td>sort elements</td></tr>
-<tr><td><a href="#sort_index">sort_index</a></td><td>&nbsp;</td><td>vector describing sorted order of elements</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#sort_index">sort_index</a></td><td>&nbsp;</td><td>vector describing sorted order of elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#sum">sum</a></td><td>&nbsp;</td><td>sum of elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#symmat">symmatu&nbsp;/&nbsp;symmatl</a></td><td>&nbsp;</td><td>generate symmetric matrix from given matrix</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#trace">trace</a></td><td>&nbsp;</td><td>sum of diagonal elements of square matrix</td></tr>
+<tr><td><a href="#trace">trace</a></td><td>&nbsp;</td><td>sum of diagonal elements of square matrix</td></tr>
 <tr><td><a href="#trans">trans</a></td><td>&nbsp;</td><td>transpose of matrix</td></tr>
 <tr><td><a href="#trimat">trimatu&nbsp;/&nbsp;trimatl</a></td><td>&nbsp;</td><td>generate triangular matrix from given matrix</td></tr>
-<tr><td><a href="#unique">unique</a></td><td>&nbsp;</td><td>return unique elements</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#unique">unique</a></td><td>&nbsp;</td><td>return unique elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#vectorise">vectorise</a></td><td>&nbsp;</td><td>convert matrix to vector</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#misc_fns">misc&nbsp;functions</a></td><td>&nbsp;</td><td>miscellaneous element-wise functions:&nbsp;exp,&nbsp;log,&nbsp;pow,&nbsp;sqrt,&nbsp;round,&nbsp;sign,&nbsp;...</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#trig_fns">trig&nbsp;functions</a></td><td>&nbsp;</td><td>trigonometric element-wise functions:&nbsp;cos,&nbsp;sin,&nbsp;...</td></tr>
+<tr><td><a href="#trig_fns">trig&nbsp;functions</a></td><td>&nbsp;</td><td>trigonometric element-wise functions:&nbsp;cos,&nbsp;sin,&nbsp;...</td></tr>
 <tr><td><a href="#stats_fns">stats&nbsp;functions</a></td><td>&nbsp;</td><td>statistics functions: mean, median, standard deviation, variance</td></tr>
 </tbody>
 </table>
@@ -417,12 +418,13 @@ Technical Report, NICTA, 2010.
 <tr><td><a href="#qr">qr&nbsp;&nbsp;</a></td><td>&nbsp;</td><td>QR decomposition</td></tr>
 <tr><td><a href="#qr_econ">qr_econ</a></td><td>&nbsp;</td><td>economical QR decomposition</td></tr>
 <tr><td><a href="#qz">qz&nbsp;&nbsp;</a></td><td>&nbsp;</td><td>generalised Schur decomposition</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#schur">schur</a></td><td>&nbsp;</td><td>Schur decomposition</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#solve">solve</a></td><td>&nbsp;</td><td>solve systems of linear equations</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#spsolve">spsolve</a></td><td>&nbsp;</td><td>solve sparse systems of linear equations</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#svd">svd</a></td><td>&nbsp;</td><td>singular value decomposition</td></tr>
+<tr><td><a href="#svd">svd</a></td><td>&nbsp;</td><td>singular value decomposition</td></tr>
 <tr><td><a href="#svd_econ">svd_econ</a></td><td>&nbsp;</td><td>economical singular value decomposition</td></tr>
 <tr><td><a href="#svds">svds</a></td><td>&nbsp;</td><td>limited number of singular values &amp; singular vectors of sparse matrix</td></tr>
-<tr><td><a href="#syl">syl</a></td><td>&nbsp;</td><td>Sylvester equation solver</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#syl">syl</a></td><td>&nbsp;</td><td>Sylvester equation solver</td></tr>
 </tbody>
 </table>
 </ul>
@@ -588,9 +590,9 @@ Constructors:
 <br><code>mat(sp_mat)</code>
 <br><code>mat(vec)</code>
 <br><code>mat(rowvec)</code>
+<br><code>mat(initializer_list)</code>
 <br><code>mat(string)</code>
 <br><code>mat(std::vector)</code> &nbsp; (treated as a column vector)
-<br><code>mat(initializer_list)</code> &nbsp; (C++11 only)
 <br><code>cx_mat(mat,mat)</code> &nbsp; (for constructing a complex matrix out of two real matrices)
 </ul>
 </li>
@@ -622,11 +624,8 @@ with the following meanings:
 <br>
 <li>
 The string format for the constructor is elements separated by spaces, and rows denoted by semicolons.
-For example, the 2x2 identity matrix can be created using the format string <code>"1 0; 0 1"</code>.
-While string based initialisation is compact,
-it is considerably faster to directly <a href="#element_access">set the elements</a>,
-use <a href="#element_initialisation">element initialisation</a>,
-or use C++11 initialiser lists.
+For example, the 2x2 identity matrix can be created using <code>"1&nbsp;0;&nbsp;0&nbsp;1"</code>.
+<b>Caveat:</b> string based initialisation is slower than directly <a href="#element_access">setting the elements</a> or using <a href="#element_initialisation">element initialisation</a>.
 </li>
 <br>
 <a name="adv_constructors_mat"></a>
@@ -635,7 +634,7 @@ Advanced constructors:
 <br>
 <br>
 <ul>
-<code>mat(*aux_mem, n_rows, n_cols, copy_aux_mem = true, strict = true)</code>
+<code>mat(*aux_mem, n_rows, n_cols, copy_aux_mem = true, strict = false)</code>
 <br>
 <br>
 <ul>
@@ -646,15 +645,20 @@ the matrix will instead directly use the auxiliary memory (ie. no copying).
 This is faster, but can be dangerous unless you know what you're doing!
 <br>
 <br>
-The <i>strict</i> variable comes into effect only if <i>copy_aux_mem</i> is set to <i>false</i>
+The <i>strict</i> parameter comes into effect only when <i>copy_aux_mem</i> is set to <i>false</i>
 (ie. the matrix is directly using auxiliary memory).
-If <i>strict</i> is set to <i>true</i>,
-the matrix will be bound to the auxiliary memory for its lifetime;
-the number of elements in the matrix can't be changed (directly or indirectly).
-If <i>strict</i> is set to <i>false</i>, the matrix will not be bound to the auxiliary memory for its lifetime,
-ie. the size of the matrix can be changed.
-If the requested number of elements is different to the size of the auxiliary memory,
-new memory will be allocated and the auxiliary memory will no longer be used.
+<ul>
+<li>
+When <i>strict</i> is set to <i>false</i>, the matrix will use the auxiliary memory and allow size changes;
+if a size change results in the number of elements to increase, new memory will be allocated and the auxiliary memory will no longer be used
+</li>
+<li>
+When <i>strict</i> is set to <i>true</i>, the matrix will be bound to the auxiliary memory for its lifetime;
+the number of elements in the matrix can't be changed (directly or indirectly)
+</li>
+<li>The default setting of <i>strict</i> in versions 6.000+ is <i>false</i></li>
+<li>The default setting of <i>strict</i> in versions 5.600 and earlier is <i>true</i></li>
+</ul>
 </ul>
 <br>
 <code>mat(const *aux_mem, n_rows, n_cols)</code>
@@ -907,9 +911,9 @@ Constructors
 <br><code>vec(size(<i>X</i>), <i>fill_type</i>)</code>
 <br><code>vec(vec)</code>
 <br><code>vec(mat)</code> &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one column)
+<br><code>vec(initializer_list)</code>
 <br><code>vec(string)</code> &nbsp; (elements separated by spaces)
 <br><code>vec(std::vector)</code>
-<br><code>vec(initializer_list)</code> &nbsp; (C++11 only)
 <br><code>cx_vec(vec,vec)</code> &nbsp; (for constructing a complex vector out of two real vectors)
 </ul>
 </li>
@@ -926,7 +930,7 @@ Advanced constructors:
 <br>
 <br>
 <ul>
-<code>vec(*aux_mem, number_of_elements, copy_aux_mem = true, strict = true)</code>
+<code>vec(*aux_mem, number_of_elements, copy_aux_mem = true, strict = false)</code>
 <br>
 <br>
 <ul>
@@ -937,15 +941,20 @@ the vector will instead directly use the auxiliary memory (ie. no copying).
 This is faster, but can be dangerous unless you know what you're doing!
 <br>
 <br>
-The <i>strict</i> variable comes into effect only if <i>copy_aux_mem</i> is set to <i>false</i>
+The <i>strict</i> parameter comes into effect only when <i>copy_aux_mem</i> is set to <i>false</i>
 (ie. the vector is directly using auxiliary memory).
-If <i>strict</i> is set to <i>true</i>,
-the vector will be bound to the auxiliary memory for its lifetime;
-the number of elements in the vector can't be changed (directly or indirectly).
-If <i>strict</i> is set to <i>false</i>, the vector will not be bound to the auxiliary memory for its lifetime,
-ie. the vector's size can be changed.
-If the requested number of elements is different to the size of the auxiliary memory,
-new memory will be allocated and the auxiliary memory will no longer be used.
+<ul>
+<li>
+When <i>strict</i> is set to <i>false</i>, the vector will use the auxiliary memory and allow size changes;
+if a size change results in the number of elements to increase, new memory will be allocated and the auxiliary memory will no longer be used
+</li>
+<li>
+When <i>strict</i> is set to <i>true</i>, the vector will be bound to the auxiliary memory for its lifetime;
+the number of elements in the vector can't be changed (directly or indirectly)
+</li>
+<li>The default setting of <i>strict</i> in versions 6.000+ is <i>false</i></li>
+<li>The default setting of <i>strict</i> in versions 5.600 and earlier is <i>true</i></li>
+</ul>
 </ul>
 <br>
 <code>vec(const *aux_mem, number_of_elements)</code>
@@ -1133,9 +1142,9 @@ Constructors
 <br><code>rowvec(size(<i>X</i>), <i>fill_type</i>)</code>
 <br><code>rowvec(rowvec)</code>
 <br><code>rowvec(mat)</code> &nbsp; (a <i>std::logic_error</i> exception is thrown if the given matrix has more than one row)
+<br><code>rowvec(initializer_list)</code>
 <br><code>rowvec(string)</code> &nbsp; (elements separated by spaces)
 <br><code>rowvec(std::vector)</code>
-<br><code>rowvec(initializer_list)</code> &nbsp; (C++11 only)
 <br><code>cx_rowvec(rowvec,rowvec)</code> &nbsp; (for constructing a complex row vector out of two real row vectors)
 </ul>
 </li>
@@ -1152,7 +1161,7 @@ Advanced constructors:
 <br>
 <br>
 <ul>
-<code>rowvec(*aux_mem, number_of_elements, copy_aux_mem = true, strict = true)</code>
+<code>rowvec(*aux_mem, number_of_elements, copy_aux_mem = true, strict = false)</code>
 <br>
 <br>
 <ul>
@@ -1163,15 +1172,20 @@ the vector will instead directly use the auxiliary memory (ie. no copying).
 This is faster, but can be dangerous unless you know what you're doing!
 <br>
 <br>
-The <i>strict</i> variable comes into effect only if <i>copy_aux_mem</i> is set to <i>false</i>
+The <i>strict</i> parameter comes into effect only when <i>copy_aux_mem</i> is set to <i>false</i>
 (ie. the vector is directly using auxiliary memory).
-If <i>strict</i> is set to <i>true</i>,
-the vector will be bound to the auxiliary memory for its lifetime;
-the number of elements in the vector can't be changed (directly or indirectly).
-If <i>strict</i> is set to <i>false</i>, the vector will not be bound to the auxiliary memory for its lifetime,
-ie. the vector's size can be changed.
-If the requested number of elements is different to the size of the auxiliary memory,
-new memory will be allocated and the auxiliary memory will no longer be used.
+<ul>
+<li>
+When <i>strict</i> is set to <i>false</i>, the vector will use the auxiliary memory and allow size changes;
+if a size change results in the number of elements to increase, new memory will be allocated and the auxiliary memory will no longer be used
+</li>
+<li>
+When <i>strict</i> is set to <i>true</i>, the vector will be bound to the auxiliary memory for its lifetime;
+the number of elements in the vector can't be changed (directly or indirectly)
+</li>
+<li>The default setting of <i>strict</i> in versions 6.000+ is <i>false</i></li>
+<li>The default setting of <i>strict</i> in versions 5.600 and earlier is <i>true</i></li>
+</ul>
 </ul>
 <br>
 <code>rowvec(const *aux_mem, number_of_elements)</code>
@@ -1393,7 +1407,7 @@ Memory for the cube is allocated at compile time.
 This is generally faster than dynamic memory allocation, but the size of the cube can't be changed afterwards (directly or indirectly).
 </ul>
 <br>
-<code>cube(*aux_mem, n_rows, n_cols, n_slices, copy_aux_mem = true, strict = true, prealloc_mat = true)</code>
+<code>cube(*aux_mem, n_rows, n_cols, n_slices, copy_aux_mem = true, strict = false)</code>
 <br>
 <br>
 <ul>
@@ -1404,18 +1418,20 @@ the cube will instead directly use the auxiliary memory (ie. no copying).
 This is faster, but can be dangerous unless you know what you're doing!
 <br>
 <br>
-The <i>strict</i> variable comes into effect only if <i>copy_aux_mem</i> is set to <i>false</i>
+The <i>strict</i> parameter comes into effect only when <i>copy_aux_mem</i> is set to <i>false</i>
 (ie. the cube is directly using auxiliary memory).
-If <i>strict</i> is set to <i>true</i>,
-the cube will be bound to the auxiliary memory for its lifetime;
-the number of elements in the cube can't be changed (directly or indirectly).
-If <i>strict</i> is set to <i>false</i>, the cube will not be bound to the auxiliary memory for its lifetime,
-ie. the size of the cube can be changed.
-If the requested number of elements is different to the size of the auxiliary memory,
-new memory will be allocated and the auxiliary memory will no longer be used.
-<br>
-<br>
-The <i>prealloc_mat</i> variable controls whether instances of Mat classes used by <a href="#subcube">.slice()</a> are pre-allocated.
+<ul>
+<li>
+When <i>strict</i> is set to <i>false</i>, the cube will use the auxiliary memory and allow size changes;
+if a size change results in the number of elements to increase, new memory will be allocated and the auxiliary memory will no longer be used
+</li>
+<li>
+When <i>strict</i> is set to <i>true</i>, the cube will be bound to the auxiliary memory for its lifetime;
+the number of elements in the cube can't be changed (directly or indirectly)
+</li>
+<li>The default setting of <i>strict</i> in versions 6.000+ is <i>false</i></li>
+<li>The default setting of <i>strict</i> in versions 5.600 and earlier is <i>true</i></li>
+</ul>
 </ul>
 <br>
 <code>cube(const *aux_mem, n_rows, n_cols, n_slices)</code>
@@ -2263,33 +2279,35 @@ double z = p[9];
 <b>element initialisation</b>
 <ul>
 <li>
-Instances of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>field</i> classes can be initialised via the <code>&lt;&lt;</code> operator
+When using the C++11 standard, elements in <i>Mat</i>, <i>Col</i>, <i>Row</i> can be set via initialiser lists
 </li>
 <br>
 <li>
-Special element <i>endr</i> indicates "end of row" (conceptually similar to <i>std::endl</i>)
+When using the old C++98 standard, elements can be set via the <code>&lt;&lt;</code> operator; special element <i>endr</i> indicates "end of row" (conceptually similar to <i>std::endl</i>)
 </li>
 <br>
 <li>
-Setting elements via &lt;&lt; is a bit slower than directly <a href="#element_access">accessing</a> the elements,
-but code using <code>&lt;&lt;</code> is generally more readable and easier to write
-</li>
-<br>
-<li>
-When using a C++11 compiler, matrices and vectors can use initialiser lists; for example: <code>{&nbsp;1,&nbsp;2,&nbsp;3,&nbsp;4&nbsp;}</code>
+<b>Caveat:</b> using the <code>&lt;&lt;</code> operator is slower than using initialiser lists
 </li>
 <br>
 <li>
 Examples:
 <ul>
 <pre>
-mat A;
+// C++11
 
-A &lt;&lt; 1 &lt;&lt; 3 &lt;&lt; 5 &lt;&lt; endr
+vec v = { 1, 2, 3 };
+
+mat A = { {1, 3, 5},
+          {2, 4, 6} };
+
+
+// C++98
+
+mat B;
+
+B &lt;&lt; 1 &lt;&lt; 3 &lt;&lt; 5 &lt;&lt; endr
   &lt;&lt; 2 &lt;&lt; 4 &lt;&lt; 6 &lt;&lt; endr;
-
-mat B = { {1, 3, 5},
-          {2, 4, 6} };  // C++11 only (version 5.200+)
 </pre>
 </ul>
 </li>
@@ -2835,20 +2853,15 @@ See also:
   </tbody>
 </table>
 <ul>
-<li>Changes the size of an object</li>
+<li>Change the size of an object, without explicitly preserving data and without initialising the elements</li>
 <br>
 <li>
-If the requested number of elements is <b>equal</b> to the old number of elements, existing memory is reused (not applicable to <i>SpMat</i>)
-</li>
-<br>
-<li>
-If the requested number of elements is <b>not equal</b> to the old number of elements, old memory is freed and new memory is allocated;
-the memory is uninitialised; if you need to initialise the memory, use <a href="#zeros_member">.zeros()</a> instead
+If you need to initialise the elements to zero while changing the size, use <a href="#zeros_member">.zeros()</a> instead
 </li>
 <br>
 <li>
 If you need to explicitly preserve data while changing the size, use <a href="#reshape_member">.reshape()</a> or <a href="#resize_member">.resize()</a> instead;
-<b>caveat</b>: <i>.reshape()</i> and <i>.resize()</i> are considerably slower than <i>.set_size()</i>
+<br><b>caveat</b>: <i>.reshape()</i> and <i>.resize()</i> are considerably slower than <i>.set_size()</i>
 </li>
 <br>
 <li>
@@ -3446,7 +3459,7 @@ See also:
 <ul>
 <li><a href="#in_range">.in_range()</a></li>
 <li><a href="#each_slice">.each_slice()</a></li>
-<li><a href="#join">join_slices()</a></li>
+<li><a href="#join_slices">join_slices()</a></li>
 <li><a href="#shed">shed_slices()</a></li>
 <li><a href="#insert">insert_slices()</a></li>
 <li><a href="#size">size()</a></li>
@@ -7433,6 +7446,10 @@ vec b = diff(a);
 </li>
 <br>
 <li>
+<b>Caveat:</b> if you want to calculate the norm, the <a href="#norm">norm()</a> function is more robust
+</li>
+<br>
+<li>
 Examples:
 <ul>
 <pre>
@@ -7446,10 +7463,10 @@ double x = dot(a,b);
 <br>
 <li>See also:
 <ul>
+<li><a href="#norm">norm()</a></li>
 <li><a href="#as_scalar">as_scalar()</a></li>
 <li><a href="#cross">cross()</a></li>
 <li><a href="#conj">conj()</a></li>
-<li><a href="#norm">norm()</a></li>
 </ul>
 </li>
 <br>
@@ -7755,11 +7772,8 @@ See also:
 <a name="hist"></a>
 <b>hist( V )</b>
 <br><b>hist( V, n_bins )</b>
-<br><b>hist( X )</b>
-<br><b>hist( X, n_bins )</b>
-<br><b>hist( X, n_bins, dim )</b>
-<br>
 <br><b>hist( V, centers )</b>
+<br>
 <br><b>hist( X, centers )</b>
 <br><b>hist( X, centers, dim )</b>
 <ul>
@@ -8079,8 +8093,6 @@ See also:
 <br>
 <br><b>join_cols( A, B )</b>
 <br><b>join_vert( A, B )</b>
-<br>
-<br><b>join_slices( C, D )</b>
 <ul>
 <li>
 <i>join_rows()</i> and <i>join_horiz()</i>: horizontal concatenation;
@@ -8092,12 +8104,6 @@ matrices <i>A</i> and <i>B</i> must have the same number of rows
 <i>join_cols()</i> and <i>join_vert()</i>: vertical concatenation;
 for two matrices <i>A</i> and <i>B</i>, join each column of <i>A</i> with the corresponding column of <i>B</i>;
 matrices <i>A</i> and <i>B</i> must have the same number of columns
-</li>
-<br>
-<li>
-<i>join_slices()</i>:
-for two cubes <i>C</i> and <i>D</i>, join the slices of <i>C</i> with the slices of <i>D</i>;
-cubes <i>C</i> and <i>D</i> have the same number of rows and columns (ie. all slices must have the same size)
 </li>
 <br>
 <li>
@@ -8120,6 +8126,60 @@ See also:
 <li><a href="#shed">.shed_rows/cols/slices</a></li>
 <li><a href="#insert">.insert_rows/cols/slices</a></li>
 <li><a href="#submat">submatrix views</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="join_slices"></a>
+<b>join_slices( cube C, cube D )</b>
+<br><b>join_slices( mat  M, mat  N )</b>
+<br>
+<br><b>join_slices( mat  M, cube C )</b>
+<br><b>join_slices( cube C, mat  M )</b>
+<ul>
+<li>
+for two cubes <i>C</i> and <i>D</i>: join the slices of <i>C</i> with the slices of <i>D</i>;
+cubes <i>C</i> and <i>D</i> must have the same number of rows and columns (ie. all slices must have the same size)
+</li>
+<br>
+<li>
+for two matrices <i>M</i> and <i>N</i>: treat <i>M</i> and <i>N</i> as cube slices and join them to form a cube with 2 slices;
+matrices <i>M</i> and <i>N</i> must have the same number of rows and columns
+</li>
+<br>
+<li>
+for matrix <i>M</i> and cube <i>C</i>: treat <i>M</i> as a cube slice and join it with the slices of <i>C</i>;
+matrix <i>M</i> and cube <i>C</i> must have the same number of rows and columns
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+cube C(5, 10, 3, fill::randu);
+cube D(5, 10, 4, fill::randu);
+
+cube E = join_slices(C,D);
+
+mat M(10, 20, fill::randu);
+mat N(10, 20, fill::randu);
+
+cube Q = join_slices(M,N);
+
+cube R = join_slices(Q,M);
+
+cube S = join_slices(M,Q);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#shed">.shed_rows/cols/slices</a></li>
+<li><a href="#insert">.insert_rows/cols/slices</a></li>
 <li><a href="#subcube">subcube views</a></li>
 </ul>
 </li>
@@ -8283,12 +8343,16 @@ For matrices, <i>p</i> is one of: 1, 2, <code>"inf"</code>, <code>"fro"</code>; 
 </li>
 <br>
 <li>
-To obtain the zero norm or Hamming norm (ie. the number of non-zero elements),
-use this expression: <code><a href="#accu">accu</a>(X&nbsp;!=&nbsp;0)</code>
+The argument <i>p</i> is optional; by default <i>p=2</i> is used
 </li>
 <br>
 <li>
-In version 4.100+, the argument <i>p</i> is optional; by default <i>p=2</i> is used
+For vector norm with <i>p=2</i> and matrix norm with <i>p="fro"</i>, a robust algorithm is used to reduce the likelihood of underflows and overflows
+</li>
+<br>
+<li>
+To obtain the zero norm or Hamming norm (ie. the number of non-zero elements),
+use this expression: <code><a href="#accu">accu</a>(X&nbsp;!=&nbsp;0)</code>
 </li>
 <br>
 <li>
@@ -8306,12 +8370,13 @@ double y = norm(q, "inf");
 <li>
 See also:
 <ul>
-<li><a href="#dot">dot()</a></li>
 <li><a href="#normalise">normalise()</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Norm_(mathematics)">Vector Norm in Wikipedia</a></li>
-<li><a href="http://mathworld.wolfram.com/VectorNorm.html">Vector Norm in MathWorld</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Matrix_norm">Matrix Norm in Wikipedia</a></li>
-<li><a href="http://mathworld.wolfram.com/MatrixNorm.html">Matrix Norm in MathWorld</a></li>
+<li><a href="#vectorise">vectorise()</a></li>
+<li><a href="#dot">dot()</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Norm_(mathematics)">vector norm in Wikipedia</a></li>
+<li><a href="http://mathworld.wolfram.com/VectorNorm.html">vector norm in MathWorld</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Matrix_norm">matrix norm in Wikipedia</a></li>
+<li><a href="http://mathworld.wolfram.com/MatrixNorm.html">matrix norm in MathWorld</a></li>
 </ul>
 </li>
 <br>
@@ -9746,6 +9811,7 @@ See also:
 <li><a href="#eig_sym">eig_sym()</a></li>
 <li><a href="#svd">svd()</a></li>
 <li><a href="#svd_econ">svd_econ()</a></li>
+<li><a href="#schur">schur()</a></li>
 <li><a href="#eigs_gen">eigs_gen()</a></li>
 <li><a href="http://mathworld.wolfram.com/EigenDecomposition.html">eigen decomposition in MathWorld</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors">eigenvalues &amp; eigenvectors in Wikipedia</a></li>
@@ -10643,8 +10709,63 @@ qz(AA, BB, Q, Z, A, B);
 <li>
 See also:
 <ul>
+<li><a href="#schur">schur()</a></li>
 <li><a href="#eig_pair">eig_pair()</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Schur_decomposition#Generalized_Schur_decomposition">generalised Schur decomposition in Wikipedia</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="schur"></a>
+<b>S = schur( X )</b>
+<br>
+<br><b>schur( S,  X )</b>
+<br>
+<br><b>schur( U, S, X )</b>
+<ul>
+<li>Schur decomposition of square matrix <i>X</i>, such that <i>X = U*S*U.t()</i></li>
+<br>
+<li><i>U</i> is a unitary matrix containing the Schur vectors</li>
+<br>
+<li><i>S</i> is an upper triangular matrix, called the Schur form of <i>X</i></li>
+<br>
+<li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
+<br>
+<li>If the decomposition fails:
+<ul>
+<li><i>S = schur(X)</i> resets <i>S</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>schur(S,X)</i> resets <i>S</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
+<li><i>schur(U,S,X)</i> resets <i>U</i> &amp; <i>S</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
+</ul>
+</li>
+<br>
+<li>
+<b>Caveat:</b> in general, Schur decomposition is not unique
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat X(20,20, fill::randu);
+
+mat U;
+mat S;
+
+schur(U, S, X);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#qz">qz()</a></li>
+<li><a href="#eig_gen">eig_gen()</a></li>
+<li><a href="http://mathworld.wolfram.com/SchurDecomposition.html">Schur decomposition in MathWorld</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Schur_decomposition">Schur decomposition in Wikipedia</a></li>
 </ul>
 </li>
 <br>
@@ -14453,16 +14574,10 @@ Armadillo's version number is <i>A.B.C</i>, where <i>A</i> is a major version, <
 </li>
 <br>
 <li>
-Within each major version (eg. 4.x), minor versions with an even number (ie. evenly divisible by two) are backwards compatible with earlier even minor versions.
+Within each major version (eg. 4.x), minor versions are backwards compatible with earlier minor versions.
 For example, code written for version 4.000 will work with version 4.100, 4.120, 4.200, etc.
 However, as each minor version may have more features (ie. API extensions) than earlier versions,
 code specifically written for version 4.100 doesn't necessarily work with 4.000
-</li>
-<br>
-<li>
-Experimental versions are denoted by an odd minor version number (ie. not evenly divisible by two), such as 4.199.
-Experimental versions are generally faster and/or have more functionality,
-but their APIs have not been finalised yet (though the likelihood of APIs changes is quite low)
 </li>
 <br>
 <li>
@@ -14501,6 +14616,18 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="version_6100"></a>
+<li>Version 6.100:
+<ul>
+<li>faster <a href="#norm">norm()</a> and <a href="#normalise">normalise()</a> when using Intel MKL, ATLAS or OpenBLAS</li>
+<li>added Schur decomposition: <a href="#schur">schur()</a></li>
+<li>stricter handling of matrix objects by <a href="#hist">hist()</a> and <a href="#histc">histc()</a></li>
+<li><a href="#adv_constructors_mat">advanced constructors</a> for using auxiliary memory by Mat, Col, Row and Cube now have the default of <i>strict = false</i></li>
+<li><a href="#Cube">Cube</a> class now delays allocation of <a href="#subcube">.slice()</a> related structures until needed</li>
+<li>expanded <a href="#join_slices">join_slices()</a> to handle joining cubes with matrices</li>
+</ul>
+</li>
+<br>
 <a name="version_5600"></a>
 <li>Version 5.600:
 <ul>

@@ -74,10 +74,12 @@ class op_diagvec;
 class op_vectorise_col;
 class op_normalise_vec;
 class op_clamp;
-class op_cumsum_simple;
-class op_cumprod_simple;
+class op_cumsum_default;
+class op_cumprod_default;
 class op_shuffle;
+class op_shuffle_default;
 class op_sort;
+class op_sort_default;
 class op_find;
 class op_find_simple;
 class op_find_unique;
@@ -90,12 +92,16 @@ class op_sort_index;
 class op_stable_sort_index;
 class op_unique;
 class op_unique_index;
-class op_diff_simple;
+class op_diff_default;
+class op_hist;
 
 class eop_conj;
 
 class glue_times;
 class glue_times_diag;
+class glue_conv;
+class glue_join_cols;
+class glue_join_rows;
 
 class glue_rel_lt;
 class glue_rel_gt;
@@ -128,6 +134,12 @@ class glue_mixed_minus;
 class glue_mixed_div;
 class glue_mixed_schur;
 class glue_mixed_times;
+
+class glue_hist;
+class glue_hist_default;
+
+class glue_histc;
+class glue_histc_default;
 
 class op_cx_scalar_times;
 class op_cx_scalar_plus;

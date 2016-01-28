@@ -76,6 +76,30 @@ extern "C"
   {
   #if defined(ARMA_USE_BLAS)
     
+    float arma_fortran_prefix(arma_sasum)(blas_int* n, const float* x, blas_int* incx)
+      {
+      return arma_fortran_noprefix(arma_sasum)(n, x, incx);
+      }
+    
+    double arma_fortran_prefix(arma_dasum)(blas_int* n, const double* x, blas_int* incx)
+      {
+      return arma_fortran_noprefix(arma_dasum)(n, x, incx);
+      }
+    
+    
+    
+    float arma_fortran_prefix(arma_snrm2)(blas_int* n, const float* x, blas_int* incx)
+      {
+      return arma_fortran_noprefix(arma_snrm2)(n, x, incx);
+      }
+    
+    double arma_fortran_prefix(arma_dnrm2)(blas_int* n, const double* x, blas_int* incx)
+      {
+      return arma_fortran_noprefix(arma_dnrm2)(n, x, incx);
+      }
+    
+    
+    
     float arma_fortran_prefix(arma_sdot)(blas_int* n, const float*  x, blas_int* incx, const float*  y, blas_int* incy)
       {
       return arma_fortran_noprefix(arma_sdot)(n, x, incx, y, incy);
@@ -646,6 +670,30 @@ extern "C"
   
   
   #if defined(ARMA_USE_ATLAS)
+    
+    float wrapper_cblas_sasum(const int N, const float  *X, const int incX)
+      {
+      return      cblas_sasum(N, X, incX);
+      }
+    
+    double wrapper_cblas_dasum(const int N, const double *X, const int incX)
+      {
+      return       cblas_dasum(N, X, incX);
+      }
+    
+    
+    
+    float wrapper_cblas_snrm2(const int N, const float  *X, const int incX)
+      {
+      return      cblas_snrm2(N, X, incX);
+      }
+    
+    double wrapper_cblas_dnrm2(const int N, const double *X, const int incX)
+      {
+      return       cblas_dnrm2(N, X, incX);
+      }
+    
+    
     
     float wrapper_cblas_sdot(const int N, const float  *X, const int incX, const float  *Y, const int incY)
       {

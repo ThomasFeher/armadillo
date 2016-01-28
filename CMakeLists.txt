@@ -12,9 +12,9 @@
 
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
-set(ARMA_MAJOR 5)
-set(ARMA_MINOR 600)
-set(ARMA_PATCH 2)
+set(ARMA_MAJOR 6)
+set(ARMA_MINOR 100)
+set(ARMA_PATCH 0)
 set(ARMADILLO_VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH})
 
 message(STATUS "Configuring Armadillo ${ARMADILLO_VERSION}")
@@ -38,14 +38,14 @@ set(ARMA_USE_ARPACK           false)
 set(ARMA_USE_EXTERN_CXX11_RNG false)
 set(ARMA_USE_SUPERLU          false)  # Caveat: only SuperLU version 4.3 can be used!
 
+project(armadillo CXX)
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake_aux/Modules/")
 
 include(CheckIncludeFileCXX)
 include(CheckLibraryExists)
 include(ARMA_CheckProto)
 include(ARMA_CheckMathProto)
-
-project(armadillo CXX)
 
 option(BUILD_SHARED_LIBS "build shared library" ON)
 option(DETECT_HDF5 "Detect HDF5 and include HDF5 support, if found" OFF)
