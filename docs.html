@@ -127,7 +127,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 6.100</b></font>
+        <font size=+2><b>Reference for Armadillo 6.200</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -5586,47 +5586,38 @@ A.raw_print(cout, "A =");
 <a name="save_load_mat"></a>
 <b>saving/loading matrices &amp; cubes</b>
 <br>
+<br><b>.save( name )</b>
+<br><b>.save( name, file_type )</b>
 <br>
-<table>
-<tbody>
-<tr><td><b>.save( name )</b></td><td>&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;&nbsp;</td>             <td><b>.quiet_save( name )</b></td></tr>
-<tr><td><b>.save( name, file_type )</b></td><td>&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;&nbsp;</td>  <td><b>.quiet_save( name, file_type )</b></td></tr>
-<tr><td>&nbsp;</td><td>&nbsp;</td>                       <td>&nbsp;</td></tr>
-<tr><td><b>.save( stream )</b></td><td>&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;&nbsp;</td>           <td><b>.quiet_save( stream )</b></td></tr>
-<tr><td><b>.save( stream, file_type )</b></td><td>&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;&nbsp;</td><td><b>.quiet_save( stream, file_type )</b></td></tr>
-<tr><td>&nbsp;</td><td>&nbsp;</td>                       <td>&nbsp;</td></tr>
-<tr><td><b>.load( name )</b></td><td>&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;&nbsp;</td>             <td><b>.quiet_load( name )</b></td></tr>
-<tr><td><b>.load( name, file_type )</b></td><td>&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;&nbsp;</td>  <td><b>.quiet_load( name, file_type )</b></td></tr>
-<tr><td>&nbsp;</td><td>&nbsp;</td>                       <td>&nbsp;</td></tr>
-<tr><td><b>.load( stream )</b></td><td>&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;&nbsp;</td>           <td><b>.quiet_load( stream )</b></td></tr>
-<tr><td><b>.load( stream, file_type )</b></td><td>&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;&nbsp;</td><td><b>.quiet_load( stream, file_type )</b></td></tr>
-</tbody>
-</table>
+<br><b>.save( stream )</b>
+<br><b>.save( stream, file_type )</b>
+<br>
+<br><b>.load( name )</b>
+<br><b>.load( name, file_type )</b>
+<br>
+<br><b>.load( stream )</b>
+<br><b>.load( stream, file_type )</b>
 <ul>
 <li>Member functions of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>Cube</i></li>
 <br>
 <li>Store/retrieve data in files or streams</li>
 <br>
 <li>
-The default <i>file_type</i> for <i>.save()</i> and <i>.quiet_save()</i> is <i>arma_binary</i> (see below) 
+The default <i>file_type</i> for <i>.save()</i> is <i>arma_binary</i> (see below) 
 </li>
 <br>
 <li>
-The default <i>file_type</i> for <i>.load()</i> and <i>.quiet_load()</i> is <i>auto_detect</i> (see below) 
+The default <i>file_type</i> for <i>.load()</i> is <i>auto_detect</i> (see below) 
 </li>
 <br>
-<li>On success, <i>save()</i>, <i>load()</i>, <i>quiet_save()</i>, and <i>quite_load()</i> will return a <i>bool</i> set to <i>true</i></li>
+<li>On success, <i>.save()</i> and <i>.load()</i> will return a <i>bool</i> set to <i>true</i></li>
 <br>
-<li><i>save()</i> and <i>quiet_save()</i> will return a <i>bool</i> set to <i>false</i> if the saving process fails</li>
+<li><i>.save()</i> will return a <i>bool</i> set to <i>false</i> if the saving process fails</li>
 <br>
 <li>
-<i>load()</i> and <i>quiet_load()</i> will return a <i>bool</i> set to <i>false</i> if the loading process fails;
+<i>.load()</i> will return a <i>bool</i> set to <i>false</i> if the loading process fails;
 additionally, the object will be reset so it has no elements
 </li>
-<br>
-<li><i>load()</i> and <i>save()</i> will print warning messages if any problems are encountered</li>
-<br>
-<li><i>quiet_load()</i> and <i>quiet_save()</i> do not print any error messages</li>
 <br>
 <li>
 <i>file_type</i> can be one of the following:
@@ -5640,7 +5631,7 @@ additionally, the object will be reset so it has no elements
                         <td style="vertical-align: top;"><br>
                         </td>
                         <td style="vertical-align: top;">
-Used by <i>load()</i> and <i>quiet_load()</i> only:
+Used by <i>.load()</i> only:
 try to automatically detect the file type as one of the formats described below.
 This is the default operation.
 <br>
@@ -5695,7 +5686,7 @@ For cubes, the header additionally specifies the number of slices.
 Numerical data stored in machine dependent binary format, with a simple header to speed up loading.
 The header indicates the type of matrix as well as the number of rows and columns.
 For cubes, the header additionally specifies the number of slices.
-<i>arma_binary</i> is the default <i>file_type</i> for <i>.save()</i> and <i>.quiet_save()</i>
+<i>arma_binary</i> is the default <i>file_type</i> for <i>.save()</i>
 <br>
 <br>
                         </td>
@@ -5809,39 +5800,36 @@ else
 <a name="save_load_field"></a>
 <b>saving/loading fields</b>
 <br>
+<br><b>.save( name )</b>
+<br><b>.save( name, file_type )</b>
 <br>
-<table>
-<tbody>
-<tr><td><b>.save( name,</b> file_type = arma_binary <b>)</b></td><td>&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;&nbsp;</td>  <td><b>.quiet_save( name,</b> file_type = arma_binary <b>)</b></td></tr>
-<tr><td><b>.save( stream,</b> file_type = arma_binary <b>)</b></td><td>&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;&nbsp;</td><td><b>.quiet_save( stream,</b> file_type = arma_binary <b>)</b></td></tr>
-<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-<tr><td><b>.load( name,</b> file_type = auto_detect <b>)</b></td><td>&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;&nbsp;</td>  <td><b>.quiet_load( name,</b> file_type = auto_detect <b>)</b></td></tr>
-<tr><td><b>.load( stream,</b> file_type = auto_detect <b>)</b></td><td>&nbsp;&nbsp;&nbsp;&amp;&nbsp;&nbsp;&nbsp;</td><td><b>.quiet_load( stream,</b> file_type = auto_detect <b>)</b></td></tr>
-</tbody>
-</table>
+<br><b>.save( stream )</b>
+<br><b>.save( stream, file_type )</b>
+<br>
+<br><b>.load( name, )</b>
+<br><b>.load( name, file_type )</b>
+<br>
+<br><b>.load( stream, )</b>
+<br><b>.load( stream, file_type )</b>
 <ul>
 <li>Member functions of <i>field</i></li>
 <br>
-<li>Store/retrieve fields in files or stream</li>
+<li>Store/retrieve fields in files or streams</li>
 <br>
-<li>On success, <i>save()</i>, <i>load()</i>, <i>quiet_save()</i>, and <i>quite_load()</i> will return a <i>bool</i> set to <i>true</i></li>
+<li>On success, <i>.save()</i> and <i>.load()</i> will return a <i>bool</i> set to <i>true</i></li>
 <br>
-<li><i>save()</i> and <i>quiet_save()</i> will return a <i>bool</i> set to <i>false</i> if the saving process fails</li>
+<li><i>.save()</i> will return a <i>bool</i> set to <i>false</i> if the saving process fails</li>
 <br>
 <li>
-<i>load()</i> and <i>quiet_load()</i> will return a <i>bool</i> set to <i>false</i> if the loading process fails;
+<i>.load()</i> will return a <i>bool</i> set to <i>false</i> if the loading process fails;
 additionally, the field will be reset so it has no elements
 </li>
-<br>
-<li><i>load()</i> and <i>save()</i> will print warning messages if any problems are encountered</li>
-<br>
-<li><i>quiet_load()</i> and <i>quiet_save()</i> do not print any error messages</li>
 <br>
 <li>
 Fields with objects of type <i>std::string</i> are saved and loaded as raw text files.
 The text files do not have a header.
 Each string is separated by a whitespace.
-<i>load()</i> and <i>quiet_load()</i> will only accept text files that have the same number of strings on each line.
+<i>load()</i> will only accept text files that have the same number of strings on each line.
 The strings can have variable lengths.
 </li>
 <br>
@@ -5859,7 +5847,7 @@ Other than storing string fields as text files, the following file formats are s
                         <td style="vertical-align: top;">
 <br>
 <li>
-load(): try to automatically detect the field format type as one of the formats described below;
+<i>.load()</i>: try to automatically detect the field format type as one of the formats described below;
 this is the default operation.
 </li>
 <br>
@@ -7022,7 +7010,7 @@ For vectors, <i>X</i> and <i>Y</i> must have the same number of elements
 </li>
 <br>
 <li>
-<i>cor(X)</i> is equivalent to <i>cor(X, X)</i>, also called autocorrelation
+<i>cor(X)</i> is equivalent to <i>cor(X, X)</i>
 </li>
 <br>
 <li>
@@ -7291,18 +7279,33 @@ See also:
 <hr class="greyline"><br>
 
 <a name="diagmat"></a>
-<b>diagmat( X )</b>
+<br><b>diagmat( V )</b>
+<br><b>diagmat( V, k )</b>
+<br><b>diagmat( X )</b>
+<br><b>diagmat( X, k )</b>
 <ul>
 <li>
-Generate a diagonal matrix from <i>X</i>
+Generate a diagonal matrix from vector <i>V</i> or matrix <i>X</i>
 </li>
 <br>
 <li>
-If <i>X</i> is a matrix, the matrix must be square; the main diagonal is copied and all other elements in the generated matrix are set to zero
+Given vector <i>V</i>, generate a square matrix with the <i>k</i>-th diagonal containing a copy of the vector; all other elements are set to zero
 </li>
 <br>
 <li>
-If <i>X</i> is a vector, elements of the vector are placed on the main diagonal in the generated matrix and all other elements are set to zero
+Given matrix <i>X</i>, generate a matrix with the <i>k</i>-th diagonal containing a copy of the <i>k</i>-th diagonal of <i>X</i>; all other elements are set to zero
+</li>
+<br>
+<li>
+The argument <i>k</i> is optional; by default the main diagonal is used (<i>k=0</i>)
+</li>
+<br>
+<li>
+For <i>k &gt; 0</i>, the <i>k</i>-th super-diagonal is used (top-right corner)
+</li>
+<br>
+<li>
+For <i>k &lt; 0</i>, the <i>k</i>-th sub-diagonal is used (bottom-left corner)
 </li>
 <br>
 <li>
@@ -7311,11 +7314,11 @@ Examples:
 <pre>
 mat A = randu&lt;mat&gt;(5,5);
 mat B = diagmat(A);
-mat C = A*diagmat(A);
+mat C = diagmat(A,1);
 
-rowvec q = randu&lt;rowvec&gt;(5);
-colvec r = randu&lt;colvec&gt;(5);
-mat    X = diagmat(q)*diagmat(r);
+vec v = randu&lt;vec&gt;(5);
+mat D = diagmat(v);
+mat E = diagmat(v,1);
 </pre>
 </ul>
 </li>
@@ -7323,8 +7326,8 @@ mat    X = diagmat(q)*diagmat(r);
 <li>
 See also:
 <ul>
-<li><a href="#diagvec">diagvec()</a></li>
 <li><a href="#diag">.diag()</a></li>
+<li><a href="#diagvec">diagvec()</a></li>
 <li><a href="#trimat">trimatu() / trimatl()</a></li>
 <li><a href="#symmat">symmatu() / symmatl()</a></li>
 <li><a href="#reshape">reshape()</a></li>
@@ -8982,16 +8985,12 @@ mat C = symmatl(A);
 <b>trace( X )</b>
 <ul>
 <li>
-Sum of the diagonal elements of square matrix <i>X</i>
+Sum of the elements on the main diagonal of matrix <i>X</i>
 </li>
 <br>
 <li>
 If <i>X</i> is an expression,
 the function will try to use optimised expression evaluations to calculate only the diagonal elements
-</li>
-<br>
-<li>
-A <i>std::logic_error</i> exception is thrown if <i>X</i> does not evaluate to a square matrix
 </li>
 <br>
 <li>
@@ -11059,12 +11058,12 @@ See also:
 
 <a name="svd_econ"></a>
 <b>svd_econ( mat U, vec s, mat V, mat X )</b>
-<br><b>svd_econ( mat U, vec s, mat V, mat X, side )</b>
-<br><b>svd_econ( mat U, vec s, mat V, mat X, side, method )</b>
+<br><b>svd_econ( mat U, vec s, mat V, mat X, mode )</b>
+<br><b>svd_econ( mat U, vec s, mat V, mat X, mode, method )</b>
 <br>
 <br><b>svd_econ( cx_mat U, vec s, cx_mat V, cx_mat X )</b>
-<br><b>svd_econ( cx_mat U, vec s, cx_mat V, cx_mat X, side )</b>
-<br><b>svd_econ( cx_mat U, vec s, cx_mat V, cx_mat X, side, method )</b>
+<br><b>svd_econ( cx_mat U, vec s, cx_mat V, cx_mat X, mode )</b>
+<br><b>svd_econ( cx_mat U, vec s, cx_mat V, cx_mat X, mode, method )</b>
 <ul>
 <li>
 Economical singular value decomposition of <b>dense</b> matrix <i>X</i>
@@ -11075,7 +11074,7 @@ The singular values are in descending order
 </li>
 <br>
 <li>
-The <i>side</i> argument is optional; <i>side</i> is one of:
+The <i>mode</i> argument is optional; <i>mode</i> is one of:
 <ul>
 <table>
 <tbody>
@@ -12899,6 +12898,7 @@ See also:
 <li><a href="#print">.print()</a></li>
 <li><a href="http://cplusplus.com/reference/iostream/cout/">std::cout</a></li>
 <li><a href="http://cplusplus.com/reference/iostream/ostream/">std::ostream</a></li>
+<li><a href="http://www.cplusplus.com/reference/exception/exception/">std::exception</a></li>
 <li><a href="http://cplusplus.com/reference/std/stdexcept/logic_error/">std::logic_error</a></li>
 <li><a href="http://cplusplus.com/reference/std/stdexcept/runtime_error/">std::runtime_error</a></li>
 <li><a href="http://cplusplus.com/doc/tutorial/exceptions/">tutorial on exceptions</a></li>
@@ -14606,6 +14606,14 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="version_6200"></a>
+<li>Version 6.200:
+<ul>
+<li>expanded <a href="#diagmat">diagmat()</a> to handle non-square matrices and arbitrary diagonals</li>
+<li>expanded <a href="#trace">trace()</a> to handle non-square matrices</li>
+</ul>
+</li>
+<br>
 <a name="version_6100"></a>
 <li>Version 6.100:
 <ul>

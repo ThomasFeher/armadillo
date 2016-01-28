@@ -1,19 +1,21 @@
 
-# Copyright (C) 2008-2015 Conrad Sanderson
-# Copyright (C) 2008-2015 NICTA (www.nicta.com.au)
-# Copyright (C) 2013-2015 Ryan Curtin
-# Copyright (C) 2011 Clement Creusot
+# Copyright (C) 2008-2015 National ICT Australia (NICTA)
 # 
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+# -------------------------------------------------------------------
+# 
+# Written by Conrad Sanderson - http://conradsanderson.id.au
+# Written by Ryan Curtin
+# Written by Clement Creusot
 
 
 
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(ARMA_MAJOR 6)
-set(ARMA_MINOR 100)
+set(ARMA_MINOR 200)
 set(ARMA_PATCH 2)
 set(ARMADILLO_VERSION ${ARMA_MAJOR}.${ARMA_MINOR}.${ARMA_PATCH})
 
@@ -44,8 +46,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake_au
 
 include(CheckIncludeFileCXX)
 include(CheckLibraryExists)
-include(ARMA_CheckProto)
-include(ARMA_CheckMathProto)
 
 option(BUILD_SHARED_LIBS "build shared library" ON)
 option(DETECT_HDF5 "Detect HDF5 and include HDF5 support, if found" OFF)

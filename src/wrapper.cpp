@@ -1,3 +1,14 @@
+// Copyright (C) 2008-2015 National ICT Australia (NICTA)
+// 
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+// -------------------------------------------------------------------
+// 
+// Written by Conrad Sanderson - http://conradsanderson.id.au
+// Written by Ryan Curtin
+
+
 #include <climits>
 #include <limits>
 #include <complex>
@@ -44,16 +55,15 @@
 namespace arma
 {
 
-#include "armadillo_bits/blas_bones.hpp"
-#include "armadillo_bits/lapack_bones.hpp"
-#include "armadillo_bits/arpack_bones.hpp"
-#include "armadillo_bits/superlu_bones.hpp"
-// no need to include hdf5_bones.hpp -- it only contains #defines for when ARMA_USE_HDF5_ALT is not defined.
+#include "armadillo_bits/def_blas.hpp"
+#include "armadillo_bits/def_lapack.hpp"
+#include "armadillo_bits/def_arpack.hpp"
+#include "armadillo_bits/def_superlu.hpp"
+// no need to include def_hdf5.hpp -- it only contains #defines for when ARMA_USE_HDF5_ALT is not defined.
 
 
 #if defined(ARMA_USE_HDF5_ALT)
-  // Wrapper functions: arma::H5open() and arma::H5check_version(), to hijack
-  // calls to H5open() and H5check_version().
+  // Wrapper functions: arma::H5open() and arma::H5check_version() to hijack calls to H5open() and H5check_version()
   herr_t H5open()
     {
     return ::H5open();
