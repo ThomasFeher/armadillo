@@ -51,9 +51,6 @@ combines several operations (at compile time) to increase efficiency.
 The library can be used for machine learning, pattern recognition,
 signal processing, bioinformatics, statistics, econometrics, etc.
 
-The library is open-source software, and is distributed under a license
-that is useful in both open-source and commercial/proprietary contexts.
-
 Armadillo is primarily developed at Data61 / NICTA (Australia),
 with contributions from around the world.  More information
 about Data61 can be obtained from http://data61.csiro.au
@@ -194,7 +191,7 @@ In general, programs which use Armadillo are compiled along these lines:
 If you want to use Armadillo without installation,
 or you're getting linking errors, compile along these lines:
   
-  g++ example1.cpp -o example1 -O2 -I /home/blah/armadillo-6.400.3/include -DARMA_DONT_USE_WRAPPER -lblas -llapack
+  g++ example1.cpp -o example1 -O2 -I /home/blah/armadillo-6.400.4/include -DARMA_DONT_USE_WRAPPER -lblas -llapack
   
 The above command line assumes that you have unpacked the armadillo archive into /home/blah/
 You will need to adjust this for later versions of Armadillo,
