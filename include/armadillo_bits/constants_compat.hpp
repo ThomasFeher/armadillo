@@ -83,7 +83,7 @@ class Phy
   static eT mu_B()      { return eT(927.4009994e-26); }
   
   //! characteristic impedance of vacuum (in ohms)
-  static eT Z_0()       { return eT(3.76730313461771e-2); }
+  static eT Z_0()       { return eT(376.730313461771); }
   
   //! conductance quantum (in siemens)
   static eT G_0()       { return eT(7.7480917310e-5); }

@@ -13,7 +13,7 @@
 
 #define ARMA_VERSION_MAJOR 6
 #define ARMA_VERSION_MINOR 100
-#define ARMA_VERSION_PATCH 1
+#define ARMA_VERSION_PATCH 2
 #define ARMA_VERSION_NAME  "Midnight Blue"
 
 
