@@ -132,13 +132,13 @@
   #define ARMA_DEFAULT_OSTREAM std::cout
 #endif
 
+#if !defined(ARMA_PRINT_ERRORS)
 #define ARMA_PRINT_ERRORS
-//#define ARMA_PRINT_HDF5_ERRORS
+//// Comment out the above line if you don't want errors and warnings printed (eg. failed decompositions)
+#endif
 
-
-#if defined(ARMA_DONT_PRINT_ERRORS)
-  #undef ARMA_PRINT_ERRORS
-  #undef ARMA_PRINT_HDF5_ERRORS
+#if !defined(ARMA_PRINT_HDF5_ERRORS)
+// #define ARMA_PRINT_HDF5_ERRORS
 #endif
 
 #if defined(ARMA_DONT_USE_LAPACK)
@@ -192,3 +192,12 @@
 #if defined(ARMA_DONT_USE_HDF5)
   #undef ARMA_USE_HDF5
 #endif
+
+#if defined(ARMA_DONT_PRINT_ERRORS)
+  #undef ARMA_PRINT_ERRORS
+#endif
+
+#if defined(ARMA_DONT_PRINT_HDF5_ERRORS)
+  #undef ARMA_PRINT_HDF5_ERRORS
+#endif
+

@@ -634,38 +634,38 @@ Advanced constructors:
 <br>
 <br>
 <ul>
-<code>mat(*aux_mem, n_rows, n_cols, copy_aux_mem = true, strict = false)</code>
+<code>mat(ptr_aux_mem, n_rows, n_cols, copy_aux_mem = true, strict = false)</code>
 <br>
 <br>
 <ul>
-Create a matrix using data from writable auxiliary (external) memory.
+Create a matrix using data from writable auxiliary (external) memory, where <i>ptr_aux_mem</i> is a pointer to the memory.
 By default the matrix allocates its own memory and copies data from the auxiliary memory (for safety).
 However, if <i>copy_aux_mem</i> is set to <i>false</i>,
-the matrix will instead directly use the auxiliary memory (ie. no copying).
-This is faster, but can be dangerous unless you know what you're doing!
+the matrix will instead directly use the auxiliary memory (ie. no copying);
+this is faster, but can be dangerous unless you know what you're doing!
 <br>
 <br>
 The <i>strict</i> parameter comes into effect only when <i>copy_aux_mem</i> is set to <i>false</i>
-(ie. the matrix is directly using auxiliary memory).
+(ie. the matrix is directly using auxiliary memory)
 <ul>
 <li>
-When <i>strict</i> is set to <i>false</i>, the matrix will use the auxiliary memory and allow size changes;
-if a size change results in the number of elements to increase, new memory will be allocated and the auxiliary memory will no longer be used
+when <i>strict</i> is set to <i>false</i>, the matrix will use the auxiliary memory until a size change
 </li>
 <li>
-When <i>strict</i> is set to <i>true</i>, the matrix will be bound to the auxiliary memory for its lifetime;
-the number of elements in the matrix can't be changed (directly or indirectly)
+when <i>strict</i> is set to <i>true</i>, the matrix will be bound to the auxiliary memory for its lifetime;
+the number of elements in the matrix can't be changed
 </li>
-<li>The default setting of <i>strict</i> in versions 6.000+ is <i>false</i></li>
-<li>The default setting of <i>strict</i> in versions 5.600 and earlier is <i>true</i></li>
+<li>the default setting of <i>strict</i> in versions 6.000+ is <i>false</i></li>
+<li>the default setting of <i>strict</i> in versions 5.600 and earlier is <i>true</i></li>
 </ul>
 </ul>
 <br>
-<code>mat(const *aux_mem, n_rows, n_cols)</code>
+<code>mat(const ptr_aux_mem, n_rows, n_cols)</code>
 <br>
 <br>
 <ul>
-Create a matrix by copying data from read-only auxiliary memory.
+Create a matrix by copying data from read-only auxiliary memory,
+where <i>ptr_aux_mem</i> is a pointer to the memory
 </ul>
 <a name="adv_constructors_mat_fixed"></a>
 <br>
@@ -686,12 +686,12 @@ The typedefs were defined by simply appending a two digit form of the size to th
 while <i>cx_mat44</i> is equivalent to <i>cx_mat::fixed&lt;4,4&gt;</i>.
 </ul>
 <br>
-<code>mat::fixed&lt;n_rows, n_cols&gt;(const *aux_mem)</code>
+<code>mat::fixed&lt;n_rows, n_cols&gt;(const ptr_aux_mem)</code>
 <br>
 <br>
 <ul>
-Create a fixed size matrix, with the size specified via template arguments,
-and copying data from auxiliary memory.
+Create a fixed size matrix, with the size specified via template arguments;
+data is copied from auxiliary memory, where <i>ptr_aux_mem</i> is a pointer to the memory
 </ul>
 </ul>
 </li>
@@ -930,38 +930,38 @@ Advanced constructors:
 <br>
 <br>
 <ul>
-<code>vec(*aux_mem, number_of_elements, copy_aux_mem = true, strict = false)</code>
+<code>vec(ptr_aux_mem, number_of_elements, copy_aux_mem = true, strict = false)</code>
 <br>
 <br>
 <ul>
-Create a column vector using data from writable auxiliary (external) memory.
+Create a column vector using data from writable auxiliary (external) memory, where <i>ptr_aux_mem</i> is a pointer to the memory.
 By default the vector allocates its own memory and copies data from the auxiliary memory (for safety).
 However, if <i>copy_aux_mem</i> is set to <i>false</i>,
-the vector will instead directly use the auxiliary memory (ie. no copying).
-This is faster, but can be dangerous unless you know what you're doing!
+the vector will instead directly use the auxiliary memory (ie. no copying);
+this is faster, but can be dangerous unless you know what you're doing!
 <br>
 <br>
 The <i>strict</i> parameter comes into effect only when <i>copy_aux_mem</i> is set to <i>false</i>
-(ie. the vector is directly using auxiliary memory).
+(ie. the vector is directly using auxiliary memory)
 <ul>
 <li>
-When <i>strict</i> is set to <i>false</i>, the vector will use the auxiliary memory and allow size changes;
-if a size change results in the number of elements to increase, new memory will be allocated and the auxiliary memory will no longer be used
+when <i>strict</i> is set to <i>false</i>, the vector will use the auxiliary memory until a size change
 </li>
 <li>
-When <i>strict</i> is set to <i>true</i>, the vector will be bound to the auxiliary memory for its lifetime;
-the number of elements in the vector can't be changed (directly or indirectly)
+when <i>strict</i> is set to <i>true</i>, the vector will be bound to the auxiliary memory for its lifetime;
+the number of elements in the vector can't be changed
 </li>
-<li>The default setting of <i>strict</i> in versions 6.000+ is <i>false</i></li>
-<li>The default setting of <i>strict</i> in versions 5.600 and earlier is <i>true</i></li>
+<li>the default setting of <i>strict</i> in versions 6.000+ is <i>false</i></li>
+<li>the default setting of <i>strict</i> in versions 5.600 and earlier is <i>true</i></li>
 </ul>
 </ul>
 <br>
-<code>vec(const *aux_mem, number_of_elements)</code>
+<code>vec(const ptr_aux_mem, number_of_elements)</code>
 <br>
 <br>
 <ul>
-Create a column vector by copying data from read-only auxiliary memory.
+Create a column vector by copying data from read-only auxiliary memory,
+where <i>ptr_aux_mem</i> is a pointer to the memory
 </ul>
 <a name="adv_constructors_col_fixed"></a>
 <br>
@@ -982,12 +982,12 @@ The typedefs were defined by simply appending a single digit form of the size to
 while <i>cx_vec4</i> is equivalent to <i>cx_vec::fixed&lt;4&gt;</i>.
 </ul>
 <br>
-<code>vec::fixed&lt;number_of_elements&gt;(const *aux_mem)</code>
+<code>vec::fixed&lt;number_of_elements&gt;(const ptr_aux_mem)</code>
 <br>
 <br>
 <ul>
-Create a fixed size column vector, with the size specified via the template argument,
-and copying data from auxiliary memory.
+Create a fixed size column vector, with the size specified via the template argument;
+data is copied from auxiliary memory, where <i>ptr_aux_mem</i> is a pointer to the memory
 </ul>
 </ul>
 </li>
@@ -1161,38 +1161,38 @@ Advanced constructors:
 <br>
 <br>
 <ul>
-<code>rowvec(*aux_mem, number_of_elements, copy_aux_mem = true, strict = false)</code>
+<code>rowvec(ptr_aux_mem, number_of_elements, copy_aux_mem = true, strict = false)</code>
 <br>
 <br>
 <ul>
-Create a row vector using data from writable auxiliary (external) memory.
+Create a row vector using data from writable auxiliary (external) memory, where <i>ptr_aux_mem</i> is a pointer to the memory.
 By default the vector allocates its own memory and copies data from the auxiliary memory (for safety).
 However, if <i>copy_aux_mem</i> is set to <i>false</i>,
-the vector will instead directly use the auxiliary memory (ie. no copying).
-This is faster, but can be dangerous unless you know what you're doing!
+the vector will instead directly use the auxiliary memory (ie. no copying);
+this is faster, but can be dangerous unless you know what you're doing!
 <br>
 <br>
 The <i>strict</i> parameter comes into effect only when <i>copy_aux_mem</i> is set to <i>false</i>
-(ie. the vector is directly using auxiliary memory).
+(ie. the vector is directly using auxiliary memory)
 <ul>
 <li>
-When <i>strict</i> is set to <i>false</i>, the vector will use the auxiliary memory and allow size changes;
-if a size change results in the number of elements to increase, new memory will be allocated and the auxiliary memory will no longer be used
+when <i>strict</i> is set to <i>false</i>, the vector will use the auxiliary memory until a size change
 </li>
 <li>
-When <i>strict</i> is set to <i>true</i>, the vector will be bound to the auxiliary memory for its lifetime;
-the number of elements in the vector can't be changed (directly or indirectly)
+when <i>strict</i> is set to <i>true</i>, the vector will be bound to the auxiliary memory for its lifetime;
+the number of elements in the vector can't be changed
 </li>
-<li>The default setting of <i>strict</i> in versions 6.000+ is <i>false</i></li>
-<li>The default setting of <i>strict</i> in versions 5.600 and earlier is <i>true</i></li>
+<li>the default setting of <i>strict</i> in versions 6.000+ is <i>false</i></li>
+<li>the default setting of <i>strict</i> in versions 5.600 and earlier is <i>true</i></li>
 </ul>
 </ul>
 <br>
-<code>rowvec(const *aux_mem, number_of_elements)</code>
+<code>rowvec(const ptr_aux_mem, number_of_elements)</code>
 <br>
 <br>
 <ul>
-Create a row vector by copying data from read-only auxiliary memory.
+Create a row vector by copying data from read-only auxiliary memory,
+where <i>ptr_aux_mem</i> is a pointer to the memory
 </ul>
 <br>
 <code>rowvec::fixed&lt;number_of_elements&gt;</code>
@@ -1212,12 +1212,12 @@ The typedefs were defined by simply appending a single digit form of the size to
 while <i>cx_rowvec4</i> is equivalent to <i>cx_rowvec::fixed&lt;4&gt;</i>.
 </ul>
 <br>
-<code>rowvec::fixed&lt;number_of_elements&gt;(const *aux_mem)</code>
+<code>rowvec::fixed&lt;number_of_elements&gt;(const ptr_aux_mem)</code>
 <br>
 <br>
 <ul>
-Create a fixed size row vector, with the size specified via the template argument,
-and copying data from auxiliary memory.
+Create a fixed size row vector, with the size specified via the template argument;
+data is copied from auxiliary memory, where <i>ptr_aux_mem</i> is a pointer to the memory
 </ul>
 </ul>
 </li>
@@ -1407,38 +1407,38 @@ Memory for the cube is allocated at compile time.
 This is generally faster than dynamic memory allocation, but the size of the cube can't be changed afterwards (directly or indirectly).
 </ul>
 <br>
-<code>cube(*aux_mem, n_rows, n_cols, n_slices, copy_aux_mem = true, strict = false)</code>
+<code>cube(ptr_aux_mem, n_rows, n_cols, n_slices, copy_aux_mem = true, strict = false)</code>
 <br>
 <br>
 <ul>
-Create a cube using data from writable auxiliary (external) memory.
+Create a cube using data from writable auxiliary (external) memory, where <i>ptr_aux_mem</i> is a pointer to the memory.
 By default the cube allocates its own memory and copies data from the auxiliary memory (for safety).
 However, if <i>copy_aux_mem</i> is set to <i>false</i>,
-the cube will instead directly use the auxiliary memory (ie. no copying).
-This is faster, but can be dangerous unless you know what you're doing!
+the cube will instead directly use the auxiliary memory (ie. no copying);
+this is faster, but can be dangerous unless you know what you're doing!
 <br>
 <br>
 The <i>strict</i> parameter comes into effect only when <i>copy_aux_mem</i> is set to <i>false</i>
-(ie. the cube is directly using auxiliary memory).
+(ie. the cube is directly using auxiliary memory)
 <ul>
 <li>
-When <i>strict</i> is set to <i>false</i>, the cube will use the auxiliary memory and allow size changes;
-if a size change results in the number of elements to increase, new memory will be allocated and the auxiliary memory will no longer be used
+when <i>strict</i> is set to <i>false</i>, the cube will use the auxiliary memory until a size change
 </li>
 <li>
-When <i>strict</i> is set to <i>true</i>, the cube will be bound to the auxiliary memory for its lifetime;
-the number of elements in the cube can't be changed (directly or indirectly)
+when <i>strict</i> is set to <i>true</i>, the cube will be bound to the auxiliary memory for its lifetime;
+the number of elements in the cube can't be changed
 </li>
-<li>The default setting of <i>strict</i> in versions 6.000+ is <i>false</i></li>
-<li>The default setting of <i>strict</i> in versions 5.600 and earlier is <i>true</i></li>
+<li>the default setting of <i>strict</i> in versions 6.000+ is <i>false</i></li>
+<li>the default setting of <i>strict</i> in versions 5.600 and earlier is <i>true</i></li>
 </ul>
 </ul>
 <br>
-<code>cube(const *aux_mem, n_rows, n_cols, n_slices)</code>
+<code>cube(const ptr_aux_mem, n_rows, n_cols, n_slices)</code>
 <br>
 <br>
 <ul>
-Create a cube by copying data from read-only auxiliary memory.
+Create a cube by copying data from read-only auxiliary memory,
+where <i>ptr_aux_mem</i> is a pointer to the memory
 </ul>
 </ul>
 </li>
@@ -1768,7 +1768,7 @@ If <i>check_for_zeros</i> is set to <i>false</i>, the <i>values</i> vector is as
 <li>fundamental arithmetic <a href="#operators">operations</a> (such as addition and multiplication)</li>
 <li><a href="#submat">submatrix views</a> (contiguous forms only)</li>
 <li><a href="#diag">diagonal views</a></li>
-<li><a href="save_load_mat">saving and loading</a> (<i>arma_binary</i> format only)</li>
+<li><a href="#save_load_mat">saving and loading</a> (using <i>arma_binary</i> format only)</li>
 <li>element-wise functions: <a href="#abs">abs()</a>, <a href="#imag_real">imag()</a>, <a href="#imag_real">real()</a>, <a href="#conj">conj()</a>, <a href="#misc_fns">sqrt()</a>, <a href="#misc_fns">square()</a></li>
 <li>scalar functions of matrices: <a href="#accu">accu()</a>, <a href="#as_scalar">as_scalar()</a>, <a href="#dot">dot()</a>, <a href="#norm">norm()</a>, <a href="#trace">trace()</a></li>
 <li>vector valued functions of matrices: <a href="#min_and_max">min()</a>, <a href="#min_and_max">max()</a>, <a href="#nonzeros">nonzeros()</a>, <a href="#sum">sum()</a>, <a href="#stats_fns">mean()</a>, <a href="#stats_fns">var()</a></li>
@@ -3280,10 +3280,9 @@ The aggregate set of the specified elements is treated as a column vector
 The function <i>.unsafe_col()</i> is provided for speed reasons and should be used only if you know what you're doing.
 It creates a seemingly independent <i>Col</i> vector object (eg.&nbsp;<i>vec</i>),
 but uses memory from the existing matrix object.
-As such, the created <i>Col</i> vector is not alias safe
-and does not take into account that the parent matrix object could be deleted.
-If deleted memory is accessed through the created <i>Col</i> vector,
-it will cause memory corruption and/or a crash.
+As such, the created vector is not alias safe,
+and does not take into account that the underlying matrix memory could be freed
+(eg. due to any operation involving a size change of the matrix).
 </li>
 <br>
 <li>
@@ -9697,20 +9696,18 @@ See also:
 <li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
 <br>
 <li>
-The <i>method</i> argument is optional; <i>method</i> is either <code>"dc"</code> or <code>"std"</code>,
-with <code>"dc"</code> indicating divide-and-conquer and <code>"std"</code> indicating standard
+The <i>method</i> argument is optional; <i>method</i> is either <code>"dc"</code> or <code>"std"</code>
 <ul>
 <li>
-In version 4.000 and later, the default method is <code>"dc"</code>
+<code>"dc"</code> indicates divide-and-conquer method (default setting)
 </li>
 <li>
-In version 3.930, the default method is <code>"std"</code>
+<code>"std"</code> indicates standard method
+</li>
+<li>
+the divide-and-conquer method provides slightly different results than the standard method, but is considerably faster for large matrices
 </li>
 </ul>
-</li>
-<br>
-<li>
-The divide-and-conquer method provides slightly different results than the standard method, but is considerably faster for large matrices
 </li>
 <br>
 <li>If the decomposition fails:
@@ -10475,20 +10472,18 @@ The computation is based on singular value decomposition
 <li>Any singular values less than <i>tolerance</i> are treated as zero</li>
 <br>
 <li>
-The <i>method</i> argument is optional; <i>method</i> is either <code>"dc"</code> or <code>"std"</code>,
-with <code>"dc"</code> indicating divide-and-conquer and <code>"std"</code> indicating standard
+The <i>method</i> argument is optional; <i>method</i> is either <code>"dc"</code> or <code>"std"</code>
 <ul>
 <li>
-In version 4.000 and later, the default method is <code>"dc"</code>
+<code>"dc"</code> indicates divide-and-conquer method (default setting)
 </li>
 <li>
-In version 3.930, the default method is <code>"std"</code>
+<code>"std"</code> indicates standard method
+</li>
+<li>
+the divide-and-conquer method provides slightly different results than the standard method, but is considerably faster for large matrices
 </li>
 </ul>
-</li>
-<br>
-<li>
-The divide-and-conquer method provides slightly different results than the standard method, but is considerably faster for large matrices
 </li>
 <br>
 <li>If the decomposition fails:
@@ -11009,20 +11004,18 @@ The singular values are in descending order
 </li>
 <br>
 <li>
-The <i>method</i> argument is optional; <i>method</i> is either <code>"dc"</code> or <code>"std"</code>,
-with <code>"dc"</code> indicating divide-and-conquer and "std" indicating standard
+The <i>method</i> argument is optional; <i>method</i> is either <code>"dc"</code> or <code>"std"</code>
 <ul>
 <li>
-In version 4.000 and later, the default method is <code>"dc"</code>
+<code>"dc"</code> indicates divide-and-conquer method (default setting)
 </li>
 <li>
-In version 3.930, the default method is <code>"std"</code>
+<code>"std"</code> indicates standard method
+</li>
+<li>
+the divide-and-conquer method provides slightly different results than the standard method, but is considerably faster for large matrices
 </li>
 </ul>
-</li>
-<br>
-<li>
-The divide-and-conquer method provides slightly different results than the standard method, but is considerably faster for large matrices
 </li>
 <br>
 <li>
@@ -11095,20 +11088,18 @@ The <i>side</i> argument is optional; <i>side</i> is one of:
 </li>
 <br>
 <li>
-The <i>method</i> argument is optional; <i>method</i> is either <code>"dc"</code> or <code>"std"</code>,
-with <code>"dc"</code> indicating divide-and-conquer and <code>"std"</code> indicating standard
+The <i>method</i> argument is optional; <i>method</i> is either <code>"dc"</code> or <code>"std"</code>
 <ul>
 <li>
-In version 4.000 and later, the default method is <code>"dc"</code>
+<code>"dc"</code> indicates divide-and-conquer method (default setting)
 </li>
 <li>
-In version 3.930, the default method is <code>"std"</code>
+<code>"std"</code> indicates standard method
+</li>
+<li>
+the divide-and-conquer method provides slightly different results than the standard method, but is considerably faster for large matrices
 </li>
 </ul>
-</li>
-<br>
-<li>
-The divide-and-conquer method provides slightly different results than the standard method, but is considerably faster for large matrices
 </li>
 <br>
 <li>
@@ -12858,8 +12849,11 @@ cout &lt;&lt; "number of seconds: " &lt;&lt; n &lt;&lt; endl;
 <br>
 <ul>
 <li>
-By default, Armadillo prints warnings and messages associated with <i>std::logic_error</i>, <i>std::runtime_error</i> and <i>std::bad_alloc</i> exceptions
-to the <i>std::cout</i> stream
+By default, warnings and messages associated with exceptions are printed to the <i>std::cout</i> stream
+<ul>
+<li>the printing can be disabled by defining <a href="#config_hpp">ARMA_DONT_PRINT_ERRORS</a> before including the armadillo header</li>
+<li>detailed information about errors is always reported via the base <i>std::exception</i> class</li>
+</ul>
 </li>
 <br>
 <li><b>set_stream_err1()</b>: change the stream for messages associated with <i>std::logic_error</i> exceptions (eg. out of bounds accesses)</li>
@@ -12869,10 +12863,6 @@ to the <i>std::cout</i> stream
 <li><b>get_stream_err1()</b>: get a reference to the stream for messages associated with <i>std::logic_error</i> exceptions</li>
 <br>
 <li><b>get_stream_err2()</b>: get a reference to the stream for warnings and messages associated with <i>std::runtime_error</i> exceptions</li>
-<br>
-<li>
-The printing of all errors and warnings can be disabled by defining <a href="#config_hpp">ARMA_DONT_PRINT_ERRORS</a> before including the armadillo header
-</li>
 <br>
 <li>
 Examples:

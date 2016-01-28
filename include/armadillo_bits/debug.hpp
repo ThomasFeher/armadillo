@@ -102,10 +102,6 @@ arma_stop(const T1& x)
     out << '\n';
     out.flush();
     }
-  #else
-    {
-    arma_ignore(x);
-    }
   #endif
   
   throw std::logic_error( std::string(x) );
@@ -159,10 +155,6 @@ arma_bad(const T1& x, const bool hurl = true)
     out << "error: " << x << '\n';
     out << '\n';
     out.flush();
-    }
-  #else
-    {
-    arma_ignore(x);
     }
   #endif
   
@@ -301,10 +293,16 @@ static
 void
 arma_warn(const bool state, const T1& x)
   {
-  if(state==true)
+  #if defined(ARMA_PRINT_ERRORS)
     {
-    get_stream_err2() << x << std::endl;
+    if(state==true)  { get_stream_err2() << x << std::endl; }
     }
+  #else
+    {
+    arma_ignore(state);
+    arma_ignore(x);
+    }
+  #endif
   }
 
 
@@ -315,10 +313,17 @@ static
 void
 arma_warn(const bool state, const T1& x, const T2& y)
   {
-  if(state==true)
+  #if defined(ARMA_PRINT_ERRORS)
     {
-    get_stream_err2() << x << y << std::endl;
+    if(state==true)  { get_stream_err2() << x << y << std::endl; }
     }
+  #else
+    {
+    arma_ignore(state);
+    arma_ignore(x);
+    arma_ignore(y);
+    }
+  #endif
   }
 
 
@@ -329,10 +334,18 @@ static
 void
 arma_warn(const bool state, const T1& x, const T2& y, const T3& z)
   {
-  if(state==true)
+  #if defined(ARMA_PRINT_ERRORS)
     {
-    get_stream_err2() << x << y << z << std::endl;
+    if(state==true)  { get_stream_err2() << x << y << z << std::endl; }
     }
+  #else
+    {
+    arma_ignore(state);
+    arma_ignore(x);
+    arma_ignore(y);
+    arma_ignore(z);
+    }
+  #endif
   }
 
 

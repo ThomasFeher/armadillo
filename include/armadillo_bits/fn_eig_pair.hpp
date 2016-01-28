@@ -173,10 +173,10 @@ eig_pair
     {
     const uword n = eigval.n_elem;
     
+    eigvec.set_size(n,n);
+    
     if(n > 0)
       {
-      eigvec.set_size(n,n);
-      
       // from LAPACK docs:
       // If the j-th and (j+1)-th eigenvalues form a complex conjugate pair, then
       // v(j) = VR(:,j)+i*VR(:,j+1) and v(j+1) = VR(:,j)-i*VR(:,j+1).

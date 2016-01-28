@@ -190,10 +190,10 @@ eig_gen
     {
     const uword n = eigval.n_elem;
     
+    eigvec.set_size(n,n);
+    
     if(n > 0)
       {
-      eigvec.set_size(n,n);
-      
       for(uword j=0; j<n; ++j)
         {
         if( (j < n-1) && (eigval[j] == std::conj(eigval[j+1])) )
