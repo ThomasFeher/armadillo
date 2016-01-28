@@ -139,7 +139,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 6.200</b></font>
+        <font size=+2><b>Reference for Armadillo 6.300</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -264,6 +264,7 @@ Technical Report, NICTA, 2010.
 <tr><td><a href="#fill">.fill</a></td><td>&nbsp;</td><td>set all elements to specified value</td></tr>
 <tr><td><a href="#imbue">.imbue</a></td><td>&nbsp;</td><td>imbue (fill) with values provided by functor or lambda function</td></tr>
 <tr><td><a href="#transform">.transform</a></td><td>&nbsp;</td><td>transform each element via functor or lambda function</td></tr>
+<tr><td><a href="#for_each">.for_each</a></td><td>&nbsp;</td><td>apply a functor or lambda function to each element</td></tr>
 <tr><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td></tr>
 <tr><td><a href="#set_size">.set_size</a></td><td>&nbsp;</td><td>change size without keeping elements (fast)</td></tr>
 <tr><td><a href="#reshape_member">.reshape</a></td><td>&nbsp;</td><td>change size while keeping elements</td></tr>
@@ -385,21 +386,22 @@ Technical Report, NICTA, 2010.
 <tr><td><a href="#normalise">normalise</a></td><td>&nbsp;</td><td>normalise vectors to unit <i>p</i>-norm</td></tr>
 <tr><td><a href="#prod">prod</a></td><td>&nbsp;</td><td>product of elements</td></tr>
 <tr><td><a href="#rank">rank</a></td><td>&nbsp;</td><td>rank of matrix</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#rcond">rcond</a></td><td>&nbsp;</td><td>reciprocal of condition number</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#repmat">repmat</a></td><td>&nbsp;</td><td>replicate matrix in block-like fashion</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#reshape">reshape</a></td><td>&nbsp;</td><td>change size while keeping elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#resize">resize</a></td><td>&nbsp;</td><td>change size while keeping elements and preserving layout</td></tr>
+<tr><td><a href="#resize">resize</a></td><td>&nbsp;</td><td>change size while keeping elements and preserving layout</td></tr>
 <tr><td><a href="#shuffle">shuffle</a></td><td>&nbsp;</td><td>randomly shuffle elements</td></tr>
 <tr><td><a href="#size">size</a></td><td>&nbsp;</td><td>obtain dimensions of given object</td></tr>
-<tr><td><a href="#sort">sort</a></td><td>&nbsp;</td><td>sort elements</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#sort">sort</a></td><td>&nbsp;</td><td>sort elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#sort_index">sort_index</a></td><td>&nbsp;</td><td>vector describing sorted order of elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#sum">sum</a></td><td>&nbsp;</td><td>sum of elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#symmat">symmatu&nbsp;/&nbsp;symmatl</a></td><td>&nbsp;</td><td>generate symmetric matrix from given matrix</td></tr>
+<tr><td><a href="#symmat">symmatu&nbsp;/&nbsp;symmatl</a></td><td>&nbsp;</td><td>generate symmetric matrix from given matrix</td></tr>
 <tr><td><a href="#trace">trace</a></td><td>&nbsp;</td><td>sum of diagonal elements of square matrix</td></tr>
 <tr><td><a href="#trans">trans</a></td><td>&nbsp;</td><td>transpose of matrix</td></tr>
-<tr><td><a href="#trimat">trimatu&nbsp;/&nbsp;trimatl</a></td><td>&nbsp;</td><td>generate triangular matrix from given matrix</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#trimat">trimatu&nbsp;/&nbsp;trimatl</a></td><td>&nbsp;</td><td>generate triangular matrix from given matrix</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#unique">unique</a></td><td>&nbsp;</td><td>return unique elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#vectorise">vectorise</a></td><td>&nbsp;</td><td>convert matrix to vector</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#misc_fns">misc&nbsp;functions</a></td><td>&nbsp;</td><td>miscellaneous element-wise functions:&nbsp;exp,&nbsp;log,&nbsp;pow,&nbsp;sqrt,&nbsp;round,&nbsp;sign,&nbsp;...</td></tr>
+<tr><td><a href="#misc_fns">misc&nbsp;functions</a></td><td>&nbsp;</td><td>miscellaneous element-wise functions:&nbsp;exp,&nbsp;log,&nbsp;pow,&nbsp;sqrt,&nbsp;round,&nbsp;sign,&nbsp;...</td></tr>
 <tr><td><a href="#trig_fns">trig&nbsp;functions</a></td><td>&nbsp;</td><td>trigonometric element-wise functions:&nbsp;cos,&nbsp;sin,&nbsp;...</td></tr>
 <tr><td><a href="#stats_fns">stats&nbsp;functions</a></td><td>&nbsp;</td><td>statistics functions: mean, median, standard deviation, variance</td></tr>
 </tbody>
@@ -2739,7 +2741,7 @@ For matrices, filling is done column-by-column (ie. column 0 is filled, then col
 </li>
 <br>
 <li>
-For cubes, filling is done slice-by-slice; each slice is filled column-by-column
+For cubes, filling is done slice-by-slice, with each slice treated as a matrix
 </li>
 <br>
 <li>
@@ -2793,7 +2795,7 @@ For matrices, transformation is done column-by-column (ie. column 0 is transform
 </li>
 <br>
 <li>
-For cubes, transformation is done slice-by-slice; each slice is transformed column-by-column
+For cubes, transformation is done slice-by-slice, with each slice treated as a matrix
 </li>
 <br>
 <li>
@@ -2813,8 +2815,67 @@ A.transform( [](double val) { return (val + 123.0); } );
 <li>
 See also:
 <ul>
+<li><a href="#imbue">.for_each()</a></li>
 <li><a href="#imbue">.imbue()</a></li>
 <li><a href="#fill">.fill()</a></li>
+<li><a href="#operators">overloaded operators</a></li>
+<li><a href="#misc_fns">miscellaneous element-wise functions</a> &nbsp; (exp, log, pow, sqrt, square, round, ...)</li>
+<li><a href="http://en.wikipedia.org/wiki/Function_object">function object</a> at Wikipedia</li>
+<li><a href="http://en.wikipedia.org/wiki/C%2B%2B11#Lambda_functions_and_expressions">C++11 lambda functions</a> at Wikipedia</li>
+<li><a href="http://www.cprogramming.com/c++11/c++11-lambda-closures.html">lambda function</a> at cprogramming.com</li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+
+<a name="for_each"></a>
+<b>.for_each(&nbsp;</b>functor<b>&nbsp;)</b>
+<br>
+<b>.for_each(&nbsp;</b>lambda_function<b>&nbsp;)</b>&nbsp;&nbsp;&nbsp;<i>(C++11 only)</i>
+<br>
+<ul>
+<li>
+Member functions of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i> and <i>field</i>
+</li>
+<br>
+<li>
+For each element, pass its reference to a functor or lambda function
+</li>
+<br>
+<li>
+For matrices, the processing is done column-by-column
+</li>
+<br>
+<li>
+For cubes, processing is done slice-by-slice, with each slice treated as a matrix
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+// C++11 only examples
+
+mat A = ones&lt;mat&gt;(4,5);
+
+// add 123 to each element
+A.for_each( [](mat::elem_type&amp; val) { val += 123.0; } );  // NOTE: the '&amp;' is crucial!
+
+
+field&lt;mat&gt; F(2,3);
+
+// set the size of all matrices in field F
+F.for_each( [](mat&amp; X) { X.zeros(4,5); } );  // NOTE: the '&amp;' is crucial!
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#transform">.transform()</a></li>
 <li><a href="#operators">overloaded operators</a></li>
 <li><a href="#misc_fns">miscellaneous element-wise functions</a> &nbsp; (exp, log, pow, sqrt, square, round, ...)</li>
 <li><a href="http://en.wikipedia.org/wiki/Function_object">function object</a> at Wikipedia</li>
@@ -4786,7 +4847,7 @@ Provides an inverse of the matrix expression
 </li>
 <br>
 <li>
-If the matrix expression is not square, a <i>std::logic_error</i> exception is thrown
+If the matrix expression is not square sized, a <i>std::logic_error</i> exception is thrown
 </li>
 <br>
 <li>
@@ -4830,7 +4891,7 @@ mat Y = (A+A).i();
 See also:
 <ul>
 <li><a href="#inv">inv()</a></li>
-<li><a href="#cond">cond()</a></li>
+<li><a href="#rcond">rcond()</a></li>
 <li><a href="#pinv">pinv()</a></li>
 <li><a href="#solve">solve()</a></li>
 <li><a href="#spsolve">spsolve()</a></li>
@@ -6837,7 +6898,7 @@ See also:
 <b>cond( A )</b>
 <ul>
 <li>
-Condition number of matrix <i>A</i> (the ratio of the largest singular value to the smallest)
+Return the condition number of matrix <i>A</i> (the ratio of the largest singular value to the smallest)
 </li>
 <br>
 <li>
@@ -6846,6 +6907,10 @@ Large condition numbers suggest that matrix <i>A</i> is nearly singular
 <br>
 <li>
 The computation is based on singular value decomposition; if the decomposition fails, a <i>std::runtime_error</i> exception is thrown
+</li>
+<br>
+<li>
+<b>Caveat:</b> the <a href="#rcond">rcond()</a> function is faster for providing an estimate of the reciprocal of the condition number
 </li>
 <br>
 <li>
@@ -6861,9 +6926,10 @@ double c = cond(A);
 <li>
 See also:
 <ul>
-<li><a href="#i_member">.i()</a></li>
-<li><a href="#inv">inv()</a></li>
+<li><a href="#rcond">rcond()</a></li>
 <li><a href="#rank">rank()</a></li>
+<li><a href="#inv">inv()</a></li>
+<li><a href="#solve">solve()</a></li>
 <li><a href="http://mathworld.wolfram.com/ConditionNumber.html">condition number in MathWorld</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Condition_number">condition number in Wikipedia</a></li>
 </ul>
@@ -7239,7 +7305,6 @@ See also:
 
 <a name="det"></a>
 <b>det( A )</b>
-<br><b>det( A, method )</b>
 <br><b>log_det( val, sign, A )</b>
 <ul>
 <li>
@@ -7247,14 +7312,7 @@ Determinant of square matrix <i>A</i>
 </li>
 <br>
 <li>
-If <i>A</i> is not square, a <i>std::logic_error</i> exception is thrown
-</li>
-<br>
-<li><i>det():</i> the <i>method</i> argument is optional.
-For matrix sizes &le; 4x4, a fast algorithm is used.
-In rare instances, the fast algorithm might be less precise than the standard algorithm.
-To force the use of the standard algorithm, set the <i>method</i> argument to <code>"std"</code>.
-For matrix sizes greater than 4x4, the standard algorithm is always used
+If <i>A</i> is not square sized, a <i>std::logic_error</i> exception is thrown
 </li>
 <br>
 <li>
@@ -7526,7 +7584,7 @@ See also:
 <ul>
 <li>Return the matrix exponential of square matrix <i>X</i></li>
 <br>
-<li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
+<li>If <i>X</i> is not square sized, a <i>std::logic_error</i> exception is thrown</li>
 <br>
 <li><b>Caveat</b>: the matrix exponential operation is <b>not</b> the same as applying the <a href="#misc_fns">exp()</a> function to each element
 </li>
@@ -8505,7 +8563,7 @@ See also:
 <br>
 <b>rank( X, tolerance )</b>
 <ul>
-<li>Returns the rank of matrix <i>X</i></li>
+<li>Return the rank of matrix <i>X</i></li>
 <br>
 <li>Any singular values less than <i>tolerance</i> are treated as zero</li>
 <br>
@@ -8522,6 +8580,10 @@ The <i>tolerance</i> argument is optional; by default <i>tolerance</i> is <i>max
 if the decomposition fails, a <i>std::runtime_error</i> exception is thrown</li>
 <br>
 <li>
+<b>Caveat:</b> to confirm whether a matrix is singular, use <a href="#rcond">rcond()</a> or <a href="#cond">cond()</a>
+</li>
+<br>
+<li>
 Examples:
 <ul>
 <pre>
@@ -8536,11 +8598,54 @@ uword r = rank(A);
 See also:
 <ul>
 <li><a href="#cond">cond()</a></li>
+<li><a href="#rcond">rcond()</a></li>
 <li><a href="#svd">svd()</a></li>
 <li><a href="#orth">orth()</a></li>
 <li><a href="#constants">datum::eps</a></li>
 <li><a href="http://mathworld.wolfram.com/MatrixRank.html">Rank in MathWorld</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Rank_(linear_algebra)">Rank in Wikipedia</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="rcond"></a>
+<b>rcond( A )</b>
+<ul>
+<li>
+Return an estimate of the reciprocal of the condition number of square matrix <i>A</i>
+</li>
+<br>
+<li>
+Values close to 1 suggest that <i>A</i> is well-conditioned
+</li>
+<br>
+<li>
+Values close to 0 suggest that <i>A</i> is badly conditioned
+</li>
+<br>
+<li>
+If <i>A</i> is not square sized, a <i>std::logic_error</i> exception is thrown
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat    A = randu&lt;mat&gt;(5,5);
+double r = rcond(A);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#cond">cond()</a></li>
+<li><a href="#rank">rank()</a></li>
+<li><a href="#inv">inv()</a></li>
+<li><a href="#solve">solve()</a></li>
 </ul>
 </li>
 <br>
@@ -9705,7 +9810,7 @@ See also:
 <br>
 <li>The eigenvalues are in ascending order</li>
 <br>
-<li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
+<li>If <i>X</i> is not square sized, a <i>std::logic_error</i> exception is thrown</li>
 <br>
 <li>
 The <i>method</i> argument is optional; <i>method</i> is either <code>"dc"</code> or <code>"std"</code>
@@ -9789,7 +9894,7 @@ Eigen decomposition of <b>dense</b> general (non-symmetric/non-hermitian) square
 <br>
 <li>The eigenvalues and corresponding eigenvectors are stored in <i>eigval</i> and <i>eigvec</i>, respectively</li>
 <br>
-<li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
+<li>If <i>X</i> is not square sized, a <i>std::logic_error</i> exception is thrown</li>
 <br>
 <li>If the decomposition fails:
 <ul>
@@ -9844,7 +9949,7 @@ such that <i>A*eigvec&nbsp;=&nbsp;B*eigvec*diagmat(eigval)</i>
 <br>
 <li>The eigenvalues and corresponding eigenvectors are stored in <i>eigval</i> and <i>eigvec</i>, respectively</li>
 <br>
-<li>If <i>A</i> or <i>B</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
+<li>If <i>A</i> or <i>B</i> is not square sized, a <i>std::logic_error</i> exception is thrown</li>
 <br>
 <li>If the decomposition fails:
 <ul>
@@ -9921,7 +10026,7 @@ The argument <i>tol</i> is optional; it specifies the tolerance for convergence
 <br>
 <li>The eigenvalues and corresponding eigenvectors are stored in <i>eigval</i> and <i>eigvec</i>, respectively</li>
 <br>
-<li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
+<li>If <i>X</i> is not square sized, a <i>std::logic_error</i> exception is thrown</li>
 <br>
 <li>If the decomposition fails:
 <ul>
@@ -10008,7 +10113,7 @@ The eigenvalues and corresponding eigenvectors are stored in <i>eigval</i> and <
 </li>
 <br>
 <li>
-If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown
+If <i>X</i> is not square sized, a <i>std::logic_error</i> exception is thrown
 </li>
 <br>
 <li>If the decomposition fails:
@@ -10148,24 +10253,15 @@ See also:
 
 <a name="inv"></a>
 <b>B = inv( A )</b>
-<br><b>B = inv( A, method )</b>
 <br>
 <br><b>inv( B, A )</b>
-<br><b>inv( B, A, method )</b>
 <ul>
 <li>
 Inverse of square matrix <i>A</i>
 </li>
 <br>
-<li>The <i>method</i> argument is optional.
-For matrix sizes &le; 4x4, a fast algorithm is used.
-In rare instances, the fast algorithm might be less precise than the standard algorithm.
-To force the use of the standard algorithm, set the <i>method</i> argument to <code>"std"</code>.
-For matrix sizes greater than 4x4, the standard algorithm is always used
-</li>
-<br>
 <li>
-If <i>A</i> is not square, a <i>std::logic_error</i> exception is thrown
+If <i>A</i> is not square sized, a <i>std::logic_error</i> exception is thrown
 </li>
 <br>
 <li>If <i>A</i> appears to be singular:
@@ -10207,7 +10303,7 @@ See also:
 <ul>
 <li><a href="#i_member">.i()</a>
 <li><a href="#inv_sympd">inv_sympd()</a>
-<li><a href="#cond">cond()</a>
+<li><a href="#rcond">rcond()</a>
 <li><a href="#pinv">pinv()</a>
 <li><a href="#solve">solve()</a></li>
 <li><a href="#spsolve">spsolve()</a></li>
@@ -10229,7 +10325,7 @@ Inverse of symmetric positive definite matrix <i>A</i>
 </li>
 <br>
 <li>
-If <i>A</i> is not square, a <i>std::logic_error</i> exception is thrown
+If <i>A</i> is not square sized, a <i>std::logic_error</i> exception is thrown
 </li>
 <br>
 <li>
@@ -10266,7 +10362,7 @@ mat B   = inv_sympd(AtA);
 See also: 
 <ul>
 <li><a href="#inv">inv()</a>
-<li><a href="#cond">cond()</a>
+<li><a href="#rcond">rcond()</a>
 <li><a href="#pinv">pinv()</a>
 <li><a href="#solve">solve()</a></li>
 <li><a href="#eig_sym">eig_sym()</a></li>
@@ -10692,7 +10788,7 @@ Generalised Schur decomposition for pair of general square matrices <i>A</i> and
 <br>
 <li>In the complex-valued problem, the generalised eigenvalues are found in <i>diagvec(AA) / diagvec(BB)</i></li>
 <br>
-<li>If <i>A</i> or <i>B</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
+<li>If <i>A</i> or <i>B</i> is not square sized, a <i>std::logic_error</i> exception is thrown</li>
 <br>
 <li>If the decomposition fails, <i>AA</i>, <i>BB</i>, <i>Q</i> and <i>Z</i> are reset, and the function returns a bool set to <i>false</i> (exception is not thrown)</li>
 <br>
@@ -10738,7 +10834,7 @@ See also:
 <br>
 <li><i>S</i> is an upper triangular matrix, called the Schur form of <i>X</i></li>
 <br>
-<li>If <i>X</i> is not square, a <i>std::logic_error</i> exception is thrown</li>
+<li>If <i>X</i> is not square sized, a <i>std::logic_error</i> exception is thrown</li>
 <br>
 <li>If the decomposition fails:
 <ul>
@@ -10781,20 +10877,17 @@ See also:
 
 <a name="solve"></a>
 <b>X = solve( A, B )</b>
-<br><b>X = solve( A, B, method )</b>
+<br><b>X = solve( A, B, options )</b> &nbsp;&nbsp;&nbsp; (version 6.300+)
 <br>
 <br><b>solve( X, A, B )</b>
-<br><b>solve( X, A, B, method )</b>
+<br><b>solve( X, A, B, options )</b> &nbsp;&nbsp;&nbsp; (version 6.300+)
 <ul>
 <li>Solve a <b>dense</b> system of linear equations, <i>A*X = B</i>, where <i>X</i> is unknown;
 similar functionality to the \ operator in Matlab/Octave, ie. <i>X&nbsp;=&nbsp;A&nbsp;\&nbsp;B</i>
 </li>
 <br>
-<li>If <i>A</i> is square, <i>solve()</i> is faster and more accurate than using <i>X&nbsp;=&nbsp;inv(A)*B</i></li>
-<br>
-<li>
-If <i>A</i> is non-square,
-<i>solve()</i> will try to provide approximate solutions to under-determined as well as over-determined systems</li>
+<li><i>A</i> can be square (critically determined system), or non-square (under/over-determined system)
+</li>
 <br>
 <li>
 <i>B</i> can be a vector or matrix
@@ -10804,18 +10897,31 @@ If <i>A</i> is non-square,
 The number of rows in <i>A</i> and <i>B</i> must be the same
 </li>
 <br>
-<li>The <i>method</i> argument is optional.
-For matrix sizes &le; 4x4, a fast algorithm is used.
-In rare instances, the fast algorithm might be less precise than the standard algorithm.
-To force the use of the standard algorithm,
-set the <i>method</i> argument to <code>"std"</code>.
-For matrix sizes greater than 4x4, the standard algorithm is always used
+<li>The <i>options</i> argument is optional; it is one or a combination of the following:
+<ul>
+<br>
+<table>
+<tbody>
+<tr><td><code>solve_opts::fast</code></td><td>&nbsp;&nbsp;&nbsp;</td><td>do not apply iterative refinement and/or equilibration</td></tr>
+<tr><td><code>solve_opts::equilibrate</code></td><td>&nbsp;&nbsp;&nbsp;</td><td>equilibrate the system before solving &nbsp; (matrix <i>A</i> must be square)</td></tr>
+<tr><td><code>solve_opts::no_approx</code></td><td>&nbsp;&nbsp;&nbsp;</td><td>do not find approximate solutions for rank deficient systems</td></tr>
+</tbody>
+</table>
+<br>
+<li>
+Options can be combined using the <code>+</code> operator; for example: <code>solve_opts::fast&nbsp;+&nbsp;solve_opts::no_approx</code>
+</li>
+<br>
+<li>
+<b>Caveat:</b> <code>solve_opts::fast</code> is recommended only for well-conditioned systems 
+</li>
+</ul>
 </li>
 <br>
 <li>
 If <i>A</i> is known to be a triangular matrix,
-the solution can be computed faster by explicitly marking <i>A</i> as triangular
-through <a href="#trimat">trimatu()</a> or <a href="#trimat">trimatl()</a>
+the solution can be computed faster by explicitly indicating that <i>A</i> is triangular through <a href="#trimat">trimatu()</a> or <a href="#trimat">trimatl()</a>;
+<br>indicating a triangular matrix also implies that <code>solve_opts::fast</code> is enabled
 </li>
 <br>
 <li>
@@ -10834,11 +10940,16 @@ mat A = randu&lt;mat&gt;(5,5);
 vec b = randu&lt;vec&gt;(5);
 mat B = randu&lt;mat&gt;(5,5);
 
-vec x = solve(A, b);
-mat X = solve(A, B);
+vec x1 = solve(A, b);
 
 vec x2;
 bool status = solve(x2, A, b);
+
+mat X1 = solve(A, B);
+
+mat X2 = solve(A, B, solve_opts::fast);
+
+mat X3 = solve(A, trimatu(B));  // indicate that B is triangular
 </pre>
 </ul>
 </li>
@@ -10846,9 +10957,9 @@ bool status = solve(x2, A, b);
 <li>
 See also:
 <ul>
-<li><a href="#i_member">.i()</a></li>
 <li><a href="#inv">inv()</a></li>
 <li><a href="#pinv">pinv()</a></li>
+<li><a href="#rcond">rcond()</a></li>
 <li><a href="#syl">syl()</a></li>
 <li><a href="#spsolve">spsolve()</a></li>
 <li><a href="http://mathworld.wolfram.com/LinearSystemofEquations.html">linear system of equations in MathWorld</a></li>
@@ -10907,11 +11018,11 @@ when <i>solver</i> is "superlu", <i>settings</i> is an instance of the <i>superl
 <pre>
 struct superlu_opts
   {
-  bool             equilibrate;  // default: true
+  bool             equilibrate;  // default: false
   bool             symmetric;    // default: false
   double           pivot_thresh; // default: 1.0
   permutation_type permutation;  // default: superlu_opts::COLAMD
-  refine_type      refine;       // default: superlu_opts::REF_NONE
+  refine_type      refine;       // default: superlu_opts::REF_DOUBLE
   };
 </pre>
 </li>
@@ -10973,6 +11084,7 @@ spsolve(x, A, b, "superlu");  // use SuperLU solver
 superlu_opts settings;
 
 settings.permutation = superlu_opts::NATURAL;
+settings.refine      = superlu_opts::REF_NONE;
 
 spsolve(x, A, b, "superlu", settings);
 </pre>
@@ -14619,6 +14731,16 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="version_6300"></a>
+<li>Version 6.300:
+<ul>
+<li>expanded <a href="#solve">solve()</a> to find approximate solutions for rank-deficient systems</li>
+<li>faster handling of <a href="#submat">non-contiguous submatrix views</a> in compound expressions</li>
+<li>added <a href="#for_each">.for_each()</a> to <i>Mat</i>, <i>Row</i>, <i>Col</i>, <i>Cube</i> and <i>field</i> classes</li>
+<li>added <a href="#rcond">rcond()</a> for estimating the reciprocal condition number</li>
+</ul>
+</li>
+<br>
 <a name="version_6200"></a>
 <li>Version 6.200:
 <ul>

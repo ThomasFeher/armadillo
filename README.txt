@@ -194,7 +194,7 @@ In general, programs which use Armadillo are compiled along these lines:
 If you want to use Armadillo without installation,
 or you're getting linking errors, compile along these lines:
   
-  g++ example1.cpp -o example1 -O2 -I /home/blah/armadillo-6.200.5/include -DARMA_DONT_USE_WRAPPER -lblas -llapack
+  g++ example1.cpp -o example1 -O2 -I /home/blah/armadillo-6.300.2/include -DARMA_DONT_USE_WRAPPER -lblas -llapack
   
 The above command line assumes that you have unpacked the armadillo archive into /home/blah/
 You will need to adjust this for later versions of Armadillo,
@@ -455,12 +455,14 @@ Notable contributors:
 * MLPACK: C++ library for machine learning and pattern recognition, built on top of Armadillo.
   http://mlpack.org
   
+* Mantella: C++ library for analysing and solving optimisation problems
+  https://github.com/SebastianNiemann/Mantella
+  
 * libpca: C++ library for principal component analysis
   http://sourceforge.net/projects/libpca/
   
-* KL1p: C++ library for sparse recovery of underdetermined linear systems, such as compressed sensing.
-  http://kl1p.sourceforge.net  
-  
 * ArmaNpy: interfaces Armadillo matrices with Python
   http://sourceforge.net/projects/armanpy/
-
+  
+* matlab2cpp: conversion of Matlab code to Armadillo based C++ code
+  https://github.com/jonathf/matlab2cpp
