@@ -5600,7 +5600,12 @@ A.raw_print(cout, "A =");
 <ul>
 <li>Member functions of <i>Mat</i>, <i>Col</i>, <i>Row</i> and <i>Cube</i></li>
 <br>
-<li>Store/retrieve data in files or streams</li>
+<li>
+Store/retrieve data in a file or stream
+<ul>
+<li><b>caveat:</b> the stream must be opened in binary mode</li>
+</ul>
+</li>
 <br>
 <li>
 The default <i>file_type</i> for <i>.save()</i> is <i>arma_binary</i> (see below) 
@@ -5753,28 +5758,19 @@ Examples:
 mat A = randu&lt;mat&gt;(5,5);
 
 A.save("A1.mat");  // default save format is arma_binary
-A.save("A2.mat", arma_ascii);
+
+A.save("A2.mat", arma_ascii);  // force saving in arma_ascii format
 
 mat B;
-// automatically detect format type
-B.load("A1.mat");
+B.load("A1.mat");  // automatically detect format type
 
 mat C;
-// force loading in the arma_ascii format
-C.load("A2.mat", arma_ascii);
-
-
-// example of saving/loading using a stream
-std::stringstream s;
-A.save(s);
-
-mat D;
-D.load(s);
+C.load("A2.mat", arma_ascii);  // force loading in arma_ascii format
 
 
 // example of testing for success
-mat E;
-bool status = E.load("A2.mat");
+mat D;
+bool status = D.load("A2.mat");
 
 if(status == true)
   {
@@ -5806,15 +5802,20 @@ else
 <br><b>.save( stream )</b>
 <br><b>.save( stream, file_type )</b>
 <br>
-<br><b>.load( name, )</b>
+<br><b>.load( name )</b>
 <br><b>.load( name, file_type )</b>
 <br>
-<br><b>.load( stream, )</b>
+<br><b>.load( stream )</b>
 <br><b>.load( stream, file_type )</b>
 <ul>
 <li>Member functions of <i>field</i></li>
 <br>
-<li>Store/retrieve fields in files or streams</li>
+<li>
+Store/retrieve data in a file or stream
+<ul>
+<li><b>caveat:</b> the stream must be opened in binary mode</li>
+</ul>
+</li>
 <br>
 <li>On success, <i>.save()</i> and <i>.load()</i> will return a <i>bool</i> set to <i>true</i></li>
 <br>
@@ -7279,7 +7280,7 @@ See also:
 <hr class="greyline"><br>
 
 <a name="diagmat"></a>
-<br><b>diagmat( V )</b>
+<b>diagmat( V )</b>
 <br><b>diagmat( V, k )</b>
 <br><b>diagmat( X )</b>
 <br><b>diagmat( X, k )</b>

@@ -717,7 +717,7 @@ namespace lapack
   template<typename eT>
   inline
   void
-  gees(char* jobvs, char* sort, blas_int* select, blas_int* n, eT* a, blas_int* lda, blas_int* sdim, eT* wr, eT* wi, eT* vs, blas_int* ldvs, eT* work, blas_int* lwork, blas_int* bwork, blas_int* info)
+  gees(char* jobvs, char* sort, void* select, blas_int* n, eT* a, blas_int* lda, blas_int* sdim, eT* wr, eT* wi, eT* vs, blas_int* ldvs, eT* work, blas_int* lwork, blas_int* bwork, blas_int* info)
     {
     arma_type_check(( is_supported_blas_type<eT>::value == false ));
     
@@ -739,7 +739,7 @@ namespace lapack
   template<typename T>
   inline
   void
-  cx_gees(char* jobvs, char* sort, blas_int* select, blas_int* n, std::complex<T>* a, blas_int* lda, blas_int* sdim, std::complex<T>* w, std::complex<T>* vs, blas_int* ldvs, std::complex<T>* work, blas_int* lwork, T* rwork, blas_int* bwork, blas_int* info)
+  cx_gees(char* jobvs, char* sort, void* select, blas_int* n, std::complex<T>* a, blas_int* lda, blas_int* sdim, std::complex<T>* w, std::complex<T>* vs, blas_int* ldvs, std::complex<T>* work, blas_int* lwork, T* rwork, blas_int* bwork, blas_int* info)
     {
     arma_type_check(( is_supported_blas_type<T>::value == false ));
     arma_type_check(( is_supported_blas_type< std::complex<T> >::value == false ));
@@ -866,7 +866,7 @@ namespace lapack
   void
   gges
     (
-    char* jobvsl, char* jobvsr, char* sort, char* selctg, blas_int* n,
+    char* jobvsl, char* jobvsr, char* sort, void* selctg, blas_int* n,
     eT* a, blas_int* lda, eT* b, blas_int* ldb, blas_int* sdim,
     eT* alphar, eT* alphai, eT* beta,
     eT* vsl, blas_int* ldvsl, eT* vsr, blas_int* ldvsr,
@@ -896,7 +896,7 @@ namespace lapack
   void
   cx_gges
     (
-    char* jobvsl, char* jobvsr, char* sort, char* selctg, blas_int* n,
+    char* jobvsl, char* jobvsr, char* sort, void* selctg, blas_int* n,
     eT* a, blas_int* lda, eT* b, blas_int* ldb, blas_int* sdim,
     eT* alpha, eT* beta,
     eT* vsl, blas_int* ldvsl, eT* vsr, blas_int* ldvsr,

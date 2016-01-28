@@ -1151,7 +1151,6 @@ auxlib::eig_gen
       {
       vals.reset();
       vecs.reset();
-      vecs.reset();
       return true;
       }
     
@@ -3511,7 +3510,7 @@ auxlib::schur(Mat<eT>& U, Mat<eT>& S, const Base<eT,T1>& X, const bool calc_U)
     
     char      jobvs  = calc_U ? 'V' : 'N';
     char      sort   = 'N';
-    blas_int  select = 0;
+    void*     select = 0;
     blas_int  n      = blas_int(S_n_rows);
     blas_int  sdim   = 0;
     blas_int  ldvs   = calc_U ? n : blas_int(1);
@@ -3525,7 +3524,7 @@ auxlib::schur(Mat<eT>& U, Mat<eT>& S, const Base<eT,T1>& X, const bool calc_U)
     podarray<blas_int> bwork(S_n_rows);
     
     arma_extra_debug_print("lapack::gees()");
-    lapack::gees(&jobvs, &sort, &select, &n, S.memptr(), &n, &sdim, wr.memptr(), wi.memptr(), U.memptr(), &ldvs, work.memptr(), &lwork, bwork.memptr(), &info);
+    lapack::gees(&jobvs, &sort, select, &n, S.memptr(), &n, &sdim, wr.memptr(), wi.memptr(), U.memptr(), &ldvs, work.memptr(), &lwork, bwork.memptr(), &info);
     
     return (info == 0);
     }
@@ -3572,7 +3571,7 @@ auxlib::schur(Mat<std::complex<T> >& U, Mat<std::complex<T> >& S, const Base<std
     
     char      jobvs  = calc_U ? 'V' : 'N';
     char      sort   = 'N';
-    blas_int* select = 0;
+    void*     select = 0;
     blas_int  n      = blas_int(S_n_rows);
     blas_int  sdim   = 0;
     blas_int  ldvs   = calc_U ? n : blas_int(1);
@@ -3705,7 +3704,7 @@ auxlib::qz(Mat<T>& A, Mat<T>& B, Mat<T>& vsl, Mat<T>& vsr, const Base<T,T1>& X_e
     char     jobvsl  = 'V';
     char     jobvsr  = 'V';
     char     eigsort = 'N';
-    blas_int selctg  = 0;
+    void*    selctg  = 0;
     blas_int N       = blas_int(A.n_rows);
     blas_int sdim    = 0;
     blas_int lwork   = 3 * ((std::max)(blas_int(1),8*N+16));
@@ -3722,7 +3721,7 @@ auxlib::qz(Mat<T>& A, Mat<T>& B, Mat<T>& vsl, Mat<T>& vsr, const Base<T,T1>& X_e
     
     lapack::gges
       (
-      &jobvsl, &jobvsr, &eigsort, &selctg, &N,
+      &jobvsl, &jobvsr, &eigsort, selctg, &N,
       A.memptr(), &N, B.memptr(), &N, &sdim,
       alphar.memptr(), alphai.memptr(), beta.memptr(),
       vsl.memptr(), &N, vsr.memptr(), &N,
@@ -3788,7 +3787,7 @@ auxlib::qz(Mat< std::complex<T> >& A, Mat< std::complex<T> >& B, Mat< std::compl
     char     jobvsl  = 'V';
     char     jobvsr  = 'V';
     char     eigsort = 'N';
-    blas_int selctg  = 0;
+    void*    selctg  = 0;
     blas_int N       = blas_int(A.n_rows);
     blas_int sdim    = 0;
     blas_int lwork   = 3 * ((std::max)(blas_int(1),2*N));
@@ -3805,7 +3804,7 @@ auxlib::qz(Mat< std::complex<T> >& A, Mat< std::complex<T> >& B, Mat< std::compl
     
     lapack::cx_gges
       (
-      &jobvsl, &jobvsr, &eigsort, &selctg, &N,
+      &jobvsl, &jobvsr, &eigsort, selctg, &N,
       A.memptr(), &N, B.memptr(), &N, &sdim,
       alpha.memptr(), beta.memptr(),
       vsl.memptr(), &N, vsr.memptr(), &N,
