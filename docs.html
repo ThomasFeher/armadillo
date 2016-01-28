@@ -139,7 +139,7 @@ hr.greyline
   <tbody>
     <tr>
       <td style="text-align: left; vertical-align: top;">
-        <font size=+2><b>Reference for Armadillo 6.300</b></font>
+          <font size=+2><b>Reference for Armadillo 6.400</b></font>
         <br>
       </td>
       <td style="text-align: right; vertical-align: top;">
@@ -374,36 +374,38 @@ Technical Report, NICTA, 2010.
 <tr><td><a href="#hist">hist</a></td><td>&nbsp;</td><td>histogram of counts</td></tr>
 <tr><td><a href="#histc">histc</a></td><td>&nbsp;</td><td>histogram of counts with user specified edges</td></tr>
 <tr><td><a href="#imag_real">imag / real</a></td><td>&nbsp;</td><td>extract imaginary/real part</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#ind2sub">ind2sub</a></td><td>&nbsp;</td><td>convert linear index to subscripts</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#inplace_trans">inplace_trans</a></td><td>&nbsp;</td><td>in-place transpose</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#interp1">interp1</a></td><td>&nbsp;</td><td>1D interpolation</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#is_finite">is_finite</a></td><td>&nbsp;</td><td>check whether all elements are finite</td></tr>
+<tr><td><a href="#is_finite">is_finite</a></td><td>&nbsp;</td><td>check whether all elements are finite</td></tr>
 <tr><td><a href="#join">join_rows / join_cols</a></td><td>&nbsp;</td><td>concatenation of matrices</td></tr>
 <tr><td><a href="#join_slices">join_slices</a></td><td>&nbsp;</td><td>concatenation of cubes</td></tr>
-<tr><td><a href="#kron">kron</a></td><td>&nbsp;</td><td>Kronecker tensor product</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#kron">kron</a></td><td>&nbsp;</td><td>Kronecker tensor product</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#min_and_max">min&nbsp;/&nbsp;max</a></td><td>&nbsp;</td><td>return extremum values</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#nonzeros">nonzeros</a></td><td>&nbsp;</td><td>return non-zero values</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#norm">norm</a></td><td>&nbsp;</td><td>various norms of vectors and matrices</td></tr>
+<tr><td><a href="#norm">norm</a></td><td>&nbsp;</td><td>various norms of vectors and matrices</td></tr>
 <tr><td><a href="#normalise">normalise</a></td><td>&nbsp;</td><td>normalise vectors to unit <i>p</i>-norm</td></tr>
 <tr><td><a href="#prod">prod</a></td><td>&nbsp;</td><td>product of elements</td></tr>
-<tr><td><a href="#rank">rank</a></td><td>&nbsp;</td><td>rank of matrix</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#rank">rank</a></td><td>&nbsp;</td><td>rank of matrix</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#rcond">rcond</a></td><td>&nbsp;</td><td>reciprocal of condition number</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#repmat">repmat</a></td><td>&nbsp;</td><td>replicate matrix in block-like fashion</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#reshape">reshape</a></td><td>&nbsp;</td><td>change size while keeping elements</td></tr>
+<tr><td><a href="#reshape">reshape</a></td><td>&nbsp;</td><td>change size while keeping elements</td></tr>
 <tr><td><a href="#resize">resize</a></td><td>&nbsp;</td><td>change size while keeping elements and preserving layout</td></tr>
 <tr><td><a href="#shuffle">shuffle</a></td><td>&nbsp;</td><td>randomly shuffle elements</td></tr>
-<tr><td><a href="#size">size</a></td><td>&nbsp;</td><td>obtain dimensions of given object</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#size">size</a></td><td>&nbsp;</td><td>obtain dimensions of given object</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#sort">sort</a></td><td>&nbsp;</td><td>sort elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#sort_index">sort_index</a></td><td>&nbsp;</td><td>vector describing sorted order of elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#sum">sum</a></td><td>&nbsp;</td><td>sum of elements</td></tr>
+<tr><td><a href="#sum">sum</a></td><td>&nbsp;</td><td>sum of elements</td></tr>
+<tr><td><a href="#sub2ind">sub2ind</a></td><td>&nbsp;</td><td>convert subscripts to linear index</td></tr>
 <tr><td><a href="#symmat">symmatu&nbsp;/&nbsp;symmatl</a></td><td>&nbsp;</td><td>generate symmetric matrix from given matrix</td></tr>
-<tr><td><a href="#trace">trace</a></td><td>&nbsp;</td><td>sum of diagonal elements of square matrix</td></tr>
-<tr><td><a href="#trans">trans</a></td><td>&nbsp;</td><td>transpose of matrix</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#trace">trace</a></td><td>&nbsp;</td><td>sum of diagonal elements of square matrix</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#trans">trans</a></td><td>&nbsp;</td><td>transpose of matrix</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#trimat">trimatu&nbsp;/&nbsp;trimatl</a></td><td>&nbsp;</td><td>generate triangular matrix from given matrix</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#unique">unique</a></td><td>&nbsp;</td><td>return unique elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#vectorise">vectorise</a></td><td>&nbsp;</td><td>convert matrix to vector</td></tr>
+<tr><td><a href="#unique">unique</a></td><td>&nbsp;</td><td>return unique elements</td></tr>
+<tr><td><a href="#vectorise">vectorise</a></td><td>&nbsp;</td><td>convert matrix to vector</td></tr>
 <tr><td><a href="#misc_fns">misc&nbsp;functions</a></td><td>&nbsp;</td><td>miscellaneous element-wise functions:&nbsp;exp,&nbsp;log,&nbsp;pow,&nbsp;sqrt,&nbsp;round,&nbsp;sign,&nbsp;...</td></tr>
-<tr><td><a href="#trig_fns">trig&nbsp;functions</a></td><td>&nbsp;</td><td>trigonometric element-wise functions:&nbsp;cos,&nbsp;sin,&nbsp;...</td></tr>
-<tr><td><a href="#stats_fns">stats&nbsp;functions</a></td><td>&nbsp;</td><td>statistics functions: mean, median, standard deviation, variance</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#trig_fns">trig&nbsp;functions</a></td><td>&nbsp;</td><td>trigonometric element-wise functions:&nbsp;cos,&nbsp;sin,&nbsp;...</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#stats_fns">stats&nbsp;functions</a></td><td>&nbsp;</td><td>statistics functions: mean, median, standard deviation, variance</td></tr>
 </tbody>
 </table>
 </ul>
@@ -2178,7 +2180,7 @@ Not recommended for use unless your code has been thoroughly debugged.
                           <td style="vertical-align: top;"><br>
                           </td>
                           <td style="vertical-align: top;">
-For <i>mat</i> and <i>field</i> classes, access the element/object stored at the <i>i</i>-th row and <i>j</i>-th column.
+For <i>mat</i> and <i>2D field</i> classes, access the element/object stored at the <i>i</i>-th row and <i>j</i>-th column.
 A&nbsp;<i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
 The bounds check can be <a href="#element_access_bounds_check_note">optionally disabled</a> at compile-time to get more speed.
                           </td>
@@ -2213,7 +2215,7 @@ Not recommended for use unless your code has been thoroughly debugged.
                           <td style="vertical-align: top;"><br>
                           </td>
                           <td style="vertical-align: top;">
-Cube only: access the element stored at the <i>i</i>-th row, <i>j</i>-th column and <i>k</i>-th slice.
+For <i>cube</i> and <i>3D field</i> classes, access the element/object stored at the <i>i</i>-th row, <i>j</i>-th column and <i>k</i>-th slice.
 A&nbsp;<i>std::logic_error</i> exception is thrown if the requested element is out of bounds.
 The bounds check can be <a href="#element_access_bounds_check_note">optionally disabled</a> at compile-time to get more speed.
                           </td>
@@ -2815,7 +2817,7 @@ A.transform( [](double val) { return (val + 123.0); } );
 <li>
 See also:
 <ul>
-<li><a href="#imbue">.for_each()</a></li>
+<li><a href="#for_each">.for_each()</a></li>
 <li><a href="#imbue">.imbue()</a></li>
 <li><a href="#fill">.fill()</a></li>
 <li><a href="#operators">overloaded operators</a></li>
@@ -2876,7 +2878,7 @@ F.for_each( [](mat&amp; X) { X.zeros(4,5); } );  // NOTE: the '&amp;' is crucial
 See also:
 <ul>
 <li><a href="#transform">.transform()</a></li>
-<li><a href="#operators">overloaded operators</a></li>
+<li><a href="#each_colrow">.each_col() &amp; .each_row()</a></li>
 <li><a href="#misc_fns">miscellaneous element-wise functions</a> &nbsp; (exp, log, pow, sqrt, square, round, ...)</li>
 <li><a href="http://en.wikipedia.org/wiki/Function_object">function object</a> at Wikipedia</li>
 <li><a href="http://en.wikipedia.org/wiki/C%2B%2B11#Lambda_functions_and_expressions">C++11 lambda functions</a> at Wikipedia</li>
@@ -3661,9 +3663,14 @@ See also:
 <b>.each_row()</b>
 <br>
 <br>
-<b>.each_col( vector_of_indices )</b>
+<b>.each_col(</b>&nbsp;vector_of_indices&nbsp;<b>)</b>
 <br>
-<b>.each_row( vector_of_indices )</b>
+<b>.each_row(</b>&nbsp;vector_of_indices&nbsp;<b>)</b>
+<br>
+<br>
+<b>.each_col(</b> lambda_function <b>)</b>&nbsp;&nbsp;&nbsp;<i>(C++11 only)</i>
+<br>
+<b>.each_row(</b> lambda_function <b>)</b>&nbsp;&nbsp;&nbsp;<i>(C++11 only)</i>
 <ul>
 <li>
 Member functions of <i>Mat</i>
@@ -3674,20 +3681,9 @@ Repeat a vector operation on each column or row of a matrix
 </li>
 <br>
 <li>
-Supported operations in version 5.500 and earlier:
-<ul>
-<table>
-<tr><td><code><b>+=</b></code></td><td>&nbsp;</td><td>in-place addition</td></tr>
-<tr><td><code><b>-=</b></code></td><td>&nbsp;</td><td>in-place subtraction</td></tr>
-<tr><td><code><b>%=</b></code></td><td>&nbsp;</td><td>in-place element-wise multiplication</td></tr>
-<tr><td><code><b>/=</b></code></td><td>&nbsp;</td><td>in-place element-wise division</td></tr>
-<tr><td><code><b>&nbsp;=</b></code></td><td>&nbsp;</td><td>assignment (copy)</td></tr>
-</table>
-</ul>
-</li>
+Supported operations for <i>.each_col()&nbsp;/&nbsp;.each_row()</i> and <i>.each_col(vector_of_indices)&nbsp;/&nbsp;.each_row(vector_of_indices)</i> forms:
 <br>
-<li>
-Supported operations in version 5.600+:
+<br>
 <ul>
 <table>
 <tr><td><code><b>+</b></code></td><td>&nbsp;</td><td>addition</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><code><b>+=</b></code></td><td>&nbsp;</td><td>in-place addition</td></tr>
@@ -3707,6 +3703,11 @@ the vector contains a list of indices of the columns or rows to be used
 </li>
 <br>
 <li>
+If the <i>lambda_function</i> is specified,
+the function must accept a reference to a <a href="#Col">Col</a> or <a href="#Row">Row</a> object with the same element type as the underlying matrix
+</li>
+<br>
+<li>
 Examples:
 <ul>
 <pre>
@@ -3720,11 +3721,18 @@ mat Y = X.each_col() + v;  // generate Y by adding v to each column vector of X
 // subtract v from columns 0 through to 3 in X
 X.cols(0,3).each_col() -= v;
 
+
 uvec indices(2);
 indices(0) = 2;
 indices(1) = 4;
 
 X.each_col(indices) = v;   // copy v to columns 2 and 4 in X
+
+
+X.each_col( [](vec&amp; a){ a.print(); } );     // lambda function with non-const vector
+
+const mat&amp; XX = X;
+XX.each_col( [](const vec&amp; b){ b.print(); } );  // lambda function with const vector
 </pre>
 </ul>
 </li>
@@ -3735,6 +3743,7 @@ See also:
 <li><a href="#submat">submatrix views</a></li>
 <li><a href="#diag">diagonal views</a></li>
 <li><a href="#repmat">repmat()</a></li>
+<li><a href="#for_each">.for_each()</a></li>
 <li><a href="#each_slice">.each_slice()</a></li>
 </ul>
 </li>
@@ -3745,7 +3754,9 @@ See also:
 <a name="each_slice"></a>
 <b>.each_slice()</b>
 <br>
-<b>.each_slice( vector_of_indices )</b>
+<b>.each_slice(</b>&nbsp;vector_of_indices&nbsp;<b>)</b>
+<br>
+<b>.each_slice(</b>&nbsp;lambda_function&nbsp;<b>)</b>&nbsp;&nbsp;&nbsp;<i>(C++11 only)</i>
 <ul>
 <li>
 Member function of <i>Cube</i>
@@ -3756,7 +3767,9 @@ Repeat a matrix operation on each slice of a cube
 </li>
 <br>
 <li>
-Supported operations:
+Supported operations for <i>.each_slice()</i> and <i>.each_slice(vector_of_indices)</i> forms:
+<br>
+<br>
 <ul>
 <table>
 <tr><td><code><b>+</b></code></td><td>&nbsp;</td><td>addition</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><code><b>+=</b></code></td><td>&nbsp;</td><td>in-place addition</td></tr>
@@ -3776,6 +3789,11 @@ the vector contains a list of indices of the slices to be used
 </li>
 <br>
 <li>
+If the <i>lambda_function</i> is specified,
+the function must accept a reference to a <a href="#Mat">Mat</a> object with the same element type as the underlying cube
+</li>
+<br>
+<li>
 Examples:
 <ul>
 <pre>
@@ -3787,11 +3805,18 @@ C.each_slice() += M;          // in-place addition of M to each slice of C
 
 cube D = C.each_slice() + M;  // generate D by adding M to each slice of C
 
+
 uvec indices(2);
 indices(0) = 2;
 indices(1) = 4;
 
 C.each_slice(indices) = M;    // copy M to slices 2 and 4 in C
+
+
+C.each_slice( [](mat&amp; X){ X.print(); } );     // lambda function with non-const matrix
+
+const cube&amp; CC = C;
+CC.each_slice( [](const mat&amp; X){ X.print(); } );  // lambda function with const matrix
 </pre>
 </ul>
 </li>
@@ -3800,6 +3825,7 @@ C.each_slice(indices) = M;    // copy M to slices 2 and 4 in C
 See also:
 <ul>
 <li><a href="#subcube">subcube views</a></li>
+<li><a href="#for_each">.for_each()</a></li>
 <li><a href="#each_colrow">.each_col() &amp; .each_row()</a> &nbsp;</li>
 </ul>
 </li>
@@ -7978,6 +8004,48 @@ to work around this bug, preface Armadillo's <i>imag()</i> and <i>real()</i> wit
 </ul>
 <hr class="greyline"><br>
 
+<a name="ind2sub"></a>
+sub&nbsp;=&nbsp;<b>ind2sub(&nbsp;size(</b>n_rows,&nbsp;n_cols<b>),</b>&nbsp;index&nbsp;<b>)</b>
+<br>
+<br>
+sub&nbsp;=&nbsp;<b>ind2sub(&nbsp;size(</b>n_rows<b>,</b>&nbsp;n_cols<b>,</b>&nbsp;n_slices<b>),</b>&nbsp;index&nbsp;<b>)</b>
+<ul>
+<li>
+Convert a linear index to subscript notation
+</li>
+<br>
+<li>
+A&nbsp;<i>std::logic_error</i> exception is thrown if the index is out of range
+</li>
+<br>
+<li>
+The subscripts are returned in a vector of type <a href="#Col">uvec</a>;
+the length of the vector is the same as the number of arguments given to the <i>size()</i> function (ie.&nbsp;either 2 or 3)
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+uvec s = ind2sub( size(4, 5), 6 );
+
+cout &lt;&lt; "row: " &lt;&lt; s(0) &lt;&lt; endl;
+cout &lt;&lt; "col: " &lt;&lt; s(1) &lt;&lt; endl;
+</pre>
+</ul>
+</li>
+<br>
+<li>See also:
+<ul>
+<li><a href="#size">size()</a></li>
+<li><a href="#sub2ind">sub2ind()</a></li>
+<li><a href="#element_access">element access</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
 <a name="inplace_trans"></a>
 <b>inplace_trans( X )
 <br>inplace_trans( X, method )
@@ -8847,14 +8915,18 @@ See also:
 <hr class="greyline"><br>
 
 <a name="size"></a>
-<b>size( X )</b>
+<b>size(&nbsp;X&nbsp;)</b>
+<br>
+<b>size(&nbsp;n_rows,&nbsp;n_cols&nbsp;)</b>
+<br>
+<b>size(&nbsp;n_rows,&nbsp;n_cols,&nbsp;n_slices&nbsp;)</b>
 <ul>
 <li>
-Obtain the dimensions of object <i>X</i>
+Obtain the dimensions of object <i>X</i>, or explicitly specify the dimensions
 </li>
 <br>
 <li>
-The obtained dimensions can be used in conjunction with:
+The dimensions can be used in conjunction with:
 <ul>
 <li><a href="#part_a">object constructors</a></li>
 <li><a href="#part_b">functions for changing size</a></li>
@@ -8866,7 +8938,7 @@ The obtained dimensions can be used in conjunction with:
 </li>
 <br>
 <li>
-The obtained dimensions support simple arithmetic operations; they can also be printed and compared for equality/inequality
+The dimensions support simple arithmetic operations; they can also be printed and compared for equality/inequality
 </li>
 <br>
 <li>
@@ -9046,6 +9118,42 @@ See also:
 <li><a href="#cumsum">cumsum()</a></li>
 <li><a href="#trace">trace()</a></li>
 <li><a href="#as_scalar">as_scalar()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+<hr class="greyline"><br>
+
+<a name="sub2ind"></a>
+index&nbsp;=&nbsp;<b>sub2ind(&nbsp;size(</b>n_rows,&nbsp;n_cols<b>),</b>&nbsp;row<b>,</b>&nbsp;col&nbsp;<b>)</b>
+<br>
+<br>
+index&nbsp;=&nbsp;<b>sub2ind(&nbsp;size(</b>n_rows<b>,</b>&nbsp;n_cols<b>,</b>&nbsp;n_slices<b>),</b>&nbsp;row<b>,</b>&nbsp;col<b>,</b>&nbsp;slice&nbsp;<b>)</b>
+<ul>
+<li>
+Convert subscripts to a linear index
+</li>
+<br>
+<li>
+A&nbsp;<i>std::logic_error</i> exception is thrown if a subscript is out of range
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+uword i = sub2ind( size(4, 5), 2, 3 );
+
+uword j = sub2ind( size(4, 5, 6), 2, 3, 4 );
+</pre>
+</ul>
+</li>
+<br>
+<li>See also:
+<ul>
+<li><a href="#size">size()</a></li>
+<li><a href="#ind2sub">ind2sub()</a></li>
+<li><a href="#element_access">element access</a></li>
 </ul>
 </li>
 <br>
@@ -14731,6 +14839,14 @@ List of additions and changes for each version:
 <br>
 <ul>
 
+<a name="version_6400"></a>
+<li>Version 6.400:
+<ul>
+<li>expanded <a href="#each_colrow">each_col()</a>, <a href="#each_colrow">each_row()</a> and <a href="#each_slice">each_slice()</a> to handle C++11 lambda functions</li>
+<li>added <a href="#ind2sub">ind2sub()</a> and <a href="#sub2ind">sub2ind()</a></li>
+</ul>
+</li>
+<br>
 <a name="version_6300"></a>
 <li>Version 6.300:
 <ul>
