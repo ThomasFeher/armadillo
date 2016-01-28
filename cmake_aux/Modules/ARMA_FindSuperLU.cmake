@@ -12,11 +12,14 @@ find_path(SuperLU_INCLUDE_DIR slu_cdefs.h
   /usr/local/include/superlu/
   /usr/local/include/SuperLU/
   /usr/local/include/
+  /opt/local/include/superlu/
+  /opt/local/include/SuperLU/
+  /opt/local/include/
 )
 
 find_library(SuperLU_LIBRARY
   NAMES superlu
-  PATHS /usr/lib64 /usr/lib /usr/local/lib64 /usr/local/lib
+  PATHS ${CMAKE_SYSTEM_LIBRARY_PATH} /usr/lib64 /usr/lib /usr/local/lib64 /usr/local/lib /opt/local/lib64 /opt/local/lib
 )
 
 SET(SuperLU_FOUND NO)
